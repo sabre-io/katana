@@ -1,0 +1,27 @@
+{
+    "name"       : "sabre/katana",
+    "type"       : "project",
+    "description": "A CalDAV, CardDAV and WebDAV ready-to-use server on top of sabre/dav",
+    "require"    : {
+        "sabre/dav"     : "~2.1",
+        "hoa/console"   : "~2.0",
+        "hoa/dispatcher": "~0.0",
+        "hoa/router"    : "~2.0"
+    },
+    "require-dev": {
+        "atoum/atoum"            : "~1.0",
+        "atoum/praspel-extension": "~0.1"
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "fruux"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sabre\\Katana\\": "Source/"
+        }
+    },
+    "bin": ["bin/katana"]
+}

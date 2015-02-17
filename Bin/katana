@@ -1,0 +1,43 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use Hoa\Console;
+use Hoa\Dispatcher;
+use Hoa\Router;
+
+try {
+
+    $router = new Router\Cli();
+    $router
+        ->get(
+            'global',
+            '(?<command>\w+)?(?<_tail>.*?)',
+            'main',
+            'main',
+            ['command' => 'welcome']
+        );
+
+    $dispatcher = new Dispatcher\ClassMethod([
+        'synchronous.call' => 'Sabre\Katana\Bin\(:%variables.command:lU:)',
+        'synchronous.able' => 'main'
+    ]);
+    $dispatcher->setKitName('Hoa\Console\Dispatcher\Kit');
+
+    exit((int) $dispatcher->dispatch($router));
+
+} catch (\Exception $e) {
+
+    ob_start();
+    Console\Cursor::colorize('foreground(white) background(red)');
+    echo $e->getMessage(), "\n";
+    Console\Cursor::colorize('normal');
+    $content = ob_get_contents();
+    ob_end_clean();
+
+    file_put_contents('php://stderr', $content);
+
+    exit(1);
+
+}
