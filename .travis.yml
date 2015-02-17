@@ -6,7 +6,7 @@ php:
   - hhvm
 
 script:
-  - ./bin/phpunit --configuration tests/phpunit.xml.dist
+  - ./bin/atoum -c tests/.atoum.php -bf tests/.bootstrap.atoum.php
   - ./bin/phpcs  -p --standard=tests/phpcs/ruleset.xml lib/
 
 before_script: composer install --dev

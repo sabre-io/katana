@@ -9,6 +9,13 @@ tests/cov/
 bin/phpunit
 bin/phpcs
 bin/phpcbf
+bin/atoum
+bin/generate_vcards
+bin/hoa
+bin/naturalselection
+bin/praspel
+bin/sabredav
+bin/vobject
 
 # Vim
 .*.swp

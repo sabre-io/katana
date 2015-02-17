@@ -22,7 +22,8 @@
     },
     "require-dev": {
         "atoum/atoum"            : "~1.0",
-        "atoum/praspel-extension": "~0.1"
+        "atoum/praspel-extension": "~0.1",
+        "squizlabs/php_codesniffer" : "*"
     },
     "autoload": {
         "psr-4": {
