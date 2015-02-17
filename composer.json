@@ -6,7 +6,7 @@
         "sabre/dav"     : "~2.1",
         "hoa/console"   : "~2.0",
         "hoa/dispatcher": "~0.0",
-        "hoa/router"    : "~2.0"
+        "hoa/router"    : "dev-dav as 2.15.02.17"
     },
     "require-dev": {
         "atoum/atoum"            : "~1.0",
@@ -23,5 +23,11 @@
             "Sabre\\Katana\\": "Source/"
         }
     },
-    "bin": ["bin/katana"]
+    "bin": ["bin/katana"],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Hywan/Router"
+        }
+    ]
 }
