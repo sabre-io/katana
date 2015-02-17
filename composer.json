@@ -20,7 +20,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Sabre\\Katana\\": "Source/"
+            "Sabre\\Katana\\": "lib/"
         }
     },
     "bin": ["bin/katana"],
