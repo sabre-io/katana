@@ -78,6 +78,8 @@ class Welcome extends AbstractCommand
             '.', "\n\n",
             '<options> always contains -h, -? and --help to get the usage ' .
             'of the command.', "\n";
+
+        return;
     }
 
     /**
