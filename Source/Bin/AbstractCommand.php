@@ -7,8 +7,9 @@ use Hoa\Console;
 /**
  * Abstract command.
  *
- * @copyright Copyright (C) 2015-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
  * @author Ivan Enderlin
+ * @license http://sabre.io/license/ Modified BSD License
  */
 abstract class AbstractCommand extends Console\Dispatcher\Kit
 {
