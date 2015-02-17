@@ -3,7 +3,7 @@
     "type"       : "project",
     "description": "A CalDAV, CardDAV and WebDAV ready-to-use server on top of sabre/dav",
     "require"    : {
-        "sabre/dav"     : "~2.1",
+        "sabre/dav"     : "~2.1.0",
         "hoa/console"   : "~2.0",
         "hoa/dispatcher": "~0.0",
         "hoa/router"    : "dev-dav as 2.15.02.17"
