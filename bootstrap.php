@@ -34,7 +34,7 @@ if (false === file_exists($autoloadFile)) {
 require_once $autoloadFile;
 
 /**
- * Configure hoa:// (based of katana://).
+ * Configure hoa:// (basis of katana://).
  */
 Core::getInstance()->initialize([
     'root.application'                => __DIR__ . DS,
