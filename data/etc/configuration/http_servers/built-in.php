@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../../../../vendor/autoload.php';
+require_once __DIR__ . '/../../../../bootstrap.php';
 
 use Hoa\Dispatcher;
 use Hoa\File;
@@ -37,7 +37,7 @@ $router
 
             }
 
-            require 'index.php';
+            require 'katana://Application/Public/index.php';
 
             return;
         }

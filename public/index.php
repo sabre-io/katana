@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../bootstrap.php';
 
 use Sabre\Katana\Server\Server;
 
@@ -11,8 +11,6 @@ use Sabre\Katana\Server\Server;
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
  */
-
-date_default_timezone_set('UTC');
 
 $server = new Server();
 $server->run();
