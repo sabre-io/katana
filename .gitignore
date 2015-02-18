@@ -2,17 +2,13 @@
 vendor/
 composer.lock
 
-# Tests
-tests/cov/
-
 # Composer binaries
-bin/phpunit
-bin/phpcs
-bin/phpcbf
 bin/atoum
 bin/generate_vcards
 bin/hoa
 bin/naturalselection
+bin/phpcbf
+bin/phpcs
 bin/praspel
 bin/sabredav
 bin/vobject

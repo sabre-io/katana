@@ -1,5 +1,5 @@
 sabre/katana
-==========
+============
 
 sabre/katana is a CalDAV, CardDAV and WebDAV ready-to-use server on top of
 [SabreDAV](http://sabre.io/).
@@ -10,7 +10,6 @@ Installation
 Make sure you have [composer][1] installed, and then run:
 
     composer require sabre/katana
-
 
 Build status
 ------------

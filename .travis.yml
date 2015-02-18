@@ -7,6 +7,6 @@ php:
 
 script:
   - ./bin/atoum -c tests/.atoum.php -bf tests/.bootstrap.atoum.php
-  - ./bin/phpcs  -p --standard=tests/phpcs.xml lib/
+  - ./bin/phpcs -p --standard=tests/phpcs.xml lib/
 
 before_script: composer install --dev

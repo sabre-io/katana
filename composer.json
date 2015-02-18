@@ -5,25 +5,25 @@
     "homepage"   : "http://sabre.io/katana/",
     "license"    : "BSD-3-Clause",
     "require"    : {
+        "php"           : ">=5.4.7",
         "sabre/dav"     : "~2.1",
         "hoa/console"   : "~2.0",
         "hoa/dispatcher": "~0.0",
-        "hoa/router"    : "dev-dav as 2.15.02.17",
-        "php"           : ">=5.4.7"
+        "hoa/router"    : "dev-dav as 2.15.02.17"
     },
     "authors": [
         {
             "name": "fruux"
         }
     ],
-    "support" : {
+    "support": {
         "forum" : "http://groups.google.com/group/sabredav-discuss",
-        "source" : "https://github.com/fruux/sabre-katana/"
+        "source": "https://github.com/fruux/sabre-katana/"
     },
     "require-dev": {
-        "atoum/atoum"            : "~1.0",
-        "atoum/praspel-extension": "~0.1",
-        "squizlabs/php_codesniffer" : "*"
+        "atoum/atoum"              : "~1.0",
+        "atoum/praspel-extension"  : "~0.1",
+        "squizlabs/php_codesniffer": "*"
     },
     "autoload": {
         "psr-4": {
@@ -31,13 +31,13 @@
         }
     },
     "bin": ["bin/katana"],
+    "config" : {
+        "bin-dir" : "bin/"
+    },
     "repositories": [
         {
             "type": "vcs",
             "url": "https://github.com/Hywan/Router"
         }
-    ],
-    "config" : {
-        "bin-dir" : "bin/"
-    }
+    ]
 }
