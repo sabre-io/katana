@@ -1,0 +1,6 @@
+{
+    "name"        : "sabre/katana",
+    "private"     : true,
+    "dependencies": {
+    }
+}

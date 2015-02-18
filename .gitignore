@@ -13,5 +13,8 @@ bin/praspel
 bin/sabredav
 bin/vobject
 
+# Bower
+public/static/vendor/
+
 # Vim
 .*.swp
