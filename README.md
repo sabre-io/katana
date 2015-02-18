@@ -7,9 +7,13 @@ sabre/katana is a CalDAV, CardDAV and WebDAV ready-to-use server on top of
 Installation
 ------------
 
-Make sure you have [composer][1] installed, and then run:
+Make sure you have [Composer][1] installed, and then run:
 
-    composer require sabre/katana
+    composer install
+
+Make also sure you have [Bower][5] installed, and then run:
+
+    bower install
 
 Build status
 ------------
@@ -36,3 +40,4 @@ services or enterprise support.
 [2]: http://groups.google.com/group/sabredav-discuss
 [3]: https://github.com/fruux/sabre-katana/issues/
 [4]: https://fruux.com/
+[5]: http://bower.io/
