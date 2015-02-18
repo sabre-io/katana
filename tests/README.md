@@ -11,7 +11,7 @@ If `require-dev`s in the `composer.json` file are correctly installed, one
 should do (from this directory):
 
 ```sh
-$ ../vendor/bin/atoum
+$ ../bin/atoum
 ```
 
 That's all folks!
