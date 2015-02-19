@@ -1,0 +1,29 @@
+<?php
+
+namespace Sabre\Katana\Test\Unit;
+
+use Sabre\Katana\Database as LUT;
+use atoum\mock\streams\fs\file;
+
+/**
+ * Test suite of the database component.
+ *
+ * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
+ * @author Ivan Enderlin
+ * @license http://sabre.io/license/ Modified BSD License
+ */
+class Database extends Suite
+{
+    public function case_extends_pdo()
+    {
+        $this
+            ->given(
+                $temporaryFile = tmpfile(),
+                $sqliteFile    = stream_get_meta_data($temporaryFile)['uri']
+            )
+            ->when($result = new LUT('sqlite:' . $sqliteFile))
+            ->then
+                ->object($result)
+                    ->isInstanceOf('PDO');
+    }
+}
