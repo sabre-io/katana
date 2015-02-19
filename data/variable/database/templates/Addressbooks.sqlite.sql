@@ -23,11 +23,11 @@ CREATE TABLE cards (
 
 CREATE TABLE addressbookchanges (
 
-    id             INTEGER PRIMARY KEY ASC,
-    uri            TEXT,
-    synctoken      INTEGER,
-    addressbookid  INTEGER,
-    operation      INTEGER
+    id            INTEGER PRIMARY KEY ASC,
+    uri           TEXT,
+    synctoken     INTEGER,
+    addressbookid INTEGER,
+    operation     INTEGER
 
 );
 
