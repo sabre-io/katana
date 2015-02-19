@@ -13,4 +13,27 @@ use PDO;
  */
 class Database extends PDO
 {
+    /**
+     * Overload the parent constructor.
+     * The username and password might come from the configuration file. Thus,
+     * if not set, their values are an empty string. PDO needs no value instead
+     * of an empty string. We fix that.
+     *
+     * @param  string  $dsn         DSN.
+     * @param  string  $username    Username.
+     * @param  string  $password    Password.
+     * @return void
+     */
+    public function __construct($dsn, $username = null, $password = null)
+    {
+        if (empty($username)) {
+            parent::__construct($dsn);
+        } elseif(empty($password)) {
+            parent::__construct($dsn, $username);
+        } else {
+            parent::__construct($dsn, $username, $password);
+        }
+
+        return;
+    }
 }
