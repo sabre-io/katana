@@ -2,6 +2,7 @@
 
 namespace Sabre\Katana;
 
+use Sabre\Katana\Protocol;
 use PDO;
 
 /**
@@ -26,6 +27,10 @@ class Database extends PDO
      */
     public function __construct($dsn, $username = null, $password = null)
     {
+        if ('sqlite:katana://' === substr($dsn, 0, 16)) {
+            $dsn = 'sqlite:' . Protocol::realPath(substr($dsn, 7));
+        }
+
         if (empty($username)) {
             parent::__construct($dsn);
         } elseif(empty($password)) {
