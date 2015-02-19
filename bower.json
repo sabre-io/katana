@@ -2,6 +2,7 @@
     "name"        : "sabre/katana",
     "private"     : true,
     "dependencies": {
-        "semantic-ui": "~1.9.1"
+        "semantic-ui": "~1.9.1",
+        "ember"      : "~1.10.0"
     }
 }
