@@ -9,7 +9,7 @@ use Sabre\DAV;
 /**
  * Server main class.
  *
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -28,7 +28,6 @@ class Server
     public function __construct()
     {
         $this->_server = new DAV\Server();
-        $this->initialize();
 
         return;
     }
