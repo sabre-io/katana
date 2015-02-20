@@ -47,9 +47,18 @@ class Configuration
         $decodedJson     = @json_decode(file_get_contents($filename));
 
         if (!($decodedJson instanceof StdClass)) {
-            throw new Exception\Environment(
-                sprintf('The %s configuration contains invalid JSON data.', $filename)
-            );
+
+            if (is_array($decodedJson) && empty($decodedJson)) {
+                $decodedJson = new StdClass();
+            } else {
+                throw new Exception\Environment(
+                    sprintf(
+                        'The %s configuration contains invalid JSON data.',
+                        $filename
+                    )
+                );
+            }
+
         }
 
         $this->_configuration = $decodedJson;
