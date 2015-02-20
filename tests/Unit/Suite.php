@@ -2,6 +2,7 @@
 
 namespace Sabre\Katana\Test\Unit;
 
+use Sabre\Katana\Test\Helper;
 use atoum;
 
 /**
@@ -22,6 +23,16 @@ class Suite extends atoum\test
 
         // Avoid conflict with \Mock.
         $this->getMockGenerator()->setDefaultNamespace('Mouck');
+
+        // Register helpers.
+        $helpers = new Helper\Helper();
+        $helpers->registerHelper('configuration', new Helper\Configuration());
+        $this->getAssertionManager()->setHandler(
+            'helper',
+            function() use($helpers) {
+                return $helpers;
+            }
+        );
 
         return;
     }
