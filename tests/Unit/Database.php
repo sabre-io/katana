@@ -3,7 +3,6 @@
 namespace Sabre\Katana\Test\Unit;
 
 use Sabre\Katana\Database as LUT;
-use atoum\mock\streams\fs\file;
 
 /**
  * Test suite of the database component.
