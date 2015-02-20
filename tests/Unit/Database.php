@@ -17,11 +17,8 @@ class Database extends Suite
     public function case_extends_pdo()
     {
         $this
-            ->given(
-                $temporaryFile = tmpfile(),
-                $sqliteFile    = stream_get_meta_data($temporaryFile)['uri']
-            )
-            ->when($result = new LUT('sqlite:' . $sqliteFile))
+            ->given($sqlite = $this->helper->sqlite())
+            ->when($result = new LUT($sqlite))
             ->then
                 ->object($result)
                     ->isInstanceOf('PDO');

@@ -27,6 +27,7 @@ class Suite extends atoum\test
         // Register helpers.
         $helpers = new Helper\Helper();
         $helpers->registerHelper('configuration', new Helper\Configuration());
+        $helpers->registerHelper('sqlite',        new Helper\SQLite());
         $this->getAssertionManager()->setHandler(
             'helper',
             function() use($helpers) {
