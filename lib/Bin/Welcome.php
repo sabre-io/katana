@@ -20,7 +20,8 @@ class Welcome extends AbstractCommand
     ];
 
     protected $commands = [
-        'welcome'
+        'welcome',
+        'install'
     ];
 
     /**
