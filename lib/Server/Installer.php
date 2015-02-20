@@ -11,6 +11,11 @@ namespace Sabre\Katana\Server;
  */
 class Installer
 {
+    /**
+     * Check whether the application has been installed or not.
+     *
+     * @return boolean
+     */
     public static function isInstalled()
     {
         return true === file_exists(Server::CONFIGURATION_FILE);
