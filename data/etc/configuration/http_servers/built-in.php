@@ -15,9 +15,16 @@ $router
         function(Dispatcher\Kit $_this)
         {
             $uri  = $_this->router->getURI();
-            $file = __DIR__ . DS . $uri;
+            $file = 'katana://Application/Public/' . $uri;
 
             if (!empty($uri) && true === file_exists($file)) {
+
+                if ('.php' === substr($file, -4)) {
+
+                    require $file;
+                    return;
+
+                }
 
                 $stream = new File\Read($file);
 
