@@ -19,6 +19,13 @@ use Sabre\DAVACL;
 class Server
 {
     /**
+     * Path to the configuration file.
+     *
+     * @const string
+     */
+    const CONFIGURATION_FILE = 'katana://Data/Etc/Configuration/server.json';
+
+    /**
      * sabre/dav server.
      *
      * @var DAV\Server
@@ -83,9 +90,7 @@ class Server
      */
     protected function initializeConfiguration()
     {
-        $this->_configuration = new Configuration(
-            'katana://Data/Etc/Configuration/server.json'
-        );
+        $this->_configuration = new Configuration(static::CONFIGURATION_FILE);
 
         return;
     }
