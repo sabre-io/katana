@@ -40,7 +40,10 @@ class Configuration extends Suite
     {
         $this
             ->given(
-                $file          = $this->getFile(),
+                $file = $this->helper->configuration(
+                    'configuration.json',
+                    []
+                ),
                 $configuration = new LUT($file)
             )
             ->when($result = $configuration->getFilename())
@@ -52,7 +55,14 @@ class Configuration extends Suite
     public function case_isset()
     {
         $this
-            ->given($configuration = new LUT($this->getFile()))
+            ->given(
+                $configuration = new LUT(
+                    $this->helper->configuration(
+                        'configuration.json',
+                        ['a' => 42]
+                    )
+                )
+            )
             ->when($result = isset($configuration->a))
             ->then
                 ->boolean($result)
@@ -67,7 +77,18 @@ class Configuration extends Suite
     public function case_get()
     {
         $this
-            ->given($configuration = new LUT($this->getFile()))
+            ->given(
+                $configuration = new LUT(
+                    $this->helper->configuration(
+                        'configuration.json',
+                        [
+                            'a' => 42,
+                            'b' => true,
+                            'c' => ['foo' => 'bar']
+                        ]
+                    )
+                )
+            )
             ->when($result = $configuration->a)
             ->then
                 ->integer($result)
@@ -87,7 +108,14 @@ class Configuration extends Suite
     public function case_set()
     {
         $this
-            ->given($configuration = new LUT($this->getFile()))
+            ->given(
+                $configuration = new LUT(
+                    $this->helper->configuration(
+                        'configuration.json',
+                        ['a' => 42]
+                    )
+                )
+            )
             ->when($result = $configuration->a)
             ->then
                 ->integer($result)
@@ -113,16 +141,23 @@ class Configuration extends Suite
     public function case_unset()
     {
         $this
-            ->given($configuration = new LUT($this->getFile()))
+            ->given(
+                $configuration = new LUT(
+                    $this->helper->configuration(
+                        'configuration.json',
+                        ['a' => 42]
+                    )
+                )
+            )
             ->when($result = isset($configuration->a))
             ->then
                 ->boolean($result)
                     ->isTrue()
 
             ->when(function () use($configuration) {
-                unset($configuration->z);
+                unset($configuration->a);
             })
-            ->and($result = isset($configuration->z))
+            ->and($result = isset($configuration->a))
             ->then
                 ->boolean($result)
                     ->isFalse();
@@ -132,7 +167,10 @@ class Configuration extends Suite
     {
         $this
             ->given(
-                $file           = $this->getFile(),
+                $file = $this->helper->configuration(
+                    'configuration.json',
+                    ['a' => 42]
+                ),
                 $initialContent = file_get_contents($file),
                 $configuration  = new LUT($file)
             )
@@ -158,22 +196,5 @@ class Configuration extends Suite
             ->then
                 ->integer($result)
                     ->isEqualTo(153);
-    }
-
-    protected function getFile()
-    {
-        $file = (string) file::get('configuration.json');
-        file_put_contents(
-            $file,
-            json_encode([
-                'a' => 42,
-                'b' => true,
-                'c' => [
-                    'foo' => 'bar'
-                ]
-            ])
-        );
-
-        return $file;
     }
 }
