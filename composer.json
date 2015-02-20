@@ -10,6 +10,7 @@
         "hoa/core"      : "~2.0",
         "hoa/console"   : "~2.0",
         "hoa/dispatcher": "~0.0",
+        "hoa/mime"      : "~2.0",
         "hoa/router"    : "dev-dav as 2.15.02.17"
     },
     "authors": [
