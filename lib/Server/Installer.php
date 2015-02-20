@@ -3,6 +3,7 @@
 namespace Sabre\Katana\Server;
 
 use Sabre\Katana\Configuration;
+use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
 
 /**
@@ -39,6 +40,26 @@ class Installer
         $response->setBody(
             'The application is already installed. ' .
             'You are going to be redirected to the home.'
+        );
+
+        return;
+    }
+
+    /**
+     * Redirect to the installation page of the application.
+     * This method does not send the response.
+     *
+     * @param  Response  $response    HTTP response.
+     * @param  Request   $request     HTTP request.
+     * @return void
+     */
+    public static function redirectToInstall(Response $response, Request $request)
+    {
+        $response->setStatus(307);
+        $response->setHeader('Location', $request->getBaseUrl() . 'install.php');
+        $response->setBody(
+            'The application is not installed. ' .
+            'You are going to be redirected to the installation page.'
         );
 
         return;

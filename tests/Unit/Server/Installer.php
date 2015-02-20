@@ -60,4 +60,25 @@ class Installer extends Suite
                 ->string($response->getBody())
                     ->isNotEmpty();
     }
+
+    public function case_redirect_to_install()
+    {
+        $this
+            ->given(
+                $request  = new HTTP\Request(),
+                $request->setBaseUrl('/mybase/'),
+                $response = new HTTP\Response()
+            )
+            ->when($result = LUT::redirectToInstall($response, $request))
+            ->then
+                ->variable($result)
+                    ->isNull()
+                ->object($response)
+                ->integer($response->getStatus())
+                    ->isEqualTo(307)
+                ->string($response->getHeader('Location'))
+                    ->isEqualTo('/mybase/install.php')
+                ->string($response->getBody())
+                    ->isNotEmpty();
+    }
 }
