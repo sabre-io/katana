@@ -31,7 +31,7 @@ if (false === file_exists($autoloadFile)) {
 
 }
 
-require_once $autoloadFile;
+$autoloader = require_once $autoloadFile;
 
 /**
  * Configure hoa:// (basis of katana://).
