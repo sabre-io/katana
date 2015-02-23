@@ -1,8 +1,12 @@
 {
-    "name"        : "sabre/katana",
-    "private"     : true,
-    "dependencies": {
-        "semantic-ui": "~1.9.1",
-        "ember"      : "~1.10.0"
-    }
+  "name": "sabre/katana",
+  "private": true,
+  "dependencies": {
+    "semantic-ui": "~1.9.1",
+    "ember": "~1.6",
+    "ember-data": "~1.0.0-beta.8"
+  },
+  "resolutions": {
+    "ember": "~1.6"
+  }
 }
