@@ -1,0 +1,97 @@
+<!-- remove `.min` to get the original versions of all minified resources -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <title>Installation of sabre/katana</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+  <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+
+  <meta name="viewport" content="initial-scale=1.0" />
+
+  <link rel="stylesheet" href="./static/vendor/semantic-ui/dist/semantic.min.css" type="text/css" />
+  <style>
+    :root {
+        font-size: 1em;
+    }
+
+    main {
+        padding: 4em 3em 0 3em;
+    }
+  </style>
+</head>
+<body>
+
+<main>
+  <h1 class="ui icon center aligned header">
+    <i class="settings icon"></i>
+    <div class="content">Installation of sabre/katana</div>
+  </h1>
+
+  <div class="ui hidden divider"></div>
+
+  <form class="ui form segment">
+    <div class="ui page grid">
+      <div class="six wide column">
+        <label for="base_url">
+          <i class="disk outline icon"></i>
+          Choose the base URL:
+        </label>
+      </div>
+      <div class="ten wide column">
+        <div class="ui labeled input">
+          <div class="ui label">
+            http://127.0.0.1:8889
+          </div>
+          <input type="text" id="base_url" name="base_url" placeholder="/" />
+        </div>
+      </div>
+
+      <div class="six wide column">
+        <label for="administrator_password">
+          <i class="lock icon"></i>
+          Choose the administrator password:
+        </label>
+      </div>
+      <div class="ten wide column">
+        <input type="password" id="administrator_password" name="administrator_password" />
+      </div>
+
+      <div class="six wide column">
+        <label>
+          <i class="database icon"></i>
+          Choose the database driver:
+        </label>
+      </div>
+      <div class="ten wide column">
+        <div class="field">
+          <div class="ui radio toggle checkbox">
+            <input type="radio" name="database_driver" value="sqlite" checked />
+            <label>SQLite</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui radio toggle checkbox">
+            <input type="radio" name="database_driver" value="mysql" />
+            <label>MySQL</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="right floated column">
+        <input type="submit" class="positive ui button" value="Install!" />
+      </div>
+    </div>
+  </form>
+</main>
+
+<script src="./static/vendor/jquery/dist/jquery.min.js"></script>
+<script src="./static/vendor/semantic-ui/dist/semantic.min.js"></script>
+<script>
+  $('.ui.radio.checkbox').checkbox();
+</script>
+
+</body>
+</html>
