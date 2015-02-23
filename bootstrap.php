@@ -37,16 +37,10 @@ require_once $autoloadFile;
  * Configure hoa:// (basis of katana://).
  */
 Core::getInstance()->initialize([
-    'root.application'                => __DIR__ . DS,
-    'root.data'                       => __DIR__ . DS . 'data' . DS,
-    'protocol.Application/Public'     => 'public' . DS,
-    'protocol.Data/Etc'               => 'etc' . DS,
-    'protocol.Data/Etc/Configuration' => 'configuration' . DS,
-    'protocol.Data/Etc/Locale'        => 'locale' . DS,
-    'protocol.Data/Lost+found'        => 'lost+found' . DS,
-    'protocol.Data/Variable'          => 'variable' . DS,
-    'protocol.Data/Variable/Database' => 'database' . DS,
-    'protocol.Data/Variable/Log'      => 'log' . DS,
+    'root.application'     => __DIR__ . DS,
+    'root.data'            => __DIR__ . DS . 'data' . DS,
+    'protocol.application' => '(:%root.application:)',
+    'protocol.data'        => '(:%root.data:)'
 ]);
 
 /**

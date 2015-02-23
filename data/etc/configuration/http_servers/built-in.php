@@ -15,7 +15,7 @@ $router
         function(Dispatcher\Kit $_this)
         {
             $uri  = $_this->router->getURI();
-            $file = 'katana://Application/Public/' . $uri;
+            $file = 'katana://application/public/' . $uri;
 
             if (!empty($uri) && true === file_exists($file)) {
 
@@ -44,7 +44,7 @@ $router
 
             }
 
-            require 'katana://Application/Public/index.php';
+            require 'katana://application/public/index.php';
 
             return;
         }

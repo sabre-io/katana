@@ -1,7 +1,7 @@
 {
     "base_uri": "/",
     "database": {
-        "dsn"     : "sqlite:katana://Data/Variable/Database/database.sqlite",
+        "dsn"     : "sqlite:katana://data/variable/database/database.sqlite",
         "username": "",
         "password": ""
     }
