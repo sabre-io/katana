@@ -161,17 +161,31 @@
           passwordBis: null,
 
           validateBaseUrl: function() {
-              var verdict = /\/$/.test(this.get('baseUrl'));
+              var self = this;
+              $
+                  .getJSON('?/baseurl/' + this.get('baseUrl'))
+                  .done(function(verdict) {
 
-              this.set('invalidBaseUrl', false === verdict);
-              this.set('valid', true === verdict);
+                      self.set('invalidBaseUrl', false === verdict);
+                      self.set('valid', true === verdict);
+                  });
+
+              return;
           }.observes('baseUrl'),
 
           validatePassword: function() {
-              var verdict = this.get('password') === this.get('passwordBis');
+              var self        = this;
+              var password    = this.get('password')    || '';
+              var passwordBis = this.get('passwordBis') || '';
+              $
+                  .getJSON('?/password/' + password + passwordBis)
+                  .done(function(verdict) {
 
-              this.set('invalidPassword', false === verdict);
-              this.set('valid', true === verdict);
+                      self.set('invalidPassword', false === verdict);
+                      self.set('valid', true === verdict);
+                  });
+
+              return;
           }.observes('password', 'passwordBis'),
 
           actions: {
