@@ -5,13 +5,14 @@
     "homepage"   : "http://sabre.io/katana/",
     "license"    : "BSD-3-Clause",
     "require"    : {
-        "php"           : ">=5.4.7",
-        "sabre/dav"     : "~2.1",
-        "hoa/core"      : "~2.0",
-        "hoa/console"   : "~2.0",
-        "hoa/dispatcher": "~0.0",
-        "hoa/mime"      : "~2.0",
-        "hoa/router"    : "dev-dav as 2.15.02.17"
+        "php"            : ">=5.4.7",
+        "sabre/dav"      : "~2.1",
+        "hoa/core"       : "~2.0",
+        "hoa/console"    : "~2.0",
+        "hoa/dispatcher" : "~0.0",
+        "hoa/eventsource": "~2.0@dev",
+        "hoa/mime"       : "~2.0",
+        "hoa/router"     : "~2.0@dev"
     },
     "authors": [
         {
@@ -35,11 +36,5 @@
     "bin": ["bin/katana"],
     "config" : {
         "bin-dir" : "bin/"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Hywan/Router"
-        }
-    ]
+    }
 }

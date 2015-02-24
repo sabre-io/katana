@@ -33,7 +33,7 @@
 
     <div class="ui hidden divider"></div>
 
-    <form {{bind-attr class=":ui :form :segment valid::error"}}>
+    <form {{bind-attr class=":ui :form :segment valid::error submitting:loading"}}>
       <div class="ui page grid">
         {{#unless valid}}
         <div class="sixteen wide column">
@@ -132,6 +132,13 @@
         </div>
       </div>
     </form>
+
+    {{#if submitting}}
+    <div id="progress" class="ui indicating progress">
+      <div class="bar"></div>
+      <div class="label">Progression…</div>
+    </div>
+    {{/if}}
   </main>
 </script>
 
@@ -158,6 +165,8 @@
 
           password: null,
           passwordBis: null,
+
+          submitting: false,
 
           validateBaseUrl: function() {
               var self = this;
@@ -189,6 +198,36 @@
 
           actions: {
               submit: function() {
+                  this.set('submitting', true);
+
+                  var source = new EventSource(
+                      '?/install/' +
+                      JSON.stringify({
+                          baseUrl: this.get('baseUrl'),
+                          passwords: this.get('password') + this.get('passwordBis')
+                      })
+                  );
+                  source.addEventListener(
+                      'step',
+                      function(evt) {
+                          var data = JSON.parse(evt.data);
+                          console.log(data.message);
+                          $('#progress').progress({
+                              percent: data.percent
+                          });
+                          $('#progress .label').text(data.message);
+
+                          /*
+                          setTimeout(
+                              function() {
+                                  window.location = '/';
+                              },
+                              5000
+                          );
+                          */
+                      }
+                  );
+
                   console.log('test');
               }
           }
@@ -200,6 +239,7 @@
               this._super();
               Ember.run.scheduleOnce('afterRender', this, function() {
                   $('.ui.radio.checkbox').checkbox();
+                  $('#progress').progress();
               });
           }
 

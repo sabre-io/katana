@@ -7,6 +7,7 @@ use Sabre\Katana\Server\Server;
 use Sabre\Katana\Configuration;
 use Sabre\HTTP;
 use Hoa\Router;
+use Hoa\Eventsource;
 
 /**
  * This file aims at installing the application.
@@ -63,6 +64,68 @@ if (false !== $pos = strpos($url, '?')) {
                 echo json_encode(
                     Installer::checkPassword($passwords)
                 );
+                return;
+            }
+        )
+        ->get(
+            'install',
+            '/install/(?<jsonPayload>.+)',
+            function($jsonPayload) {
+                $payload = json_decode($jsonPayload);
+                $source = new Eventsource\Server();
+                $send = function($data) use($source) {
+                    $source->step->send(json_encode($data));
+                    return;
+                };
+
+                $send([
+                    'percent' => 5,
+                    'message' => 'Create configuration file…'
+                ]);
+                sleep(1);
+
+                /*
+                Installer::createConfigurationFile(
+                    Server::CONFIGURATION_FILE
+                );
+                */
+
+                $send([
+                    'percent' => 25,
+                    'message' => 'Configuration file created 👍!'
+                ]);
+
+                sleep(1);
+
+                $send([
+                    'percent' => 30,
+                    'message' => 'Create the database…'
+                ]);
+                sleep(1);
+
+                $send([
+                    'percent' => 50,
+                    'message' => 'Database created 👍!'
+                ]);
+                sleep(1);
+
+                $send([
+                    'percent' => 55,
+                    'message' => 'Create administrator profile…'
+                ]);
+                sleep(1);
+
+                $send([
+                    'percent' => 75,
+                    'message' => 'Administrator profile created 👍!'
+                ]);
+                sleep(1);
+
+                $send([
+                    'percent' => 100,
+                    'message' => 'sabre/katana is ready!'
+                ]);
+                sleep(1);
                 return;
             }
         );
