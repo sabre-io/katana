@@ -33,8 +33,27 @@
 
     <div class="ui hidden divider"></div>
 
-    <form class="ui form segment">
+    <form {{bind-attr class=":ui :form :segment valid::error"}}>
       <div class="ui page grid">
+        {{#unless valid}}
+        <div class="sixteen wide column">
+          {{#if invalidBaseUrl}}
+          <div class="ui error message">
+            <div class="header">Base URL must end by a slash</div>
+            <p>Check the Section <cite>The base URL</cite> on
+            <a href="http://sabre.io/dav/gettingstarted/">sabre/dav's
+            documentation</a>.</p>
+          </div>
+          {{/if}}
+          {{#if invalidPassword}}
+          <div class="ui error message">
+            <div class="header">Passwords do not match</div>
+            <p>Administrator passwords must match.</p>
+          </div>
+          {{/if}}
+        </div>
+        {{/unless}}
+
         <div class="six wide column">
           <label for="base_url">
             <i class="disk outline icon"></i>
@@ -46,8 +65,12 @@
             <div class="ui label">
               {{origin}}
             </div>
-            <input type="text" id="base_url" name="base_url"
-                   {{bind-attr value=baseUrl}} />
+            {{input type="text"
+                    id="base_url"
+                    name="base_url"
+                    pattern="^.*/$"
+                    required="true"
+                    value=baseUrl}}
           </div>
         </div>
 
@@ -58,7 +81,25 @@
           </label>
         </div>
         <div class="ten wide column">
-          <input type="password" id="administrator_password" name="administrator_password" />
+          {{input type="password"
+                  id="administrator_password"
+                  name="administrator_password"
+                  required="true"
+                  value=password}}
+        </div>
+
+        <div class="six wide column">
+          <label for="administrator_password_bis">
+            <i class="lock icon"></i>
+             Confirm the administrator password:
+          </label>
+        </div>
+        <div class="ten wide column">
+          {{input type="password"
+                  id="administrator_password_bis"
+                  name="administrator_password_bis"
+                  required="true"
+                  value=passwordBis}}
         </div>
 
         <div class="six wide column">
@@ -83,7 +124,8 @@
         </div>
 
         <div class="right floated column">
-          <input type="submit" class="positive ui button" value="Install!" />
+          <input type="submit" class="positive ui button" value="Install!"
+                 {{action "submit"}} />
         </div>
       </div>
     </form>
@@ -100,19 +142,51 @@
       scope.Katana = Ember.Application.create();
 
       Katana.ApplicationController = Ember.Controller.extend({
+
+          valid: true,
+          invalidBaseUrl: false,
+          invalidPassword: false,
+
           origin: window.location.origin,
+
           baseUrl: function() {
               return window.location.pathname.replace(/\/+[^\/]*$/, '/');
-          }.property()
+          }.property(),
+
+          password: null,
+
+          passwordBis: null,
+
+          validateBaseUrl: function() {
+              var verdict = /\/$/.test(this.get('baseUrl'));
+
+              this.set('invalidBaseUrl', false === verdict);
+              this.set('valid', true === verdict);
+          }.observes('baseUrl'),
+
+          validatePassword: function() {
+              var verdict = this.get('password') === this.get('passwordBis');
+
+              this.set('invalidPassword', false === verdict);
+              this.set('valid', true === verdict);
+          }.observes('password', 'passwordBis'),
+
+          actions: {
+              submit: function() {
+                  console.log('test');
+              }
+          }
       });
 
       Katana.ApplicationView = Ember.View.extend({
+
           didInsertElement: function() {
               this._super();
               Ember.run.scheduleOnce('afterRender', this, function() {
                   $('.ui.radio.checkbox').checkbox();
               });
           }
+
       });
   })(window);
 </script>
