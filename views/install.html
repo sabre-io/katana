@@ -124,7 +124,10 @@
         </div>
 
         <div class="right floated column">
-          <input type="submit" class="positive ui button" value="Install!"
+          <input type="submit"
+                 {{bind-attr class=":positive :ui :button valid::disabled"}}
+                 value="Install!"
+                 {{bind-attr disabled="valid:false:true"}}
                  {{action "submit"}} />
         </div>
       </div>
@@ -143,7 +146,7 @@
 
       Katana.ApplicationController = Ember.Controller.extend({
 
-          valid: true,
+          valid: false,
           invalidBaseUrl: false,
           invalidPassword: false,
 
