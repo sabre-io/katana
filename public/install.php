@@ -47,7 +47,7 @@ if (false !== $pos = strpos($url, '?')) {
     $router = new Hoa\Router\Http();
     $router
         ->get(
-            'db',
+            'baseurl',
             '/baseurl/(?<baseUrl>.*)',
             function($baseUrl) {
                 echo json_encode(
@@ -58,7 +58,7 @@ if (false !== $pos = strpos($url, '?')) {
             }
         )
         ->get(
-            'b',
+            'password',
             '/password/(?<passwords>.*)',
             function($passwords) {
                 $length = strlen($passwords);
