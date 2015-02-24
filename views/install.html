@@ -39,7 +39,7 @@
         <div class="sixteen wide column">
           {{#if invalidBaseUrl}}
           <div class="ui error message">
-            <div class="header">Base URL must end by a slash</div>
+            <div class="header">Base URL must start and end by a slash</div>
             <p>Check the Section <cite>The base URL</cite> on
             <a href="http://sabre.io/dav/gettingstarted/">sabre/dav's
             documentation</a>.</p>
@@ -157,7 +157,6 @@
           }.property(),
 
           password: null,
-
           passwordBis: null,
 
           validateBaseUrl: function() {

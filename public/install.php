@@ -51,9 +51,8 @@ if (false !== $pos = strpos($url, '?')) {
             '/baseurl/(?<baseUrl>.*)',
             function($baseUrl) {
                 echo json_encode(
-                    0 !== preg_match('#/$#', $baseUrl)
+                    Installer::checkBaseUrl($baseUrl)
                 );
-
                 return;
             }
         )
@@ -61,20 +60,10 @@ if (false !== $pos = strpos($url, '?')) {
             'password',
             '/password/(?<passwords>.*)',
             function($passwords) {
-                $length = strlen($passwords);
-
-                if (0 === $length || 0 !== ($length % 2)) {
-
-                    echo json_encode(false);
-                    return;
-
-                }
-
                 echo json_encode(
-                    substr($passwords, 0, $length / 2)
-                    ===
-                    substr($passwords, $length / 2)
+                    Installer::checkPassword($passwords)
                 );
+                return;
             }
         );
 

@@ -64,4 +64,39 @@ class Installer
 
         return;
     }
+
+    /**
+     * Check the base URL is syntactically correct.
+     *
+     * @param  string  $baseUrl    Base URL.
+     * @return boolean
+     */
+    public static function checkBaseUrl($baseUrl)
+    {
+        return 0 !== preg_match('#^/(.+/)?$#', $baseUrl);
+    }
+
+    /**
+     * Check the password matches a confirmed password and that it is not empty.
+     *
+     * @param  string  $passwords    Passwords (basically, both passwords
+     *                               concatenated).
+     * @return boolean
+     */
+    public static function checkPassword($passwords)
+    {
+        $length = mb_strlen($passwords);
+
+        if (0 === $length || 0 !== ($length % 2)) {
+            return false;
+
+        }
+
+        $halfLength = $length / 2;
+
+        return
+            mb_substr($passwords, 0, $halfLength)
+            ===
+            mb_substr($passwords, $halfLength);
+    }
 }
