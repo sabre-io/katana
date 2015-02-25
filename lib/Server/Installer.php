@@ -90,7 +90,6 @@ class Installer
 
         if (0 === $length || 0 !== ($length % 2)) {
             return false;
-
         }
 
         $halfLength = $length / 2;
