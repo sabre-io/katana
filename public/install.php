@@ -72,9 +72,10 @@ if (false !== $pos = strpos($url, '?')) {
             '/install/(?<jsonPayload>.+)',
             function($jsonPayload) {
                 $payload = json_decode($jsonPayload);
-                $source = new Eventsource\Server();
-                $send = function($data) use($source) {
+                $source  = new Eventsource\Server();
+                $send    = function($data) use($source) {
                     $source->step->send(json_encode($data));
+                    sleep(1);
                     return;
                 };
 
@@ -82,50 +83,56 @@ if (false !== $pos = strpos($url, '?')) {
                     'percent' => 5,
                     'message' => 'Create configuration file…'
                 ]);
-                sleep(1);
-
                 /*
-                Installer::createConfigurationFile(
-                    Server::CONFIGURATION_FILE
+                $configuration = Installer::createConfigurationFile(
+                    Server::CONFIGURATION_FILE,
+                    [
+                        'baseUrl'  => $payload->baseUrl,
+                        'database' => [
+                            'type'     => $payload->databaseType,
+                            'host'     => $payload->databaseHost,
+                            'port'     => $payload->databasePort,
+                            'name'     => $payload->databaseName,
+                            'username' => $payload->databaseUsername,
+                            'password' => $payload->databasePassword
+                        ]
+                    ]
                 );
                 */
-
                 $send([
                     'percent' => 25,
                     'message' => 'Configuration file created 👍!'
                 ]);
 
-                sleep(1);
-
                 $send([
                     'percent' => 30,
                     'message' => 'Create the database…'
                 ]);
-                sleep(1);
-
+                /*
+                Installer::createDatabase($configuration);
+                */
                 $send([
                     'percent' => 50,
                     'message' => 'Database created 👍!'
                 ]);
-                sleep(1);
 
                 $send([
                     'percent' => 55,
                     'message' => 'Create administrator profile…'
                 ]);
-                sleep(1);
+                /*
+                Installer::createAdministratorProfile($password);
+                */
 
                 $send([
                     'percent' => 75,
                     'message' => 'Administrator profile created 👍!'
                 ]);
-                sleep(1);
 
                 $send([
                     'percent' => 100,
                     'message' => 'sabre/katana is ready!'
                 ]);
-                sleep(1);
                 return;
             }
         );
