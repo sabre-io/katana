@@ -426,7 +426,7 @@ class Installer extends Suite
             )
             ->when($result = LUT::createConfigurationFile($filename, $content))
             ->then
-                ->string($result->database['dsn'])
+                ->string($result->database->dsn)
                     ->matches('#^sqlite:katana://data/variable/database/katana_\d+\.sqlite#');
     }
 
@@ -443,7 +443,7 @@ class Installer extends Suite
             )
             ->when($result = LUT::createConfigurationFile($filename, $content))
             ->then
-                ->string($result->database['dsn'])
+                ->string($result->database->dsn)
                     ->isEqualTo('mysql:host=foo;port=42;dbname=bar');
     }
 

@@ -6,6 +6,7 @@ use Sabre\Katana\Configuration;
 use Sabre\Katana\Exception;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
+use StdClass;
 
 /**
  * A set of utilities for the installer.
@@ -182,13 +183,12 @@ class Installer
 
         }
 
-        $configuration           = new Configuration($filename, true);
-        $configuration->base_url = $content['baseUrl'];
-        $configuration->database = [
-            'dsn'      => $dsn,
-            'username' => $content['database']['username'],
-            'password' => $content['database']['password']
-        ];
+        $configuration                     = new Configuration($filename, true);
+        $configuration->base_url           = $content['baseUrl'];
+        $configuration->database           = new StdClass();
+        $configuration->database->dsn      = $dsn;
+        $configuration->database->username = $content['database']['username'];
+        $configuration->database->password = $content['database']['password'];
         $configuration->save();
 
         return $configuration;
