@@ -447,6 +447,75 @@ class Installer extends Suite
                     ->isEqualTo('mysql:host=foo;port=42;dbname=bar');
     }
 
+    public function case_create_database()
+    {
+        $this
+            ->given(
+                $configuration = new Configuration(
+                    $this->helper->configuration(
+                        'configuration.json',
+                        [
+                            'database' => [
+                                'dsn'      => $this->helper->sqlite(),
+                                'username' => '',
+                                'password' => ''
+                            ]
+                        ]
+                    )
+                )
+            )
+            ->when($result = LUT::createDatabase($configuration))
+            ->then
+                ->object($result)
+                    ->isInstanceOf('Sabre\Katana\Database');
+
+        $this
+            ->when(
+                $result = $result->query(
+                    'SELECT name ' .
+                    'FROM sqlite_master ' .
+                    'WHERE type="table" ' .
+                    'ORDER BY name ASC',
+                    $result::FETCH_COLUMN,
+                    0
+                )
+            )
+            ->then
+                ->array(iterator_to_array($result))
+                    ->isEqualTo([
+                        'addressbookchanges',
+                        'addressbooks',
+                        'calendarchanges',
+                        'calendarobjects',
+                        'calendars',
+                        'calendarsubscriptions',
+                        'cards',
+                        'groupmembers',
+                        'locks',
+                        'principals',
+                        'propertystorage',
+                        'schedulingobjects',
+                        'users'
+                    ]);
+    }
+
+    public function case_create_database_broken_configuration()
+    {
+        $this
+            ->given(
+                $configuration = new Configuration(
+                    $this->helper->configuration(
+                        'configuration.json',
+                        []
+                    )
+                )
+            )
+            ->exception(function() use($configuration) {
+                LUT::createDatabase($configuration);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
     public function remove(array &$array, $key1, $key2 = null)
     {
         if (isset($array[$key1])) {

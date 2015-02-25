@@ -3,10 +3,12 @@
 namespace Sabre\Katana\Server;
 
 use Sabre\Katana\Configuration;
+use Sabre\Katana\Database;
 use Sabre\Katana\Exception;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
 use StdClass;
+use PDOException;
 
 /**
  * A set of utilities for the installer.
@@ -192,5 +194,55 @@ class Installer
         $configuration->save();
 
         return $configuration;
+    }
+
+    /**
+     * Create the database.
+     *
+     * @param  Configuration  $configuration    Configuration.
+     * @return Database
+     * @throw  Exception\Installation
+     */
+    public static function createDatabase(Configuration $configuration)
+    {
+        if (!isset($configuration->database)) {
+            throw new Exception\Installation(
+                'Configuration is corrupted, the database branch is missing.'
+            );
+        }
+
+        try {
+            $database = new Database(
+                $configuration->database->dsn,
+                $configuration->database->username,
+                $configuration->database->password
+            );
+        } catch(PDOException $exception) {
+            throw new Exception\Installation(
+                'Cannot create the database.',
+                0,
+                $exception
+            );
+        }
+
+        $templateSchemaIterator = $database->getTemplateSchemaIterator();
+
+        try {
+            foreach ($templateSchemaIterator as $templateSchema) {
+
+                $schema = $templateSchema->open()->readAll();
+                $database->exec($schema);
+                $templateSchema->close();
+
+            }
+        } catch(PDOException $exception) {
+            throw new Exception\Installation(
+                'An error occured while setting up the database.',
+                0,
+                $exception
+            );
+        }
+
+        return $database;
     }
 }
