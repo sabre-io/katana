@@ -3,6 +3,7 @@
 namespace Sabre\Katana\Server;
 
 use Sabre\Katana\Configuration;
+use Sabre\Katana\Exception;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
 
@@ -98,5 +99,98 @@ class Installer
             mb_substr($passwords, 0, $halfLength)
             ===
             mb_substr($passwords, $halfLength);
+    }
+
+    /**
+     * Create the configuration file.
+     * The content must be of the form:
+     *     [
+     *         'baseUrl'  => …,
+     *         'database' => [
+     *             'type'     => …,
+     *             'host'     => …, // if MySQL
+     *             'port'     => …, // if MySQL
+     *             'name'     => …, // if MySQL
+     *             'username' => …,
+     *             'password' => …
+     *         ]
+     *     ]
+     * The configuration file will be saved before being returned.
+     *
+     * @param  string  $filename    Filename of the configuration file.
+     * @param  array   $content     Configurations.
+     * @return Configuration
+     */
+    public static function createConfigurationFile($filename, array $content)
+    {
+        if (!isset($content['baseUrl']) ||
+            !isset($content['database']) ||
+            empty($content['database']['type']) ||
+            !isset($content['database']['username']) ||
+            !isset($content['database']['password'])) {
+            throw new Exception\Installation(
+                'Configuration content is corrupted. Expect at least ' .
+                'a base URL, a database type, username and password.'
+            );
+        }
+
+        if ('mysql' === $content['database']['type'] &&
+            (empty($content['database']['host']) ||
+             empty($content['database']['port']) ||
+             empty($content['database']['name']))) {
+            throw new Exception\Installation(
+                'Configuration content is corrupted for MySQL. Expect ' .
+                'at least a host, a port and a name.'
+            );
+        }
+
+        if (false === static::checkBaseUrl($content['baseUrl'])) {
+            throw new Exception\Installation(
+                sprintf(
+                    'Base URL is not well-formed, given %s.',
+                    $content['baseUrl']
+                )
+            );
+        }
+
+        switch ($content['database']['type']) {
+
+            case 'mysql':
+                $dsn = sprintf(
+                    'mysql:host=%s;port=%d;dbname=%s',
+                    $content['database']['host'],
+                    $content['database']['port'],
+                    $content['database']['name']
+                );
+                break;
+
+            case 'sqlite':
+                $dsn = sprintf(
+                    'sqlite:%s_%d.sqlite',
+                    'katana://data/variable/database/katana',
+                    time()
+                );
+                break;
+
+            default:
+                throw new Exception\Installation(
+                    sprintf(
+                        'Unknown database %s.',
+                        $content['database']['type']
+                    )
+                );
+
+        }
+
+        $configuration           = new Configuration($filename, true);
+        $configuration->base_url = $content['baseUrl'];
+        $configuration->database = [
+            'dsn'      => $dsn,
+            'username' => $content['database']['username'],
+            'password' => $content['database']['password']
+        ];
+        $configuration->save();
+
+        return $configuration;
     }
 }

@@ -16,6 +16,15 @@ use Sabre\HTTP;
  */
 class Installer extends Suite
 {
+    protected $_defaultConfiguration = [
+        'baseUrl'  => '/',
+        'database' => [
+            'type'     => 'sqlite',
+            'username' => '',
+            'password' => ''
+        ]
+    ];
+
     public function case_is_installed()
     {
         $this
@@ -157,5 +166,299 @@ class Installer extends Suite
                             ->isFalse();
                 }
             });
+    }
+
+    public function case_create_configuration_file()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $content['database']['type'] = 'sqlite'
+            )
+            ->and
+                ->string(file_get_contents($filename))
+                    ->isEmpty()
+            ->when($result = LUT::createConfigurationFile($filename, $content))
+            ->then
+                ->object($result)
+                    ->isInstanceOf('Sabre\Katana\Configuration')
+
+                ->string($jsonContent = file_get_contents($filename))
+                    ->isNotEmpty()
+
+                ->array($content = json_decode($jsonContent, true))
+                    ->hasKey('base_url')
+                    ->hasKey('database')
+                ->array($content['database'])
+                    ->hasKey('dsn')
+                    ->hasKey('username')
+                    ->hasKey('password')
+
+                ->string($content['base_url'])
+                    ->isEqualTo('/')
+                ->string($content['database']['dsn'])
+                    ->matches('#^sqlite:katana://data/variable/database/katana_\d+\.sqlite#')
+                ->string($content['database']['username'])
+                    ->isEqualTo('')
+                ->string($content['database']['password'])
+                    ->isEqualTo('');
+    }
+
+    public function case_create_configuration_file_base_url_is_required()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $this->remove($content, 'baseUrl')
+            )
+            ->exception(function() use($filename, $content) {
+                LUT::createConfigurationFile($filename, $content);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_configuration_file_base_url_is_not_well_formed()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $content['baseUrl'] = 'a'
+            )
+            ->exception(function() use($filename, $content) {
+                LUT::createConfigurationFile($filename, $content);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_configuration_file_database_is_required()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $this->remove($content, 'database')
+            )
+            ->exception(function() use($filename, $content) {
+                LUT::createConfigurationFile($filename, $content);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_configuration_file_database_type_is_required()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $this->remove($content, 'database', 'type')
+            )
+            ->exception(function() use($filename, $content) {
+                LUT::createConfigurationFile($filename, $content);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_configuration_file_database_type_is_empty()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $content['database']['type'] = ''
+            )
+            ->exception(function() use($filename, $content) {
+                LUT::createConfigurationFile($filename, $content);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_configuration_file_database_username_is_required()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $this->remove($content, 'database', 'username')
+            )
+            ->exception(function() use($filename, $content) {
+                LUT::createConfigurationFile($filename, $content);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_configuration_file_database_password_is_required()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $this->remove($content, 'database', 'password')
+            )
+            ->exception(function() use($filename, $content) {
+                LUT::createConfigurationFile($filename, $content);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_configuration_file_database_mysql_host_is_required()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $content['database']['type'] = 'mysql',
+                $content['database']['port'] = '42',
+                $content['database']['name'] = 'bar'
+            )
+            ->exception(function() use($filename, $content) {
+                LUT::createConfigurationFile($filename, $content);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_configuration_file_database_mysql_empty_host()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $content['database']['type'] = 'mysql',
+                $content['database']['host'] = '',
+                $content['database']['port'] = '42',
+                $content['database']['name'] = 'bar'
+            )
+            ->exception(function() use($filename, $content) {
+                LUT::createConfigurationFile($filename, $content);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_configuration_file_database_mysql_port_is_required()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $content['database']['type'] = 'mysql',
+                $content['database']['host'] = 'foo',
+                $content['database']['name'] = 'bar'
+            )
+            ->exception(function() use($filename, $content) {
+                LUT::createConfigurationFile($filename, $content);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_configuration_file_database_mysql_empty_port()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $content['database']['type'] = 'mysql',
+                $content['database']['host'] = 'foo',
+                $content['database']['port'] = '',
+                $content['database']['name'] = 'bar'
+            )
+            ->exception(function() use($filename, $content) {
+                LUT::createConfigurationFile($filename, $content);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_configuration_file_database_mysql_name_is_required()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $content['database']['type'] = 'mysql',
+                $content['database']['host'] = 'foo',
+                $content['database']['port'] = '42'
+            )
+            ->exception(function() use($filename, $content) {
+                LUT::createConfigurationFile($filename, $content);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_configuration_file_database_mysql_empty_name()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $content['database']['type'] = 'mysql',
+                $content['database']['host'] = 'foo',
+                $content['database']['port'] = '42',
+                $content['database']['name'] = ''
+            )
+            ->exception(function() use($filename, $content) {
+                LUT::createConfigurationFile($filename, $content);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_configuration_file_database_unknown_type()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $content['database']['type'] = 'crazydb'
+            )
+            ->exception(function() use($filename, $content) {
+                LUT::createConfigurationFile($filename, $content);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_configuration_file_database_sqlite_dsn()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $content['database']['type'] = 'sqlite'
+            )
+            ->when($result = LUT::createConfigurationFile($filename, $content))
+            ->then
+                ->string($result->database['dsn'])
+                    ->matches('#^sqlite:katana://data/variable/database/katana_\d+\.sqlite#');
+    }
+
+    public function case_create_configuration_file_database_mysql_dsn()
+    {
+        $this
+            ->given(
+                $filename = $this->helper->configuration('configuration.json'),
+                $content  = $this->_defaultConfiguration,
+                $content['database']['type'] = 'mysql',
+                $content['database']['host'] = 'foo',
+                $content['database']['port'] = '42',
+                $content['database']['name'] = 'bar'
+            )
+            ->when($result = LUT::createConfigurationFile($filename, $content))
+            ->then
+                ->string($result->database['dsn'])
+                    ->isEqualTo('mysql:host=foo;port=42;dbname=bar');
+    }
+
+    public function remove(array &$array, $key1, $key2 = null)
+    {
+        if (isset($array[$key1])) {
+
+            if (null !== $key2 && isset($array[$key1][$key2])) {
+                unset($array[$key1][$key2]);
+            }
+
+            unset($array[$key1]);
+
+        }
+
+        return;
     }
 }
