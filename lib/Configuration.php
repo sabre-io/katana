@@ -48,7 +48,10 @@ class Configuration
         $content         = file_get_contents($filename);
 
         if (empty($content) && true === $allowEmpty) {
+
+            $this->_configuration = new StdClass();
             return;
+
         }
 
         $decodedJson = @json_decode($content);

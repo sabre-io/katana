@@ -234,4 +234,17 @@ class Configuration extends Suite
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Environment');
     }
+
+    public function case_empty_file_set()
+    {
+        $this
+            ->given(
+                $file          = $this->helper->configuration('configuration.json'),
+                $configuration = new LUT($file, true)
+            )
+            ->when($configuration->a = 42)
+            ->then
+                ->integer($configuration->a)
+                    ->isEqualTo(42);
+    }
 }
