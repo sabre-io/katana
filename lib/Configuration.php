@@ -31,11 +31,12 @@ class Configuration
     /**
      * Read the configurations.
      *
-     * @param  string  $filename    Filename to a valid JSON file.
+     * @param  string  $filename      Filename to a valid JSON file.
+     * @param  boolean $allowEmpty    Whether we allow the file to be empty.
      * @return void
      * @throw  Exception\Environment
      */
-    public function __construct($filename)
+    public function __construct($filename, $allowEmpty = false)
     {
         if (false === file_exists($filename)) {
             throw new Exception\Environment(
@@ -44,7 +45,13 @@ class Configuration
         }
 
         $this->_filename = $filename;
-        $decodedJson     = @json_decode(file_get_contents($filename));
+        $content         = file_get_contents($filename);
+
+        if (empty($content) && true === $allowEmpty) {
+            return;
+        }
+
+        $decodedJson = @json_decode($content);
 
         if (!($decodedJson instanceof StdClass)) {
 

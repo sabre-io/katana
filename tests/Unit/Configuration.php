@@ -3,7 +3,6 @@
 namespace Sabre\Katana\Test\Unit;
 
 use Sabre\Katana\Configuration as LUT;
-use atoum\mock\streams\fs\file;
 
 /**
  * Test suite of the configuration component.
@@ -27,7 +26,7 @@ class Configuration extends Suite
     {
         $this
             ->given(
-                $file = (string) file::get('configuration.json'),
+                $file = $this->helper->configuration('configuration.json'),
                 file_put_contents($file, 'x')
             )
             ->exception(function () use($file) {
@@ -196,5 +195,43 @@ class Configuration extends Suite
             ->then
                 ->integer($result)
                     ->isEqualTo(153);
+    }
+
+    public function case_do_not_allow_empty()
+    {
+        $this
+            ->given($file = $this->helper->configuration('configuration.json'))
+            ->exception(function () use($file) {
+                new LUT($file);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Environment')
+
+            ->given($file = $this->helper->configuration('configuration.json'))
+            ->exception(function () use($file) {
+                new LUT($file, false);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Environment');
+    }
+
+    public function case_allow_empty()
+    {
+        $this
+            ->given($file = $this->helper->configuration('configuration.json'))
+            ->when($result = new LUT($file, true))
+            ->then
+                ->object($result);
+    }
+
+    public function case_allow_empty_invalid_json()
+    {
+        $this
+            ->given(
+                $file = $this->helper->configuration('configuration.json'),
+                file_put_contents($file, 'x')
+            )
+            ->exception(function () use($file) {
+                new LUT($file, true);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Environment');
     }
 }
