@@ -3,6 +3,7 @@
 namespace Sabre\Katana;
 
 use Sabre\Katana\Protocol;
+use Hoa\File\Finder;
 use PDO;
 
 /**
@@ -40,5 +41,21 @@ class Database extends PDO
         }
 
         return;
+    }
+
+    /**
+     * Get an iterator over all the template schemas for the active database.
+     *
+     * @return Finder
+     */
+    public function getTemplateSchemaIterator()
+    {
+        $driverName = $this->getAttribute($this::ATTR_DRIVER_NAME);
+        $finder     = new Finder();
+        $finder
+            ->in('katana://data/variable/database/templates/')
+            ->name('/\.' . $driverName . '\.sql$/');
+
+        return $finder;
     }
 }
