@@ -1,5 +1,5 @@
 {
-    "base_uri": "/",
+    "base_url": "/",
     "database": {
         "dsn"     : "sqlite:katana://data/variable/database/database.sqlite",
         "username": "",

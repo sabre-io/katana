@@ -121,7 +121,7 @@ class Server
     {
         $this->_server = new DAV\Server(null);
         $this->_server->setBaseUri(
-            $this->getConfiguration()->base_uri ?: '/'
+            $this->getConfiguration()->base_url ?: '/'
         );
 
         return;
