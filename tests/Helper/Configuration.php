@@ -21,10 +21,13 @@ class Configuration
      *                              JSON).
      * @return string
      */
-    public function __invoke($filename, Array $content)
+    public function __invoke($filename, Array $content = null)
     {
         $file = (string) file::get($filename);
-        file_put_contents($file, json_encode($content));
+
+        if (null !== $content) {
+            file_put_contents($file, json_encode($content));
+        }
 
         return $file;
     }
