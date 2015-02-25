@@ -16,10 +16,15 @@ class SQLite
     /**
      * Run the helper.
      *
+     * @param  boolean  $forceFile    Force SQLite to work on a file.
      * @return string
      */
-    public function __invoke()
+    public function __invoke($forceFile = false)
     {
-        return 'sqlite:' . stream_get_meta_data(tmpfile())['uri'];
+        if (true === $forceFile) {
+            return 'sqlite:' . stream_get_meta_data(tmpfile())['uri'];
+        } else {
+            return 'sqlite::memory:';
+        }
     }
 }
