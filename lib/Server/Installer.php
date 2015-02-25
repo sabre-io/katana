@@ -119,6 +119,7 @@ class Installer
      * @param  string  $filename    Filename of the configuration file.
      * @param  array   $content     Configurations.
      * @return Configuration
+     * @throw  Exception\Installation
      */
     public static function createConfigurationFile($filename, array $content)
     {
