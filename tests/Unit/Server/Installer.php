@@ -17,7 +17,10 @@ use Sabre\HTTP;
 class Installer extends Suite
 {
     protected $_defaultConfiguration = [
-        'baseUrl'  => '/',
+        'baseUrl'          => '/',
+        'authentification' => [
+            'realm' => 'foo'
+        ],
         'database' => [
             'type'     => 'sqlite',
             'username' => '',
@@ -194,7 +197,9 @@ class Installer extends Suite
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
                 $content  = $this->_defaultConfiguration,
-                $content['database']['type'] = 'sqlite'
+                $content['database']['type']     = 'sqlite',
+                $content['database']['username'] = 'foo',
+                $content['database']['password'] = 'bar'
             )
             ->and
                 ->string(file_get_contents($filename))
@@ -210,6 +215,8 @@ class Installer extends Suite
                 ->array($content = json_decode($jsonContent, true))
                     ->hasKey('base_url')
                     ->hasKey('database')
+                ->array($content['authentification'])
+                    ->hasKey('realm')
                 ->array($content['database'])
                     ->hasKey('dsn')
                     ->hasKey('username')
@@ -217,12 +224,14 @@ class Installer extends Suite
 
                 ->string($content['base_url'])
                     ->isEqualTo('/')
+                ->string($content['authentification']['realm'])
+                    ->matches('#^[a-f0-9]{40}$#')
                 ->string($content['database']['dsn'])
                     ->matches('#^sqlite:katana://data/variable/database/katana_\d+\.sqlite#')
                 ->string($content['database']['username'])
-                    ->isEqualTo('')
+                    ->isEqualTo('foo')
                 ->string($content['database']['password'])
-                    ->isEqualTo('');
+                    ->isEqualTo('bar');
     }
 
     public function case_create_configuration_file_base_url_is_required()

@@ -7,7 +7,8 @@ use Sabre\Katana\Database;
 use Sabre\Katana\Exception;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
-use Hoa\String;
+use Hoa\Core\Core;
+use Hoa\String\String;
 use StdClass;
 use PDOException;
 
@@ -199,12 +200,16 @@ class Installer
 
         }
 
-        $configuration                     = new Configuration($filename, true);
-        $configuration->base_url           = $content['baseUrl'];
-        $configuration->database           = new StdClass();
-        $configuration->database->dsn      = $dsn;
-        $configuration->database->username = $content['database']['username'];
-        $configuration->database->password = $content['database']['password'];
+        $authentificationRealm = sha1(Core::uuid());
+
+        $configuration                          = new Configuration($filename, true);
+        $configuration->base_url                = $content['baseUrl'];
+        $configuration->authentification        = new StdClass();
+        $configuration->authentification->realm = $authentificationRealm;
+        $configuration->database                = new StdClass();
+        $configuration->database->dsn           = $dsn;
+        $configuration->database->username      = $content['database']['username'];
+        $configuration->database->password      = $content['database']['password'];
         $configuration->save();
 
         return $configuration;
