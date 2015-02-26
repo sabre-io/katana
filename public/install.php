@@ -99,66 +99,74 @@ if (false !== $pos = strpos($url, '?')) {
                     return;
                 };
 
-                $send([
-                    'percent' => 5,
-                    'message' => 'Create configuration file…'
-                ]);
-                /*
-                $configuration = Installer::createConfigurationFile(
-                    Server::CONFIGURATION_FILE,
-                    [
-                        'baseUrl'  => $payload->baseUrl,
-                        'database' => [
-                            'type'     => $payload->databaseType,
-                            'host'     => $payload->databaseHost,
-                            'port'     => $payload->databasePort,
-                            'name'     => $payload->databaseName,
-                            'username' => $payload->databaseUsername,
-                            'password' => $payload->databasePassword
+                try {
+
+                    $send([
+                        'percent' => 5,
+                        'message' => 'Create configuration file…'
+                    ]);
+
+                    $configuration = Installer::createConfigurationFile(
+                        Server::CONFIGURATION_FILE,
+                        [
+                            'baseUrl'  => $payload->baseurl,
+                            'database' => [
+                                'driver'   => $payload->database->driver,
+                                'host'     => $payload->database->host,
+                                'port'     => $payload->database->port,
+                                'name'     => $payload->database->name,
+                                'username' => $payload->database->username,
+                                'password' => $payload->database->password
+                            ]
                         ]
-                    ]
-                );
-                */
-                $send([
-                    'percent' => 25,
-                    'message' => 'Configuration file created 👍!'
-                ]);
+                    );
 
-                $send([
-                    'percent' => 30,
-                    'message' => 'Create the database…'
-                ]);
-                /*
-                $database = Installer::createDatabase($configuration);
-                */
-                $send([
-                    'percent' => 50,
-                    'message' => 'Database created 👍!'
-                ]);
+                    $send([
+                        'percent' => 25,
+                        'message' => 'Configuration file created 👍!'
+                    ]);
+                    $send([
+                        'percent' => 30,
+                        'message' => 'Create the database…'
+                    ]);
 
-                $send([
-                    'percent' => 55,
-                    'message' => 'Create administrator profile…'
-                ]);
-                /*
-                Installer::createAdministratorProfile(
-                    $configuration,
-                    $database,
-                    $login
-                    $email
-                    $password
-                );
-                */
+                    $database = Installer::createDatabase($configuration);
 
-                $send([
-                    'percent' => 75,
-                    'message' => 'Administrator profile created 👍!'
-                ]);
+                    $send([
+                        'percent' => 50,
+                        'message' => 'Database created 👍!'
+                    ]);
 
-                $send([
-                    'percent' => 100,
-                    'message' => 'sabre/katana is ready!'
-                ]);
+                    $send([
+                        'percent' => 55,
+                        'message' => 'Create administrator profile…'
+                    ]);
+
+                    Installer::createAdministratorProfile(
+                        $configuration,
+                        $database,
+                        $payload->login,
+                        $payload->email,
+                        $payload->password
+                    );
+
+                    $send([
+                        'percent' => 75,
+                        'message' => 'Administrator profile created 👍!'
+                    ]);
+                    $send([
+                        'percent' => 100,
+                        'message' => 'sabre/katana is ready!'
+                    ]);
+
+                } catch(\Exception $e) {
+                    $send([
+                        'percent' => -1,
+                        'message' => 'An error occured: ' . $e->getMessage()
+                    ]);
+                    // + log
+                }
+
                 return;
             }
         );
