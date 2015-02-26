@@ -191,6 +191,57 @@ class Installer extends Suite
             });
     }
 
+    public function case_check_correct_email()
+    {
+        $this
+            ->given($_email = $this->realdom->regex('#\w[\w\d\-_]+[\w\d]@[a-zA-Z\d]\.(com|net|org)#'))
+            ->when(function() use($_email) {
+                foreach ($this->realdom->sampleMany($_email, 100) as $email) {
+                    $this
+                        ->given($emails = $email . $email)
+                        ->boolean($result = CUT::checkEmail($emails))
+                            ->isTrue();
+                }
+            });
+    }
+
+    public function case_check_incorrect_empty_email()
+    {
+        $this
+            ->given($email = '')
+            ->when($result = CUT::checkEmail($email . $email))
+            ->then
+                ->boolean($result)
+                    ->isFalse()
+
+            ->given($email = null)
+            ->when($result = CUT::checkEmail($email . $email))
+            ->then
+                ->boolean($result)
+                    ->isFalse();
+    }
+
+    public function case_check_incorrect_unmatched_email()
+    {
+        $this
+            ->given(
+                $emails = [
+                    ['a', 'b'],
+                    ['a', 'aa'],
+                    ['💩', '____']
+                ]
+            )
+            ->when(function() use($emails){
+                foreach ($emails as $pair) {
+                    list($email, $confirmed) = $pair;
+                    $this
+                        ->given($result = CUT::checkPassword($email . $confirmed))
+                        ->boolean($result)
+                            ->isFalse();
+                }
+            });
+    }
+
     public function case_create_configuration_file()
     {
         $this

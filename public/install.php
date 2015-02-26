@@ -78,6 +78,16 @@ if (false !== $pos = strpos($url, '?')) {
             }
         )
         ->get(
+            'email',
+            '/email/(?<emails>.*)',
+            function($emails) {
+                echo json_encode(
+                    Installer::checkEmail($emails)
+                );
+                return;
+            }
+        )
+        ->get(
             'install',
             '/install/(?<jsonPayload>.+)',
             function($jsonPayload) {

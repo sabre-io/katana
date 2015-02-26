@@ -130,6 +130,23 @@ class Installer
     }
 
     /**
+     * Check the email matches a confirmed email and that it is not empty.
+     *
+     * @param  string  $emails    Emails.
+     * @return boolean
+     */
+    public static function checkEmail($emails)
+    {
+        if (false === static::checkConfirmation($emails)) {
+            return false;
+        }
+
+        $email = mb_substr($emails, 0, mb_strlen($emails) / 2);
+
+        return false !== filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
+
+    /**
      * Create the configuration file.
      * The content must be of the form:
      *     [

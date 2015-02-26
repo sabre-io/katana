@@ -57,6 +57,12 @@
             <p>Administrator passwords must match.</p>
           </div>
           {{/if}}
+          {{#if invalidEmail}}
+          <div class="ui error message">
+            <div class="header">Email is invalid</div>
+            <p>The given email seems invalid or they do not match.</p>
+          </div>
+          {{/if}}
         </div>
         {{/unless}}
 
@@ -123,6 +129,34 @@
         </div>
 
         <div class="six wide column">
+          <label for="administrator_email">
+            <i class="mail icon"></i>
+            Choose the administrator email:
+          </label>
+        </div>
+        <div class="ten wide column">
+          {{input type="email"
+                  id="administrator_email"
+                  name="administrator_email"
+                  required="true"
+                  value=email}}
+        </div>
+
+        <div class="six wide column">
+          <label for="administrator_email_bis">
+            <i class="mail icon"></i>
+             Confirm the administrator email:
+          </label>
+        </div>
+        <div class="ten wide column">
+          {{input type="email"
+                  id="administrator_email_bis"
+                  name="administrator_email_bis"
+                  required="true"
+                  value=emailBis}}
+        </div>
+
+        <div class="six wide column">
           <label>
             <i class="database icon"></i>
             Choose the database driver:
@@ -177,6 +211,7 @@
           invalidBaseUrl: false,
           invalidLogin: false,
           invalidPassword: false,
+          invalidEmail: false,
 
           origin: window.location.origin,
 
@@ -187,6 +222,8 @@
           login: null,
           password: null,
           passwordBis: null,
+          email: null,
+          emailBis: null,
 
           submitting: false,
 
@@ -206,9 +243,10 @@
           }.observes('baseUrl'),
 
           validateLogin: function() {
-              var self = this;
+              var self  = this;
+              var login = encodeURIComponent(this.get('login') || '');
               $
-                  .getJSON('?/login/' + this.get('login') || '')
+                  .getJSON('?/login/' + login)
                   .done(function(verdict) {
 
                       self.set('invalidLogin', false === verdict);
@@ -219,8 +257,8 @@
 
           validatePassword: function() {
               var self        = this;
-              var password    = this.get('password')    || '';
-              var passwordBis = this.get('passwordBis') || '';
+              var password    = encodeURIComponent(this.get('password')    || '');
+              var passwordBis = encodeURIComponent(this.get('passwordBis') || '');
               $
                   .getJSON('?/password/' + password + passwordBis)
                   .done(function(verdict) {
@@ -234,16 +272,35 @@
               return;
           }.observes('password', 'passwordBis'),
 
+          validateEmail: function() {
+              var self     = this;
+              var email    = encodeURIComponent(this.get('email')    || '');
+              var emailBis = encodeURIComponent(this.get('emailBis') || '');
+              $
+                  .getJSON('?/email/' + email + emailBis)
+                  .done(function(verdict) {
+
+                      self.set('invalidEmail', false === verdict);
+                      self.set('valid', true === verdict);
+
+                      return;
+                  });
+
+              return;
+          }.observes('email', 'emailBis'),
+
           actions: {
               submit: function() {
                   this.set('submitting', true);
 
                   var source = new EventSource(
                       '?/install/' +
-                      JSON.stringify({
-                          baseUrl: this.get('baseUrl'),
-                          passwords: this.get('password') + this.get('passwordBis')
-                      })
+                      encodeURIComponent(
+                        JSON.stringify({
+                            baseUrl: this.get('baseUrl'),
+                            passwords: this.get('password') + this.get('passwordBis')
+                        })
+                      )
                   );
                   source.addEventListener(
                       'step',
