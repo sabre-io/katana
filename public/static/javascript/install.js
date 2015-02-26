@@ -109,6 +109,10 @@
                         });
                         $('#progress .label').text(data.message);
 
+                        if (100 === data.percent) {
+                            source.close();
+                        }
+
                         /*
                         setTimeout(
                             function() {
