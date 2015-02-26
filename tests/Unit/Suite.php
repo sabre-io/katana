@@ -24,14 +24,24 @@ class Suite extends atoum\test
         // Avoid conflict with \Mock.
         $this->getMockGenerator()->setDefaultNamespace('Mouck');
 
+        $assertionManager = $this->getAssertionManager();
+
         // Register helpers.
         $helpers = new Helper\Helper();
         $helpers->registerHelper('configuration', new Helper\Configuration());
         $helpers->registerHelper('sqlite',        new Helper\SQLite());
-        $this->getAssertionManager()->setHandler(
+        $assertionManager->setHandler(
             'helper',
             function() use($helpers) {
                 return $helpers;
+            }
+        );
+
+        // let.
+        $assertionManager->setMethodHandler(
+            'let',
+            function() use($self) {
+                return $self;
             }
         );
 
