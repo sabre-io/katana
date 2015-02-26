@@ -89,18 +89,39 @@
             return;
         }.observes('email', 'emailBis'),
 
+        validate: function()
+        {
+            this.set(
+                'valid',
+                (false === this.get('invalidBaseUrl')) &&
+                (false === this.get('invalidProfile'))
+            );
+            return;
+        }.observes('invalidBaseUrl', 'invalidProfile'),
+
         actions: {
             submit: function()
             {
                 this.set('submitting', true);
+                console.log(this.get('databaseDriver'));
 
                 var source = new EventSource(
                     '?/install/' +
                     encodeURIComponent(
-                      JSON.stringify({
-                          baseUrl: this.get('baseUrl'),
-                          passwords: this.get('password') + this.get('passwordBis')
-                      })
+                        JSON.stringify({
+                            baseUrl : this.get('baseUrl'),
+                            login   : this.get('login'),
+                            email   : this.get('email'),
+                            password: this.get('password'),
+                            database: {
+                                driver  : this.get('databaseDriver'),
+                                host    : '',
+                                port    : '',
+                                name    : '',
+                                username: '',
+                                password: ''
+                            }
+                        })
                     )
                 );
                 source.addEventListener(
