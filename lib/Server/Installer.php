@@ -96,15 +96,15 @@ class Installer
     }
 
     /**
-     * Check the password matches a confirmed password and that it is not empty.
+     * Check that a string matches a confirmed string and that it is not empty.
+     * The argument is the raw concatenation of the two strings to compare.
      *
-     * @param  string  $passwords    Passwords (basically, both passwords
-     *                               concatenated).
+     * @param  string  $strings    Strings to check.
      * @return boolean
      */
-    public static function checkPassword($passwords)
+    protected static function checkConfirmation($strings)
     {
-        $length = mb_strlen($passwords);
+        $length = mb_strlen($strings);
 
         if (0 === $length || 0 !== ($length % 2)) {
             return false;
@@ -113,9 +113,20 @@ class Installer
         $halfLength = $length / 2;
 
         return
-            mb_substr($passwords, 0, $halfLength)
+            mb_substr($strings, 0, $halfLength)
             ===
-            mb_substr($passwords, $halfLength);
+            mb_substr($strings, $halfLength);
+    }
+
+    /**
+     * Check the password matches a confirmed password and that it is not empty.
+     *
+     * @param  string  $passwords    Passwords.
+     * @return boolean
+     */
+    public static function checkPassword($passwords)
+    {
+        return static::checkConfirmation($passwords);
     }
 
     /**
