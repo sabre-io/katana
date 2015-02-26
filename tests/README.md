@@ -40,6 +40,10 @@ $this
         ->…
 ```
 
+We call “SUT” the System Under Test. However, it can be ambiguous in some cases.
+Thus, we use “CUT” —standing for Class Under Test— and “LUT” —standing for
+Library Under Test— as aliases.
+
 ### Differences with a bare atoum
 
   * A class represents a test suite, and therefore extends the
