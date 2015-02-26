@@ -152,7 +152,7 @@ class Installer
      *     [
      *         'baseUrl'  => …,
      *         'database' => [
-     *             'type'     => …,
+     *             'driver'   => …,
      *             'host'     => …, // if MySQL
      *             'port'     => …, // if MySQL
      *             'name'     => …, // if MySQL
@@ -171,16 +171,16 @@ class Installer
     {
         if (!isset($content['baseUrl']) ||
             !isset($content['database']) ||
-            empty($content['database']['type']) ||
+            empty($content['database']['driver']) ||
             !isset($content['database']['username']) ||
             !isset($content['database']['password'])) {
             throw new Exception\Installation(
                 'Configuration content is corrupted. Expect at least ' .
-                'a base URL, a database type, username and password.'
+                'a base URL, a database driver, username and password.'
             );
         }
 
-        if ('mysql' === $content['database']['type'] &&
+        if ('mysql' === $content['database']['driver'] &&
             (empty($content['database']['host']) ||
              empty($content['database']['port']) ||
              empty($content['database']['name']))) {
@@ -199,7 +199,7 @@ class Installer
             );
         }
 
-        switch ($content['database']['type']) {
+        switch ($content['database']['driver']) {
 
             case 'mysql':
                 $dsn = sprintf(
@@ -222,7 +222,7 @@ class Installer
                 throw new Exception\Installation(
                     sprintf(
                         'Unknown database %s.',
-                        $content['database']['type']
+                        $content['database']['driver']
                     )
                 );
 

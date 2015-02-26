@@ -20,7 +20,7 @@ class Installer extends Suite
     protected $_defaultConfiguration = [
         'baseUrl'          => '/',
         'database' => [
-            'type'     => 'sqlite',
+            'driver'   => 'sqlite',
             'username' => '',
             'password' => ''
         ]
@@ -246,7 +246,7 @@ class Installer extends Suite
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
                 $content  = $this->_defaultConfiguration,
-                $content['database']['type']     = 'sqlite',
+                $content['database']['driver']   = 'sqlite',
                 $content['database']['username'] = 'foo',
                 $content['database']['password'] = 'bar'
             )
@@ -325,13 +325,13 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
-    public function case_create_configuration_file_database_type_is_required()
+    public function case_create_configuration_file_database_driver_is_required()
     {
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
                 $content  = $this->_defaultConfiguration,
-                $this->remove($content, 'database', 'type')
+                $this->remove($content, 'database', 'driver')
             )
             ->exception(function() use($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
@@ -339,13 +339,13 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
-    public function case_create_configuration_file_database_type_is_empty()
+    public function case_create_configuration_file_database_driver_is_empty()
     {
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
                 $content  = $this->_defaultConfiguration,
-                $content['database']['type'] = ''
+                $content['database']['driver'] = ''
             )
             ->exception(function() use($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
@@ -387,9 +387,9 @@ class Installer extends Suite
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
                 $content  = $this->_defaultConfiguration,
-                $content['database']['type'] = 'mysql',
-                $content['database']['port'] = '42',
-                $content['database']['name'] = 'bar'
+                $content['database']['driver'] = 'mysql',
+                $content['database']['port']   = '42',
+                $content['database']['name']   = 'bar'
             )
             ->exception(function() use($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
@@ -403,10 +403,10 @@ class Installer extends Suite
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
                 $content  = $this->_defaultConfiguration,
-                $content['database']['type'] = 'mysql',
-                $content['database']['host'] = '',
-                $content['database']['port'] = '42',
-                $content['database']['name'] = 'bar'
+                $content['database']['driver'] = 'mysql',
+                $content['database']['host']   = '',
+                $content['database']['port']   = '42',
+                $content['database']['name']   = 'bar'
             )
             ->exception(function() use($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
@@ -420,9 +420,9 @@ class Installer extends Suite
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
                 $content  = $this->_defaultConfiguration,
-                $content['database']['type'] = 'mysql',
-                $content['database']['host'] = 'foo',
-                $content['database']['name'] = 'bar'
+                $content['database']['driver'] = 'mysql',
+                $content['database']['host']   = 'foo',
+                $content['database']['name']   = 'bar'
             )
             ->exception(function() use($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
@@ -436,10 +436,10 @@ class Installer extends Suite
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
                 $content  = $this->_defaultConfiguration,
-                $content['database']['type'] = 'mysql',
-                $content['database']['host'] = 'foo',
-                $content['database']['port'] = '',
-                $content['database']['name'] = 'bar'
+                $content['database']['driver'] = 'mysql',
+                $content['database']['host']   = 'foo',
+                $content['database']['port']   = '',
+                $content['database']['name']   = 'bar'
             )
             ->exception(function() use($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
@@ -453,9 +453,9 @@ class Installer extends Suite
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
                 $content  = $this->_defaultConfiguration,
-                $content['database']['type'] = 'mysql',
-                $content['database']['host'] = 'foo',
-                $content['database']['port'] = '42'
+                $content['database']['driver'] = 'mysql',
+                $content['database']['host']   = 'foo',
+                $content['database']['port']   = '42'
             )
             ->exception(function() use($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
@@ -469,10 +469,10 @@ class Installer extends Suite
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
                 $content  = $this->_defaultConfiguration,
-                $content['database']['type'] = 'mysql',
-                $content['database']['host'] = 'foo',
-                $content['database']['port'] = '42',
-                $content['database']['name'] = ''
+                $content['database']['driver'] = 'mysql',
+                $content['database']['host']   = 'foo',
+                $content['database']['port']   = '42',
+                $content['database']['name']   = ''
             )
             ->exception(function() use($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
@@ -480,13 +480,13 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
-    public function case_create_configuration_file_database_unknown_type()
+    public function case_create_configuration_file_database_unknown_driver()
     {
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
                 $content  = $this->_defaultConfiguration,
-                $content['database']['type'] = 'crazydb'
+                $content['database']['driver'] = 'crazydb'
             )
             ->exception(function() use($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
@@ -500,7 +500,7 @@ class Installer extends Suite
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
                 $content  = $this->_defaultConfiguration,
-                $content['database']['type'] = 'sqlite'
+                $content['database']['driver'] = 'sqlite'
             )
             ->when($result = CUT::createConfigurationFile($filename, $content))
             ->then
@@ -514,10 +514,10 @@ class Installer extends Suite
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
                 $content  = $this->_defaultConfiguration,
-                $content['database']['type'] = 'mysql',
-                $content['database']['host'] = 'foo',
-                $content['database']['port'] = '42',
-                $content['database']['name'] = 'bar'
+                $content['database']['driver'] = 'mysql',
+                $content['database']['host']   = 'foo',
+                $content['database']['port']   = '42',
+                $content['database']['name']   = 'bar'
             )
             ->when($result = CUT::createConfigurationFile($filename, $content))
             ->then
