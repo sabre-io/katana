@@ -229,6 +229,7 @@ class Installer
         }
 
         $authentificationRealm = sha1(Core::uuid());
+        touch($filename);
 
         $configuration                          = new Configuration($filename, true);
         $configuration->base_url                = $content['baseUrl'];
