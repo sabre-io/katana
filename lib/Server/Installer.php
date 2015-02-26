@@ -292,4 +292,87 @@ class Installer
 
         return $database;
     }
+
+    /**
+     * Create the administrator profile.
+     *
+     * @param  Configuration  $configuration    Configuration.
+     * @param  Database       $database         Database.
+     * @param  string         $login            Administrator's login.
+     * @param  string         $email            Administrator's email.
+     * @param  string         $password         Administrator's password.
+     * @return boolean
+     * @throw  Exception\Installation
+     */
+    public static function createAdministratorProfile(
+        Configuration $configuration,
+        Database $database,
+        $login,
+        $email,
+        $password
+    )
+    {
+        if (false === isset($configuration->authentification)) {
+            throw new Exception\Installation(
+                'Configuration is corrupted, the authentification branch ' .
+                'is missing.'
+            );
+        }
+
+        if (false === static::checkLogin($login)) {
+            throw new Exception\Installation('Login is invalid.');
+        }
+
+        if (false === static::checkEmail($email . $email)) {
+            throw new Exception\Installation('Email is invalid.');
+        }
+
+        if (false === static::checkPassword($password . $password)) {
+            throw new Exception\Installation('Password is invalid.');
+        }
+
+        $realm  = $configuration->authentification->realm;
+        $digest = md5($login . ':' . $realm . ':' . $password);
+
+        try {
+
+            $statement = $database->prepare(
+                'INSERT INTO principals (uri, email, displayname) ' .
+                'VALUES (:uri, :email, :displayname)'
+            );
+            $statement->execute([
+                'uri'         => 'principals/admin',
+                'email'       => $email,
+                'displayname' => 'Administrator'
+            ]);
+            $statement->execute([
+                'uri'         => 'principals/admin/calendar-proxy-read',
+                'email'       => null,
+                'displayname' => null
+            ]);
+            $statement->execute([
+                'uri'         => 'principals/admin/calendar-proxy-write',
+                'email'       => null,
+                'displayname' => null
+            ]);
+
+            $statement = $database->prepare(
+                'INSERT INTO users (username, digesta1) '.
+                'VALUES (:username, :digest)'
+            );
+            $statement->execute([
+                'username' => $login,
+                'digest'   => $digest
+            ]);
+
+        } catch(PDOException $exception) {
+            throw new Exception\Installation(
+                'An error occured while creating the administrator profile.',
+                0,
+                $exception
+            );
+        }
+
+        return true;
+    }
 }

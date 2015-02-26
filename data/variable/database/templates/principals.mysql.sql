@@ -19,11 +19,3 @@ CREATE TABLE groupmembers (
     UNIQUE(principal_id, member_id)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-INSERT
-    INTO principals (uri, email, displayname)
-    VALUES
-        ('principals/admin', 'admin@example.org', 'Administrator'),
-        ('principals/admin/calendar-proxy-read', null, null),
-        ('principals/admin/calendar-proxy-write', null, null);

@@ -5,6 +5,7 @@ namespace Sabre\Katana\Test\Unit\Server;
 use Sabre\Katana\Test\Unit\Suite;
 use Sabre\Katana\Server\Installer as CUT;
 use Sabre\Katana\Configuration;
+use Sabre\Katana\Database;
 use Sabre\HTTP;
 
 /**
@@ -18,9 +19,6 @@ class Installer extends Suite
 {
     protected $_defaultConfiguration = [
         'baseUrl'          => '/',
-        'authentification' => [
-            'realm' => 'foo'
-        ],
         'database' => [
             'type'     => 'sqlite',
             'username' => '',
@@ -594,6 +592,208 @@ class Installer extends Suite
                 CUT::createDatabase($configuration);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    public function case_create_administrator_profile()
+    {
+        $this
+            ->given(
+                $realm         = '🔒',
+                $configuration = new Configuration(
+                    $this->helper->configuration(
+                        'configuration.json',
+                        [
+                            'authentification' => [
+                                'realm' => $realm
+                            ],
+                            'database' => [
+                                'dsn'      => $this->helper->sqlite(),
+                                'username' => '',
+                                'password' => ''
+                            ]
+                        ]
+                    )
+                ),
+                $database = CUT::createDatabase($configuration),
+                $login    = 'gordon',
+                $email    = 'gordon@freeman.hl',
+                $password = '💩'
+            )
+            ->when(
+                $result = CUT::createAdministratorProfile(
+                    $configuration,
+                    $database,
+                    $login,
+                    $email,
+                    $password
+                )
+            )
+            ->then
+                ->boolean($result)
+                    ->isTrue();
+
+        $this
+            ->when(
+                $result = $database->query(
+                    'SELECT * FROM principals',
+                    $database::FETCH_CLASS,
+                    'StdClass'
+                )
+            )
+            ->then
+                ->array($collection = iterator_to_array($result))
+                    ->hasSize(3)
+
+                ->let($tuple = $collection[0])
+                ->string($tuple->id)
+                    ->isEqualTo('1')
+                ->string($tuple->uri)
+                    ->isEqualTo('principals/admin')
+                ->string($tuple->email)
+                    ->isEqualTo($email)
+                ->string($tuple->displayname)
+                    ->isEqualTo('Administrator')
+
+                ->let($tuple = $collection[1])
+                ->string($tuple->id)
+                    ->isEqualTo('2')
+                ->string($tuple->uri)
+                    ->isEqualTo('principals/admin/calendar-proxy-read')
+                ->variable($tuple->email)
+                    ->isNull()
+                ->variable($tuple->displayname)
+                    ->isNull()
+
+                ->let($tuple = $collection[2])
+                ->string($tuple->id)
+                    ->isEqualTo('3')
+                ->string($tuple->uri)
+                    ->isEqualTo('principals/admin/calendar-proxy-write')
+                ->variable($tuple->email)
+                    ->isNull()
+                ->variable($tuple->displayname)
+                    ->isNull()
+
+            ->when(
+                $result = $database->query(
+                    'SELECT * FROM users',
+                    $database::FETCH_CLASS,
+                    'StdClass'
+                )
+            )
+            ->then
+                ->array($collection = iterator_to_array($result))
+                    ->hasSize(1)
+
+                ->let($tuple = $collection[0])
+                ->string($tuple->username)
+                    ->isEqualTo('gordon')
+                ->string($tuple->digesta1)
+                    ->isEqualTo(md5($login . ':' . $realm . ':' . $password));
+    }
+
+    public function case_create_administrator_profile_authentification_is_required()
+    {
+        $this
+            ->given(
+                $configuration = new Configuration(
+                    $this->helper->configuration('configuration.json'),
+                    true
+                ),
+                $database = new Database($this->helper->sqlite())
+            )
+            ->exception(function() use($configuration, $database) {
+                CUT::createAdministratorProfile(
+                    $configuration,
+                    $database,
+                    null,
+                    null,
+                    null
+                );
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation')
+                ->hasMessage('Configuration is corrupted, the authentification branch is missing.');
+    }
+
+    public function case_create_administrator_profile_bad_login()
+    {
+        $this
+            ->given(
+                $configuration = new Configuration(
+                    $this->helper->configuration(
+                        'configuration.json',
+                        [
+                            'authentification' => []
+                        ]
+                    )
+                ),
+                $database = new Database($this->helper->sqlite())
+            )
+            ->exception(function() use($configuration, $database) {
+                CUT::createAdministratorProfile(
+                    $configuration,
+                    $database,
+                    '',
+                    'gordon@freeman.hl',
+                    '💩'
+                );
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation')
+                ->hasMessage('Login is invalid.');
+    }
+
+    public function case_create_administrator_profile_bad_email()
+    {
+        $this
+            ->given(
+                $configuration = new Configuration(
+                    $this->helper->configuration(
+                        'configuration.json',
+                        [
+                            'authentification' => []
+                        ]
+                    )
+                ),
+                $database = new Database($this->helper->sqlite())
+            )
+            ->exception(function() use($configuration, $database) {
+                CUT::createAdministratorProfile(
+                    $configuration,
+                    $database,
+                    'gordon',
+                    'a',
+                    '💩'
+                );
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation')
+                ->hasMessage('Email is invalid.');
+    }
+
+    public function case_create_administrator_profile_bad_password()
+    {
+        $this
+            ->given(
+                $configuration = new Configuration(
+                    $this->helper->configuration(
+                        'configuration.json',
+                        [
+                            'authentification' => []
+                        ]
+                    )
+                ),
+                $database = new Database($this->helper->sqlite())
+            )
+            ->exception(function() use($configuration, $database) {
+                CUT::createAdministratorProfile(
+                    $configuration,
+                    $database,
+                    'gordon',
+                    'gordon@freeman.hl',
+                    ''
+                );
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation')
+                ->hasMessage('Password is invalid.');
     }
 
     public function remove(array &$array, $key1, $key2 = null)

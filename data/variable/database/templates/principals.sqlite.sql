@@ -19,16 +19,3 @@ CREATE TABLE groupmembers (
     UNIQUE(principal_id, member_id)
 
 );
-
-
-INSERT
-    INTO principals (uri, email, displayname)
-    VALUES ('principals/admin', 'admin@example.org', 'Administrator');
-
-INSERT
-    INTO principals (uri, email, displayname)
-    VALUES ('principals/admin/calendar-proxy-read', null, null);
-
-INSERT
-    INTO principals (uri, email, displayname)
-    VALUES ('principals/admin/calendar-proxy-write', null, null);
