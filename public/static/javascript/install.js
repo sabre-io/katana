@@ -129,14 +129,20 @@
                     function(evt) {
                         var data = JSON.parse(evt.data);
                         console.log(data.message);
-                        $('#progress').progress({
-                            percent: data.percent
-                        });
-                        $('#progress .label').text(data.message);
 
-                        if (100 === data.percent) {
+                        if (-1 === data.percent || 100 === data.percent) {
                             source.close();
                         }
+
+                        if (-1 === data.percent) {
+                            $('#progress').addClass('error');
+                        } else {
+                            $('#progress').progress({
+                                percent: data.percent
+                            });
+                        }
+
+                        $('#progress .label').text(data.message);
 
                         /*
                         setTimeout(
