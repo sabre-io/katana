@@ -17,6 +17,10 @@
         passwordBis    : null,
         email          : null,
         emailBis       : null,
+        databaseDriver : function() {
+            return $('input[type="radio"][name="database_driver"]:checked')[0]
+                   .getAttribute('value');
+        }.property(),
         submitting     : false,
 
         validateBaseUrl: function()
