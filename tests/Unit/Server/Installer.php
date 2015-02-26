@@ -117,6 +117,26 @@ class Installer extends Suite
             });
     }
 
+    public function case_check_correct_login()
+    {
+        $this
+            ->given($login = '💩')
+            ->when($result = CUT::checkLogin($login))
+            ->then
+                ->boolean($result)
+                    ->isTrue();
+    }
+
+    public function case_check_incorrect_login()
+    {
+        $this
+            ->given($login = '')
+            ->when($result = CUT::checkLogin($login))
+            ->then
+                ->boolean($result)
+                    ->isFalse();
+    }
+
     public function case_check_correct_password()
     {
         $this

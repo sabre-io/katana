@@ -13,7 +13,8 @@
         "hoa/eventsource": "~2.0@dev",
         "hoa/mime"       : "~2.0",
         "hoa/file"       : "~0.0",
-        "hoa/router"     : "~2.0@dev"
+        "hoa/router"     : "~2.0@dev",
+        "hoa/string"     : "~2.0"
     },
     "authors": [
         {

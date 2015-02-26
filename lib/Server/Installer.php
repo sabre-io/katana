@@ -7,6 +7,7 @@ use Sabre\Katana\Database;
 use Sabre\Katana\Exception;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
+use Hoa\String;
 use StdClass;
 use PDOException;
 
@@ -78,6 +79,19 @@ class Installer
     public static function checkBaseUrl($baseUrl)
     {
         return 0 !== preg_match('#^/(.+/)?$#', $baseUrl);
+    }
+
+    /**
+     * Check the login.
+     *
+     * @param  string  $login    Login.
+     * @return boolean
+     */
+    public static function checkLogin($login)
+    {
+        $string = new String($login);
+
+        return 0 < count($string);
     }
 
     /**

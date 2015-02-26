@@ -58,6 +58,16 @@ if (false !== $pos = strpos($url, '?')) {
             }
         )
         ->get(
+            'login',
+            '/login/(?<login>.*)',
+            function($login) {
+                echo json_encode(
+                    Installer::checkLogin($login)
+                );
+                return;
+            }
+        )
+        ->get(
             'password',
             '/password/(?<passwords>.*)',
             function($passwords) {

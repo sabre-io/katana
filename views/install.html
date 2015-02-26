@@ -45,6 +45,12 @@
             documentation</a>.</p>
           </div>
           {{/if}}
+          {{#if invalidLogin}}
+          <div class="ui error message">
+            <div class="header">Login must not be empty</div>
+            <p>How then would call you?</p>
+          </div>
+          {{/if}}
           {{#if invalidPassword}}
           <div class="ui error message">
             <div class="header">Passwords do not match</div>
@@ -72,6 +78,20 @@
                     required="true"
                     value=baseUrl}}
           </div>
+        </div>
+
+        <div class="six wide column">
+          <label for="administrator_login">
+            <i class="user icon"></i>
+            Choose the administrator login:
+          </label>
+        </div>
+        <div class="ten wide column">
+          {{input type="text"
+                  id="administrator_login"
+                  name="administrator_login"
+                  required="true"
+                  value=login}}
         </div>
 
         <div class="six wide column">
@@ -155,6 +175,7 @@
 
           valid: false,
           invalidBaseUrl: false,
+          invalidLogin: false,
           invalidPassword: false,
 
           origin: window.location.origin,
@@ -163,6 +184,7 @@
               return window.location.pathname.replace(/\/+[^\/]*$/, '/');
           }.property(),
 
+          login: null,
           password: null,
           passwordBis: null,
 
@@ -176,10 +198,24 @@
 
                       self.set('invalidBaseUrl', false === verdict);
                       self.set('valid', true === verdict);
+
+                      return;
                   });
 
               return;
           }.observes('baseUrl'),
+
+          validateLogin: function() {
+              var self = this;
+              $
+                  .getJSON('?/login/' + this.get('login') || '')
+                  .done(function(verdict) {
+
+                      self.set('invalidLogin', false === verdict);
+                      self.set('valid', true === verdict);
+
+                  });
+          }.observes('login'),
 
           validatePassword: function() {
               var self        = this;
@@ -191,6 +227,8 @@
 
                       self.set('invalidPassword', false === verdict);
                       self.set('valid', true === verdict);
+
+                      return;
                   });
 
               return;
