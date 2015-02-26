@@ -26,7 +26,7 @@ class Configuration
         $file = (string) file::get($filename);
 
         if (null !== $content) {
-            file_put_contents($file, json_encode($content));
+            file_put_contents($file, json_encode($content, JSON_PRETTY_PRINT));
         }
 
         return $file;

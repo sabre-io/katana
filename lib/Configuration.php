@@ -134,7 +134,7 @@ class Configuration
     {
         return false !== file_put_contents(
             $this->getFilename(),
-            json_encode($this->_configuration)
+            json_encode($this->_configuration, JSON_PRETTY_PRINT)
         );
     }
 
