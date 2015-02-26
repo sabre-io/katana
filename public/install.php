@@ -129,7 +129,7 @@ if (false !== $pos = strpos($url, '?')) {
                     'message' => 'Create the database…'
                 ]);
                 /*
-                Installer::createDatabase($configuration);
+                $database = Installer::createDatabase($configuration);
                 */
                 $send([
                     'percent' => 50,
@@ -141,7 +141,13 @@ if (false !== $pos = strpos($url, '?')) {
                     'message' => 'Create administrator profile…'
                 ]);
                 /*
-                Installer::createAdministratorProfile($password);
+                Installer::createAdministratorProfile(
+                    $configuration,
+                    $database,
+                    $login
+                    $email
+                    $password
+                );
                 */
 
                 $send([
