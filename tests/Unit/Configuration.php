@@ -2,7 +2,7 @@
 
 namespace Sabre\Katana\Test\Unit;
 
-use Sabre\Katana\Configuration as LUT;
+use Sabre\Katana\Configuration as CUT;
 
 /**
  * Test suite of the configuration component.
@@ -17,7 +17,7 @@ class Configuration extends Suite
     {
         $this
             ->exception(function () {
-                new LUT('/foo/42');
+                new CUT('/foo/42');
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Environment');
     }
@@ -30,7 +30,7 @@ class Configuration extends Suite
                 file_put_contents($file, 'x')
             )
             ->exception(function () use($file) {
-                new LUT($file);
+                new CUT($file);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Environment');
     }
@@ -43,7 +43,7 @@ class Configuration extends Suite
                     'configuration.json',
                     []
                 ),
-                $configuration = new LUT($file)
+                $configuration = new CUT($file)
             )
             ->when($result = $configuration->getFilename())
             ->then
@@ -55,7 +55,7 @@ class Configuration extends Suite
     {
         $this
             ->given(
-                $configuration = new LUT(
+                $configuration = new CUT(
                     $this->helper->configuration(
                         'configuration.json',
                         ['a' => 42]
@@ -77,7 +77,7 @@ class Configuration extends Suite
     {
         $this
             ->given(
-                $configuration = new LUT(
+                $configuration = new CUT(
                     $this->helper->configuration(
                         'configuration.json',
                         [
@@ -108,7 +108,7 @@ class Configuration extends Suite
     {
         $this
             ->given(
-                $configuration = new LUT(
+                $configuration = new CUT(
                     $this->helper->configuration(
                         'configuration.json',
                         ['a' => 42]
@@ -141,7 +141,7 @@ class Configuration extends Suite
     {
         $this
             ->given(
-                $configuration = new LUT(
+                $configuration = new CUT(
                     $this->helper->configuration(
                         'configuration.json',
                         ['a' => 42]
@@ -171,7 +171,7 @@ class Configuration extends Suite
                     ['a' => 42]
                 ),
                 $initialContent = file_get_contents($file),
-                $configuration  = new LUT($file)
+                $configuration  = new CUT($file)
             )
             ->when($result = $configuration->save())
             ->then
@@ -190,7 +190,7 @@ class Configuration extends Suite
                 ->string(file_get_contents($file))
                     ->isNotEqualTo($initialContent)
 
-            ->given($configuration = new LUT($file))
+            ->given($configuration = new CUT($file))
             ->when($result = $configuration->a)
             ->then
                 ->integer($result)
@@ -202,13 +202,13 @@ class Configuration extends Suite
         $this
             ->given($file = $this->helper->configuration('configuration.json'))
             ->exception(function () use($file) {
-                new LUT($file);
+                new CUT($file);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Environment')
 
             ->given($file = $this->helper->configuration('configuration.json'))
             ->exception(function () use($file) {
-                new LUT($file, false);
+                new CUT($file, false);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Environment');
     }
@@ -217,7 +217,7 @@ class Configuration extends Suite
     {
         $this
             ->given($file = $this->helper->configuration('configuration.json'))
-            ->when($result = new LUT($file, true))
+            ->when($result = new CUT($file, true))
             ->then
                 ->object($result);
     }
@@ -230,7 +230,7 @@ class Configuration extends Suite
                 file_put_contents($file, 'x')
             )
             ->exception(function () use($file) {
-                new LUT($file, true);
+                new CUT($file, true);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Environment');
     }
@@ -240,7 +240,7 @@ class Configuration extends Suite
         $this
             ->given(
                 $file          = $this->helper->configuration('configuration.json'),
-                $configuration = new LUT($file, true)
+                $configuration = new CUT($file, true)
             )
             ->when($configuration->a = 42)
             ->then

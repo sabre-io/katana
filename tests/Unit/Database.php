@@ -2,7 +2,7 @@
 
 namespace Sabre\Katana\Test\Unit;
 
-use Sabre\Katana\Database as LUT;
+use Sabre\Katana\Database as CUT;
 
 /**
  * Test suite of the database component.
@@ -17,7 +17,7 @@ class Database extends Suite
     {
         $this
             ->given($sqlite = $this->helper->sqlite())
-            ->when($result = new LUT($sqlite))
+            ->when($result = new CUT($sqlite))
             ->then
                 ->object($result)
                     ->isInstanceOf('PDO');
@@ -28,7 +28,7 @@ class Database extends Suite
         $this
             ->given(
                 $sqlite   = $this->helper->sqlite(),
-                $database = new LUT($sqlite)
+                $database = new CUT($sqlite)
             )
             ->when($result = $database->getTemplateSchemaIterator())
             ->then

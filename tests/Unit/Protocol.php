@@ -2,7 +2,7 @@
 
 namespace Sabre\Katana\Test\Unit;
 
-use Sabre\Katana\Protocol as LUT;
+use Sabre\Katana\Protocol as CUT;
 
 /**
  * Test suite of the katana:// protocol.
@@ -17,7 +17,7 @@ class Protocol extends Suite
     {
         $this
             ->given($path = 'katana://application/public')
-            ->when($result = LUT::realPath($path))
+            ->when($result = CUT::realPath($path))
             ->then
                 ->string($result)
                     ->isEqualTo(
@@ -34,7 +34,7 @@ class Protocol extends Suite
     {
         $this
             ->given($path = 'katana://application/views')
-            ->when($result = LUT::realPath($path))
+            ->when($result = CUT::realPath($path))
             ->then
                 ->string($result)
                     ->isEqualTo(
@@ -51,7 +51,7 @@ class Protocol extends Suite
     {
         $this
             ->given($path = 'katana://data/')
-            ->when($result = LUT::realPath($path))
+            ->when($result = CUT::realPath($path))
             ->then
                 ->string($result)
                     ->isEqualTo(

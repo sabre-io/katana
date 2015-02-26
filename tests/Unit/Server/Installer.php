@@ -3,7 +3,7 @@
 namespace Sabre\Katana\Test\Unit\Server;
 
 use Sabre\Katana\Test\Unit\Suite;
-use Sabre\Katana\Server\Installer as LUT;
+use Sabre\Katana\Server\Installer as CUT;
 use Sabre\Katana\Configuration;
 use Sabre\HTTP;
 
@@ -29,7 +29,7 @@ class Installer extends Suite
     {
         $this
             ->given($this->function->file_exists = true)
-            ->when($result = LUT::isInstalled())
+            ->when($result = CUT::isInstalled())
             ->then
                 ->boolean($result)
                     ->isTrue();
@@ -39,7 +39,7 @@ class Installer extends Suite
     {
         $this
             ->given($this->function->file_exists = false)
-            ->when($result = LUT::isInstalled())
+            ->when($result = CUT::isInstalled())
             ->then
                 ->boolean($result)
                     ->isFalse();
@@ -57,7 +57,7 @@ class Installer extends Suite
                 ),
                 $response = new HTTP\Response()
             )
-            ->when($result = LUT::redirectToIndex($response, $configuration))
+            ->when($result = CUT::redirectToIndex($response, $configuration))
             ->then
                 ->variable($result)
                     ->isNull()
@@ -78,7 +78,7 @@ class Installer extends Suite
                 $request->setBaseUrl('/mybase/'),
                 $response = new HTTP\Response()
             )
-            ->when($result = LUT::redirectToInstall($response, $request))
+            ->when($result = CUT::redirectToInstall($response, $request))
             ->then
                 ->variable($result)
                     ->isNull()
@@ -98,7 +98,7 @@ class Installer extends Suite
             ->when(function() use($_baseUrl) {
                 foreach ($this->realdom->sampleMany($_baseUrl, 100) as $baseUrl) {
                     $this
-                        ->boolean($result = LUT::checkBaseUrl($baseUrl))
+                        ->boolean($result = CUT::checkBaseUrl($baseUrl))
                             ->isTrue();
                 }
             });
@@ -111,7 +111,7 @@ class Installer extends Suite
             ->when(function() use($_baseUrl) {
                 foreach ($this->realdom->sampleMany($_baseUrl, 100) as $baseUrl) {
                     $this
-                        ->boolean($result = LUT::checkBaseUrl($baseUrl))
+                        ->boolean($result = CUT::checkBaseUrl($baseUrl))
                             ->isFalse();
                 }
             });
@@ -125,7 +125,7 @@ class Installer extends Suite
                 foreach ($this->realdom->sampleMany($_password, 100) as $password) {
                     $this
                         ->given($passwords = $password . $password)
-                        ->boolean($result = LUT::checkPassword($passwords))
+                        ->boolean($result = CUT::checkPassword($passwords))
                             ->isTrue();
                 }
             });
@@ -135,13 +135,13 @@ class Installer extends Suite
     {
         $this
             ->given($password = '')
-            ->when($result = LUT::checkPassword($password . $password))
+            ->when($result = CUT::checkPassword($password . $password))
             ->then
                 ->boolean($result)
                     ->isFalse()
 
             ->given($password = null)
-            ->when($result = LUT::checkPassword($password . $password))
+            ->when($result = CUT::checkPassword($password . $password))
             ->then
                 ->boolean($result)
                     ->isFalse();
@@ -161,7 +161,7 @@ class Installer extends Suite
                 foreach ($passwords as $pair) {
                     list($password, $confirmed) = $pair;
                     $this
-                        ->given($result = LUT::checkPassword($password . $confirmed))
+                        ->given($result = CUT::checkPassword($password . $confirmed))
                         ->boolean($result)
                             ->isFalse();
                 }
@@ -179,7 +179,7 @@ class Installer extends Suite
             ->and
                 ->string(file_get_contents($filename))
                     ->isEmpty()
-            ->when($result = LUT::createConfigurationFile($filename, $content))
+            ->when($result = CUT::createConfigurationFile($filename, $content))
             ->then
                 ->object($result)
                     ->isInstanceOf('Sabre\Katana\Configuration')
@@ -214,7 +214,7 @@ class Installer extends Suite
                 $this->remove($content, 'baseUrl')
             )
             ->exception(function() use($filename, $content) {
-                LUT::createConfigurationFile($filename, $content);
+                CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
@@ -228,7 +228,7 @@ class Installer extends Suite
                 $content['baseUrl'] = 'a'
             )
             ->exception(function() use($filename, $content) {
-                LUT::createConfigurationFile($filename, $content);
+                CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
@@ -242,7 +242,7 @@ class Installer extends Suite
                 $this->remove($content, 'database')
             )
             ->exception(function() use($filename, $content) {
-                LUT::createConfigurationFile($filename, $content);
+                CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
@@ -256,7 +256,7 @@ class Installer extends Suite
                 $this->remove($content, 'database', 'type')
             )
             ->exception(function() use($filename, $content) {
-                LUT::createConfigurationFile($filename, $content);
+                CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
@@ -270,7 +270,7 @@ class Installer extends Suite
                 $content['database']['type'] = ''
             )
             ->exception(function() use($filename, $content) {
-                LUT::createConfigurationFile($filename, $content);
+                CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
@@ -284,7 +284,7 @@ class Installer extends Suite
                 $this->remove($content, 'database', 'username')
             )
             ->exception(function() use($filename, $content) {
-                LUT::createConfigurationFile($filename, $content);
+                CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
@@ -298,7 +298,7 @@ class Installer extends Suite
                 $this->remove($content, 'database', 'password')
             )
             ->exception(function() use($filename, $content) {
-                LUT::createConfigurationFile($filename, $content);
+                CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
@@ -314,7 +314,7 @@ class Installer extends Suite
                 $content['database']['name'] = 'bar'
             )
             ->exception(function() use($filename, $content) {
-                LUT::createConfigurationFile($filename, $content);
+                CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
@@ -331,7 +331,7 @@ class Installer extends Suite
                 $content['database']['name'] = 'bar'
             )
             ->exception(function() use($filename, $content) {
-                LUT::createConfigurationFile($filename, $content);
+                CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
@@ -347,7 +347,7 @@ class Installer extends Suite
                 $content['database']['name'] = 'bar'
             )
             ->exception(function() use($filename, $content) {
-                LUT::createConfigurationFile($filename, $content);
+                CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
@@ -364,7 +364,7 @@ class Installer extends Suite
                 $content['database']['name'] = 'bar'
             )
             ->exception(function() use($filename, $content) {
-                LUT::createConfigurationFile($filename, $content);
+                CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
@@ -380,7 +380,7 @@ class Installer extends Suite
                 $content['database']['port'] = '42'
             )
             ->exception(function() use($filename, $content) {
-                LUT::createConfigurationFile($filename, $content);
+                CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
@@ -397,7 +397,7 @@ class Installer extends Suite
                 $content['database']['name'] = ''
             )
             ->exception(function() use($filename, $content) {
-                LUT::createConfigurationFile($filename, $content);
+                CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
@@ -411,7 +411,7 @@ class Installer extends Suite
                 $content['database']['type'] = 'crazydb'
             )
             ->exception(function() use($filename, $content) {
-                LUT::createConfigurationFile($filename, $content);
+                CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
@@ -424,7 +424,7 @@ class Installer extends Suite
                 $content  = $this->_defaultConfiguration,
                 $content['database']['type'] = 'sqlite'
             )
-            ->when($result = LUT::createConfigurationFile($filename, $content))
+            ->when($result = CUT::createConfigurationFile($filename, $content))
             ->then
                 ->string($result->database->dsn)
                     ->matches('#^sqlite:katana://data/variable/database/katana_\d+\.sqlite#');
@@ -441,7 +441,7 @@ class Installer extends Suite
                 $content['database']['port'] = '42',
                 $content['database']['name'] = 'bar'
             )
-            ->when($result = LUT::createConfigurationFile($filename, $content))
+            ->when($result = CUT::createConfigurationFile($filename, $content))
             ->then
                 ->string($result->database->dsn)
                     ->isEqualTo('mysql:host=foo;port=42;dbname=bar');
@@ -464,7 +464,7 @@ class Installer extends Suite
                     )
                 )
             )
-            ->when($result = LUT::createDatabase($configuration))
+            ->when($result = CUT::createDatabase($configuration))
             ->then
                 ->object($result)
                     ->isInstanceOf('Sabre\Katana\Database');
@@ -511,7 +511,7 @@ class Installer extends Suite
                 )
             )
             ->exception(function() use($configuration) {
-                LUT::createDatabase($configuration);
+                CUT::createDatabase($configuration);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
