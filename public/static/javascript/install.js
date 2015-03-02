@@ -109,7 +109,7 @@
                     '?/install/' +
                     encodeURIComponent(
                         JSON.stringify({
-                            baseUrl : this.get('baseUrl'),
+                            baseurl : this.get('baseUrl'),
                             login   : this.get('login'),
                             email   : this.get('email'),
                             password: this.get('password'),
@@ -144,14 +144,12 @@
 
                         $('#progress .label').text(data.message);
 
-                        /*
                         setTimeout(
                             function() {
                                 window.location = '/';
                             },
                             5000
                         );
-                        */
                     }
                 );
             }
