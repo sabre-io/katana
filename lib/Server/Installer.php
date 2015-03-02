@@ -42,7 +42,7 @@ class Installer
     public static function redirectToIndex(Response $response, Configuration $configuration)
     {
         $response->setStatus(308);
-        $response->setHeader('Location', $configuration->base_uri);
+        $response->setHeader('Location', $configuration->base_url);
         $response->setBody(
             'The application is already installed. ' .
             'You are going to be redirected to the home.'
