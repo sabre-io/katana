@@ -14,6 +14,8 @@ use atoum;
  */
 class Suite extends atoum\test
 {
+    const defaultNamespace = '#\\\Test\\\Unit\\\#';
+
     public function __construct()
     {
         $self = $this;
