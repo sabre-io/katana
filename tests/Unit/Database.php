@@ -10,6 +10,8 @@ use Sabre\Katana\Database as CUT;
  * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
+ *
+ * @tags database
  */
 class Database extends Suite
 {

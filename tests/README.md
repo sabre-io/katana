@@ -52,3 +52,52 @@ Library Under Test— as aliases.
   * Tests are decorrelated from the SUT.
   * Mocking system uses the root namespace `\Mouck` and not `\Mock` in order to
     avoid conflicts with existing mock classes in the `Mock/` directory.
+
+### Tags
+
+Tags are attached to test suites or test cases in order to classify them in
+another way. Here is the list of the existing tags with their respective
+description:
+
+| Tags               | Description                              |
+|--------------------|------------------------------------------|
+| `configuration`    | About the configuration                  |
+| `database`         | About the database (whatever the driver) |
+| `sqlite`           | About the SQLite driver of the database  |
+| `mysql`            | About the MySQL driver of the database   |
+| `protocol`         | About the `katana://` protocol           |
+| `installation`     | About the installation                   |
+| `http`             | About code using HTTP                    |
+| `authentification` | About the authentification               |
+| `administration`   | About the administration                 |
+
+To run all the tests about the installation, we can use the following command
+line:
+
+```sh
+$ ../bin/atoum --filter '"installation" in tags'
+```
+
+To run all the tests about the installation and the SQLite driver:
+
+```sh
+$ ../bin/atoum --filter '"installation" in tags and "sqlite" in tags'
+```
+
+To run all the tests about the configuration, except tests about the
+installation:
+
+```sh
+$ ../bin/atoum --filter '"configuration" in tags and not("installation" in tags)'
+```
+
+**Tips**: The `--filter` option is more powerful, for instance to run all the
+test about the installation and the SQLite driver in the
+`Sabre\Katana\Test\Unit\Server\Installer` class:
+
+```sh
+$ ../bin/atoum --filter 'class = "Sabre\Katana\Test\Unit\Server\Installer" and "installation" in tags and "sqlite" in tags'
+```
+
+Note we used `and` to refine constraints, i.e. exclude some tests. We can use
+`or` to add more tests.

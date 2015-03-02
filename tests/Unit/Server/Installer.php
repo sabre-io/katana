@@ -14,6 +14,8 @@ use Sabre\HTTP;
  * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
+ *
+ * @tags installation
  */
 class Installer extends Suite
 {
@@ -46,6 +48,9 @@ class Installer extends Suite
                     ->isFalse();
     }
 
+    /**
+     * @tags installation http
+     */
     public function case_redirect_to_index()
     {
         $this
@@ -71,6 +76,9 @@ class Installer extends Suite
                     ->isNotEmpty();
     }
 
+    /**
+     * @tags installation http
+     */
     public function case_redirect_to_install()
     {
         $this
@@ -118,6 +126,9 @@ class Installer extends Suite
             });
     }
 
+    /**
+     * @tags installation authentification
+     */
     public function case_check_correct_login()
     {
         $this
@@ -128,6 +139,9 @@ class Installer extends Suite
                     ->isTrue();
     }
 
+    /**
+     * @tags installation authentification
+     */
     public function case_check_incorrect_login()
     {
         $this
@@ -138,6 +152,9 @@ class Installer extends Suite
                     ->isFalse();
     }
 
+    /**
+     * @tags installation authentification
+     */
     public function case_check_correct_password()
     {
         $this
@@ -152,6 +169,9 @@ class Installer extends Suite
             });
     }
 
+    /**
+     * @tags installation authentification
+     */
     public function case_check_incorrect_empty_password()
     {
         $this
@@ -168,6 +188,9 @@ class Installer extends Suite
                     ->isFalse();
     }
 
+    /**
+     * @tags installation authentification
+     */
     public function case_check_incorrect_unmatched_password()
     {
         $this
@@ -189,6 +212,9 @@ class Installer extends Suite
             });
     }
 
+    /**
+     * @tags installation authentification
+     */
     public function case_check_correct_email()
     {
         $this
@@ -203,6 +229,9 @@ class Installer extends Suite
             });
     }
 
+    /**
+     * @tags installation authentification
+     */
     public function case_check_incorrect_empty_email()
     {
         $this
@@ -219,6 +248,9 @@ class Installer extends Suite
                     ->isFalse();
     }
 
+    /**
+     * @tags installation authentification
+     */
     public function case_check_incorrect_unmatched_email()
     {
         $this
@@ -240,6 +272,9 @@ class Installer extends Suite
             });
     }
 
+    /**
+     * @tags installation configuration
+     */
     public function case_create_configuration_file()
     {
         $this
@@ -283,6 +318,9 @@ class Installer extends Suite
                     ->isEqualTo('bar');
     }
 
+    /**
+     * @tags installation configuration
+     */
     public function case_create_configuration_file_base_url_is_required()
     {
         $this
@@ -297,6 +335,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration
+     */
     public function case_create_configuration_file_base_url_is_not_well_formed()
     {
         $this
@@ -311,6 +352,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration database
+     */
     public function case_create_configuration_file_database_is_required()
     {
         $this
@@ -325,6 +369,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration database
+     */
     public function case_create_configuration_file_database_driver_is_required()
     {
         $this
@@ -339,6 +386,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration database
+     */
     public function case_create_configuration_file_database_driver_is_empty()
     {
         $this
@@ -353,6 +403,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration database
+     */
     public function case_create_configuration_file_database_username_is_required()
     {
         $this
@@ -367,6 +420,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration database
+     */
     public function case_create_configuration_file_database_password_is_required()
     {
         $this
@@ -381,6 +437,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration database mysql
+     */
     public function case_create_configuration_file_database_mysql_host_is_required()
     {
         $this
@@ -397,6 +456,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration database mysql
+     */
     public function case_create_configuration_file_database_mysql_empty_host()
     {
         $this
@@ -414,6 +476,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration database mysql
+     */
     public function case_create_configuration_file_database_mysql_port_is_required()
     {
         $this
@@ -430,6 +495,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration database mysql
+     */
     public function case_create_configuration_file_database_mysql_empty_port()
     {
         $this
@@ -447,6 +515,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration database mysql
+     */
     public function case_create_configuration_file_database_mysql_name_is_required()
     {
         $this
@@ -463,6 +534,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration database mysql
+     */
     public function case_create_configuration_file_database_mysql_empty_name()
     {
         $this
@@ -480,6 +554,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration database
+     */
     public function case_create_configuration_file_database_unknown_driver()
     {
         $this
@@ -494,6 +571,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration database sqlite
+     */
     public function case_create_configuration_file_database_sqlite_dsn()
     {
         $this
@@ -508,6 +588,9 @@ class Installer extends Suite
                     ->matches('#^sqlite:katana://data/variable/database/katana_\d+\.sqlite#');
     }
 
+    /**
+     * @tags installation configuration database mysql
+     */
     public function case_create_configuration_file_database_mysql_dsn()
     {
         $this
@@ -525,6 +608,9 @@ class Installer extends Suite
                     ->isEqualTo('mysql:host=foo;port=42;dbname=bar');
     }
 
+    /**
+     * @tags installation configuration database sqlite
+     */
     public function case_create_database()
     {
         $this
@@ -577,6 +663,9 @@ class Installer extends Suite
                     ]);
     }
 
+    /**
+     * @tags installation configuration database
+     */
     public function case_create_database_broken_configuration()
     {
         $this
@@ -594,6 +683,9 @@ class Installer extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
     }
 
+    /**
+     * @tags installation configuration database sqlite authentification administration
+     */
     public function case_create_administrator_profile()
     {
         $this
@@ -692,6 +784,9 @@ class Installer extends Suite
                     ->isEqualTo(md5($login . ':' . $realm . ':' . $password));
     }
 
+    /**
+     * @tags installation configuration database sqlite authentification administration
+     */
     public function case_create_administrator_profile_authentification_is_required()
     {
         $this
@@ -715,6 +810,9 @@ class Installer extends Suite
                 ->hasMessage('Configuration is corrupted, the authentification branch is missing.');
     }
 
+    /**
+     * @tags installation configuration database sqlite authentification administration
+     */
     public function case_create_administrator_profile_bad_login()
     {
         $this
@@ -742,6 +840,9 @@ class Installer extends Suite
                 ->hasMessage('Login is invalid.');
     }
 
+    /**
+     * @tags installation configuration database sqlite authentification administration
+     */
     public function case_create_administrator_profile_bad_email()
     {
         $this
@@ -769,6 +870,9 @@ class Installer extends Suite
                 ->hasMessage('Email is invalid.');
     }
 
+    /**
+     * @tags installation configuration database sqlite authentification administration
+     */
     public function case_create_administrator_profile_bad_password()
     {
         $this
