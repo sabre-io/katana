@@ -53,7 +53,7 @@ class Installer extends Suite
                 $configuration = new Configuration(
                     $this->helper->configuration(
                         'server.json',
-                        ['base_uri' => '/mybase/']
+                        ['base_url' => '/mybase/']
                     )
                 ),
                 $response = new HTTP\Response()
