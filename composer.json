@@ -26,7 +26,7 @@
         "source": "https://github.com/fruux/sabre-katana/"
     },
     "require-dev": {
-        "atoum/atoum"              : "~1.0",
+        "atoum/atoum"              : "~2.0",
         "atoum/praspel-extension"  : "~0.1",
         "squizlabs/php_codesniffer": "*"
     },
