@@ -7,7 +7,7 @@
     "require"    : {
         "php"            : ">=5.4.7",
         "sabre/dav"      : "~2.1",
-        "hoa/core"       : "~2.0",
+        "hoa/core"       : "~2.0@dev",
         "hoa/console"    : "~2.0",
         "hoa/dispatcher" : "~0.0",
         "hoa/eventsource": "~2.0@dev",
