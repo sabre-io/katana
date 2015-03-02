@@ -28,6 +28,7 @@
     "require-dev": {
         "atoum/atoum"              : "~2.0",
         "atoum/praspel-extension"  : "~0.1",
+        "atoum/ruler-extension"    : "~1.0, >=1.0.2",
         "squizlabs/php_codesniffer": "*"
     },
     "autoload": {
