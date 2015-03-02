@@ -5,11 +5,12 @@
 
         valid          : false,
         invalidBaseUrl : false,
-        invalidLogin   : false,
-        invalidPassword: false,
-        invalidEmail   : false,
+        invalidLogin   : null,
+        invalidPassword: null,
+        invalidEmail   : null,
         origin         : window.location.origin,
-        baseUrl        : function() {
+        baseUrl        : function()
+        {
             return window.location.pathname.replace(/\/+[^\/]*$/, '/');
         }.property(),
         login          : null,
@@ -17,11 +18,24 @@
         passwordBis    : null,
         email          : null,
         emailBis       : null,
-        databaseDriver : function() {
+        databaseDriver : function()
+        {
             return $('input[type="radio"][name="database_driver"]:checked')[0]
                    .getAttribute('value');
         }.property(),
         submitting     : false,
+
+        validate: function()
+        {
+            this.set(
+                'valid',
+                (false === this.get('invalidBaseUrl'))  &&
+                (false === this.get('invalidLogin'))    &&
+                (false === this.get('invalidPassword')) &&
+                (false === this.get('invalidEmail'))
+            );
+            return;
+        },
 
         validateBaseUrl: function()
         {
@@ -31,9 +45,10 @@
                 .done(function(verdict) {
 
                     self.set('invalidBaseUrl', false === verdict);
-                    self.set('valid', true === verdict);
+                    self.validate();
 
                     return;
+
                 });
 
             return;
@@ -48,7 +63,9 @@
                 .done(function(verdict) {
 
                     self.set('invalidLogin', false === verdict);
-                    self.set('valid', true === verdict);
+                    self.validate();
+
+                    return;
 
                 });
         }.observes('login'),
@@ -63,9 +80,10 @@
                 .done(function(verdict) {
 
                     self.set('invalidPassword', false === verdict);
-                    self.set('valid', true === verdict);
+                    self.validate();
 
                     return;
+
                 });
 
             return;
@@ -81,30 +99,19 @@
                 .done(function(verdict) {
 
                     self.set('invalidEmail', false === verdict);
-                    self.set('valid', true === verdict);
+                    self.validate();
 
                     return;
+
                 });
 
             return;
         }.observes('email', 'emailBis'),
 
-        validate: function()
-        {
-            this.set(
-                'valid',
-                (false === this.get('invalidBaseUrl')) &&
-                (false === this.get('invalidProfile'))
-            );
-            return;
-        }.observes('invalidBaseUrl', 'invalidProfile'),
-
         actions: {
             submit: function()
             {
                 this.set('submitting', true);
-                console.log(this.get('databaseDriver'));
-
                 var source = new EventSource(
                     '?/install/' +
                     encodeURIComponent(
@@ -128,7 +135,6 @@
                     'step',
                     function(evt) {
                         var data = JSON.parse(evt.data);
-                        console.log(data.message);
 
                         if (-1 === data.percent || 100 === data.percent) {
                             source.close();
