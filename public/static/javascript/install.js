@@ -155,7 +155,7 @@
                                 function() {
                                     window.location = '/';
                                 },
-                                5000
+                                3000
                             );
                         }
                     }
