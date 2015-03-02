@@ -29,7 +29,7 @@ class Database extends PDO
     public function __construct($dsn, $username = null, $password = null)
     {
         if ('sqlite:katana://' === substr($dsn, 0, 16)) {
-            $dsn = 'sqlite:' . Protocol::realPath(substr($dsn, 7));
+            $dsn = 'sqlite:' . Protocol::realPath(substr($dsn, 7), false);
         }
 
         if (empty($username)) {
