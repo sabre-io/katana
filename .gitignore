@@ -18,3 +18,7 @@ public/static/vendor/
 
 # Vim
 .*.swp
+
+# Katana
+data/etc/configuration/server.json
+data/variable/database/katana_*.sqlite
