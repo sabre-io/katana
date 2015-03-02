@@ -13,6 +13,15 @@ use Hoa\Console;
  */
 class Welcome extends AbstractCommand
 {
+    const LOGO = <<<LOGO
+ _  __     _
+| |/ /__ _| |_ __ _ _ __   __ _
+| ' // _` | __/ _` | '_ \ / _` |
+| . \ (_| | || (_| | | | | (_| |
+|_|\_\__,_|\__\__,_|_| |_|\__,_|
+
+LOGO;
+
     protected $options = [
         ['no-verbose', Console\GetOption::NO_ARGUMENT, 'V'],
         ['help',       Console\GetOption::NO_ARGUMENT, 'h'],
@@ -61,12 +70,7 @@ class Welcome extends AbstractCommand
         }
 
         Console\Cursor::colorize('foreground(yellow)');
-        echo
-            '  _  __     _', "\n",
-            ' | |/ /__ _| |_ __ _ _ __   __ _', "\n",
-            ' | \' // _` | __/ _` | \'_ \ / _` |', "\n",
-            ' | . \ (_| | || (_| | | | | (_| |', "\n",
-            ' |_|\_\__,_|\__\__,_|_| |_|\__,_|', "\n";
+        echo static::LOGO;
         Console\Cursor::colorize('normal');
 
         echo
