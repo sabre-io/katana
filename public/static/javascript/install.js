@@ -150,12 +150,14 @@
 
                         $('#progress .label').text(data.message);
 
-                        setTimeout(
-                            function() {
-                                window.location = '/';
-                            },
-                            5000
-                        );
+                        if (100 === data.percent) {
+                            setTimeout(
+                                function() {
+                                    window.location = '/';
+                                },
+                                5000
+                            );
+                        }
                     }
                 );
             }
