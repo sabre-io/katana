@@ -74,6 +74,10 @@ class MySQL
      */
     public function __destruct()
     {
+        if (empty($this->_databases)) {
+            return;
+        }
+
         $database = new Database(
             HELPER_MYSQL_DSN,
             HELPER_MYSQL_USERNAME,
