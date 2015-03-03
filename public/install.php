@@ -94,9 +94,12 @@ if (false !== $pos = strpos($url, '?')) {
                 $payload = json_decode($jsonPayload);
                 $source  = new Eventsource\Server();
                 $send    = function($data) use($source) {
+
                     $source->step->send(json_encode($data));
                     sleep(1);
+
                     return;
+
                 };
 
                 try {
@@ -159,7 +162,7 @@ if (false !== $pos = strpos($url, '?')) {
                         'message' => 'sabre/katana is ready!'
                     ]);
 
-                } catch(\Exception $e) {
+                } catch (\Exception $e) {
                     $send([
                         'percent' => -1,
                         'message' => 'An error occured: ' . $e->getMessage()
