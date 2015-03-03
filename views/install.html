@@ -55,6 +55,12 @@
             <p>The given email seems invalid or they do not match.</p>
           </div>
           {{/if}}
+          {{#if invalidDatabase}}
+          <div class="ui error message">
+            <div class="header">Database is invalid</div>
+            <p>The given database parameters seem invalid.</p>
+          </div>
+          {{/if}}
         </div>
         {{/unless}}
 
@@ -168,6 +174,78 @@
             </div>
           </div>
         </div>
+
+        {{#if showMySQLPannel}}
+        <div class="six wide column">
+          <label for="database_mysql_host">
+            <i class="database icon"></i>
+              Choose MySQL host:
+          </label>
+        </div>
+        <div class="ten wide column">
+          {{input type="text"
+                  id="database_mysql_host"
+                  name="database_mysql_host"
+                  required="true"
+                  value=databaseHost}}
+        </div>
+
+        <div class="six wide column">
+          <label for="database_mysql_port">
+            <i class="database icon"></i>
+              Choose MySQL port:
+          </label>
+        </div>
+        <div class="ten wide column">
+          {{input type="number"
+                  id="database_mysql_port"
+                  name="database_mysql_port"
+                  required="true"
+                  value=databasePort}}
+        </div>
+
+        <div class="six wide column">
+          <label for="database_mysql_name">
+            <i class="database icon"></i>
+              Choose MySQL database name:
+          </label>
+        </div>
+        <div class="ten wide column">
+          {{input type="text"
+                  id="database_mysql_name"
+                  name="database_mysql_name"
+                  required="true"
+                  value=databaseName}}
+        </div>
+
+        <div class="six wide column">
+          <label for="database_mysql_username">
+            <i class="database icon"></i>
+              Choose MySQL username:
+          </label>
+        </div>
+        <div class="ten wide column">
+          {{input type="text"
+                  id="database_mysql_username"
+                  name="database_mysql_username"
+                  required="true"
+                  value=databaseUsername}}
+        </div>
+
+        <div class="six wide column">
+          <label for="database_mysql_username">
+            <i class="database icon"></i>
+              Choose MySQL password:
+          </label>
+        </div>
+        <div class="ten wide column">
+          {{input type="password"
+                  id="database_mysql_password"
+                  name="database_mysql_password"
+                  required="true"
+                  value=databasePassword}}
+        </div>
+        {{/if}}
 
         <div class="right floated column">
           <input type="submit"

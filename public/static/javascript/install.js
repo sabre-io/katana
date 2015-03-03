@@ -13,27 +13,48 @@
         {
             return window.location.pathname.replace(/\/+[^\/]*$/, '/');
         }.property(),
-        login          : null,
-        password       : null,
-        passwordBis    : null,
-        email          : null,
-        emailBis       : null,
-        databaseDriver : function()
+        login           : '',
+        password        : '',
+        passwordBis     : '',
+        email           : '',
+        emailBis        : '',
+        databaseDriver  : 'sqlite',
+        databaseHost    : '',
+        databasePort    : 3306,
+        databaseName    : '',
+        databaseUsername: '',
+        databasePassword: '',
+        submitting      : false,
+
+        showMySQLPannel : false,
+
+        onDatabaseDriver: function()
         {
-            return $('input[type="radio"][name="database_driver"]:checked')[0]
-                   .getAttribute('value');
-        }.property(),
-        submitting     : false,
+            this.set('showMySQLPannel', 'mysql' === this.get('databaseDriver'));
+            this.validate();
+
+            return;
+        }.observes('databaseDriver'),
 
         validate: function()
         {
-            this.set(
-                'valid',
-                (false === this.get('invalidBaseUrl'))  &&
-                (false === this.get('invalidLogin'))    &&
-                (false === this.get('invalidPassword')) &&
-                (false === this.get('invalidEmail'))
-            );
+            var verdict = true;
+
+            verdict = verdict && (false === this.get('invalidBaseUrl'));
+            verdict = verdict && (false === this.get('invalidLogin'));
+            verdict = verdict && (false === this.get('invalidPassword'));
+            verdict = verdict && (false === this.get('invalidEmail'));
+
+            if ('mysql' === this.get('databaseDriver')) {
+                verdict = verdict && (false === this.get('invalidDatabase'));
+                verdict = verdict && (this.get('databaseHost'));
+                verdict = verdict && (this.get('databasePort'));
+                verdict = verdict && (this.get('databaseName'));
+                verdict = verdict && (this.get('databaseUsername'));
+            }
+
+            this.set('valid', verdict);
+
             return;
         },
 
@@ -57,7 +78,7 @@
         validateLogin: function()
         {
             var self  = this;
-            var login = encodeURIComponent(this.get('login') || '');
+            var login = encodeURIComponent(this.get('login'));
             $
                 .getJSON('?/login/' + login)
                 .done(function(verdict) {
@@ -73,8 +94,8 @@
         validatePassword: function()
         {
             var self        = this;
-            var password    = encodeURIComponent(this.get('password')    || '');
-            var passwordBis = encodeURIComponent(this.get('passwordBis') || '');
+            var password    = encodeURIComponent(this.get('password'));
+            var passwordBis = encodeURIComponent(this.get('passwordBis'));
             $
                 .getJSON('?/password/' + password + passwordBis)
                 .done(function(verdict) {
@@ -92,8 +113,8 @@
         validateEmail: function()
         {
             var self     = this;
-            var email    = encodeURIComponent(this.get('email')    || '');
-            var emailBis = encodeURIComponent(this.get('emailBis') || '');
+            var email    = encodeURIComponent(this.get('email'));
+            var emailBis = encodeURIComponent(this.get('emailBis'));
             $
                 .getJSON('?/email/' + email + emailBis)
                 .done(function(verdict) {
@@ -108,10 +129,45 @@
             return;
         }.observes('email', 'emailBis'),
 
+        validateDatabase: function()
+        {
+            var self = this;
+            $
+                .getJSON(
+                    '?/database/' +
+                    encodeURIComponent(
+                        JSON.stringify({
+                            driver  : this.get('databaseDriver'),
+                            host    : this.get('databaseHost'),
+                            port    : this.get('databasePort'),
+                            name    : this.get('databaseName'),
+                            username: this.get('databaseUsername'),
+                            password: this.get('databasePassword')
+                        })
+                    )
+                )
+                .done(function(verdict) {
+
+                    self.set('invalidDatabase', false === verdict);
+                    self.validate();
+
+                });
+        }.observes(
+            'databaseHost',
+            'databasePort',
+            'databaseName',
+            'databaseUsername',
+            'databasePassword'
+        ),
+
         actions: {
             submit: function()
             {
                 this.set('submitting', true);
+
+                var databaseDriver = this.get('databaseDriver');
+                var isMySQL        = 'mysql' === databaseDriver;
+
                 var source = new EventSource(
                     '?/install/' +
                     encodeURIComponent(
@@ -121,12 +177,12 @@
                             email   : this.get('email'),
                             password: this.get('password'),
                             database: {
-                                driver  : this.get('databaseDriver'),
-                                host    : '',
-                                port    : '',
-                                name    : '',
-                                username: '',
-                                password: ''
+                                driver  : databaseDriver,
+                                host    : isMySQL ? this.get('databaseHost')     : '',
+                                port    : isMySQL ? this.get('databasePort')     : '',
+                                name    : isMySQL ? this.get('databaseName')     : '',
+                                username: isMySQL ? this.get('databaseUsername') : '',
+                                password: isMySQL ? this.get('databasePassword') : ''
                             }
                         })
                     )
@@ -166,12 +222,25 @@
 
     Katana.ApplicationView = Ember.View.extend({
 
-        didInsertElement: function() {
+        didInsertElement: function()
+        {
             this._super();
+
+            var controller = this.get('controller');
+
             Ember.run.scheduleOnce('afterRender', this, function() {
                 $('.ui.radio.checkbox').checkbox();
                 $('#progress').progress();
             });
+
+            $('[name="database_driver"]').on(
+                'change',
+                function(evt) {
+                    controller.set('databaseDriver', evt.target.value);
+                }
+            );
+
+            return;
         }
 
     });

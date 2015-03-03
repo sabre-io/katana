@@ -88,6 +88,26 @@ if (false !== $pos = strpos($url, '?')) {
             }
         )
         ->get(
+            'database',
+            '/database/(?<jsonPayload>.+)',
+            function($jsonPayload) {
+                $payload = @json_decode($jsonPayload, true);
+                $out     = false;
+
+                if (is_array($payload)) {
+                    try {
+                        $out = Installer::checkDatabase($payload);
+                    } catch (\Exception $exception) {
+                        $out = false;
+                    }
+                }
+
+                echo json_encode($out);
+
+                return;
+            }
+        )
+        ->get(
             'install',
             '/install/(?<jsonPayload>.+)',
             function($jsonPayload) {
