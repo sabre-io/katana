@@ -12,11 +12,11 @@ use Sabre\Katana\Server\Installer as CUT;
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @tags installation configuration database sqlite authentification administration
+ * @tags installation configuration database sqlite mysql authentification administration
  */
 class Installer extends Suite
 {
-    public function case_full_installation()
+    public function case_full_installation_with_sqlite()
     {
         $this
             ->given(
@@ -35,6 +35,34 @@ class Installer extends Suite
                     ]
                 ]
             )
+            ->case_full_installation($payload);
+    }
+
+    public function case_full_installation_with_mysql()
+    {
+        $this
+            ->given(
+                $payload = (object) [
+                    'baseurl'  => '/katana/',
+                    'login'    => 'admin',
+                    'email'    => 'gordon@freeman.hl',
+                    'password' => '🔒 💩',
+                    'database' => (object) [
+                        'driver'   => 'mysql',
+                        'host'     => HELPER_MYSQL_HOST,
+                        'port'     => HELPER_MYSQL_PORT,
+                        'name'     => $this->helper->mysql(),
+                        'username' => HELPER_MYSQL_USERNAME,
+                        'password' => HELPER_MYSQL_PASSWORD
+                    ]
+                ]
+            )
+            ->case_full_installation($payload);
+    }
+
+    protected function case_full_installation($payload)
+    {
+        $this
             ->when(
                 $configuration = CUT::createConfigurationFile(
                     $this->helper->configuration('server.json'),
