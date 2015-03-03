@@ -147,6 +147,81 @@ class Installer
     }
 
     /**
+     * Check the database parameters are correct.
+     * The expected parameters are:
+     *     [
+     *         'driver'   => …,
+     *         'host'     => …,
+     *         'port'     => …,
+     *         'name'     => …,
+     *         'username' => …,
+     *         'password' => …
+     *     ]
+     *
+     * @param  array $parameters    Parameters.
+     * @return boolean
+     * @throw  Exception\Installation
+     */
+    public static function checkDatabase(array $parameters)
+    {
+        if (empty($parameters['driver']) ||
+            !isset($parameters['host']) ||
+            !isset($parameters['port']) ||
+            !isset($parameters['name']) ||
+            !isset($parameters['username']) ||
+            !isset($parameters['password'])) {
+            throw new Exception\Installation(
+                'Database parameters are corrupted. Expect a driver, a host, ' .
+                'a port, a name, a username and a password.'
+            );
+        }
+
+        if (false === in_array($parameters['driver'], Database::getAvailableDrivers())) {
+            throw new Exception\Installation(
+                sprintf(
+                    'Driver %s is not supported by the server.',
+                    $parameters['driver']
+                )
+            );
+        }
+
+        if ('sqlite' === $parameters['driver']) {
+            // Nothing.
+        } elseif ('mysql' === $parameters['driver']) {
+
+            $dsn = sprintf(
+                'mysql:host=%s;port=%d;dbname=%s',
+                $parameters['host'],
+                $parameters['port'],
+                $parameters['name']
+            );
+
+            try {
+
+                $database = new Database(
+                    $dsn,
+                    $parameters['username'],
+                    $parameters['password']
+                );
+
+            } catch (PDOException $exception) {
+                throw new Exception\Installation(
+                    'Cannot connect to the database.',
+                    0,
+                    $exception
+                );
+            }
+
+        } else {
+            throw new Exception\Installation(
+                sprintf('Unknown database %s.', $parameters['driver'])
+            );
+        }
+
+        return true;
+    }
+
+    /**
      * Create the configuration file.
      * The content must be of the form:
      *     [
@@ -265,7 +340,7 @@ class Installer
                 $configuration->database->username,
                 $configuration->database->password
             );
-        } catch(PDOException $exception) {
+        } catch (PDOException $exception) {
             throw new Exception\Installation(
                 'Cannot create the database.',
                 0,
@@ -283,7 +358,7 @@ class Installer
                 $templateSchema->close();
 
             }
-        } catch(PDOException $exception) {
+        } catch (PDOException $exception) {
             throw new Exception\Installation(
                 'An error occured while setting up the database.',
                 0,
@@ -366,7 +441,7 @@ class Installer
                 'digest'   => $digest
             ]);
 
-        } catch(PDOException $exception) {
+        } catch (PDOException $exception) {
             throw new Exception\Installation(
                 'An error occured while creating the administrator profile.',
                 0,

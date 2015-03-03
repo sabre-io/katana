@@ -273,6 +273,222 @@ class Installer extends Suite
     }
 
     /**
+     * @tags installation database
+     */
+    public function case_check_database_driver_is_empty()
+    {
+        $this
+            ->given(
+                $parameters = [
+                    'driver'   => '',
+                    'host'     => '',
+                    'port'     => '',
+                    'name'     => '',
+                    'username' => '',
+                    'password' => ''
+                ]
+            )
+            ->exception(function() use ($parameters) {
+                CUT::checkDatabase($parameters);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    /**
+     * @tags installation database
+     */
+    public function case_check_database_host_is_required()
+    {
+        $this
+            ->given(
+                $parameters = [
+                    'driver'   => '',
+                    'port'     => '',
+                    'name'     => '',
+                    'username' => '',
+                    'password' => ''
+                ]
+            )
+            ->exception(function() use ($parameters) {
+                CUT::checkDatabase($parameters);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    /**
+     * @tags installation database
+     */
+    public function case_check_database_port_is_required()
+    {
+        $this
+            ->given(
+                $parameters = [
+                    'driver'   => '',
+                    'host'     => '',
+                    'name'     => '',
+                    'username' => '',
+                    'password' => ''
+                ]
+            )
+            ->exception(function() use ($parameters) {
+                CUT::checkDatabase($parameters);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    /**
+     * @tags installation database
+     */
+    public function case_check_database_name_is_required()
+    {
+        $this
+            ->given(
+                $parameters = [
+                    'driver'   => '',
+                    'host'     => '',
+                    'port'     => '',
+                    'username' => '',
+                    'password' => ''
+                ]
+            )
+            ->exception(function() use ($parameters) {
+                CUT::checkDatabase($parameters);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    /**
+     * @tags installation database
+     */
+    public function case_check_database_username_is_required()
+    {
+        $this
+            ->given(
+                $parameters = [
+                    'driver'   => '',
+                    'host'     => '',
+                    'port'     => '',
+                    'name'     => '',
+                    'password' => ''
+                ]
+            )
+            ->exception(function() use ($parameters) {
+                CUT::checkDatabase($parameters);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    /**
+     * @tags installation database
+     */
+    public function case_check_database_password_is_required()
+    {
+        $this
+            ->given(
+                $parameters = [
+                    'driver'   => '',
+                    'host'     => '',
+                    'port'     => '',
+                    'name'     => '',
+                    'username' => ''
+                ]
+            )
+            ->exception(function() use ($parameters) {
+                CUT::checkDatabase($parameters);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    /**
+     * @tags installation database
+     */
+    public function case_check_database_unavailable_driver()
+    {
+        $this
+            ->given(
+                $parameters = [
+                    'driver'   => 'katana',
+                    'host'     => '',
+                    'port'     => '',
+                    'name'     => '',
+                    'username' => '',
+                    'password' => ''
+                ]
+            )
+            ->exception(function() use ($parameters) {
+                CUT::checkDatabase($parameters);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation')
+                ->hasMessage('Driver katana is not supported by the server.');
+    }
+
+    /**
+     * @tags installation database sqlite
+     */
+    public function case_check_database_sqlite()
+    {
+        $this
+            ->given(
+                $parameters = [
+                    'driver'   => 'sqlite',
+                    'host'     => '',
+                    'port'     => '',
+                    'name'     => '',
+                    'username' => '',
+                    'password' => ''
+                ]
+            )
+            ->when($result = CUT::checkDatabase($parameters))
+            ->then
+                ->boolean($result)
+                    ->isTrue();
+    }
+
+    /**
+     * @tags installation database mysql
+     */
+    public function case_check_database_mysql_bad_parameters()
+    {
+        $this
+            ->given(
+                $parameters = [
+                    'driver'   => 'mysql',
+                    'host'     => 'foo.katana',
+                    'port'     => '1',
+                    'name'     => 'bar',
+                    'username' => 'gordon',
+                    'password' => '🔒 🔒 🔒'
+                ]
+            )
+            ->exception(function() use($parameters) {
+                CUT::checkDatabase($parameters);
+            })
+                ->isInstanceOf('Sabre\Katana\Exception\Installation');
+    }
+
+    /**
+     * @tags installation database mysql
+     */
+    public function case_check_database_mysql()
+    {
+        $this
+            ->given(
+                $parameters = [
+                    'driver'   => 'mysql',
+                    'host'     => HELPER_MYSQL_HOST,
+                    'port'     => HELPER_MYSQL_PORT,
+                    'name'     => $this->helper->mysql(),
+                    'username' => HELPER_MYSQL_USERNAME,
+                    'password' => HELPER_MYSQL_PASSWORD
+                ]
+            )
+            ->when($result = CUT::checkDatabase($parameters))
+            ->then
+                ->boolean($result)
+                    ->isTrue();
+    }
+
+    /**
      * @tags installation configuration
      */
     public function case_create_configuration_file()
