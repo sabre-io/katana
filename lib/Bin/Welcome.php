@@ -23,6 +23,7 @@ class Welcome extends AbstractCommand
 LOGO;
 
     protected $options = [
+        ['prefix',     Console\GetOption::NO_ARGUMENT, 'p'],
         ['no-verbose', Console\GetOption::NO_ARGUMENT, 'V'],
         ['help',       Console\GetOption::NO_ARGUMENT, 'h'],
         ['help',       Console\GetOption::NO_ARGUMENT, '?']
@@ -40,10 +41,16 @@ LOGO;
      */
     public function main()
     {
+        $prefix  = dirname(dirname(__DIR__));
         $verbose = Console::isDirect(STDOUT);
 
         while (false !== $c = $this->getOption($v)) {
             switch ($c) {
+
+                case 'p':
+                    echo $prefix;
+                    return 0;
+                    break;
 
                 case 'V':
                     $verbose = !$v;
@@ -98,6 +105,7 @@ LOGO;
             'Usage  : welcome <options>', "\n",
             'Options:', "\n",
             $this->makeUsageOptionsList([
+                'p'    => 'Print the prefix, i.e. root of the application.',
                 'V'    => 'Be as less verbose as possible.',
                 'help' => 'This help.'
             ]);
