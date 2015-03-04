@@ -18,6 +18,10 @@
         "hoa/router"     : "~2.0",
         "hoa/string"     : "~2.0"
     },
+    "suggest": {
+        "ext-pdo_sqlite": "If you decide to use SQLite.",
+        "ext-pdo_mysql" : "If you decide to use MySQL."
+    },
     "authors": [
         {
             "name": "fruux"
