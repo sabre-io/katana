@@ -827,7 +827,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database sqlite
      */
-    public function case_create_database()
+    public function case_create_sqlite_database()
     {
         $this
             ->given(
@@ -856,6 +856,60 @@ class Installer extends Suite
                     'FROM sqlite_master ' .
                     'WHERE type="table" ' .
                     'ORDER BY name ASC',
+                    $result::FETCH_COLUMN,
+                    0
+                )
+            )
+            ->then
+                ->array(iterator_to_array($result))
+                    ->isEqualTo([
+                        'addressbookchanges',
+                        'addressbooks',
+                        'calendarchanges',
+                        'calendarobjects',
+                        'calendars',
+                        'calendarsubscriptions',
+                        'cards',
+                        'groupmembers',
+                        'locks',
+                        'principals',
+                        'propertystorage',
+                        'schedulingobjects',
+                        'users'
+                    ]);
+    }
+
+    /**
+     * @tags installation configuration database mysql
+     */
+    public function case_create_mysql_database()
+    {
+        $this
+            ->given(
+                $databaseName  = $this->helper->mysql(),
+                $dsn           = HELPER_MYSQL_DSN . ';dbname=' . $databaseName,
+                $configuration = new Configuration(
+                    $this->helper->configuration(
+                        'configuration.json',
+                        [
+                            'database' => [
+                                'dsn'      => $dsn,
+                                'username' => HELPER_MYSQL_USERNAME,
+                                'password' => HELPER_MYSQL_PASSWORD
+                            ]
+                        ]
+                    )
+                )
+            )
+            ->when($result = CUT::createDatabase($configuration))
+            ->then
+                ->object($result)
+                    ->isInstanceOf('Sabre\Katana\Database');
+
+        $this
+            ->when(
+                $result = $result->query(
+                    'SHOW TABLES',
                     $result::FETCH_COLUMN,
                     0
                 )
