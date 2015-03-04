@@ -2,6 +2,8 @@
 
 namespace Sabre\Katana\Exception;
 
+use Hoa\Core;
+
 /**
  * Mother exception of this project.
  *
@@ -9,6 +11,6 @@ namespace Sabre\Katana\Exception;
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
  */
-class Exception extends \Exception
+class Exception extends Core\Exception
 {
 }

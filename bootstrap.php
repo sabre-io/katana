@@ -14,6 +14,7 @@ if (defined('SABRE_KATANA')) {
 
 use Sabre\Katana;
 use Hoa\Core;
+use Hoa\File;
 
 /**
  * Load the autoloader.
@@ -57,3 +58,46 @@ date_default_timezone_set('UTC');
  * sabre/katana is now defined and set up, let the world knows that.
  */
 define('SABRE_KATANA', true);
+
+/**
+ * Define the prefix.
+ */
+define('SABRE_KATANA_PREFIX', __DIR__);
+
+/**
+ * Handle exceptions and errors.
+ */
+Core\Core::enableExceptionHandler(true);
+Core\Core::enableErrorHandler(true);
+
+/**
+ * Log all exceptions.
+ */
+event('hoa://Event/Exception')->attach(
+    function(Core\Event\Bucket $bucket) {
+        $exception = $bucket->getData();
+        $filename  = date('Ymd') . '.exceptions.log';
+        $file      = new File\Write('katana://data/variable/log/' . $filename);
+
+        $exceptionFile = $exception->getFile();
+        $prefixLength  = strlen(SABRE_KATANA_PREFIX);
+
+        if (SABRE_KATANA_PREFIX === substr($exceptionFile, 0, $prefixLength)) {
+            $exceptionFile = substr($exceptionFile, $prefixLength + 1);
+        }
+
+        $file->writeAll(
+            sprintf(
+                '[%s] "%s" %s:%d' . "\n",
+                date('c'),
+                $exception->getMessage(),
+                $exceptionFile,
+                $exception->getLine()
+            )
+        );
+
+        $file->close();
+
+        return;
+    }
+);
