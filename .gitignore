@@ -22,3 +22,4 @@ public/static/vendor/
 # Katana
 data/etc/configuration/server.json
 data/variable/database/katana_*.sqlite
+data/variable/log/*.log
