@@ -6,6 +6,8 @@
     "license"    : "BSD-3-Clause",
     "require"    : {
         "php"            : ">=5.4.7",
+        "ext-spl"        : "*",
+        "ext-pdo"        : "~1.0",
         "sabre/dav"      : "~2.1",
         "hoa/core"       : "~2.0@dev",
         "hoa/console"    : "~2.0",
