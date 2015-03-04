@@ -122,7 +122,6 @@ class Install extends AbstractCommand
 
             Cursor::move('↑', $numberOfSteps);
             Cursor::move('→', $labelMaxWidth);
-            Cursor::colorize('foreground(black) background(#cccccc)');
 
             // Disable arrow up and down.
             $_no_echo = function($readline) {
@@ -133,6 +132,8 @@ class Install extends AbstractCommand
 
             $step = function($index, $label, Callable $validator, $errorMessage, $default = '')
                     use($numberOfSteps, &$readline, $resetInput, $labelMaxWidth) {
+
+                Cursor::colorize('foreground(black) background(#cccccc)');
 
                 do {
 
@@ -178,6 +179,8 @@ class Install extends AbstractCommand
                 if ($numberOfSteps !== $index + 1) {
                     Cursor::move('→', $labelMaxWidth);
                 }
+
+                Cursor::colorize('normal');
 
                 return $out;
 
@@ -315,8 +318,6 @@ class Install extends AbstractCommand
 
         if (true === $verbose) {
 
-            Cursor::colorize('normal');
-
             $radioReadline  = new Console\Readline\Password();
             $radioReadline->addMapping(
                 '\e[D',
@@ -358,8 +359,28 @@ class Install extends AbstractCommand
             Cursor::show();
             unset($databaseDriver);
 
+            if ('mysql' === $form['database']['driver']) {
+
+                echo
+                    'Choose MySQL host:                 ', $input(), "\n",
+                    'Choose MySQL port:                 ', $input('3306'), "\n",
+                    'Choose MySQL database name:        ', $input(), "\n",
+                    'Choose MySQL username:             ', $input(), "\n",
+                    'Choose MySQL password:             ', $input(), "\n";
+
+                Window::scroll('↑', 10);
+                Cursor::move('↑', 10);
+
+                $numberOfSteps = 5;
+
+                Cursor::move('↑', $numberOfSteps);
+                Cursor::move('→', $labelMaxWidth);
+                Cursor::colorize('foreground(black) background(#cccccc)');
+
+            }
+
         } else {
-            $step(
+            $form['database']['driver'] = $step(
                 4,
                 'Choose the database driver (sqlite or mysql)',
                 function($databaseDriver) {
@@ -370,6 +391,61 @@ class Install extends AbstractCommand
                 'sqlite'
             );
         }
+
+        if ('mysql' === $form['database']['driver']) {
+
+            $form['database']['host'] = $step(
+                0,
+                'Choose MySQL host',
+                function() {
+                    return true;
+                },
+                ''
+            );
+
+            $form['database']['port'] = $step(
+                1,
+                'Choose MySQL port',
+                function($port) {
+                    return false !== filter_var($port, FILTER_VALIDATE_INT);
+                },
+                'Port is invalid' . "\n" .
+                'Port must be an integer.',
+                '3306'
+            );
+
+            $form['database']['name'] = $step(
+                2,
+                'Choose MySQL database name',
+                function() {
+                    return true;
+                },
+                ''
+            );
+
+            $form['database']['username'] = $step(
+                3,
+                'Choose MySQL username',
+                function() {
+                    return true;
+                },
+                ''
+            );
+
+            $oldReadline = $readline;
+            $readline    = new Console\Readline\Password();
+            $form['database']['password'] = $step(
+                4,
+                'Choose MySQL password',
+                function() {
+                    return true;
+                },
+                ''
+            );
+            $readline = $oldReadline;
+
+        }
+
 
         $readline->readLine(
             "\n" . 'Ready to install? (Enter to continue, Ctrl-C to abort)'
