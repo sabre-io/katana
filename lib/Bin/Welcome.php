@@ -41,7 +41,7 @@ LOGO;
      */
     public function main()
     {
-        $prefix  = dirname(dirname(__DIR__));
+        $prefix  = SABRE_KATANA_PREFIX;
         $verbose = Console::isDirect(STDOUT);
 
         while (false !== $c = $this->getOption($v)) {
