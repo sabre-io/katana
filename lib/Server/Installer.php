@@ -353,8 +353,19 @@ class Installer
         try {
             foreach ($templateSchemaIterator as $templateSchema) {
 
-                $schema = $templateSchema->open()->readAll();
-                $database->exec($schema);
+                $schema  = $templateSchema->open()->readAll();
+                $verdict = $database->exec($schema);
+
+                if (false === $verdict) {
+                    throw new PDOException(
+                        sprintf(
+                            'Unable to execute the following schema:' . "\n" .
+                            '%s',
+                            $schema
+                        )
+                    );
+                }
+
                 $templateSchema->close();
 
             }
