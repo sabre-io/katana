@@ -22,7 +22,8 @@ use Hoa\File;
 
 $autoloadFile =
     __DIR__ . DIRECTORY_SEPARATOR .
-   'vendor' . DIRECTORY_SEPARATOR .
+   'data' . DIRECTORY_SEPARATOR .
+   'lib' . DIRECTORY_SEPARATOR .
    'autoload.php';
 
 if (false === file_exists($autoloadFile)) {

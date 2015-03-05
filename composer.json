@@ -43,7 +43,8 @@
         }
     },
     "bin": ["bin/katana"],
-    "config" : {
-        "bin-dir" : "bin/"
+    "config": {
+        "bin-dir"   : "bin/",
+        "vendor-dir": "data/lib/"
     }
 }
