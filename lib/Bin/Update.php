@@ -112,15 +112,18 @@ class Update extends AbstractCommand
 
         if (0 !== (static::OPERATION_FETCH & $operation)) {
 
-            $versions = file_get_contents(
-                $updateServer . 'updates.json' .
-                '?version=' . SABRE_KATANA_VERSION
-            );
+            $updatesDotJson = $updateServer . 'updates.json' .
+                              '?version=' . SABRE_KATANA_VERSION;
+
+            $versions = @file_get_contents($updatesDotJson);
 
             if (empty($versions)) {
                 throw new Exception\Console(
                     'Oh no! We are not able to check if a new version exists… ' .
-                    'Contact us at http://sabre.io/.'
+                    'Contact us at http://sabre.io/ ' .
+                    '(tried URL %s).',
+                    0,
+                    $updatesDotJson
                 );
             }
 
