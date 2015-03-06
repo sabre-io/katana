@@ -65,6 +65,11 @@ date_default_timezone_set('UTC');
 define('SABRE_KATANA', true);
 
 /**
+ * Current version.
+ */
+define('SABRE_KATANA_VERSION', '0.1.0');
+
+/**
  * Define the prefix.
  */
 define('SABRE_KATANA_PREFIX', __DIR__);
