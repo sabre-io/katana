@@ -24,6 +24,7 @@ LOGO;
 
     protected $options = [
         ['prefix',     Console\GetOption::NO_ARGUMENT, 'p'],
+        ['version',    Console\GetOption::NO_ARGUMENT, 'v'],
         ['no-verbose', Console\GetOption::NO_ARGUMENT, 'V'],
         ['help',       Console\GetOption::NO_ARGUMENT, 'h'],
         ['help',       Console\GetOption::NO_ARGUMENT, '?']
@@ -50,7 +51,12 @@ LOGO;
             switch ($c) {
 
                 case 'p':
-                    echo $prefix;
+                    echo $prefix, "\n";
+                    return 0;
+                    break;
+
+                case 'v':
+                    echo SABRE_KATANA_VERSION, "\n";
                     return 0;
                     break;
 
@@ -108,6 +114,7 @@ LOGO;
             'Options:', "\n",
             $this->makeUsageOptionsList([
                 'p'    => 'Print the prefix, i.e. root of the application.',
+                'v'    => 'Print the current version.',
                 'V'    => 'Be as less verbose as possible.',
                 'help' => 'This help.'
             ]);
