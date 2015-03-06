@@ -7,7 +7,7 @@ use Sabre\Katana\Database;
 use Sabre\Katana\Exception;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
-use Hoa\Core\Core;
+use Hoa\Core;
 use Hoa\String\String;
 use StdClass;
 use PDOException;
