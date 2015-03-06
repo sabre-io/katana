@@ -4,6 +4,7 @@ namespace Sabre\Katana\Bin;
 
 use Sabre\Katana\Exception;
 use Sabre\Katana\Protocol;
+use Sabre\Uri;
 use Hoa\Core;
 use Hoa\Console;
 use Hoa\Console\Cursor;
@@ -24,35 +25,43 @@ class Update extends AbstractCommand
      *
      * @const int
      */
-    const OPERATION_FETCH = 1;
+    const OPERATION_FETCH       = 1;
 
     /**
      * Operation: apply.
      *
      * @const int
      */
-    const OPERATION_APPLY = 2;
+    const OPERATION_APPLY       = 2;
 
     /**
      * Format: PHAR.
      *
      * @const int
      */
-    const FORMAT_PHAR     = 4;
+    const FORMAT_PHAR           = 4;
 
     /**
      * Format: ZIP.
      *
      * @const int
      */
-    const FORMAT_ZIP      = 8;
+    const FORMAT_ZIP            = 8;
+
+    /**
+     * Default update server URL.
+     *
+     * @const string
+     */
+    const DEFAULT_UPDATE_SERVER = 'http://sabre.io/katana/update-server/';
 
     protected $options = [
-        ['fetch',     Console\GetOption::NO_ARGUMENT,       'f'],
-        ['fetch-zip', Console\GetOption::NO_ARGUMENT,       'z'],
-        ['apply',     Console\GetOption::REQUIRED_ARGUMENT, 'a'],
-        ['help',      Console\GetOption::NO_ARGUMENT,       'h'],
-        ['help',      Console\GetOption::NO_ARGUMENT,       '?']
+        ['fetch',         Console\GetOption::NO_ARGUMENT,       'f'],
+        ['fetch-zip',     Console\GetOption::NO_ARGUMENT,       'z'],
+        ['apply',         Console\GetOption::REQUIRED_ARGUMENT, 'a'],
+        ['update-server', Console\GetOption::REQUIRED_ARGUMENT, 's'],
+        ['help',          Console\GetOption::NO_ARGUMENT,       'h'],
+        ['help',          Console\GetOption::NO_ARGUMENT,       '?']
     ];
 
     /**
@@ -62,8 +71,9 @@ class Update extends AbstractCommand
      */
     public function main()
     {
-        $operation = 0;
-        $location  = null;
+        $operation    = 0;
+        $location     = null;
+        $updateServer = static::DEFAULT_UPDATE_SERVER;
 
         while (false !== $c = $this->getOption($v)) {
             switch ($c) {
@@ -85,6 +95,10 @@ class Update extends AbstractCommand
                     $location  = $v;
                     break;
 
+                case 's':
+                    $updateServer = $v;
+                    break;
+
                 case 'h':
                 case '?':
                 default:
@@ -94,7 +108,50 @@ class Update extends AbstractCommand
             }
         }
 
+        $updateServer = rtrim($updateServer, '/') . '/';
+
         if (0 !== (static::OPERATION_FETCH & $operation)) {
+
+            $versions = file_get_contents(
+                $updateServer . 'updates.json' .
+                '?version=' . SABRE_KATANA_VERSION
+            );
+
+            if (empty($versions)) {
+                throw new Exception\Console(
+                    'Oh no! We are not able to check if a new version exists… ' .
+                    'Contact us at http://sabre.io/.'
+                );
+            }
+
+            $versions = json_decode($versions, true);
+
+            /**
+             * Expected format:
+             *     {
+             *         "1.0.1": {
+             *             "phar": "https://…",
+             *             "zip" : "https://…"
+             *         },
+             *         "1.0.0": {
+             *             "phar": "https://…",
+             *             "zip" : "https://…"
+             *         },
+             *         …
+             *     }
+             */
+
+            $versionsToFetch = [];
+
+            foreach ($versions as $version => $urls) {
+                if (-1 === version_compare(SABRE_KATANA_VERSION, $version)) {
+                    if (0 !== (static::FORMAT_PHAR & $operation)) {
+                        $versionsToFetch[$version] = $urls['phar'];
+                    } else {
+                        $versionsToFetch[$version] = $urls['zip'];
+                    }
+                }
+            }
 
             $windowWidth = Window::getSize()['x'];
             $progress    = function($percent) use($windowWidth) {
@@ -124,60 +181,71 @@ class Update extends AbstractCommand
 
             };
 
-            $fileIn = new File\Read(
-                'http://127.0.0.1:8888/katana.phar',
-                File::MODE_READ,
-                null,
-                true
-            );
-            $fileOut = new File\Write(
-                'katana://data/share/updates/katana.phar'
-            );
+            foreach ($versionsToFetch as $versionNumber => $versionUrl) {
 
-            echo 'Waiting…', "\n";
+                list(, $versionUrlBasename) = Uri\split($versionUrl);
 
-            $fileIn->on(
-                'connect',
-                function() {
+                $fileIn = new File\Read(
+                    $versionUrl,
+                    File::MODE_READ,
+                    null,
+                    true
+                );
 
-                    Cursor::clear('↔');
-                    echo 'Downloading… ';
-                    return;
+                $fileOut = new File\Write(
+                    'katana://data/share/update/' . $versionUrlBasename
+                );
 
-                }
-            );
-            $fileIn->on(
-                'progress',
-                function(Core\Event\Bucket $bucket)
-                use($progress) {
+                echo
+                    "\n",
+                    'Fetch version ', $versionNumber,
+                    ' from ', $versionUrl, "\n",
+                    'Waiting…', "\n";
 
-                    static $previousPercent = 0;
+                $fileIn->on(
+                    'connect',
+                    function() {
 
-                    $data    = $bucket->getData();
-                    $current = $data['transferred'];
-                    $max     = $data['max'];
+                        Cursor::clear('↔');
+                        echo 'Downloading… ';
+                        return;
 
-                    $percent = ($current * 100) / $max;
-                    $delta   = $percent - $previousPercent;
-
-                    if (1 <= $delta) {
-                        $previousPercent = $percent;
-                        $progress($percent);
                     }
+                );
+                $fileIn->on(
+                    'progress',
+                    function(Core\Event\Bucket $bucket)
+                    use($progress) {
 
-                    return;
+                        static $previousPercent = 0;
 
-                }
-            );
-            $fileIn->open();
-            $fileOut->writeAll($fileIn->readAll());
+                        $data    = $bucket->getData();
+                        $current = $data['transferred'];
+                        $max     = $data['max'];
 
-            echo
-                "\n",
-                'Fetched at ',
-                Protocol::realPath($fileOut->getStreamName()),
-                '.',
-                "\n";
+                        $percent = ($current * 100) / $max;
+                        $delta   = $percent - $previousPercent;
+
+                        if (1 <= $delta) {
+                            $previousPercent = $percent;
+                            $progress($percent);
+                        }
+
+                        return;
+
+                    }
+                );
+                $fileIn->open();
+                $fileOut->writeAll($fileIn->readAll());
+
+                echo
+                    "\n",
+                    'Fetched at ',
+                    Protocol::realPath($fileOut->getStreamName()),
+                    '.',
+                    "\n";
+
+            }
 
             return 0;
 
@@ -215,6 +283,8 @@ class Update extends AbstractCommand
 
             return $processus->getExitCode();
 
+        } else {
+            return $this->usage();
         }
 
         return;
@@ -234,6 +304,8 @@ class Update extends AbstractCommand
                 'f'    => 'Fetch the new updates as PHAR archives.',
                 'z'    => 'Fetch the new updates as ZIP archives.',
                 'a'    => 'Apply one or many new updates.',
+                's'    => 'URL of the update server ' .
+                          '(default: ' . static::DEFAULT_UPDATE_SERVER . ').',
                 'help' => 'This help.'
             ]);
     }

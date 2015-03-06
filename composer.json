@@ -10,6 +10,7 @@
         "ext-pdo"        : "~1.0",
         "ext-phar"       : "~2.0, >=2.0.2",
         "sabre/dav"      : "~2.1",
+        "sabre/uri"      : "~1.0",
         "hoa/core"       : "~2.0@dev",
         "hoa/console"    : "~2.0",
         "hoa/dispatcher" : "~0.0",
