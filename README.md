@@ -5,21 +5,24 @@ sabre/katana is a CalDAV, CardDAV and WebDAV ready-to-use server on top of
 
 ## Install
 
-If you get sabre/katana through an archive, jump directly to the sub-sections.
+If you get sabre/katana through an archive, skip the pre-requisites.
 
-Be ensured you have [Composer][1] installed, and then run:
+### Pre-requisites
+
+To grab dependencies of the project, be ensured you have [Composer][1]
+installed, and then run:
 
 ```sh
 $ composer install
 ```
 
-Be ensured you have [Bower][5] installed, and then run:
+Also, be ensured you have [Bower][5] installed, and then run:
 
 ```sh
 $ bower install
 ```
 
-To install sabre/katana, you have two interfaces.
+Then, to install sabre/katana, you have two interfaces.
 
 ### In your browser
 
