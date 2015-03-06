@@ -102,7 +102,9 @@ class Stub extends AbstractCommand
 
             if (false === Phar::canWrite()) {
                 throw new Exception\Console(
-                    'Cannot create the PHAR.'
+                    'Cannot create the PHAR. ' .
+                    'Retry with `php -dphar.readonly=0 ' .
+                    $_SERVER['argv'][0] . 'stub --phar'
                 );
             }
 
