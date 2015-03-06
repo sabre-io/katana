@@ -166,7 +166,7 @@ $phar         = new Phar(
     Phar::KEY_AS_FILENAME |
     Phar::CURRENT_AS_FILEINFO
 );
-$parser = new Hoa\Console\Parser();
+$parser = new Console\Parser();
 $parser->parse(Router\Cli::getURI());
 $options = new Console\GetOption(
     [
