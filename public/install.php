@@ -201,5 +201,5 @@ if (false !== $pos = strpos($url, '?')) {
     $dispatcher->dispatch($router);
 
 } else {
-    echo file_get_contents('katana://application/views/install.html');
+    echo file_get_contents('katana://views/install.html');
 }

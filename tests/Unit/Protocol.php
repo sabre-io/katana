@@ -18,7 +18,7 @@ class Protocol extends Suite
     public function case_application_public()
     {
         $this
-            ->given($path = 'katana://application/public')
+            ->given($path = 'katana://public/')
             ->when($result = CUT::realPath($path))
             ->then
                 ->string($result)
@@ -35,7 +35,7 @@ class Protocol extends Suite
     public function case_application_views()
     {
         $this
-            ->given($path = 'katana://application/views')
+            ->given($path = 'katana://views/')
             ->when($result = CUT::realPath($path))
             ->then
                 ->string($result)
