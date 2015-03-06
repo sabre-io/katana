@@ -104,7 +104,7 @@ class Stub extends AbstractCommand
                 throw new Exception\Console(
                     'Cannot create the PHAR. ' .
                     'Retry with `php -dphar.readonly=0 ' .
-                    $_SERVER['argv'][0] . 'stub --phar'
+                    $_SERVER['argv'][0] . ' stub --phar'
                 );
             }
 
