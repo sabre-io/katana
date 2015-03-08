@@ -28,7 +28,7 @@ class Protocol extends Suite
                             '..' . DS .
                             '..' . DS .
                             'public'
-                        )
+                        ) . DS
                     );
     }
 
@@ -45,7 +45,7 @@ class Protocol extends Suite
                             '..' . DS .
                             '..' . DS .
                             'views'
-                        )
+                        ) . DS
                     );
     }
 
