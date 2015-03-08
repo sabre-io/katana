@@ -14,3 +14,5 @@ $runner->addExtension(new Atoum\PraspelExtension\Manifest());
 $runner->addExtension(new mageekguy\atoum\ruler\extension($script));
 $runner->addTestsFromDirectory(__DIR__ . '/Unit/');
 $runner->addTestsFromDirectory(__DIR__ . '/Integration/');
+
+$runner->setPhpPath($runner->getPhpPath() . ' -d phar.readonly=0');
