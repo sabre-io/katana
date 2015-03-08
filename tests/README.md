@@ -72,6 +72,7 @@ description:
 | `administration`   | About the administration                 |
 | `stub`             | About the stub                           |
 | `phar`             | About the PHAR archive                   |
+| `zip`              | About the ZIP archive                    |
 
 To run all the tests about the installation, we can use the following command
 line:
