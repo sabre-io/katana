@@ -70,6 +70,8 @@ description:
 | `http`             | About code using HTTP                    |
 | `authentification` | About the authentification               |
 | `administration`   | About the administration                 |
+| `stub`             | About the stub                           |
+| `phar`             | About the PHAR archive                   |
 
 To run all the tests about the installation, we can use the following command
 line:
