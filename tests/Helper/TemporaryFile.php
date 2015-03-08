@@ -5,13 +5,13 @@ namespace Sabre\Katana\Test\Helper;
 use atoum\mock\streams\fs\file;
 
 /**
- * Helper to get the filename of a fresh SQLite database.
+ * Helper to get a temporary file.
  *
  * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
  */
-class Phar
+class TemporaryFile
 {
     /**
      * Run the helper.
@@ -19,8 +19,8 @@ class Phar
      * @param  string  $filename    Filename.
      * @return string
      */
-    public function __invoke($filename)
+    public function __invoke($filename = '')
     {
-        return sys_get_temp_dir() . DS . $filename;
+        return tempnam(sys_get_temp_dir(), 'katana') . $filename;
     }
 }

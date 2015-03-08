@@ -20,11 +20,7 @@ class Phar extends Suite
     {
         $this
             ->given(
-                $filename = $this->helper->phar(
-                    $this->sample(
-                        $this->realdom->regex('/\w+\.phar/')
-                    )
-                ),
+                $filename    = $this->helper->temporaryFile('.phar'),
                 $phar        = new CUT($filename),
                 $phar['foo'] = 'bar'
             )
@@ -37,15 +33,7 @@ class Phar extends Suite
     public function case_metadata()
     {
         $this
-            ->given(
-                $phar = new CUT(
-                    $this->helper->phar(
-                        $this->sample(
-                            $this->realdom->regex('/\w+\.phar/')
-                        )
-                    )
-                )
-            )
+            ->given($phar = new CUT($this->helper->temporaryFile('.phar')))
             ->when($result = $phar->getMetadata())
             ->then
                 ->array($result)
