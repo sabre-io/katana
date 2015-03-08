@@ -41,12 +41,12 @@ $autoloader = require_once $autoloadFile;
 Core::getInstance()->initialize([
     'root.application'     => __DIR__ . DS,
     'root.data'            => __DIR__ . DS . 'data' . DS,
-    'protocol.bin'         => '(:%root.application:)' . DS . 'bin' . DS,
+    'protocol.bin'         => '(:%root.application:)' . 'bin' . DS,
     'protocol.data'        => '(:%root.data:)',
-    'protocol.lib'         => '(:%root.application:)' . DS . 'lib' . DS,
-    'protocol.public'      => '(:%root.application:)' . DS . 'public' . DS,
-    'protocol.tests'       => '(:%root.application:)' . DS . 'tests' . DS,
-    'protocol.views'       => '(:%root.application:)' . DS . 'views' . DS
+    'protocol.lib'         => '(:%root.application:)' . 'lib' . DS,
+    'protocol.public'      => '(:%root.application:)' . 'public' . DS,
+    'protocol.tests'       => '(:%root.application:)' . 'tests' . DS,
+    'protocol.views'       => '(:%root.application:)' . 'views' . DS
 ]);
 
 /**
