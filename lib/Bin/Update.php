@@ -229,7 +229,7 @@ class Update extends AbstractCommand
             if (false === file_exists($location)) {
                 throw new Exception\Console(
                     'Update %s is not found.',
-                    0,
+                    1,
                     $location
                 );
             }

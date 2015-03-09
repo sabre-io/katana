@@ -40,7 +40,9 @@ class Configuration
     {
         if (false === file_exists($filename)) {
             throw new Exception\Environment(
-                sprintf('The %s configuration file is not found.', $filename)
+                'The %s configuration file is not found.',
+                0,
+                $filename
             );
         }
 
@@ -62,10 +64,9 @@ class Configuration
                 $decodedJson = new StdClass();
             } else {
                 throw new Exception\Environment(
-                    sprintf(
-                        'The %s configuration contains invalid JSON data.',
-                        $filename
-                    )
+                    'The %s configuration contains invalid JSON data.',
+                    1,
+                    $filename
                 );
             }
 

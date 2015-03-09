@@ -172,16 +172,16 @@ class Installer
             !isset($parameters['password'])) {
             throw new Exception\Installation(
                 'Database parameters are corrupted. Expect a driver, a host, ' .
-                'a port, a name, a username and a password.'
+                'a port, a name, a username and a password.',
+                0
             );
         }
 
         if (false === in_array($parameters['driver'], Database::getAvailableDrivers())) {
             throw new Exception\Installation(
-                sprintf(
-                    'Driver %s is not supported by the server.',
-                    $parameters['driver']
-                )
+                'Driver %s is not supported by the server.',
+                1,
+                $parameters['driver']
             );
         }
 
@@ -207,14 +207,17 @@ class Installer
             } catch (PDOException $exception) {
                 throw new Exception\Installation(
                     'Cannot connect to the database.',
-                    0,
+                    2,
+                    null,
                     $exception
                 );
             }
 
         } else {
             throw new Exception\Installation(
-                sprintf('Unknown database %s.', $parameters['driver'])
+                'Unknown database %s.',
+                3,
+                $parameters['driver']
             );
         }
 
@@ -251,7 +254,8 @@ class Installer
             !isset($content['database']['password'])) {
             throw new Exception\Installation(
                 'Configuration content is corrupted. Expect at least ' .
-                'a base URL, a database driver, username and password.'
+                'a base URL, a database driver, username and password.',
+                4
             );
         }
 
@@ -261,16 +265,16 @@ class Installer
              empty($content['database']['name']))) {
             throw new Exception\Installation(
                 'Configuration content is corrupted for MySQL. Expect ' .
-                'at least a host, a port and a name.'
+                'at least a host, a port and a name.',
+                5
             );
         }
 
         if (false === static::checkBaseUrl($content['baseUrl'])) {
             throw new Exception\Installation(
-                sprintf(
-                    'Base URL is not well-formed, given %s.',
-                    $content['baseUrl']
-                )
+                'Base URL is not well-formed, given %s.',
+                5,
+                $content['baseUrl']
             );
         }
 
@@ -295,10 +299,9 @@ class Installer
 
             default:
                 throw new Exception\Installation(
-                    sprintf(
-                        'Unknown database %s.',
-                        $content['database']['driver']
-                    )
+                    'Unknown database %s.',
+                    6,
+                    $content['database']['driver']
                 );
 
         }
@@ -330,7 +333,8 @@ class Installer
     {
         if (!isset($configuration->database)) {
             throw new Exception\Installation(
-                'Configuration is corrupted, the database branch is missing.'
+                'Configuration is corrupted, the database branch is missing.',
+                7
             );
         }
 
@@ -343,7 +347,8 @@ class Installer
         } catch (PDOException $exception) {
             throw new Exception\Installation(
                 'Cannot create the database.',
-                0,
+                8,
+                null,
                 $exception
             );
         }
@@ -358,11 +363,9 @@ class Installer
 
                 if (false === $verdict) {
                     throw new PDOException(
-                        sprintf(
-                            'Unable to execute the following schema:' . "\n" .
-                            '%s',
-                            $schema
-                        )
+                        'Unable to execute the following schema:' . "\n" . '%s',
+                        9,
+                        $schema
                     );
                 }
 
@@ -372,7 +375,8 @@ class Installer
         } catch (PDOException $exception) {
             throw new Exception\Installation(
                 'An error occured while setting up the database.',
-                0,
+                10,
+                null,
                 $exception
             );
         }
@@ -402,20 +406,21 @@ class Installer
         if (false === isset($configuration->authentification)) {
             throw new Exception\Installation(
                 'Configuration is corrupted, the authentification branch ' .
-                'is missing.'
+                'is missing.',
+                11
             );
         }
 
         if (false === static::checkLogin($login)) {
-            throw new Exception\Installation('Login is invalid.');
+            throw new Exception\Installation('Login is invalid.', 12);
         }
 
         if (false === static::checkEmail($email . $email)) {
-            throw new Exception\Installation('Email is invalid.');
+            throw new Exception\Installation('Email is invalid.', 13);
         }
 
         if (false === static::checkPassword($password . $password)) {
-            throw new Exception\Installation('Password is invalid.');
+            throw new Exception\Installation('Password is invalid.', 14);
         }
 
         $realm  = $configuration->authentification->realm;
@@ -455,7 +460,8 @@ class Installer
         } catch (PDOException $exception) {
             throw new Exception\Installation(
                 'An error occured while creating the administrator profile.',
-                0,
+                15,
+                null,
                 $exception
             );
         }
