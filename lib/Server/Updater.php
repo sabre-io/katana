@@ -88,6 +88,7 @@ class Updater
         $out = [];
 
         foreach ($versions as $version => $urls) {
+
             if (!is_array($urls) ||
                 !isset($urls['phar']) ||
                 !isset($urls['zip'])) {
@@ -97,12 +98,15 @@ class Updater
             }
 
             if (-1 === version_compare($currentVersion, $version)) {
+
                 if (0 !== (static::FORMAT_PHAR & $format)) {
                     $out[$version] = $urls['phar'];
                 } else {
                     $out[$version] = $urls['zip'];
                 }
+
             }
+
         }
 
         return $out;
