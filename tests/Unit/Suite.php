@@ -30,10 +30,11 @@ class Suite extends atoum\test
 
         // Register helpers.
         $helpers = new Helper\Helper();
-        $helpers->registerHelper('configuration', new Helper\Configuration());
-        $helpers->registerHelper('sqlite',        new Helper\SQLite());
-        $helpers->registerHelper('mysql',         new Helper\MySQL());
-        $helpers->registerHelper('temporaryFile', new Helper\TemporaryFile());
+        $helpers->registerHelper('configuration',      new Helper\Configuration());
+        $helpers->registerHelper('sqlite',             new Helper\SQLite());
+        $helpers->registerHelper('mysql',              new Helper\MySQL());
+        $helpers->registerHelper('temporaryFile',      new Helper\TemporaryFile());
+        $helpers->registerHelper('temporaryDirectory', new Helper\TemporaryDirectory());
         $assertionManager->setHandler(
             'helper',
             function() use($helpers) {
