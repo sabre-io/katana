@@ -2,8 +2,6 @@
 
 namespace Sabre\Katana\Test\Helper;
 
-use atoum\mock\streams\fs\file;
-
 /**
  * Helper to get a temporary file.
  *
