@@ -67,6 +67,7 @@ description:
 | `mysql`            | About the MySQL driver of the database   |
 | `protocol`         | About the `katana://` protocol           |
 | `installation`     | About the installation                   |
+| `update`           | About the update                         |
 | `http`             | About code using HTTP                    |
 | `authentification` | About the authentification               |
 | `administration`   | About the administration                 |
