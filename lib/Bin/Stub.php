@@ -19,7 +19,6 @@ use PharException;
  */
 class Stub extends AbstractCommand
 {
-
     /**
      * Format: ZIP.
      *
