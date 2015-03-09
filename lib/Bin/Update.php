@@ -2,6 +2,7 @@
 
 namespace Sabre\Katana\Bin;
 
+use Sabre\Katana\Server\Updater;
 use Sabre\Katana\Exception;
 use Sabre\Katana\Protocol;
 use Sabre\Uri;
@@ -25,35 +26,14 @@ class Update extends AbstractCommand
      *
      * @const int
      */
-    const OPERATION_FETCH       = 1;
+    const OPERATION_FETCH = 4;
 
     /**
      * Operation: apply.
      *
      * @const int
      */
-    const OPERATION_APPLY       = 2;
-
-    /**
-     * Format: PHAR.
-     *
-     * @const int
-     */
-    const FORMAT_PHAR           = 4;
-
-    /**
-     * Format: ZIP.
-     *
-     * @const int
-     */
-    const FORMAT_ZIP            = 8;
-
-    /**
-     * Default update server URL.
-     *
-     * @const string
-     */
-    const DEFAULT_UPDATE_SERVER = 'http://sabre.io/katana/update-server/';
+    const OPERATION_APPLY = 8;
 
     protected $options = [
         ['fetch',         Console\GetOption::NO_ARGUMENT,       'f'],
@@ -73,7 +53,7 @@ class Update extends AbstractCommand
     {
         $operation    = 0;
         $location     = null;
-        $updateServer = static::DEFAULT_UPDATE_SERVER;
+        $updateServer = Updater::DEFAULT_UPDATE_SERVER;
 
         while (false !== $c = $this->getOption($v)) {
             switch ($c) {
@@ -83,11 +63,11 @@ class Update extends AbstractCommand
                     break;
 
                 case 'f':
-                    $operation = static::OPERATION_FETCH | static::FORMAT_PHAR;
+                    $operation = static::OPERATION_FETCH | Updater::FORMAT_PHAR;
                     break;
 
                 case 'z':
-                    $operation = static::OPERATION_FETCH | static::FORMAT_ZIP;
+                    $operation = static::OPERATION_FETCH | Updater::FORMAT_ZIP;
                     break;
 
                 case 'a':
@@ -112,10 +92,8 @@ class Update extends AbstractCommand
 
         if (0 !== (static::OPERATION_FETCH & $operation)) {
 
-            $updatesDotJson = $updateServer . 'updates.json' .
-                              '?version=' . SABRE_KATANA_VERSION;
-
-            $versions = @file_get_contents($updatesDotJson);
+            $updatesDotJson = Updater::getUpdateUrl($updateServer);
+            $versions       = @file_get_contents($updatesDotJson);
 
             if (empty($versions)) {
                 throw new Exception\Console(
@@ -144,17 +122,11 @@ class Update extends AbstractCommand
              *     }
              */
 
-            $versionsToFetch = [];
-
-            foreach ($versions as $version => $urls) {
-                if (-1 === version_compare(SABRE_KATANA_VERSION, $version)) {
-                    if (0 !== (static::FORMAT_PHAR & $operation)) {
-                        $versionsToFetch[$version] = $urls['phar'];
-                    } else {
-                        $versionsToFetch[$version] = $urls['zip'];
-                    }
-                }
-            }
+            $versionsToFetch = Update::filterVersions(
+                $versions,
+                SABRE_KATANA_VERSION,
+                $operation
+            );
 
             $windowWidth = Window::getSize()['x'];
             $progress    = function($percent) use($windowWidth) {
@@ -308,7 +280,7 @@ class Update extends AbstractCommand
                 'z'    => 'Fetch the new updates as ZIP archives.',
                 'a'    => 'Apply one or many new updates.',
                 's'    => 'URL of the update server ' .
-                          '(default: ' . static::DEFAULT_UPDATE_SERVER . ').',
+                          '(default: ' . Updater::DEFAULT_UPDATE_SERVER . ').',
                 'help' => 'This help.'
             ]);
     }
