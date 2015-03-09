@@ -185,8 +185,10 @@ if (null !== $extractTo) {
     try {
         $code = false === $phar->extractTo($extractTo, null, $overwrite);
     }  catch (PharException $exception) {
+
         echo $exception->getMessage();
         $code = 1;
+
     }
 
     exit($code);
