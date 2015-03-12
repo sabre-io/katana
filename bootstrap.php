@@ -12,6 +12,9 @@ if (defined('SABRE_KATANA')) {
     return;
 }
 
+// Avoid timezone errors. 
+date_default_timezone_set('UTC');
+
 use Sabre\Katana;
 use Hoa\Core;
 use Hoa\File;
