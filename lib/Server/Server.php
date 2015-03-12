@@ -28,27 +28,6 @@ class Server extends Container {
     const CONFIGURATION_FILE = 'katana://data/etc/configuration/server.json';
 
     /**
-     * sabre/dav server.
-     *
-     * @var DAV\Server
-     */
-    protected $server        = null;
-
-    /**
-     * Server configurations.
-     *
-     * @var Configuration
-     */
-    protected $configuration = null;
-
-    /**
-     * Database.
-     *
-     * @var Database
-     */
-    protected $database      = null;
-
-    /**
      * Construct and initialize the server.
      */
     function __construct() {
@@ -59,14 +38,6 @@ class Server extends Container {
 
     /**
      * Initialize the server.
-     *
-     * In this order:
-     *    * configurations,
-     *    * database,
-     *    * server,
-     *    * principals,
-     *    * CalDAV,
-     *    * CardDAV.
      *
      * @return void
      */
