@@ -19,7 +19,8 @@
         "hoa/mime"       : "~2.0",
         "hoa/file"       : "~0.0",
         "hoa/router"     : "~2.0",
-        "hoa/string"     : "~2.0"
+        "hoa/string"     : "~2.0",
+        "pimple/pimple"  : "~3.0"
     },
     "suggest": {
         "ext-pdo_sqlite": "If you decide to use SQLite.",
