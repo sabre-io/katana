@@ -20,11 +20,7 @@ use Hoa\File;
  * Load the autoloader.
  */
 
-$autoloadFile =
-    __DIR__ . DIRECTORY_SEPARATOR .
-   'data' . DIRECTORY_SEPARATOR .
-   'lib' . DIRECTORY_SEPARATOR .
-   'autoload.php';
+$autoloadFile = __DIR__ . '/vendor/autoload.php';
 
 if (false === file_exists($autoloadFile)) {
 
