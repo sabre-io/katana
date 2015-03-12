@@ -100,6 +100,7 @@ class Server extends Container {
             );
             // CalDAV
             $server->addPlugin(new CalDAV\Plugin());
+            $server->addPlugin(new CalDAV\Schedule\Plugin());
             // CardDAV
             $server->addPlugin(new CardDAV\Plugin());
             // ACL
