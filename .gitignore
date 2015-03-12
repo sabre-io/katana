@@ -1,6 +1,7 @@
 # Composer
-data/lib/
+vendor/
 composer.lock
+
 
 # Composer binaries
 bin/atoum
