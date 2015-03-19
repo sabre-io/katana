@@ -3,7 +3,7 @@
     "type"       : "project",
     "description": "A CalDAV, CardDAV and WebDAV ready-to-use server on top of sabre/dav",
     "homepage"   : "http://sabre.io/katana/",
-    "license"    : "BSD-3-Clause",
+    "license"    : "AGPL-3.0",
     "require"    : {
         "php"            : ">=5.4.7",
         "ext-spl"        : "*",
