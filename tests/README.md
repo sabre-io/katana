@@ -61,6 +61,7 @@ description:
 
 | Tags               | Description                              |
 |--------------------|------------------------------------------|
+| `server`           | About the serfver                        |
 | `configuration`    | About the configuration                  |
 | `database`         | About the database (whatever the driver) |
 | `sqlite`           | About the SQLite driver of the database  |
