@@ -8,6 +8,8 @@ use Sabre\CalDAV;
 use Sabre\CardDAV;
 use Sabre\DAV;
 use Sabre\DAVACL;
+use Pimple\Container;
+
 
 /**
  * Server main class.
@@ -16,8 +18,8 @@ use Sabre\DAVACL;
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
  */
-class Server
-{
+class Server extends Container {
+
     /**
      * Path to the configuration file.
      *
@@ -26,61 +28,27 @@ class Server
     const CONFIGURATION_FILE = 'katana://data/etc/configuration/server.json';
 
     /**
-     * sabre/dav server.
-     *
-     * @var DAV\Server
-     */
-    protected $_server        = null;
-
-    /**
-     * Server configurations.
-     *
-     * @var Configuration
-     */
-    protected $_configuration = null;
-
-    /**
-     * Database.
-     *
-     * @var Database
-     */
-    protected $_database      = null;
-
-    /**
      * Construct and initialize the server.
-     *
-     * @return void
      */
-    public function __construct()
-    {
+    function __construct() {
+
         $this->initialize();
 
-        return;
     }
 
     /**
      * Initialize the server.
      *
-     * In this order:
-     *    * configurations,
-     *    * database,
-     *    * server,
-     *    * principals,
-     *    * CalDAV,
-     *    * CardDAV.
-     *
      * @return void
      */
-    protected function initialize()
-    {
+    protected function initialize() {
+
         $this->initializeConfiguration();
         $this->initializeDatabase();
+        $this->initializeBackends();
+        $this->initializeTree();
         $this->initializeServer();
-        $this->initializePrincipals($principalBackend);
-        $this->initializeCalDAV($principalBackend);
-        $this->initializeCardDAV($principalBackend);
 
-        return;
     }
 
     /**
@@ -88,11 +56,10 @@ class Server
      *
      * @return void
      */
-    protected function initializeConfiguration()
-    {
-        $this->_configuration = new Configuration(static::CONFIGURATION_FILE);
+    protected function initializeConfiguration() {
 
-        return;
+        $this['configuration'] = new Configuration(static::CONFIGURATION_FILE);
+
     }
 
     /**
@@ -100,16 +67,17 @@ class Server
      *
      * @return void
      */
-    protected function initializeDatabase()
-    {
-        $configuration   = $this->getConfiguration()->database;
-        $this->_database = new Database(
-            $configuration->dsn,
-            $configuration->username,
-            $configuration->password
-        );
+    protected function initializeDatabase() {
 
-        return;
+        $this['database'] = function() {
+            $configuration = $this['configuration']->database;
+            return new Database(
+                $configuration->dsn,
+                $configuration->username,
+                $configuration->password
+            );
+        };
+
     }
 
     /**
@@ -117,101 +85,75 @@ class Server
      *
      * @return void
      */
-    protected function initializeServer()
-    {
-        $this->_server = new DAV\Server(null);
-        $this->_server->setBaseUri(
-            $this->getConfiguration()->base_url ?: '/'
-        );
+    protected function initializeServer() {
 
-        return;
+        $this['server'] = function() {
+            $server = new DAV\Server(
+                $this['tree']
+            );
+            $server->setBaseUri(
+                $this['configuration']->base_url ?: '/'
+            );
+            // Browser plugin
+            $server->addPlugin(
+                new DAV\Browser\Plugin()
+            );
+            // CalDAV
+            $server->addPlugin(new CalDAV\Plugin());
+            $server->addPlugin(new CalDAV\Schedule\Plugin());
+            // CardDAV
+            $server->addPlugin(new CardDAV\Plugin());
+            // ACL
+            $server->addPlugin(new DAVACL\Plugin());
+            return $server;
+        };
+
     }
 
     /**
-     * Initialize the principals.
+     * Initialize all sabredav backends.
      *
-     * @param  DAVACL\PrincipalBackend\PDO  &$backend    Retrieve the principals backend by-reference.
      * @return void
      */
-    protected function initializePrincipals(DAVACL\PrincipalBackend\PDO &$backend = null)
-    {
-        if (null === $backend) {
-            $backend = new DAVACL\PrincipalBackend\PDO($this->getDatabase());
-        }
+    protected function initializeBackends() {
 
-        $node = new CalDAV\Principal\Collection($backend);
-        $this->getServer()->tree->getNodeForPath('')->addChild($node);
+        $this['backend.principals'] = function() {
+            return new DAVACL\PrincipalBackend\PDO($this['database']);
+        };
+        $this['backend.caldav'] = function() {
+            return new CalDAV\Backend\PDO($this['database']);
+        };
+        $this['backend.carddav'] = function() {
+            return new CardDAV\Backend\PDO($this['database']);
+        };
 
-        return;
     }
 
     /**
-     * Initialize CalDAV.
+     * Initialize the sabredav tree structure
      *
-     * @param  DAVACL\PrincipalBackend\PDO  $principalBackend  The principal backend.
      * @return void
      */
-    protected function initializeCalDAV(DAVACL\PrincipalBackend\PDO $principalBackend)
-    {
-        $backend = new CalDAV\Backend\PDO($this->getDatabase());
-        $node    = new CalDAV\CalendarRoot($principalBackend, $backend);
-        $this->getServer()->tree->getNodeForPath('')->addChild($node);
+    protected function initializeTree() {
 
-        return;
-    }
+        $this['tree'] = function() {
 
-    /**
-     * Initialize CardDAV.
-     *
-     * @param  DAVACL\PrincipalBackend\PDO  $principalBackend  The principal backend.
-     * @return void
-     */
-    protected function initializeCardDAV(DAVACL\PrincipalBackend\PDO $principalBackend)
-    {
-        $backend = new CardDAV\Backend\PDO($this->getDatabase());
-        $node    = new CardDAV\AddressBookRoot($principalBackend, $backend);
-        $this->getServer()->tree->getNodeForPath('')->addChild($node);
+            return [
+                new CalDAV\Principal\Collection($this['backend.principals']),
+                new CalDAV\CalendarRoot($this['backend.principals'], $this['backend.caldav']),
+                new CardDAV\AddressBookRoot($this['backend.principals'], $this['backend.carddav']),
+            ];
 
-        return;
-    }
+        };
 
-    /**
-     * Get the underlying server.
-     *
-     * @return DAV\Server
-     */
-    public function getServer()
-    {
-        return $this->_server;
-    }
-
-    /**
-     * Get the server configurations.
-     *
-     * @return Configuration
-     */
-    public function getConfiguration()
-    {
-        return $this->_configuration;
-    }
-
-    /**
-     * Get the database.
-     *
-     * @return Database
-     */
-    public function getDatabase()
-    {
-        return $this->_database;
     }
 
     /**
      * Run the server, i.e. consume the current request.
      */
-    public function run()
-    {
-        $this->getServer()->exec();
+    function run() {
 
-        return;
+        $this['server']->exec();
+
     }
 }
