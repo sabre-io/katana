@@ -2,8 +2,6 @@
 
 namespace Sabre\Katana\Test\Helper;
 
-use atoum\mock\streams\fs\file;
-
 /**
  * Helper to get the filename of a fresh SQLite database.
  *
