@@ -26,11 +26,11 @@
         databasePassword: '',
         submitting      : false,
 
-        showMySQLPannel : false,
+        showMySQLPanel  : false,
 
         onDatabaseDriver: function()
         {
-            this.set('showMySQLPannel', 'mysql' === this.get('databaseDriver'));
+            this.set('showMySQLPanel', 'mysql' === this.get('databaseDriver'));
             this.validate();
 
             return;
