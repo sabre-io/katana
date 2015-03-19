@@ -1,5 +1,5 @@
 # Composer
-vendor/
+data/lib/
 composer.lock
 
 
