@@ -9,14 +9,14 @@ If you get sabre/katana through an archive, skip the pre-requisites.
 
 ### Pre-requisites
 
-To grab dependencies of the project, be ensured you have [Composer][1]
+To grab dependencies of the project, make sure you have [Composer][1]
 installed, and then run:
 
 ```sh
 $ composer install
 ```
 
-Also, be ensured you have [Bower][5] installed, and then run:
+Also, make sure you have [Bower][5] installed, and then run:
 
 ```sh
 $ bower install
