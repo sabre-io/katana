@@ -67,7 +67,9 @@ class Server
      *    * server,
      *    * principals,
      *    * CalDAV,
-     *    * CardDAV.
+     *    * CardDAV,
+     *    * ACL,
+     *    * synchronization.
      *
      * @return void
      */
@@ -79,6 +81,8 @@ class Server
         $this->initializePrincipals($principalBackend);
         $this->initializeCalDAV($principalBackend);
         $this->initializeCardDAV($principalBackend);
+        $this->initializeACL();
+        $this->initializeSynchronization();
 
         return;
     }
@@ -156,6 +160,7 @@ class Server
         $backend = new CalDAV\Backend\PDO($this->getDatabase());
         $node    = new CalDAV\CalendarRoot($principalBackend, $backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
+        $this->getServer()->addPlugin(new CalDAV\Plugin());
 
         return;
     }
@@ -171,6 +176,31 @@ class Server
         $backend = new CardDAV\Backend\PDO($this->getDatabase());
         $node    = new CardDAV\AddressBookRoot($principalBackend, $backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
+        $this->getServer()->addPlugin(new CardDAV\Plugin());
+
+        return;
+    }
+
+    /**
+     * Initialize ACL.
+     *
+     * @return void
+     */
+    protected function initializeACL()
+    {
+        $this->getServer()->addPlugin(new DAVACL\Plugin());
+
+        return;
+    }
+
+    /**
+     * Initialize synchronization.
+     *
+     * @return void
+     */
+    protected function initializeSynchronization()
+    {
+        $this->getServer()->addPlugin(new DAV\Sync\Plugin());
 
         return;
     }
