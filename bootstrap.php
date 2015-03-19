@@ -17,6 +17,11 @@ use Hoa\Core;
 use Hoa\File;
 
 /**
+ * Set the default timezone.
+ */
+date_default_timezone_set('UTC');
+
+/**
  * Load the autoloader.
  */
 $autoloadFile =
@@ -52,11 +57,6 @@ Core::getInstance()->initialize([
  * Register the katana:// protocol.
  */
 stream_wrapper_register(Katana\Protocol::SCHEME, 'Sabre\Katana\Protocol');
-
-/**
- * Set the default timezone.
- */
-date_default_timezone_set('UTC');
 
 /**
  * sabre/katana is now defined and set up, let the world knows that.
