@@ -1,5 +1,25 @@
 <?php
 
+/**
+ * @license
+ *
+ * sabre/katana.
+ * Copyright (C) 2015  fruux GmbH (https://fruux.com/)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 namespace Sabre\Katana\Stub;
 
 use Hoa\File;
@@ -10,7 +30,7 @@ use Phar as PHPPhar;
  *
  * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
  * @author Ivan Enderlin
- * @license http://sabre.io/license/ Modified BSD License
+ * @license GNU Affero General Public License, Version 3.
  */
 class Phar extends PHPPhar
 {
@@ -61,6 +81,26 @@ __HALT_COMPILER();
 #!/usr/bin/env php
 <?php
 
+/**
+ * @license
+ *
+ * sabre/katana.
+ * Copyright (C) 2015  fruux GmbH (https://fruux.com/)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 Phar::mapPhar('katana.phar');
 
 require 'phar://katana.phar/bootstrap.php';
@@ -68,6 +108,14 @@ require 'phar://katana.phar/bootstrap.php';
 use Hoa\Router;
 use Hoa\Console;
 use Hoa\Iterator;
+
+/**
+ * Executable stub of the PHAR.
+ *
+ * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
+ * @author Ivan Enderlin
+ * @license GNU Affero General Public License, Version 3.
+ */
 
 $pharPathname = __FILE__;
 $phar         = new Phar(
