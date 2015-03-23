@@ -507,10 +507,13 @@ class Install extends AbstractCommand
         } catch (\Exception $e) {
 
             $progress(-1, 'An error occured: ' . $e->getMessage());
+            echo "\n";
+
             return 2;
 
         }
 
+        echo "\n";
         Window::setTitle($oldTitle);
 
         return;
