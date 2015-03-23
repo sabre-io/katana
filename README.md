@@ -66,7 +66,7 @@ To update sabre/katana, you have two interfaces.
 
 ### In your terminal
 
-  1. First solution is manual but more common. It requires a ZIP archive.
+  1. First solution is **manual** but more common. It requires a ZIP archive.
      Download the latest versions with the following command:
 
      ```sh
@@ -77,10 +77,10 @@ To update sabre/katana, you have two interfaces.
      finally update sabre/katana, simply run:
 
      ```sh
-     $ unzip -u data/share/katana_vx.y.z.zip -d .
+     $ unzip -u data/share/update/katana_vx.y.z.zip -d .
      ```
 
-  2. Second solution is automatic but less common. It requires a [PHAR][8]
+  2. Second solution is **automatic** but less common. It requires a [PHAR][8]
      archive. Download the latest versions with the following command:
 
      ```sh
@@ -91,19 +91,19 @@ To update sabre/katana, you have two interfaces.
      finally update sabre/katana, simply run:
 
      ```sh
-     $ bin/katana update --apply data/share/katana_vx.y.z.phar
+     $ bin/katana update --apply data/share/update/katana_vx.y.z.phar
      ```
 
      The PHAR is executable. For instance:
 
      ```sh
-     $ php data/share/katana_vx.y.z.phar --signature
+     $ php data/share/update/katana_vx.y.z.phar --signature
      ```
 
      or
 
      ```sh
-     $ php data/share/katana_vx.y.z.phar --metadata
+     $ php data/share/update/katana_vx.y.z.phar --metadata
      ```
 
      will respectively print the signature and the metadata of this version. Use
