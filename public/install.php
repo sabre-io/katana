@@ -111,7 +111,7 @@ if (false !== $pos = strpos($url, '?')) {
             'database',
             '/database/(?<jsonPayload>.+)',
             function($jsonPayload) {
-                $payload = @json_decode($jsonPayload, true);
+                $payload = json_decode($jsonPayload, true);
                 $out     = false;
 
                 if (is_array($payload)) {
