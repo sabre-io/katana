@@ -72,7 +72,7 @@ $router
 
             }
 
-            require 'katana://public/index.php';
+            require 'katana://public/server.php';
 
             return;
         }

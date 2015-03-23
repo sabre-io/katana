@@ -41,7 +41,7 @@ $request  = HTTP\Sapi::getRequest();
 $response = new HTTP\Response();
 
 /**
- * If the applications has already been installed, redirect to index.php.
+ * If the applications has already been installed, redirect to the index.
  */
 if (true === Installer::isInstalled()) {
 

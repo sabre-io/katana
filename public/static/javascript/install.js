@@ -11,7 +11,7 @@
         origin         : window.location.origin,
         baseUrl        : function()
         {
-            return window.location.pathname.replace(/\/+[^\/]*$/, '/');
+            return window.location.pathname.replace(/\/+[^\/]*$/, '/') + 'server.php/';
         }.property(),
         login           : '',
         password        : '',
@@ -165,6 +165,7 @@
             {
                 this.set('submitting', true);
 
+                var baseUrl        = this.get('baseUrl');
                 var databaseDriver = this.get('databaseDriver');
                 var isMySQL        = 'mysql' === databaseDriver;
 
@@ -172,7 +173,7 @@
                     '?/install/' +
                     encodeURIComponent(
                         JSON.stringify({
-                            baseurl : this.get('baseUrl'),
+                            baseurl : baseUrl,
                             login   : this.get('login'),
                             email   : this.get('email'),
                             password: this.get('password'),
@@ -209,7 +210,7 @@
                         if (100 === data.percent) {
                             setTimeout(
                                 function() {
-                                    window.location = '/';
+                                    window.location = baseUrl;
                                 },
                                 3000
                             );
