@@ -4,7 +4,16 @@
     "description": "A CalDAV, CardDAV and WebDAV ready-to-use server on top of sabre/dav",
     "homepage"   : "http://sabre.io/katana/",
     "license"    : "AGPL-3.0",
-    "require"    : {
+    "authors"    : [
+        {
+            "name": "fruux"
+        }
+    ],
+    "support": {
+        "forum" : "http://groups.google.com/group/sabredav-discuss",
+        "source": "https://github.com/fruux/sabre-katana/"
+    },
+    "require": {
         "php"            : ">=5.4.7",
         "ext-spl"        : "*",
         "ext-pdo"        : "~1.0",
@@ -20,25 +29,16 @@
         "hoa/router"     : "~2.0",
         "hoa/string"     : "~2.0"
     },
-    "suggest": {
-        "ext-pdo_sqlite": "If you decide to use SQLite.",
-        "ext-pdo_mysql" : "If you decide to use MySQL."
-    },
-    "authors": [
-        {
-            "name": "fruux"
-        }
-    ],
-    "support": {
-        "forum" : "http://groups.google.com/group/sabredav-discuss",
-        "source": "https://github.com/fruux/sabre-katana/"
-    },
     "require-dev": {
         "ext-phar"                 : "~2.0, >=2.0.2",
         "atoum/atoum"              : "~2.0",
         "atoum/praspel-extension"  : "~0.1",
         "atoum/ruler-extension"    : "~1.0, >=1.0.2",
         "squizlabs/php_codesniffer": "*"
+    },
+    "suggest": {
+        "ext-pdo_sqlite": "If you decide to use SQLite.",
+        "ext-pdo_mysql" : "If you decide to use MySQL."
     },
     "autoload": {
         "psr-4": {
