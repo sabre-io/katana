@@ -200,6 +200,7 @@ class Server
         $node    = new CalDAV\CalendarRoot($principalBackend, $backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
         $this->getServer()->addPlugin(new CalDAV\Plugin());
+        $this->getServer()->addPlugin(new CalDAV\Schedule\Plugin());
 
         return;
     }
