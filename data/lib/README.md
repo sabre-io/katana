@@ -42,4 +42,11 @@ To update to all dependencies:
 $ composer update --working-dir ../../
 ```
 
+## Optimizing
+
+Composer generates an autoloader, i.e. a component responsible to load every
+entities (classes, interfaces, traits, functions etc.) on-demand to avoid I/O.
+The current Composer configuration requests to generate an optimized autoloader.
+It boosts the execution of the application approximately up to 20%.
+
 [0]: http://getcomposer.org/

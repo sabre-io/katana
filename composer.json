@@ -47,7 +47,8 @@
     },
     "bin": ["bin/katana"],
     "config": {
-        "bin-dir"   : "bin/",
-        "vendor-dir": "data/lib/"
+        "bin-dir"            : "bin/",
+        "vendor-dir"         : "data/lib/",
+        "optimize-autoloader": true
     }
 }
