@@ -54,6 +54,16 @@ if (true === Installer::isInstalled()) {
 
 }
 
+/**
+ * If dependencies have not been installed, we print a specific message.
+ */
+if (true === Installer::isDirectoryEmpty('katana://public/static/vendor/')) {
+
+    echo file_get_contents('katana://views/install_bower.html');
+    return;
+
+}
+
 $url   = $request->getUrl();
 $query = '';
 
