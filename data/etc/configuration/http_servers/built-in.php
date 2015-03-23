@@ -43,7 +43,7 @@ $router
         function(Dispatcher\Kit $_this)
         {
             $uri  = $_this->router->getURI();
-            $file = 'katana://public/' . $uri;
+            $file = 'katana://public/' . rtrim($uri, '/');
 
             if (!empty($uri) && true === file_exists($file)) {
 
