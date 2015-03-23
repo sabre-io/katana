@@ -8,7 +8,6 @@
         "php"            : ">=5.4.7",
         "ext-spl"        : "*",
         "ext-pdo"        : "~1.0",
-        "ext-phar"       : "~2.0, >=2.0.2",
         "sabre/dav"      : "~2.1",
         "sabre/uri"      : "~1.0",
         "hoa/core"       : "~2.0@dev",
@@ -35,6 +34,7 @@
         "source": "https://github.com/fruux/sabre-katana/"
     },
     "require-dev": {
+        "ext-phar"                 : "~2.0, >=2.0.2",
         "atoum/atoum"              : "~2.0",
         "atoum/praspel-extension"  : "~0.1",
         "atoum/ruler-extension"    : "~1.0, >=1.0.2",
