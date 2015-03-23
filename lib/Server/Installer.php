@@ -28,7 +28,9 @@ use Sabre\Katana\Exception;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
 use Hoa\Core;
+use Hoa\Iterator;
 use Hoa\String\String;
+use SplFileInfo;
 use StdClass;
 use PDOException;
 
@@ -89,6 +91,33 @@ class Installer
         );
 
         return;
+    }
+
+    /**
+     * Check if an existing directory is empty.
+     * A directory is considered empty if it contains no file other than
+     * `.empty` and `README.md`.
+     *
+     * @param  string  $directory    Directory.
+     * @return boolean
+     */
+    public static function isDirectoryEmpty($directory)
+    {
+        $iterator = new Iterator\CallbackFilter(
+            new Iterator\FileSystem($directory),
+            function(SplFileInfo $current) {
+                return !in_array(
+                    $current->getFileName(),
+                    [
+                        '.empty',
+                        'README.md'
+                    ]
+                );
+            }
+        );
+        $iterator->rewind();
+
+        return false === $iterator->valid();
     }
 
     /**
