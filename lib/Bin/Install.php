@@ -132,7 +132,7 @@ class Install extends AbstractCommand
                     'foreground(yellow)'
                 ), "\n\n",
                 'Choose the base URL:               ', $input('/'), "\n",
-                'Choose the administrator login:    ', $input(), "\n",
+                'Choose the administrator username: ', $input(), "\n",
                 'Choose the administrator password: ', $input(), "\n",
                 'Choose the administrator email:    ', $input(), "\n",
                 'Choose the database driver:        ', '🔘 SQLite ⚪️ MySQL', "\n";
@@ -297,7 +297,7 @@ class Install extends AbstractCommand
 
         $form['login'] = $step(
             1,
-            'Choose the administrator login',
+            'Choose the administrator username',
             function($administratorLogin) {
                 return Installer::checkLogin($administratorLogin);
             },
