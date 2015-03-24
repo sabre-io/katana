@@ -62,7 +62,7 @@
         {
             var self = this;
             $
-                .getJSON('?/baseurl/' + this.get('baseUrl'))
+                .postJSON('?/baseurl', this.get('baseUrl'))
                 .done(function(verdict) {
 
                     self.set('invalidBaseUrl', false === verdict);
@@ -80,7 +80,7 @@
             var self  = this;
             var login = encodeURIComponent(this.get('login'));
             $
-                .getJSON('?/login/' + login)
+                .postJSON('?/login', login)
                 .done(function(verdict) {
 
                     self.set('invalidLogin', false === verdict);
@@ -97,7 +97,7 @@
             var password    = encodeURIComponent(this.get('password'));
             var passwordBis = encodeURIComponent(this.get('passwordBis'));
             $
-                .getJSON('?/password/' + password + passwordBis)
+                .postJSON('?/password', password + passwordBis)
                 .done(function(verdict) {
 
                     self.set('invalidPassword', false === verdict);
@@ -113,10 +113,10 @@
         validateEmail: function()
         {
             var self     = this;
-            var email    = encodeURIComponent(this.get('email'));
-            var emailBis = encodeURIComponent(this.get('emailBis'));
+            var email    = this.get('email');
+            var emailBis = this.get('emailBis');
             $
-                .getJSON('?/email/' + email + emailBis)
+                .postJSON('?/email', email + emailBis)
                 .done(function(verdict) {
 
                     self.set('invalidEmail', false === verdict);
@@ -133,18 +133,16 @@
         {
             var self = this;
             $
-                .getJSON(
-                    '?/database/' +
-                    encodeURIComponent(
-                        JSON.stringify({
-                            driver  : this.get('databaseDriver'),
-                            host    : this.get('databaseHost'),
-                            port    : this.get('databasePort'),
-                            name    : this.get('databaseName'),
-                            username: this.get('databaseUsername'),
-                            password: this.get('databasePassword')
-                        })
-                    )
+                .postJSON(
+                    '?/database',
+                    JSON.stringify({
+                        driver  : this.get('databaseDriver'),
+                        host    : this.get('databaseHost'),
+                        port    : this.get('databasePort'),
+                        name    : this.get('databaseName'),
+                        username: this.get('databaseUsername'),
+                        password: this.get('databasePassword')
+                    })
                 )
                 .done(function(verdict) {
 
@@ -242,6 +240,22 @@
             );
 
             return;
+        }
+
+    });
+
+    jQuery.extend({
+
+        postJSON: function(url, data, callback)
+        {
+            return jQuery.ajax({
+                contentType: 'application/json; charset=utf-8',
+                data       : data,
+                dataType   : 'json',
+                success    : callback,
+                type       : 'POST',
+                url        : url
+            });
         }
 
     });

@@ -75,53 +75,71 @@ $query = '';
  */
 if (false !== $pos = strpos($url, '?')) {
 
+    $response->addHeader('Content-Type', 'application/json');
+
     $router = new Hoa\Router\Http();
     $router
-        ->get(
+        ->post(
             'baseurl',
-            '/baseurl/(?<baseUrl>.*)',
-            function($baseUrl) {
-                echo json_encode(
-                    Installer::checkBaseUrl($baseUrl)
+            '/baseurl',
+            function() use($request, $response) {
+                $response->setBody(
+                    json_encode(
+                        Installer::checkBaseUrl($request->getBodyAsString())
+                    )
                 );
+                HTTP\Sapi::sendResponse($response);
+
                 return;
             }
         )
-        ->get(
+        ->post(
             'login',
-            '/login/(?<login>.*)',
-            function($login) {
-                echo json_encode(
-                    Installer::checkLogin($login)
+            '/login',
+            function() use($request, $response) {
+                $response->setBody(
+                    json_encode(
+                        Installer::checkLogin($request->getBodyAsString())
+                    )
                 );
+                HTTP\Sapi::sendResponse($response);
+
                 return;
             }
         )
-        ->get(
+        ->post(
             'password',
-            '/password/(?<passwords>.*)',
-            function($passwords) {
-                echo json_encode(
-                    Installer::checkPassword($passwords)
+            '/password',
+            function() use($request, $response) {
+                $response->setBody(
+                    json_encode(
+                        Installer::checkPassword($request->getBodyAsString())
+                    )
                 );
+                HTTP\Sapi::sendResponse($response);
+
                 return;
             }
         )
-        ->get(
+        ->post(
             'email',
-            '/email/(?<emails>.*)',
-            function($emails) {
-                echo json_encode(
-                    Installer::checkEmail($emails)
+            '/email',
+            function() use($request, $response) {
+                 $response->setBody(
+                    json_encode(
+                        Installer::checkEmail($request->getBodyAsString())
+                    )
                 );
+                HTTP\Sapi::sendResponse($response);
+
                 return;
             }
         )
-        ->get(
+        ->post(
             'database',
-            '/database/(?<jsonPayload>.+)',
-            function($jsonPayload) {
-                $payload = json_decode($jsonPayload, true);
+            '/database',
+            function() use($request, $response) {
+                $payload = json_decode($request->getBodyAsString(), true);
                 $out     = false;
 
                 if (is_array($payload)) {
@@ -132,7 +150,8 @@ if (false !== $pos = strpos($url, '?')) {
                     }
                 }
 
-                echo json_encode($out);
+                $response->setBody(json_encode($out));
+                HTTP\Sapi::sendResponse($response);
 
                 return;
             }
