@@ -1,0 +1,324 @@
+<!-- remove `.min` to get the original versions of all minified resources -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <title>Administration of sabre/katana</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+  <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+
+  <meta name="viewport" content="initial-scale=1.0" />
+
+  <link rel="stylesheet" href="static/vendor/semantic-ui/dist/semantic.min.css" type="text/css" />
+  <link rel="stylesheet" href="static/css/layout.css" type="text/css" />
+</head>
+<body>
+
+<script type="text/x-handlebars">
+  <main>
+    <h1 class="ui icon center aligned header">
+      <i class="settings icon"></i>
+      <div class="content">
+        Administration of sabre/katana
+        <div class="sub header">Manage your awesome server!</div>
+      </div>
+    </h1>
+
+    <nav class="ui menu">
+      {{#link-to 'users' class="item"}}
+        <i class="users icon"></i> Users
+      {{/link-to}}
+      <a class="item">
+        <i class="calendar icon"></i> Calendars
+      </a>
+      <a class="item">
+        <i class="book icon"></i> Address books
+      </a>
+      <a class="item">
+        <i class="tasks icon"></i> Tasks
+      </a>
+      <a class="item">
+        <i class="dashboard icon"></i> Dashboard
+      </a>
+      <a class="item">
+        <i class="settings icon"></i> Settings
+      </a>
+
+      <div class="right menu">
+        {{#link-to 'about' class="item"}}
+          <i class="help circle icon"></i> About
+        {{/link-to}}
+      </div>
+    </nav>
+
+    <article>{{outlet}}</article>
+  </main>
+</script>
+
+<script type="text/x-handlebars" id="users">
+  <div class="ui grid">
+    <div class="four wide column">
+      <div class="ui vertical menu">
+        <a class="item">
+          New user
+          <i class="plus icon"></i>
+        </a>
+        <div class="item">
+          <div class="ui transparent icon input">
+            <input type="text" placeholder="Filter…" />
+            <i class="search link icon"></i>
+          </div>
+        </div>
+        {{#each}}
+          {{#link-to 'user' this class="item"}}
+            <data {{bind-attr value=username}}>{{username}}</data>
+          {{/link-to}}
+        {{/each}}
+      </div>
+      </ul>
+    </div>
+
+    <div class="twelve wide column">
+      <div class="ui segment">
+        {{outlet}}
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/x-handlebars" id="user">
+  <div id="userAskDeleting" class="ui small modal">
+    <i class="close icon"></i>
+    <div class="header">Delete the user</div>
+    <div class="content">
+      Are you sure you want to delete <strong>{{username}}</strong>?
+    </div>
+    <div class="actions">
+      <div class="ui negative button">No</div>
+      <div class="ui positive right labeled icon button">
+        Yes!
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
+  </div>
+
+  <form class="ui form">
+    <div class="inline field">
+      <label>User:</label>
+      {{#if isEditing}}
+        {{input type="text" value=username}}
+      {{else}}
+      <strong>{{username}}</strong>
+      {{/if}}
+    </div>
+
+    <div class="right aligned column">
+      {{#if isEditing}}
+      <button {{action 'applyEditing'}} class="ui positive right labeled icon button">
+        Update
+        <i class="save icon"></i>
+      </button>
+      <button {{action 'cancelEditing'}} class="ui negative right labeled icon button">
+        Cancel
+        <i class="undo icon"></i>
+      </button>
+      {{else}}
+      <button {{action 'askEditing'}} class="ui primary right labeled icon button">
+        Edit
+        <i class="edit icon"></i>
+      </button>
+      <button {{action 'askDeleting'}} class="ui negative right labeled icon button">
+        Delete
+        <i class="delete icon"></i>
+      </button>
+      {{/if}}
+    </div>
+  </form>
+</script>
+
+<script type="text/x-handlebars" id="about">
+  <div class="ui segment">
+    <h2 class="ui header">
+      <i class="help circle icon"></i>
+      <div class="content">
+        About
+        <div class="sub header">Everything you would like to know</div>
+      </div>
+    </h2>
+
+    <p>sabre/katana is a software developed by
+    <a href="https://fruux.com/">fruux.com</a>, and is part of their open-source
+    stack called <a href="http://sabre.io/">sabre.io</a> (including the famous
+    sabre/dav server you are running!).</p>
+
+    <h3 class="ui header">Help and documentation</h3>
+
+    <p>To get help or documentation, please go to
+    <a href="http://sabre.io/katana">on sabre/katana's website</a>.</p>
+
+    <h3 class="ui header">License</h3>
+
+    <pre><code>sabre/katana.
+Copyright (C) 2015  fruux GmbH (https://fruux.com/)
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.</code></pre>
+  </div>
+</script>
+
+<script src="static/vendor/jquery/dist/jquery.min.js"></script>
+<script src="static/vendor/semantic-ui/dist/semantic.min.js"></script>
+<script src="static/vendor/handlebars/handlebars.min.js"></script>
+<script src="static/vendor/ember/ember.min.js"></script>
+<script src="static/vendor/ember-data/ember-data.min.js"></script>
+<!--
+<script src="./static/javascript/install.js"></script>
+-->
+
+<script>
+Katana = Ember.Application.create();
+
+Katana.Router.map(function() {
+    this.resource('users', function() {
+        this.resource('user', {path: ':user_id'});
+    });
+    this.resource('about');
+});
+
+Katana.UsersRoute = Ember.Route.extend({
+
+    model: function()
+    {
+        return users;
+    }
+
+});
+
+Katana.UserRoute = Ember.Route.extend({
+
+    model: function(params)
+    {
+        return users.findBy('id', params.user_id);
+    }
+
+});
+
+Katana.UserController = Ember.ObjectController.extend({
+
+    isEditing: false,
+    previousUsername: null,
+
+    actions: {
+
+        askEditing: function()
+        {
+            this.set('previousUsername', this.get('username'));
+            this.set('isEditing', true);
+
+            return;
+        },
+
+        cancelEditing: function()
+        {
+            this.set('username', this.get('previousUsername'));
+            this.set('isEditing', false);
+
+            return;
+        },
+
+        applyEditing: function()
+        {
+            this.set('isEditing', false);
+            return;
+        },
+
+        askDeleting: function()
+        {
+            var self = this;
+
+            $('#userAskDeleting')
+                .modal(
+                    'setting',
+                    {
+                        onDeny: function() {
+                            return true;
+                        },
+                        onApprove: function() {
+                            self.send('applyDeleting');
+                            return true;
+                        }
+                    }
+                )
+                .modal('show');
+        },
+
+        applyDeleting: function()
+        {
+            delete users[
+                users.indexOf(
+                    users.findBy('id', this.get('id'))
+                )
+            ];
+        }
+
+    }
+
+});
+
+Katana.ApplicationView = Ember.View.extend({
+
+    didInsertElement: function()
+    {
+        this._super();
+
+        Ember.run.scheduleOnce('afterRender', this, function() {
+            $('.ui.modal').modal(
+                'setting',
+                {
+                    transition: 'fade up',
+                    closable: false,
+                    onDeny: function() {
+                        return false;
+                    },
+                    onApprove: function() {
+                        return false;
+                    }
+                }
+            );
+        });
+
+        return;
+    }
+
+});
+
+var users = [
+    {
+        id: '0',
+        username: 'Gordon'
+    },
+    {
+        id: '1',
+        username: 'Alix'
+    },
+    {
+        id: '2',
+        username: 'Ivan'
+    }
+];
+</script>
+
+</body>
+</html>
