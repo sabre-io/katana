@@ -1,5 +1,5 @@
 (function(scope) {
-    scope.Katana = Ember.Application.create();
+    var Katana = scope.Katana = Ember.Application.create();
 
     Katana.ApplicationController = Ember.Controller.extend({
 
