@@ -261,31 +261,6 @@ Katana.UserRoute = Ember.Route.extend({
 
 });
 
-Katana.UsersController = Ember.ArrayController.extend({
-
-    actions: {
-
-        requestCreating: function()
-        {
-            console.log('fooo');
-            console.log(this.store.transaction);
-            /*
-            var record = this.store.createRecord(
-                'user',
-                {
-                    username: 'foobar',
-                    displayName: 'Unnamed',
-                    email: 'foo@bar.de'
-                }
-            );
-            //this.transitionToRoute('user', {query: 5});
-            */
-        }
-
-    }
-
-});
-
 Katana.UserController = Ember.ObjectController.extend({
 
     isEditing          : false,
