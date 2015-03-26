@@ -72,10 +72,10 @@
   <div class="ui grid">
     <div class="four wide column">
       <div class="ui segment vertical menu">
-        {{#link-to 'createUser' class="item"}}
+        <a {{action 'requestCreating'}} class="item">
           New user
           <i class="plus icon"></i>
-        {{/link-to}}
+        </a>
         <div class="item">
           <div class="ui transparent icon input">
             <input type="text" placeholder="Filter…" />
@@ -88,7 +88,6 @@
           {{/link-to}}
         {{/each}}
       </div>
-      </ul>
     </div>
 
     <div class="twelve wide column">
@@ -166,34 +165,6 @@
   </form>
 </script>
 
-<script type="text/x-handlebars" id="createUser">
-  <form class="ui form">
-    <div class="inline field">
-      <label>Username:</label>
-      {{input type="text" value=username}}
-    </div>
-    <div class="inline field">
-      <label>Display name:</label>
-      {{input type="text" value=displayName}}
-    </div>
-    <div class="inline field">
-      <label>Email:</label>
-      {{input type="email" value=email}}
-    </div>
-
-    <div class="right aligned column">
-      <button {{action 'cancelCreating'}} class="ui negative right labeled icon button">
-        Cancel
-        <i class="undo icon"></i>
-      </button>
-      <button type="submit" {{action 'applyCreating'}} class="ui positive right labeled icon button">
-        Create
-        <i class="save icon"></i>
-      </button>
-    </div>
-  </form>
-</script>
-
 <script type="text/x-handlebars" id="about">
   <div class="ui segment">
     <h2 class="ui header">
@@ -230,26 +201,22 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.</code></pre>
+along with this program. If not, see &lt;http://www.gnu.org/licenses/>.</code></pre>
   </div>
 </script>
 
 <script src="static/vendor/jquery/dist/jquery.min.js"></script>
 <script src="static/vendor/semantic-ui/dist/semantic.min.js"></script>
-<script src="static/vendor/handlebars/handlebars.min.js"></script>
 <script src="static/vendor/ember/ember.min.js"></script>
+<script src="static/vendor/ember/ember-template-compiler.js"></script>
 <script src="static/vendor/ember-data/ember-data.min.js"></script>
-<!--
-<script src="./static/javascript/install.js"></script>
--->
 
 <script>
 Katana = Ember.Application.create();
 
 Katana.Router.map(function() {
     this.resource('users', function() {
-        this.resource('user',       {path: ':user_id'});
-        this.resource('createUser', {path: 'new'});
+        this.resource('user', {path: ':user_id'});
     });
     this.resource('about');
 });
@@ -292,20 +259,58 @@ Katana.ApplicationRoute = Ember.Route.extend({
 
 });
 
+Katana.UsersController = Ember.ArrayController.extend({
+
+    actions: {
+
+        requestCreating: function()
+        {
+            var record = this.store.createRecord('user');
+            this.transitionToRoute(
+                'user',
+                record.get('id'),
+                {
+                    queryParams: {
+                        edit: 'true'
+                    }
+                }
+            );
+
+            return;
+        }
+
+    }
+
+});
+
 Katana.UserController = Ember.ObjectController.extend({
 
-    isEditing          : false,
+    queryParams: ['edit'],
+    edit: 'false',
+
+    autoEditing: function()
+    {
+        if ('true' === this.get('edit')) {
+            this.send('requestEditing');
+        }
+
+        return;
+    }.observes('edit'),
+
+    isEditing: false,
+
     previousUsername   : null,
     previousDisplayName: null,
     previousEmail      : null,
 
     globalModal: function()
     {
-        if (true === this.get('isEditing')) {
-            this.send('requestModal');
-        } else {
-            this.send('cancelModal');
-        }
+        this.send(
+            true === this.get('isEditing')
+                ? 'requestModal'
+                : 'cancelModal'
+        );
+        return;
     }.observes('isEditing'),
 
     actions: {
@@ -333,6 +338,8 @@ Katana.UserController = Ember.ObjectController.extend({
         applyEditing: function()
         {
             this.set('isEditing', false);
+            this.set('edit', false);
+
             return;
         },
 
@@ -359,51 +366,7 @@ Katana.UserController = Ember.ObjectController.extend({
         applyDeleting: function()
         {
             this.get('model').destroyRecord();
-            this.transitionTo('users');
-
-            return;
-        }
-
-    }
-
-});
-
-Katana.CreateUserController = Ember.ObjectController.extend({
-
-    username   : null,
-    displayName: null,
-    email      : null,
-
-    actions: {
-
-        applyCreating: function()
-        {
-            var record = this.store.createRecord(
-                'user',
-                {
-                    username   : this.get('username'),
-                    displayName: this.get('displayName'),
-                    email      : this.get('email')
-                }
-            );
-            this.send('clearCreating');
-            this.transitionTo('user', record.get('id'));
-
-            return;
-        },
-
-        cancelCreating: function()
-        {
-            this.send('clearCreating');
-
-            return;
-        },
-
-        clearCreating: function()
-        {
-            this.set('username',    null);
-            this.set('displayName', null);
-            this.set('email',       null);
+            this.transitionToRoute('users');
 
             return;
         }
