@@ -61,10 +61,10 @@
   <div class="ui grid">
     <div class="four wide column">
       <div class="ui vertical menu">
-        <a class="item">
+        {{#link-to 'createUser' class="item"}}
           New user
           <i class="plus icon"></i>
-        </a>
+        {{/link-to}}
         <div class="item">
           <div class="ui transparent icon input">
             <input type="text" placeholder="Filter…" />
@@ -73,7 +73,7 @@
         </div>
         {{#each}}
           {{#link-to 'user' this class="item"}}
-            <data {{bind-attr value=username}}>{{username}}</data>
+            <data {{bind-attr value=username}}>{{displayName}}</data>
           {{/link-to}}
         {{/each}}
       </div>
@@ -93,7 +93,8 @@
     <i class="close icon"></i>
     <div class="header">Delete the user</div>
     <div class="content">
-      Are you sure you want to delete <strong>{{username}}</strong>?
+      Are you sure you want to delete <strong>{{displayName}}</strong>
+      ({{username}})?
     </div>
     <div class="actions">
       <div class="ui negative button">No</div>
@@ -106,34 +107,78 @@
 
   <form class="ui form">
     <div class="inline field">
-      <label>User:</label>
+      <label>Username:</label>
       {{#if isEditing}}
         {{input type="text" value=username}}
       {{else}}
       <strong>{{username}}</strong>
       {{/if}}
     </div>
+    <div class="inline field">
+      <label>Display name:</label>
+      {{#if isEditing}}
+        {{input type="text" value=displayName}}
+      {{else}}
+      <strong>{{displayName}}</strong>
+      {{/if}}
+    </div>
+    <div class="inline field">
+      <label>Email:</label>
+      {{#if isEditing}}
+        {{input type="email" value=email}}
+      {{else}}
+      <strong>{{email}}</strong>
+      {{/if}}
+    </div>
 
     <div class="right aligned column">
       {{#if isEditing}}
-      <button {{action 'applyEditing'}} class="ui positive right labeled icon button">
-        Update
+        <button {{action 'applyEditing'}} class="ui positive right labeled icon button">
+          Update
+          <i class="save icon"></i>
+        </button>
+        <button {{action 'cancelEditing'}} class="ui negative right labeled icon button">
+          Cancel
+          <i class="undo icon"></i>
+        </button>
+      {{else}}
+        <button {{action 'requestEditing'}} class="ui primary right labeled icon button">
+          Edit
+          <i class="edit icon"></i>
+        </button>
+        <button {{action 'requestDeleting'}} class="ui negative right labeled icon button">
+          Delete
+          <i class="delete icon"></i>
+        </button>
+      {{/if}}
+    </div>
+  </form>
+</script>
+
+<script type="text/x-handlebars" id="createUser">
+  <form class="ui form">
+    <div class="inline field">
+      <label>Username:</label>
+      {{input type="text" value=username}}
+    </div>
+    <div class="inline field">
+      <label>Display name:</label>
+      {{input type="text" value=displayName}}
+    </div>
+    <div class="inline field">
+      <label>Email:</label>
+      {{input type="email" value=email}}
+    </div>
+
+    <div class="right aligned column">
+      <button {{action 'applyCreating'}} class="ui positive right labeled icon button">
+        Create
         <i class="save icon"></i>
       </button>
-      <button {{action 'cancelEditing'}} class="ui negative right labeled icon button">
+      <button {{action 'cancelCreating'}} class="ui negative right labeled icon button">
         Cancel
         <i class="undo icon"></i>
       </button>
-      {{else}}
-      <button {{action 'askEditing'}} class="ui primary right labeled icon button">
-        Edit
-        <i class="edit icon"></i>
-      </button>
-      <button {{action 'askDeleting'}} class="ui negative right labeled icon button">
-        Delete
-        <i class="delete icon"></i>
-      </button>
-      {{/if}}
     </div>
   </form>
 </script>
@@ -192,7 +237,8 @@ Katana = Ember.Application.create();
 
 Katana.Router.map(function() {
     this.resource('users', function() {
-        this.resource('user', {path: ':user_id'});
+        this.resource('user',       {path: ':user_id'});
+        this.resource('createUser', {path: 'new'});
     });
     this.resource('about');
 });
@@ -215,25 +261,56 @@ Katana.UserRoute = Ember.Route.extend({
 
 });
 
-Katana.UserController = Ember.ObjectController.extend({
-
-    isEditing: false,
-    previousUsername: null,
+Katana.UsersController = Ember.ArrayController.extend({
 
     actions: {
 
-        askEditing: function()
+        requestCreating: function()
         {
-            this.set('previousUsername', this.get('username'));
-            this.set('isEditing', true);
+            console.log('fooo');
+            console.log(this.store.transaction);
+            /*
+            var record = this.store.createRecord(
+                'user',
+                {
+                    username: 'foobar',
+                    displayName: 'Unnamed',
+                    email: 'foo@bar.de'
+                }
+            );
+            //this.transitionToRoute('user', {query: 5});
+            */
+        }
+
+    }
+
+});
+
+Katana.UserController = Ember.ObjectController.extend({
+
+    isEditing          : false,
+    previousUsername   : null,
+    previousDisplayName: null,
+    previousEmail      : null,
+
+    actions: {
+
+        requestEditing: function()
+        {
+            this.set('previousUsername',    this.get('username'));
+            this.set('previousDisplayName', this.get('displayName'));
+            this.set('previousEmail',       this.get('email'));
+            this.set('isEditing',           true);
 
             return;
         },
 
         cancelEditing: function()
         {
-            this.set('username', this.get('previousUsername'));
-            this.set('isEditing', false);
+            this.set('username',    this.get('previousUsername'));
+            this.set('displayName', this.get('previousDisplayName'));
+            this.set('email',       this.get('previousEmail'));
+            this.set('isEditing',   false);
 
             return;
         },
@@ -244,7 +321,7 @@ Katana.UserController = Ember.ObjectController.extend({
             return;
         },
 
-        askDeleting: function()
+        requestDeleting: function()
         {
             var self = this;
 
@@ -268,6 +345,50 @@ Katana.UserController = Ember.ObjectController.extend({
         {
             this.get('model').destroyRecord();
             this.transitionTo('users');
+
+            return;
+        }
+
+    }
+
+});
+
+Katana.CreateUserController = Ember.ObjectController.extend({
+
+    username   : null,
+    displayName: null,
+    email      : null,
+
+    actions: {
+
+        applyCreating: function()
+        {
+            var record = this.store.createRecord(
+                'user',
+                {
+                    username   : this.get('username'),
+                    displayName: this.get('displayName'),
+                    email      : this.get('email')
+                }
+            );
+            this.send('clearCreating');
+            this.transitionTo('user', record.get('id'));
+
+            return;
+        },
+
+        cancelCreating: function()
+        {
+            this.send('clearCreating');
+
+            return;
+        },
+
+        clearCreating: function()
+        {
+            this.set('username',    null);
+            this.set('displayName', null);
+            this.set('email',       null);
 
             return;
         }
@@ -307,22 +428,30 @@ Katana.ApplicationAdapter = DS.FixtureAdapter;
 
 var attr    = DS.attr;
 Katana.User = DS.Model.extend({
-    username: attr('string')
+    username: attr('string'),
+    displayName: attr('string'),
+    email: attr('string')
 });
 
 Katana.User.reopenClass({
     FIXTURES: [
         {
             id: 0,
-            username: 'Gordon'
+            username: 'gordon',
+            displayName: 'Administrator',
+            email: 'gordon@freeman.hl'
         },
         {
             id: 1,
-            username: 'Alix'
+            username: 'alix',
+            displayName: 'Alix Vence',
+            email: 'alix@freeman.hl'
         },
         {
             id: 2,
-            username: 'Ivan'
+            username: 'ivan',
+            displayName: 'Hywan',
+            email: 'ivan@fruux.com'
         }
     ]
 });
