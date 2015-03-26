@@ -13,6 +13,17 @@
 
   <link rel="stylesheet" href="static/vendor/semantic-ui/dist/semantic.min.css" type="text/css" />
   <link rel="stylesheet" href="static/css/layout.css" type="text/css" />
+
+  <style>
+    .segment {
+        transition: opacity .2s ease;
+    }
+
+    html.modal .segment:not(.modal-exclusive) {
+        pointer-events: none;
+        opacity: .3;
+    }
+  </style>
 </head>
 <body>
 
@@ -26,7 +37,7 @@
       </div>
     </h1>
 
-    <nav class="ui menu">
+    <nav class="ui segment menu">
       {{#link-to 'users' class="item"}}
         <i class="users icon"></i> Users
       {{/link-to}}
@@ -60,7 +71,7 @@
 <script type="text/x-handlebars" id="users">
   <div class="ui grid">
     <div class="four wide column">
-      <div class="ui vertical menu">
+      <div class="ui segment vertical menu">
         {{#link-to 'createUser' class="item"}}
           New user
           <i class="plus icon"></i>
@@ -81,7 +92,7 @@
     </div>
 
     <div class="twelve wide column">
-      <div class="ui segment">
+      <div class="ui segment modal-exclusive">
         {{outlet}}
       </div>
     </div>
@@ -89,7 +100,7 @@
 </script>
 
 <script type="text/x-handlebars" id="user">
-  <div id="userAskDeleting" class="ui small modal">
+  <div id="modalUserAskDeleting" class="ui small modal">
     <i class="close icon"></i>
     <div class="header">Delete the user</div>
     <div class="content">
@@ -133,22 +144,22 @@
 
     <div class="right aligned column">
       {{#if isEditing}}
-        <button {{action 'applyEditing'}} class="ui positive right labeled icon button">
-          Update
-          <i class="save icon"></i>
-        </button>
         <button {{action 'cancelEditing'}} class="ui negative right labeled icon button">
           Cancel
           <i class="undo icon"></i>
         </button>
-      {{else}}
-        <button {{action 'requestEditing'}} class="ui primary right labeled icon button">
-          Edit
-          <i class="edit icon"></i>
+        <button type="submit" {{action 'applyEditing'}} class="ui positive right labeled icon button">
+          Update
+          <i class="save icon"></i>
         </button>
+      {{else}}
         <button {{action 'requestDeleting'}} class="ui negative right labeled icon button">
           Delete
           <i class="delete icon"></i>
+        </button>
+        <button type="submit" {{action 'requestEditing'}} class="ui primary right labeled icon button">
+          Edit
+          <i class="edit icon"></i>
         </button>
       {{/if}}
     </div>
@@ -171,13 +182,13 @@
     </div>
 
     <div class="right aligned column">
-      <button {{action 'applyCreating'}} class="ui positive right labeled icon button">
-        Create
-        <i class="save icon"></i>
-      </button>
       <button {{action 'cancelCreating'}} class="ui negative right labeled icon button">
         Cancel
         <i class="undo icon"></i>
+      </button>
+      <button type="submit" {{action 'applyCreating'}} class="ui positive right labeled icon button">
+        Create
+        <i class="save icon"></i>
       </button>
     </div>
   </form>
@@ -261,12 +272,41 @@ Katana.UserRoute = Ember.Route.extend({
 
 });
 
+Katana.ApplicationRoute = Ember.Route.extend({
+
+    actions: {
+
+        requestModal: function()
+        {
+            $('html').addClass('modal');
+            return;
+        },
+
+        cancelModal: function()
+        {
+            $('html').removeClass('modal');
+            return;
+        }
+
+    }
+
+});
+
 Katana.UserController = Ember.ObjectController.extend({
 
     isEditing          : false,
     previousUsername   : null,
     previousDisplayName: null,
     previousEmail      : null,
+
+    globalModal: function()
+    {
+        if (true === this.get('isEditing')) {
+            this.send('requestModal');
+        } else {
+            this.send('cancelModal');
+        }
+    }.observes('isEditing'),
 
     actions: {
 
@@ -300,7 +340,7 @@ Katana.UserController = Ember.ObjectController.extend({
         {
             var self = this;
 
-            $('#userAskDeleting')
+            $('#modalUserAskDeleting')
                 .modal(
                     'setting',
                     {
