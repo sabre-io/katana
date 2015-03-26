@@ -201,7 +201,7 @@ Katana.UsersRoute = Ember.Route.extend({
 
     model: function()
     {
-        return users;
+        return this.store.find('user');
     }
 
 });
@@ -210,7 +210,7 @@ Katana.UserRoute = Ember.Route.extend({
 
     model: function(params)
     {
-        return users.findBy('id', params.user_id);
+        return this.store.find('user', params.user_id);
     }
 
 });
@@ -266,11 +266,10 @@ Katana.UserController = Ember.ObjectController.extend({
 
         applyDeleting: function()
         {
-            delete users[
-                users.indexOf(
-                    users.findBy('id', this.get('id'))
-                )
-            ];
+            this.get('model').destroyRecord();
+            this.transitionTo('users');
+
+            return;
         }
 
     }
@@ -304,20 +303,29 @@ Katana.ApplicationView = Ember.View.extend({
 
 });
 
-var users = [
-    {
-        id: '0',
-        username: 'Gordon'
-    },
-    {
-        id: '1',
-        username: 'Alix'
-    },
-    {
-        id: '2',
-        username: 'Ivan'
-    }
-];
+Katana.ApplicationAdapter = DS.FixtureAdapter;
+
+var attr    = DS.attr;
+Katana.User = DS.Model.extend({
+    username: attr('string')
+});
+
+Katana.User.reopenClass({
+    FIXTURES: [
+        {
+            id: 0,
+            username: 'Gordon'
+        },
+        {
+            id: 1,
+            username: 'Alix'
+        },
+        {
+            id: 2,
+            username: 'Ivan'
+        }
+    ]
+});
 </script>
 
 </body>
