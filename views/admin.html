@@ -148,7 +148,7 @@
           <i class="undo icon"></i>
         </button>
         <button type="submit" {{action 'applyEditing'}} class="ui positive right labeled icon button">
-          Update
+          Save
           <i class="save icon"></i>
         </button>
       {{else}}
@@ -265,7 +265,12 @@ Katana.UsersController = Ember.ArrayController.extend({
 
         requestCreating: function()
         {
-            var record = this.store.createRecord('user');
+            var record = this.store.createRecord(
+                'user',
+                {
+                    displayName: 'Unnamed'
+                }
+            );
             this.transitionToRoute(
                 'user',
                 record.get('id'),
@@ -327,16 +332,28 @@ Katana.UserController = Ember.ObjectController.extend({
 
         cancelEditing: function()
         {
+            // Newly created record.
+            if (true === this.get('isNew')) {
+
+                this.get('model').deleteRecord();
+                this.set('isEditing', false);
+                this.transitionToRoute('users');
+
+                return;
+
+            }
+
             this.set('username',    this.get('previousUsername'));
             this.set('displayName', this.get('previousDisplayName'));
             this.set('email',       this.get('previousEmail'));
-            this.set('isEditing',   false);
+            this.set('isEditing', false);
 
             return;
         },
 
         applyEditing: function()
         {
+            this.get('model').save();
             this.set('isEditing', false);
             this.set('edit', false);
 
