@@ -76,16 +76,12 @@
           New user
           <i class="plus icon"></i>
         </a>
-        <div class="item">
-          <div class="ui transparent icon input">
-            <input type="text" placeholder="Filter…" />
-            <i class="search link icon"></i>
-          </div>
-        </div>
         {{#each}}
           {{#link-to 'user' this class="item"}}
-            <data {{bind-attr value=username}}>{{displayName}}</data>
+            {{displayName}}
           {{/link-to}}
+        {{else}}
+          <div class="item">Nobody…</div>
         {{/each}}
       </div>
     </div>
@@ -260,6 +256,8 @@ Katana.ApplicationRoute = Ember.Route.extend({
 });
 
 Katana.UsersController = Ember.ArrayController.extend({
+
+    sortProperties: ['displayName'],
 
     actions: {
 
@@ -436,28 +434,26 @@ Katana.User = DS.Model.extend({
     email: attr('string')
 });
 
-Katana.User.reopenClass({
-    FIXTURES: [
-        {
-            id: 0,
-            username: 'gordon',
-            displayName: 'Administrator',
-            email: 'gordon@freeman.hl'
-        },
-        {
-            id: 1,
-            username: 'alix',
-            displayName: 'Alix Vence',
-            email: 'alix@freeman.hl'
-        },
-        {
-            id: 2,
-            username: 'ivan',
-            displayName: 'Hywan',
-            email: 'ivan@fruux.com'
-        }
-    ]
-});
+Katana.User.FIXTURES = [
+    {
+        id: 0,
+        username: 'gordon',
+        displayName: 'Administrator',
+        email: 'gordon@freeman.hl'
+    },
+    {
+        id: 1,
+        username: 'alix',
+        displayName: 'Alix Vence',
+        email: 'alix@freeman.hl'
+    },
+    {
+        id: 2,
+        username: 'ivan',
+        displayName: 'Hywan',
+        email: 'ivan@fruux.com'
+    }
+];
 </script>
 
 </body>
