@@ -332,6 +332,10 @@ Katana.UserController = Ember.ObjectController.extend({
 
         cancelEditing: function()
         {
+            if (true !== this.get('isEditing')) {
+                throw "Cannot cancel a user editing that is not in editing mode.";
+            }
+
             // Newly created record.
             if (true === this.get('isNew')) {
 
@@ -353,6 +357,10 @@ Katana.UserController = Ember.ObjectController.extend({
 
         applyEditing: function()
         {
+            if (true !== this.get('isEditing')) {
+                throw "Cannot save the current user because it was not in the editing mode.";
+            }
+
             this.get('model').save();
             this.set('isEditing', false);
             this.set('edit', false);
