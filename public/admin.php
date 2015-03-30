@@ -27,7 +27,7 @@ use Sabre\Katana\Server\Server;
 use Sabre\HTTP;
 
 /**
- * This file logs the admnistrator in.
+ * This file runs the administrator panel.
  *
  * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
  * @author Ivan Enderlin
