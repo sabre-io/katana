@@ -412,9 +412,13 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
         authenticate: function()
         {
             var self = this;
-
             this.set('submitting', true);
-            var credentials = this.getProperties('username', 'password');
+
+            var credentials = {
+                username: this.get('username'),
+                password: this.get('password')
+            };
+
             this.get('session')
                 .authenticate('authenticator:custom', credentials)
                 .then(
