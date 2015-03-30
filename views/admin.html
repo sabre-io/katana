@@ -72,8 +72,13 @@
     {{else}}
       <div class="ui three columns centered grid">
         <div class="column">
-          <form {{action 'authenticate' on='submit'}} class="ui column segment form">
+          <form {{action 'authenticate' on='submit'}} {{bind-attr class=":ui :column :segment :form valid::error"}}>
             <h2 class="ui header">Log in</h2>
+
+            <div class="ui error message">
+              <div class="header">Invalid credentials</div>
+              <p>Either username or password is invalid.</p>
+            </div>
 
             <div class="field">
               <label>Username:</label>
@@ -85,7 +90,7 @@
             </div>
             <div class="field">
               <button type="submit" class="fluid ui positive right labeled icon button">
-                Login!
+                Log in!
                 <i class="sign in icon"></i>
               </button>
             </div>
@@ -263,7 +268,6 @@ Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
 
     restore: function(data)
     {
-        console.log('restore');
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
                 reject();
@@ -282,7 +286,7 @@ Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
                 Ember.$.ajax({
-                    url    : 'http://127.0.0.1:8889/server.php/',
+                    url    : ENV.katana.base_url,
                     type   : 'PROPFIND',
                     headers: {
                         'Authorization': 'Basic ' + basic
@@ -394,10 +398,13 @@ Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixing);
 
 Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.AuthenticationControllerMixin, {
 
+    valid: true,
+
     actions: {
 
         authenticate: function()
         {
+            var self        = this;
             var credentials = this.getProperties('username', 'password');
             console.log(credentials);
             this.get('session')
@@ -405,7 +412,8 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
                 .then(
                     null,
                     function(message) {
-                        // errorMessage is message
+                        self.set('valid', false);
+                        return;
                     }
                 );
 
