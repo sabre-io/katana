@@ -317,9 +317,6 @@ Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
 
     invalidate: function(data)
     {
-        console.log('invalidate');
-        var self = this;
-
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
                 resolve();
