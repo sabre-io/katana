@@ -404,6 +404,7 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
     cancelSubmitting: function()
     {
         this.set('submitting', false);
+        return;
     }.observes('valid'),
 
     actions: {
@@ -414,11 +415,13 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
 
             this.set('submitting', true);
             var credentials = this.getProperties('username', 'password');
-            console.log(credentials);
             this.get('session')
                 .authenticate('authenticator:custom', credentials)
                 .then(
-                    null,
+                    function(message) {
+                        self.set('submitting', false);
+                        return;
+                    },
                     function(message) {
                         self.set('valid', false);
                         return;
