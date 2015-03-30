@@ -37,34 +37,62 @@
       </div>
     </h1>
 
-    <nav class="ui segment menu">
-      {{#link-to 'users' class="item"}}
-        <i class="users icon"></i> Users
-      {{/link-to}}
-      <a class="item">
-        <i class="calendar icon"></i> Calendars
-      </a>
-      <a class="item">
-        <i class="book icon"></i> Address books
-      </a>
-      <a class="item">
-        <i class="tasks icon"></i> Tasks
-      </a>
-      <a class="item">
-        <i class="dashboard icon"></i> Dashboard
-      </a>
-      <a class="item">
-        <i class="settings icon"></i> Settings
-      </a>
-
-      <div class="right menu">
-        {{#link-to 'about' class="item"}}
-          <i class="help circle icon"></i> About
+    {{#if session.isAuthenticated}}
+      <nav class="ui segment menu">
+        {{#link-to 'users' class="item"}}
+          <i class="users icon"></i> Users
         {{/link-to}}
-      </div>
-    </nav>
+        <a class="item">
+          <i class="calendar icon"></i> Calendars
+        </a>
+        <a class="item">
+          <i class="book icon"></i> Address books
+        </a>
+        <a class="item">
+          <i class="tasks icon"></i> Tasks
+        </a>
+        <a class="item">
+          <i class="dashboard icon"></i> Dashboard
+        </a>
+        <a class="item">
+          <i class="settings icon"></i> Settings
+        </a>
 
-    <article>{{outlet}}</article>
+        <div class="right menu">
+          {{#link-to 'about' class="item"}}
+            <i class="help circle icon"></i> About
+          {{/link-to}}
+          <a {{action 'invalidateSession'}} class="item">
+            <i class="sign out icon"></i> Log out
+          </a>
+        </div>
+      </nav>
+
+      <article>{{outlet}}</article>
+    {{else}}
+      <div class="ui three columns centered grid">
+        <div class="column">
+          <form {{action 'authenticate' on='submit'}} class="ui column segment form">
+            <h2 class="ui header">Log in</h2>
+
+            <div class="field">
+              <label>Username:</label>
+              {{input type="text" value=username}}
+            </div>
+            <div class="field">
+              <label>Password:</label>
+              {{input type="password" value=password}}
+            </div>
+            <div class="field">
+              <button type="submit" class="fluid ui positive right labeled icon button">
+                Login!
+                <i class="sign in icon"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    {{/if}}
   </main>
 </script>
 
@@ -103,11 +131,11 @@
       ({{username}})?
     </div>
     <div class="actions">
-      <div class="ui negative button">No</div>
-      <div class="ui positive right labeled icon button">
+      <button class="ui negative button">No</button>
+      <button class="ui positive right labeled icon button">
         Yes!
         <i class="checkmark icon"></i>
-      </div>
+      </button>
     </div>
   </div>
 
@@ -206,9 +234,110 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/>.</code></
 <script src="static/vendor/ember/ember.min.js"></script>
 <script src="static/vendor/ember/ember-template-compiler.js"></script>
 <script src="static/vendor/ember-data/ember-data.min.js"></script>
+<script src="static/vendor/ember-simple-auth/simple-auth.js"></script>
 
 <script>
+var ENV = ENV || {};
+ENV['katana'] = {
+    base_url: '/server.php/'
+};
+ENV['simple-auth'] = {
+    authorizer: 'authorizer:custom',
+    store     : 'simple-auth-session-store:local-storage'
+};
+
+Ember.Application.initializer({
+    name      : 'authentication',
+    before    : 'simple-auth',
+    initialize: function(container, application) {
+        container.register('authenticator:custom', Katana.CustomAuthenticator);
+        container.register('authorizer:custom',    Katana.CustomAuthorizer);
+
+        return;
+    }
+});
+
 Katana = Ember.Application.create();
+
+Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
+
+    restore: function(data)
+    {
+        console.log('restore');
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                reject();
+            }
+        );
+    },
+
+    authenticate: function(credentials)
+    {
+        var basic = btoa(
+            (credentials.username || '') +
+            ':' +
+            (credentials.password || '')
+        );
+
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                Ember.$.ajax({
+                    url    : 'http://127.0.0.1:8889/server.php/',
+                    type   : 'PROPFIND',
+                    headers: {
+                        'Authorization': 'Basic ' + basic
+                    },
+                    xhrFields: {
+                        withCredentials: true
+                    }
+                }).then(
+                    function(response, status) {
+                        Ember.run(function() {
+                            resolve({token: 'bla'});
+                        });
+                        return;
+                    },
+                    function(xhr, status, error) {
+                        console.log('hoo');
+
+                        Ember.run(function() {
+                            reject();
+                        });
+                        return;
+                    }
+                );
+                return;
+            }
+        );
+    },
+
+    invalidate: function(data)
+    {
+        console.log('invalidate');
+        var self = this;
+
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                resolve();
+            }
+        );
+    }
+});
+
+Katana.CustomAuthorizer = SimpleAuth.Authorizers.Base.extend({
+
+    authorize: function(xhr, requestOptions)
+    {
+        console.log("custom authorizer " + this.get('session.isAuthenticated'));
+        console.log("custom authorizer " + this.get('session.secure.token'));
+        // xhr.setRequestHeader('Authorization', '…');
+    }
+
+});
+
+Katana.Router.reopen({
+    rootURL: window.location.pathname
+});
 
 Katana.Router.map(function() {
     this.resource('users', function() {
@@ -217,25 +346,7 @@ Katana.Router.map(function() {
     this.resource('about');
 });
 
-Katana.UsersRoute = Ember.Route.extend({
-
-    model: function()
-    {
-        return this.store.find('user');
-    }
-
-});
-
-Katana.UserRoute = Ember.Route.extend({
-
-    model: function(params)
-    {
-        return this.store.find('user', params.user_id);
-    }
-
-});
-
-Katana.ApplicationRoute = Ember.Route.extend({
+Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
 
     actions: {
 
@@ -248,6 +359,56 @@ Katana.ApplicationRoute = Ember.Route.extend({
         cancelModal: function()
         {
             $('html').removeClass('modal');
+            return;
+        },
+
+        invalidateSession: function()
+        {
+            this.get('session').invalidate();
+            return;
+        }
+
+    }
+
+});
+
+Katana.UsersRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixing, {
+
+    model: function()
+    {
+        return this.store.find('user');
+    }
+
+});
+
+Katana.UserRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixing, {
+
+    model: function(params)
+    {
+        return this.store.find('user', params.user_id);
+    }
+
+});
+
+Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixing);
+
+Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.AuthenticationControllerMixin, {
+
+    actions: {
+
+        authenticate: function()
+        {
+            var credentials = this.getProperties('username', 'password');
+            console.log(credentials);
+            this.get('session')
+                .authenticate('authenticator:custom', credentials)
+                .then(
+                    null,
+                    function(message) {
+                        // errorMessage is message
+                    }
+                );
+
             return;
         }
 
