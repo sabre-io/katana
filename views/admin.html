@@ -72,7 +72,7 @@
     {{else}}
       <div class="ui three columns centered grid">
         <div class="column">
-          <form {{action 'authenticate' on='submit'}} {{bind-attr class=":ui :column :segment :form valid::error"}}>
+          <form {{action 'authenticate' on='submit'}} {{bind-attr class=":ui :column :segment :form valid::error submitting:loading"}}>
             <h2 class="ui header">Log in</h2>
 
             <div class="ui error message">
@@ -398,13 +398,21 @@ Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixing);
 
 Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.AuthenticationControllerMixin, {
 
-    valid: true,
+    valid     : true,
+    submitting: false,
+
+    cancelSubmitting: function()
+    {
+        this.set('submitting', false);
+    }.observes('valid'),
 
     actions: {
 
         authenticate: function()
         {
-            var self        = this;
+            var self = this;
+
+            this.set('submitting', true);
             var credentials = this.getProperties('username', 'password');
             console.log(credentials);
             this.get('session')
