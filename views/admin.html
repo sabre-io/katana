@@ -37,6 +37,19 @@
       </div>
     </h1>
 
+    {{#if sessionWillExpire}}
+      <div class="ui icon negative message">
+        <i class="warning sign icon"></i>
+        <div class="content">
+          <div class="header">The session is about to close!</div>
+          <p>We are sorry but it seems that you are inactive. Consequently the
+          session is about to close automatically for security reasons in
+          <strong>{{sessionExpireIn}}</strong>s.</p>
+          <p>Do something to cancel this action.</p>
+        </div>
+      </div>
+    {{/if}}
+
     {{#if session.isAuthenticated}}
       <nav class="ui segment menu">
         {{#link-to 'users' class="item"}}
@@ -262,7 +275,17 @@ Ember.Application.initializer({
     }
 });
 
-Katana = Ember.Application.create();
+Katana = Ember.Application.create({
+
+    lastActivity: null,
+
+    ready: function()
+    {
+        this.lastActivity = new Date();
+        return;
+    }
+
+});
 
 Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
 
@@ -401,14 +424,56 @@ Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixing);
 
 Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.AuthenticationControllerMixin, {
 
-    valid     : true,
-    submitting: false,
+    valid            : true,
+    submitting       : false,
+    lastSessionTick  : null,
+    sessionExpireIn  : 0,
+    sessionWillExpire: false,
 
     cancelSubmitting: function()
     {
         this.set('submitting', false);
         return;
     }.observes('valid'),
+
+    sessionTick: function()
+    {
+        var self            = this;
+        var elapsedSeconds  = Math.round((new Date() - Katana.lastActivity) / 1000);
+        var sessionExpireIn = (10 * 60) - elapsedSeconds;
+        var session         = this.get('session');
+
+        this.set('sessionExpireIn', sessionExpireIn);
+
+        if (false === session.isAuthenticated) {
+            return;
+        }
+
+        if (sessionExpireIn <= 60) {
+            this.set('sessionWillExpire', true);
+        } else {
+            this.set('sessionWillExpire', false);
+        }
+
+        if (sessionExpireIn <= 0) {
+            this.get('session').invalidate().then(
+                null,
+                function() {
+                    window.location.reload();
+                }
+            );
+            return;
+        }
+
+        Ember.run.later(
+            function() {
+                self.set('lastSessionTick', new Date());
+            },
+            1000
+        );
+
+        return;
+    }.observes('lastSessionTick').on('init'),
 
     actions: {
 
@@ -427,6 +492,14 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
                 .then(
                     function(message) {
                         self.set('submitting', false);
+
+                        Ember.run.later(
+                            function() {
+                                self.set('lastSessionTick', new Date());
+                            },
+                            1000
+                        );
+
                         return;
                     },
                     function(message) {
@@ -606,6 +679,15 @@ Katana.ApplicationView = Ember.View.extend({
                 }
             );
         });
+
+        var updateLastActivity = function() {
+            Katana.lastActivity = new Date();
+            return;
+        };
+
+        $(window).mousemove(updateLastActivity);
+        $(window).click(updateLastActivity);
+        $(window).keypress(updateLastActivity);
 
         return;
     }
