@@ -311,12 +311,8 @@ Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
                 Ember.$.ajax({
                     url    : ENV.katana.base_url,
                     type   : 'PROPFIND',
-                    headers: {
-                        'Authorization': 'Basic ' + basic
-                    },
-                    xhrFields: {
-                        withCredentials: true
-                    }
+                    username: credentials.username,
+                    password: credentials.password
                 }).then(
                     function(response, status) {
                         Ember.run(function() {
@@ -325,8 +321,6 @@ Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
                         return;
                     },
                     function(xhr, status, error) {
-                        console.log('hoo');
-
                         Ember.run(function() {
                             reject();
                         });
