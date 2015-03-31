@@ -248,7 +248,7 @@ ENV['katana'] = {
 };
 ENV['simple-auth'] = {
     authorizer: 'authorizer:custom',
-    store     : 'simple-auth-session-store:local-storage'
+    store     : 'simple-auth-session-store:ephemeral'
 };
 
 Ember.Application.initializer({
