@@ -297,7 +297,7 @@ Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
                 }).then(
                     function(response, status) {
                         Ember.run(function() {
-                            resolve({token: 'bla'});
+                            resolve({token: basic});
                         });
                         return;
                     },
@@ -329,9 +329,15 @@ Katana.CustomAuthorizer = SimpleAuth.Authorizers.Base.extend({
 
     authorize: function(xhr, requestOptions)
     {
-        console.log("custom authorizer " + this.get('session.isAuthenticated'));
-        console.log("custom authorizer " + this.get('session.secure.token'));
-        // xhr.setRequestHeader('Authorization', '…');
+        var session = this.get('session');
+
+        if (session.content.token) {
+            xhr.setRequestHeader(
+                'Authorization', 'Basic ' + session.content.token
+            );
+        }
+
+        return;
     }
 
 });
