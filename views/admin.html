@@ -306,10 +306,12 @@ Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
             (credentials.password || '')
         );
 
+        var url = ENV.katana.base_url;
+
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
                 Ember.$.ajax({
-                    url    : ENV.katana.base_url,
+                    url    : url,
                     type   : 'PROPFIND',
                     username: credentials.username,
                     password: credentials.password
