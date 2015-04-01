@@ -25,6 +25,7 @@ namespace Sabre\Katana\Dav\Authentification;
 use Sabre\Katana\Database;
 use Sabre\DAV\Auth\Backend;
 use Sabre\DAV\Server;
+use Sabre\DAV\Exception\NotAuthenticated;
 
 /**
  * Basic authentification.
@@ -112,8 +113,25 @@ class BasicBackend extends Backend\AbstractBasic
     public function authenticate(Server $server, $realm)
     {
         $this->_currentRealm = $realm;
-        $out = parent::authenticate($server, $realm);
-        $this->_currentRealm = null;
+
+        try {
+
+            $out = parent::authenticate($server, $realm);
+            $this->_currentRealm = null;
+
+        } catch(NotAuthenticated $exception) {
+
+            $this->_currentRealm = null;
+            $request             = $server->httpRequest;
+            $response            = $server->httpResponse;
+
+            if ('XMLHttpRequest' === $request->getHeader('X-Requested-With')) {
+                $response->removeHeader('WWW-Authenticate');
+            }
+
+            throw $exception;
+
+        }
 
         return $out;
     }
