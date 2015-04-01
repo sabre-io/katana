@@ -103,7 +103,10 @@ class BasicBackend extends Backend\AbstractBasic
     }
 
     /**
-     * Override the parent `authenticate` method to catch the current realm.
+     * Override the parent `authenticate` method to catch the current realm and
+     * to remove the WWW-Authenticate header in the response if the
+     * X-Requested-With header is present in the request. This last trick
+     * prevents the browser to prompt of dialog to the user.
      *
      * @param  Server  $server    Server (not katana, the sabre/dav one).
      * @param  string  $realm     Realm.
