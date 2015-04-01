@@ -54,7 +54,7 @@ class Database extends PDO
 
         if (empty($username)) {
             parent::__construct($dsn);
-        } elseif(empty($password)) {
+        } elseif (empty($password)) {
             parent::__construct($dsn, $username);
         } else {
             parent::__construct($dsn, $username, $password);

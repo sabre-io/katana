@@ -95,7 +95,7 @@ class BasicBackend extends Backend\AbstractBasic
 
         $out = 0;
 
-        for($i = 0; $i < $length; ++$i) {
+        for ($i = 0; $i < $length; ++$i) {
             $out |= ord($digest[$i]) ^ ord($expectedDigest[$i]);
         }
 
@@ -122,7 +122,7 @@ class BasicBackend extends Backend\AbstractBasic
             $out = parent::authenticate($server, $realm);
             $this->_currentRealm = null;
 
-        } catch(NotAuthenticated $exception) {
+        } catch (NotAuthenticated $exception) {
 
             $this->_currentRealm = null;
             $request             = $server->httpRequest;

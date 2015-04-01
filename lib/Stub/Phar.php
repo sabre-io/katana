@@ -44,7 +44,7 @@ class Phar extends PHPPhar
      */
     public function __construct($filename, $flags = null, $alias = null)
     {
-        if(null !== $alias) {
+        if (null !== $alias) {
             parent::__construct($filename, $flags, $alias);
         } elseif (null !== $flags) {
             parent::__construct($filename, $flags);
