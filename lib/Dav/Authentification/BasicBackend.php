@@ -111,7 +111,7 @@ class BasicBackend extends Backend\AbstractBasic
      * @param  Server  $server    Server (not katana, the sabre/dav one).
      * @param  string  $realm     Realm.
      * @return boolean
-     * @throw  Sabre\DAV\Exception\NotAuthenticated
+     * @throw  NotAuthenticated
      */
     public function authenticate(Server $server, $realm)
     {
