@@ -424,12 +424,6 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
     sessionExpireIn  : 0,
     sessionWillExpire: false,
 
-    cancelSubmitting: function()
-    {
-        this.set('submitting', false);
-        return;
-    }.observes('valid'),
-
     sessionTick: function()
     {
         var self            = this;
@@ -497,7 +491,9 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
                         return;
                     },
                     function(message) {
-                        self.set('valid', false);
+                        self.set('valid',      false);
+                        self.set('submitting', false);
+
                         return;
                     }
                 );
