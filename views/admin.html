@@ -313,8 +313,8 @@ Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
                 Ember.$.ajax({
                     url    : url,
                     type   : 'PROPFIND',
-                    username: credentials.username,
-                    password: credentials.password
+                    username: credentials.username || '',
+                    password: credentials.password || ''
                 }).then(
                     function(response, status) {
                         Ember.run(function() {
