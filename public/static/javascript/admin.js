@@ -371,7 +371,7 @@ Katana.ApplicationAdapter = DS.FixtureAdapter;
 /**
  * Users route.
  */
-Katana.UsersRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixing, {
+Katana.UsersRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
     model: function()
     {
@@ -423,7 +423,7 @@ Katana.UsersController = Ember.ArrayController.extend({
 /**
  * User route.
  */
-Katana.UserRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixing, {
+Katana.UserRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
     model: function(params)
     {
@@ -591,7 +591,7 @@ Katana.UserController = Ember.ObjectController.extend({
 /**
  * About route.
  */
-Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixing);
+Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin);
 
 
 var attr    = DS.attr;
