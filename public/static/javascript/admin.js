@@ -593,7 +593,6 @@ Katana.UserController = Ember.ObjectController.extend({
  */
 Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin);
 
-
 var attr    = DS.attr;
 Katana.User = DS.Model.extend({
     username: attr('string'),
