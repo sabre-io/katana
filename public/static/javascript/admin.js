@@ -594,10 +594,28 @@ Katana.UserController = Ember.ObjectController.extend({
 Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin);
 
 var attr    = DS.attr;
-Katana.User = DS.Model.extend({
+Katana.User = DS.Model.extend(SimpleValidatorMixin, {
     username: attr('string'),
     displayName: attr('string'),
-    email: attr('string')
+    email: attr('string'),
+
+    validators: {
+
+        username: function()
+        {
+            var username = this.get('username');
+
+            if (!username) {
+                return {
+                    id     : 'username_empty',
+                    message: 'Username cannot be empty.'
+                };
+            }
+
+            return true;
+        },
+
+    }
 });
 
 Katana.User.FIXTURES = [

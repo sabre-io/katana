@@ -157,6 +157,12 @@
     </div>
   </div>
 
+  {{#unless valid}}
+  <div class="ui error message">
+    <p>{{validatorErrors.username_empty}}</p>
+  </div>
+  {{/unless}}
+
   <form class="ui form">
     <div class="inline field">
       <label>Username:</label>
@@ -185,7 +191,7 @@
 
     <div class="right aligned column">
       {{#if isEditing}}
-        <button type="submit" {{action 'applyEditing'}} class="ui positive right labeled icon button">
+        <button type="submit" {{action 'applyEditing'}} {{bind-attr disabled="valid:false:true" class=":ui :positive :right :labeled :icon valid::disabled :button"}}>
           Save
           <i class="save icon"></i>
         </button>
@@ -253,6 +259,7 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/>.</code></
 <script src="static/vendor/ember/ember-template-compiler.js"></script>
 <script src="static/vendor/ember-data/ember-data.min.js"></script>
 <script src="static/vendor/ember-simple-auth/simple-auth.js"></script>
+<script src="static/javascript/simple-validator.js"></script>
 <script src="static/javascript/admin.js"></script>
 
 </body>
