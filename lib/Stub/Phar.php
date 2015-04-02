@@ -4,7 +4,7 @@
  * @license
  *
  * sabre/katana.
- * Copyright (C) 2015  fruux GmbH (https://fruux.com/)
+ * Copyright (C) 2015 fruux GmbH (https://fruux.com/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -85,7 +85,7 @@ __HALT_COMPILER();
  * @license
  *
  * sabre/katana.
- * Copyright (C) 2015  fruux GmbH (https://fruux.com/)
+ * Copyright (C) 2015 fruux GmbH (https://fruux.com/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
