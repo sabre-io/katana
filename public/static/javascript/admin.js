@@ -615,6 +615,20 @@ Katana.User = DS.Model.extend(SimpleValidatorMixin, {
             return true;
         },
 
+        displayName: function()
+        {
+            var displayName = this.get('displayName');
+
+            if(!displayName) {
+                return {
+                    id     : 'displayName_empty',
+                    message: 'Display name cannot be empty.'
+                }
+            }
+
+            return true;
+        }
+
     }
 });
 
