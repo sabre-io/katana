@@ -158,9 +158,23 @@
   </div>
 
   {{#unless valid}}
-  <div class="ui error message">
-    <p>{{validatorErrors.username_empty}}</p>
-  </div>
+    {{#if validatorErrors.username_empty}}
+      <div class="ui error message">
+        <p>Username cannot be empty.</p>
+      </div>
+    {{/if}}
+
+    {{#if validatorErrors.username_unique}}
+      <div class="ui error message">
+        <p>Username must be unique.</p>
+      </div>
+    {{/if}}
+
+    {{#if validatorErrors.displayName_empty}}
+      <div class="ui error message">
+        <p>Display name cannot be empty.</p>
+      </div>
+    {{/if}}
   {{/unless}}
 
   <form class="ui form">
