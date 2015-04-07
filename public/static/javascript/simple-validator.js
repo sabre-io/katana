@@ -20,7 +20,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ember.libraries.register('Ember Simple Validator', '0.0.1');
+Ember.libraries.register('Ember Simple Validator', '0.0.2');
 
 /**
  * A simple validator mixin.
@@ -29,8 +29,8 @@ Ember.libraries.register('Ember Simple Validator', '0.0.1');
  * pretty similar to the `actions` property. This property is an object of
  * functions representing validators.
  *
- * A validator can return `true` if it valids a datum, `{id: errorId, message:
- * "…"}` if it invalids a datum.
+ * A validator returns a deferred promise that resolve or reject a datumm, It
+ * rejects `{id: errorId, message: "…"}` if it invalids a datum.
  * If the key of this object is a property name of the `Ember.Object`, then an
  * observer is automatically added to auto-validate this property without doing
  * anything. Else, the `validate` method must be call manually.
@@ -49,11 +49,15 @@ Ember.libraries.register('Ember Simple Validator', '0.0.1');
  *     validators: {
  *         username: function()
  *         {
+ *             var defer = Ember.RSVP.defer();
+ *
  *             if (!username) {
- *                 return {id: "foo", "message: "Bar."};
+ *                 defer.reject({id: "foo", "message: "Bar."});
+ *             } else {
+ *                 defer.resolve(username);
  *             }
  *
- *             return true;
+ *             return defer.promise;
  *         }
  *     }
  *
@@ -82,7 +86,7 @@ var SimpleValidatorMixin = Ember.Mixin.create({
 
                         return function(sender, key, value, context, rev) {
 
-                            var out = (validator.bind(self))(
+                            var promise = (validator.bind(self))(
                                 sender,
                                 key,
                                 value,
@@ -90,46 +94,56 @@ var SimpleValidatorMixin = Ember.Mixin.create({
                                 rev
                             );
 
-                            if (true !== out) {
+                            promise.then(
+                                function() {
+                                    // Clean errors.
+                                    errorIds.forEach(
+                                        function(errorId) {
+                                            if (self.validatorErrors[errorId]) {
+                                                self.set(
+                                                    'validatorErrors.' + errorId,
+                                                    null
+                                                );
+                                            }
+                                        }
+                                    );
+                                    return;
+                                },
+                                function(error) {
 
-                                // Is it a known error?
-                                if (-1 === errorIds.indexOf(out.id)) {
-                                    errorIds.push(out.id);
+                                    // Is it a known error?
+                                    if (-1 === errorIds.indexOf(error.id)) {
+                                        errorIds.push(error.id);
+                                    }
+
+                                    // Remove previous errors.
+                                    errorIds.forEach(
+                                        function(errorId) {
+                                            if (self.validatorErrors[errorId] &&
+                                                errorId !== error.id) {
+                                                self.set(
+                                                    'validatorErrors.' + errorId,
+                                                    null
+                                                );
+                                            }
+                                        }
+                                    );
+
+                                    // Publish the new error.
+                                    self.set(
+                                        'validatorErrors.' + error.id,
+                                        error.message
+                                    );
+
+                                    return;
+
                                 }
+                            ).finally(function() {
+                                self.validate();
+                                return;
+                            });
 
-                                // Remove previous errors.
-                                errorIds.forEach(
-                                    function(errorId) {
-                                        if (self.validatorErrors[errorId] &&
-                                            errorId !== out.id) {
-                                            self.set(
-                                                'validatorErrors.' + errorId,
-                                                null
-                                            );
-                                        }
-                                    }
-                                );
-
-                                // Publish the new error.
-                                self.set('validatorErrors.' + out.id, out.message)
-
-                            } else {
-                                // Clean errors.
-                                errorIds.forEach(
-                                    function(errorId) {
-                                        if (self.validatorErrors[errorId]) {
-                                            self.set(
-                                                'validatorErrors.' + errorId,
-                                                null
-                                            );
-                                        }
-                                    }
-                                );
-                            }
-
-                            self.validate();
-
-                            return out;
+                            return;
 
                         }
                     }
