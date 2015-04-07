@@ -603,30 +603,36 @@ Katana.User = DS.Model.extend(SimpleValidatorMixin, {
 
         username: function()
         {
+            var defer    = Ember.RSVP.defer();
             var username = this.get('username');
 
             if (!username) {
-                return {
+                defer.reject({
                     id     : 'username_empty',
                     message: 'Username cannot be empty.'
-                };
+                });
+            } else {
+                defer.resolve(username);
             }
 
-            return true;
+            return defer.promise;
         },
 
         displayName: function()
         {
+            var defer       = Ember.RSVP.defer();
             var displayName = this.get('displayName');
 
             if(!displayName) {
-                return {
+                defer.reject({
                     id     : 'displayName_empty',
                     message: 'Display name cannot be empty.'
-                }
+                });
+            } else {
+                defer.resolve(displayName);
             }
 
-            return true;
+            return defer.promise;
         }
 
     }
