@@ -605,6 +605,7 @@ Katana.User = DS.Model.extend(SimpleValidatorMixin, {
         {
             var defer    = Ember.RSVP.defer();
             var username = this.get('username');
+            var id       = this.get('id');
 
             if (!username) {
                 defer.reject({
@@ -612,7 +613,22 @@ Katana.User = DS.Model.extend(SimpleValidatorMixin, {
                     message: 'Username cannot be empty.'
                 });
             } else {
-                defer.resolve(username);
+                this.get('store').filter(
+                    'user',
+                    function(user) {
+                        return user.get('id')       !== id &&
+                               user.get('username') === username;
+                    }
+                ).then(function(sameUsers) {
+                    if (0 === sameUsers.get('length')) {
+                        defer.resolve(username);
+                    } else {
+                        defer.reject({
+                            id     : 'username_unique',
+                            message: 'Username must be unique.'
+                        });
+                    }
+                });
             }
 
             return defer.promise;
