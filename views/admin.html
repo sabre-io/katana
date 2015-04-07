@@ -175,6 +175,12 @@
         <p>Display name cannot be empty.</p>
       </div>
     {{/if}}
+
+    {{#if validatorErrors.email_invalid}}
+      <div class="ui error message">
+        <p>Email is not syntactically valid.</p>
+      </div>
+    {{/if}}
   {{/unless}}
 
   <form class="ui form">

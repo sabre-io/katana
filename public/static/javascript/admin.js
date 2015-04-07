@@ -639,13 +639,30 @@ Katana.User = DS.Model.extend(SimpleValidatorMixin, {
             var defer       = Ember.RSVP.defer();
             var displayName = this.get('displayName');
 
-            if(!displayName) {
+            if (!displayName) {
                 defer.reject({
                     id     : 'displayName_empty',
                     message: 'Display name cannot be empty.'
                 });
             } else {
                 defer.resolve(displayName);
+            }
+
+            return defer.promise;
+        },
+
+        email: function()
+        {
+            var defer = Ember.RSVP.defer();
+            var email = this.get('email');
+
+            if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+                defer.reject({
+                    id     : 'email_invalid',
+                    message: 'Email is not syntactically valid.'
+                });
+            } else {
+                defer.resolve(email);
             }
 
             return defer.promise;
