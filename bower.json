@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "semantic-ui": "~1.9.1",
-    "ember": "~1.10",
+    "ember": "~1.11",
     "ember-data": "~1.0.0-beta.16",
     "ember-simple-auth": "~0.7.3"
   }

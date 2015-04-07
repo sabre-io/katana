@@ -440,7 +440,7 @@ Katana.UserRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 /**
  * User controller.
  */
-Katana.UserController = Ember.ObjectController.extend({
+Katana.UserController = Ember.Controller.extend({
 
     queryParams: ['edit'],
 
@@ -467,21 +467,6 @@ Katana.UserController = Ember.ObjectController.extend({
     isEditing: false,
 
     /**
-     * Previous username, in case we cancel the current editing.
-     */
-    previousUsername   : null,
-
-    /**
-     * Previous display name, in case we cancel the current editing.
-     */
-    previousDisplayName: null,
-
-    /**
-     * Previous email, in case we cancel the current editing.
-     */
-    previousEmail      : null,
-
-    /**
      *  When we are editing, the application should be in the modal mode.
      */
     autoModal: function()
@@ -501,10 +486,7 @@ Katana.UserController = Ember.ObjectController.extend({
          */
         requestEditing: function()
         {
-            this.set('previousUsername',    this.get('username'));
-            this.set('previousDisplayName', this.get('displayName'));
-            this.set('previousEmail',       this.get('email'));
-            this.set('isEditing',           true);
+            this.set('isEditing', true);
 
             return;
         },
@@ -531,10 +513,8 @@ Katana.UserController = Ember.ObjectController.extend({
 
             }
 
-            this.set('username',    this.get('previousUsername'));
-            this.set('displayName', this.get('previousDisplayName'));
-            this.set('email',       this.get('previousEmail'));
-            this.set('isEditing',   false);
+            this.get('model').rollback();
+            this.set('isEditing', false);
 
             return;
         },
@@ -686,14 +666,14 @@ Katana.User.FIXTURES = [
     },
     {
         id: 1,
-        username: 'alix',
-        displayName: 'Alix Vence',
-        email: 'alix@freeman.hl'
-    },
-    {
-        id: 2,
         username: 'ivan',
         displayName: 'Hywan',
         email: 'ivan@fruux.com'
+    },
+    {
+        id: 2,
+        username: 'alix',
+        displayName: 'Alix Vence',
+        email: 'alix@freeman.hl'
     }
 ];
