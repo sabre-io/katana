@@ -115,6 +115,7 @@ Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
             }
         );
     }
+
 });
 
 /**
@@ -330,23 +331,27 @@ Katana.ApplicationView = Ember.View.extend({
     {
         this._super();
 
-        Ember.run.scheduleOnce('afterRender', this, function() {
-
-            // Configure the modal behavior.
-            $('.ui.modal').modal(
-                'setting',
-                {
-                    transition: 'fade up',
-                    closable: false,
-                    onDeny: function() {
-                        return false;
-                    },
-                    onApprove: function() {
-                        return false;
+        Ember.run.scheduleOnce(
+            'afterRender',
+            this,
+            function() {
+                // Configure the modal behavior.
+                $('.ui.modal').modal(
+                    'setting',
+                    {
+                        transition: 'fade up',
+                        closable: false,
+                        onDeny: function() {
+                            return false;
+                        },
+                        onApprove: function() {
+                            return false;
+                        }
                     }
-                }
-            );
-        });
+                );
+                return;
+            }
+        );
 
         // Check the inactivity of the user.
         var updateLastActivity = function() {
@@ -593,11 +598,11 @@ Katana.UserController = Ember.ObjectController.extend({
  */
 Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin);
 
-var attr    = DS.attr;
 Katana.User = DS.Model.extend(SimpleValidatorMixin, {
-    username: attr('string'),
-    displayName: attr('string'),
-    email: attr('string'),
+
+    username   : DS.attr('string'),
+    displayName: DS.attr('string'),
+    email      : DS.attr('string'),
 
     validators: {
 
@@ -669,6 +674,7 @@ Katana.User = DS.Model.extend(SimpleValidatorMixin, {
         }
 
     }
+
 });
 
 Katana.User.FIXTURES = [
