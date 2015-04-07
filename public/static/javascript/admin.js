@@ -502,10 +502,12 @@ Katana.UserController = Ember.Controller.extend({
                 throw "Cannot cancel a user editing that is not in editing mode.";
             }
 
-            // Newly created record.
-            if (true === this.get('isNew')) {
+            var model = this.get('model');
 
-                this.get('model').deleteRecord();
+            // Newly created record.
+            if (true === model.get('isNew')) {
+
+                model.deleteRecord();
                 this.set('isEditing', false);
                 this.transitionToRoute('users');
 
@@ -513,7 +515,7 @@ Katana.UserController = Ember.Controller.extend({
 
             }
 
-            this.get('model').rollback();
+            model.rollback();
             this.set('isEditing', false);
 
             return;
