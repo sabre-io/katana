@@ -388,7 +388,7 @@ Katana.UsersRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 /**
  * User controller.
  */
-Katana.UsersController = Ember.ArrayController.extend({
+Katana.UsersController = Ember.Controller.extend({
 
     /**
      * Users are sorted by the display name.
