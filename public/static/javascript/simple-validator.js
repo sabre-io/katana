@@ -42,7 +42,7 @@ Ember.libraries.register('Ember Simple Validator', '0.0.2');
  * `validatorErrors[errorId]` entry. Thus, in the view, we can have the
  * following code:
  *
- *     {{#if validatorErrors.foo}}…
+ *     {{#if model.validatorErrors.foo}}…
  *
  * and with the following `validators` object:
  *
