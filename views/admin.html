@@ -122,9 +122,9 @@
           New user
           <i class="plus icon"></i>
         </a>
-        {{#each}}
-          {{#link-to 'user' this class="item"}}
-            {{displayName}}
+        {{#each model as |user|}}
+          {{#link-to 'user' user.id class="item"}}
+            {{user.displayName}}
           {{/link-to}}
         {{else}}
           <div class="item">Nobody…</div>
@@ -145,8 +145,8 @@
     <i class="close icon"></i>
     <div class="header">Delete the user</div>
     <div class="content">
-      Are you sure you want to delete <strong>{{displayName}}</strong>
-      ({{username}})?
+      Are you sure you want to delete <strong>{{model.displayName}}</strong>
+      ({{model.username}})?
     </div>
     <div class="actions">
       <button class="ui negative button">No</button>
@@ -158,25 +158,25 @@
   </div>
 
   {{#unless valid}}
-    {{#if validatorErrors.username_empty}}
+    {{#if model.validatorErrors.username_empty}}
       <div class="ui error message">
         <p>Username cannot be empty.</p>
       </div>
     {{/if}}
 
-    {{#if validatorErrors.username_unique}}
+    {{#if model.validatorErrors.username_unique}}
       <div class="ui error message">
         <p>Username must be unique.</p>
       </div>
     {{/if}}
 
-    {{#if validatorErrors.displayName_empty}}
+    {{#if model.validatorErrors.displayName_empty}}
       <div class="ui error message">
         <p>Display name cannot be empty.</p>
       </div>
     {{/if}}
 
-    {{#if validatorErrors.email_invalid}}
+    {{#if model.validatorErrors.email_invalid}}
       <div class="ui error message">
         <p>Email is not syntactically valid.</p>
       </div>
@@ -187,31 +187,31 @@
     <div class="inline field">
       <label>Username:</label>
       {{#if isEditing}}
-        {{input type="text" value=username}}
+        {{input type="text" value=model.username}}
       {{else}}
-      <strong>{{username}}</strong>
+      <strong>{{model.username}}</strong>
       {{/if}}
     </div>
     <div class="inline field">
       <label>Display name:</label>
       {{#if isEditing}}
-        {{input type="text" value=displayName}}
+        {{input type="text" value=model.displayName}}
       {{else}}
-      <strong>{{displayName}}</strong>
+      <strong>{{model.displayName}}</strong>
       {{/if}}
     </div>
     <div class="inline field">
       <label>Email:</label>
       {{#if isEditing}}
-        {{input type="email" value=email}}
+        {{input type="email" value=model.email}}
       {{else}}
-      <strong>{{email}}</strong>
+      <strong>{{model.email}}</strong>
       {{/if}}
     </div>
 
     <div class="right aligned column">
       {{#if isEditing}}
-        <button type="submit" {{action 'applyEditing'}} {{bind-attr disabled="valid:false:true" class=":ui :positive :right :labeled :icon valid::disabled :button"}}>
+        <button type="submit" {{action 'applyEditing'}} {{bind-attr disabled="model.valid:false:true" class=":ui :positive :right :labeled :icon model.valid::disabled :button"}}>
           Save
           <i class="save icon"></i>
         </button>
