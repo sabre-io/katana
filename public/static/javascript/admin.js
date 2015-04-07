@@ -1,7 +1,7 @@
 var ENV = ENV || {};
 
 ENV['katana'] = {
-    base_url: '/server.php/'
+    base_url: window.location.pathname.replace(/\/+[^\/]*$/, '/') + 'server.php'
 };
 ENV['simple-auth'] = {
     // Declare our custom authorizer.
