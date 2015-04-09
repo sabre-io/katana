@@ -81,7 +81,7 @@ class Directory implements DAV\INode, DAV\ICollection
      * exception.
      *
      * @param  string  $name  The new name
-     * @throw  DAV\Exception\NotImplemented
+     * @throw  DAV\Exception\Forbidden
      */
     public function setName($name)
     {
@@ -99,7 +99,7 @@ class Directory implements DAV\INode, DAV\ICollection
      * This is not allowed for this collection. So we basically always throw an
      * exception.
      *
-     * @throw  DAV\Exception\NotFound
+     * @throw  DAV\Exception\Forbidden
      */
     public function delete()
     {
