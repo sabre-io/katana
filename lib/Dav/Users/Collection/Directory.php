@@ -64,13 +64,17 @@ class Directory implements DAV\INode, DAV\ICollection
     }
 
     /**
-     * Deleted the current node
+     * Delete the current node.
+     * This is not allowed for this collection. So we basically always throw an
+     * exception.
      *
-     * @return void
+     * @throw  DAV\Exception\NotFound
      */
     public function delete()
     {
-        file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
+        throw new DAV\Exception\Forbidden(
+            sprintf('Deleting the collection %s is forbidden.', $this->getName())
+        );
     }
 
     /**
