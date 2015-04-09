@@ -64,6 +64,35 @@ class Directory implements DAV\INode, DAV\ICollection
     }
 
     /**
+     * Deleted the current node
+     *
+     * @var string
+     */
+    protected $_name     = null;
+
+    /**
+     * Database.
+     *
+     * @var Database
+     */
+    protected $_database = null;
+
+    /**
+     * Constructor.
+     *
+     * @param  string    $name        Directory name.
+     * @param  Database  $database    Database connection.
+     * @return void
+     */
+    public function __construct($name, Database $database)
+    {
+        $this->_name     = $name;
+        $this->_database = $database;
+
+        return;
+    }
+
+    /**
      * Returns the name of the node.
      *
      * This is used to generate the url.
@@ -81,30 +110,13 @@ class Directory implements DAV\INode, DAV\ICollection
      * exception.
      *
      * @param  string  $name  The new name
-     * @throw  DAV\Exception\Forbidden
+     * @return void
+     * @throw  DAV\Exception\NotImplemented
      */
     public function setName($name)
     {
-        throw new DAV\Exception\Forbidden(
-            sprintf(
-                'Renaming the collection %s to %s is forbidden.',
-                $this->getName(),
-                $name
-            )
-        );
-    }
-
-    /**
-     * Delete the current node.
-     * This is not allowed for this collection. So we basically always throw an
-     * exception.
-     *
-     * @throw  DAV\Exception\Forbidden
-     */
-    public function delete()
-    {
-        throw new DAV\Exception\Forbidden(
-            sprintf('Deleting the collection %s is forbidden.', $this->getName())
+        throw new DAV\Exception\NotImplemented(
+            sprintf('Renaming the collection %s is not allowed.', $this->getName())
         );
     }
 
@@ -235,6 +247,16 @@ class Directory implements DAV\INode, DAV\ICollection
      * Get database.
      *
      * @return Database
+     */
+    protected function getDatabase()
+    {
+        return $this->_database;
+    }
+
+    /**
+     * Get database.
+     *
+     * @return Database;
      */
     protected function getDatabase()
     {
