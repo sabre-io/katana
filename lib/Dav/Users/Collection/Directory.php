@@ -91,13 +91,16 @@ class Directory implements DAV\INode, DAV\ICollection
      * exception.
      *
      * @param  string  $name  The new name
-     * @return void
      * @throw  DAV\Exception\NotImplemented
      */
     public function setName($name)
     {
-        throw new DAV\Exception\NotImplemented(
-            sprintf('Renaming the collection %s is not allowed.', $this->getName())
+        throw new DAV\Exception\Forbidden(
+            sprintf(
+                'Renaming the collection %s to %s is forbidden.',
+                $this->getName(),
+                $name
+            )
         );
     }
 
