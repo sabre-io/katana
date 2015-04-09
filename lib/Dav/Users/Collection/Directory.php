@@ -64,20 +64,6 @@ class Directory implements DAV\INode, DAV\ICollection
     }
 
     /**
-     * Delete the current node.
-     * This is not allowed for this collection. So we basically always throw an
-     * exception.
-     *
-     * @throw  DAV\Exception\NotFound
-     */
-    public function delete()
-    {
-        throw new DAV\Exception\Forbidden(
-            sprintf('Deleting the collection %s is forbidden.', $this->getName())
-        );
-    }
-
-    /**
      * Returns the name of the node.
      *
      * This is used to generate the url.
@@ -105,6 +91,20 @@ class Directory implements DAV\INode, DAV\ICollection
                 $this->getName(),
                 $name
             )
+        );
+    }
+
+    /**
+     * Delete the current node.
+     * This is not allowed for this collection. So we basically always throw an
+     * exception.
+     *
+     * @throw  DAV\Exception\NotFound
+     */
+    public function delete()
+    {
+        throw new DAV\Exception\Forbidden(
+            sprintf('Deleting the collection %s is forbidden.', $this->getName())
         );
     }
 
