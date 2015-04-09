@@ -34,10 +34,8 @@ use JsonSerializable;
  */
 class File implements DAV\INode, DAV\IFile, JsonSerializable
 {
-    public $id = null;
+    public $id       = null;
     public $username = null;
-
-    protected $_name = null;
 
     public function __construct()
     {
@@ -174,8 +172,8 @@ class File implements DAV\INode, DAV\IFile, JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id'   => $this->id,
-            'name' => $this->name
-        ]
+            'id'       => $this->id,
+            'username' => $this->username
+        ];
     }
 }
