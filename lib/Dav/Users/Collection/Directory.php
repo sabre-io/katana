@@ -140,24 +140,32 @@ class Directory implements DAV\INode, DAV\ICollection
      * return the same contents of what was submitted here, you are strongly
      * recommended to omit the ETag.
      *
-     * @param string $name Name of the file
-     * @param resource|string $data Initial payload
+     * @param  string           $name    Name of the user.
+     * @param  resource|string  $data    Initial payload.
      * @return null|string
      */
     public function createFile($name, $data = null)
     {
         file_put_contents('/tmp/a', __METHOD__ . ' ' . $name . "\n", FILE_APPEND);
+
+        return;
     }
 
     /**
-     * Creates a new subdirectory
+     * Creates a new sub-directory.
      *
-     * @param string $name
-     * @return void
+     * @param  string $name
+     * @throw  DAV\Exception\Forbidden
      */
     public function createDirectory($name)
     {
-        file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
+        throw new DAV\Exception\Forbidden(
+            sprintf(
+                'Creating sub-directory %s in the collection %s is forbidden.',
+                $name,
+                $this->getName()
+            )
+        );
     }
 
     /**
