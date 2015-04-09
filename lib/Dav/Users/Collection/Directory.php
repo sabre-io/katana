@@ -22,6 +22,7 @@
 
 namespace Sabre\Katana\Dav\Users\Collection;
 
+use Sabre\Katana\Database;
 use Sabre\DAV;
 
 /**
@@ -33,6 +34,35 @@ use Sabre\DAV;
  */
 class Directory implements DAV\INode, DAV\ICollection
 {
+    /**
+     * Directory name, e.g. “users”.
+     *
+     * @var string
+     */
+    protected $_name     = null;
+
+    /**
+     * Database.
+     *
+     * @var Database
+     */
+    protected $_database = null;
+
+    /**
+     * Constructor.
+     *
+     * @param  string    $name        Directory name.
+     * @param  Database  $database    Database connection.
+     * @return void
+     */
+    public function __construct($name, Database $database)
+    {
+        $this->_name     = $name;
+        $this->_database = $database;
+
+        return;
+    }
+
     /**
      * Deleted the current node
      *
@@ -52,19 +82,23 @@ class Directory implements DAV\INode, DAV\ICollection
      */
     public function getName()
     {
-        file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
-        return 'users';
+        return $this->_name;
     }
 
     /**
-     * Renames the node
+     * Renames the node.
+     * This is not allowed for this collection. So we basically always throw an
+     * exception.
      *
-     * @param string $name The new name
+     * @param  string  $name  The new name
      * @return void
+     * @throw  DAV\Exception\NotImplemented
      */
     public function setName($name)
     {
-        file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
+        throw new DAV\Exception\NotImplemented(
+            sprintf('Renaming the collection %s is not allowed.', $this->getName())
+        );
     }
 
     /**
