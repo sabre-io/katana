@@ -196,12 +196,18 @@ class Directory implements DAV\INode, DAV\ICollection
      */
     public function getChildren()
     {
-        file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
-        return [
-            new File('a'),
-            new File('c'),
-            new File('d')
-        ];
+        $database  = $this->getDatabase();
+        $statement = $database->prepare('SELECT id, username FROM users');
+        $statement->execute();
+
+        if (false === $statement->execute()) {
+            // deal with the error.
+        }
+
+        return $statement->fetchAll(
+            $database::FETCH_CLASS,
+            __NAMESPACE__ . '\File'
+        );
     }
 
     /**
@@ -218,5 +224,15 @@ class Directory implements DAV\INode, DAV\ICollection
         }
 
         return true;
+    }
+
+    /**
+     * Get database.
+     *
+     * @return Database;
+     */
+    protected function getDatabase()
+    {
+        return $this->_database;
     }
 }
