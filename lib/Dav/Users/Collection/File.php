@@ -23,6 +23,7 @@
 namespace Sabre\Katana\Dav\Users\Collection;
 
 use Sabre\DAV;
+use JsonSerializable;
 
 /**
  * User file: Represents only one user in the collection.
@@ -31,13 +32,15 @@ use Sabre\DAV;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class File implements DAV\INode, DAV\IFile
+class File implements DAV\INode, DAV\IFile, JsonSerializable
 {
+    public $id = null;
+    public $username = null;
+
     protected $_name = null;
 
-    public function __construct($name)
+    public function __construct()
     {
-        $this->_name = $name;
     }
 
     /**
@@ -60,7 +63,7 @@ class File implements DAV\INode, DAV\IFile
     public function getName()
     {
         file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
-        return $this->_name;
+        return $this->id;
     }
 
     /**
@@ -119,8 +122,7 @@ class File implements DAV\INode, DAV\IFile
      */
     public function get()
     {
-        file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
-        return 'foobar';
+        return json_encode(strlen($this));
     }
 
     /**
@@ -132,7 +134,6 @@ class File implements DAV\INode, DAV\IFile
      */
     public function getContentType()
     {
-        file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
         return 'application/json';
     }
 
@@ -162,7 +163,19 @@ class File implements DAV\INode, DAV\IFile
      */
     public function getSize()
     {
-        file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
-        return 6;
+        return strlen(json_encode($this));
+    }
+
+    /**
+     * Serialize in JSON.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id'   => $this->id,
+            'name' => $this->name
+        ]
     }
 }
