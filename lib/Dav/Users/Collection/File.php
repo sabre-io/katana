@@ -82,7 +82,9 @@ class File implements DAV\INode, DAV\IFile, JsonSerializable
      */
     public function delete()
     {
-        file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
+        throw new DAV\Exception\Forbidden(
+            sprintf('Deleting the user %s is forbidden.', $this->getName())
+        );
     }
 
     /**
