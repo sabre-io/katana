@@ -580,7 +580,7 @@ Katana.UserController = Ember.Controller.extend({
  */
 Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin);
 
-Katana.User = DS.Model.extend(SimpleValidatorMixin, {
+Katana.User = DS.Model.extend(KatanaValidatorMixin, {
 
     username   : DS.attr('string'),
     displayName: DS.attr('string'),

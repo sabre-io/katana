@@ -20,7 +20,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ember.libraries.register('Ember Simple Validator', '0.0.2');
+Ember.libraries.register('Ember Katana Validator', '0.0.2');
 
 /**
  * A simple validator mixin.
@@ -65,7 +65,7 @@ Ember.libraries.register('Ember Simple Validator', '0.0.2');
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-var SimpleValidatorMixin = Ember.Mixin.create({
+var KatanaValidatorMixin = Ember.Mixin.create({
 
     ready: function()
     {
