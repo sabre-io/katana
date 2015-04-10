@@ -180,13 +180,21 @@ class Directory implements DAV\INode, DAV\ICollection
      */
     public function getChild($name)
     {
-        file_put_contents('/tmp/a', __METHOD__ . ' ' . $name . "\n", FILE_APPEND);
+        $database  = $this->getDatabase();
+        $statement = $database->prepare(
+            'SELECT id, username FROM users WHERE username = :username'
+        );
+        $statement->execute(['username' => $name]);
 
-        if ('b' === $name) {
-            throw new DAV\Exception\NotFound();
+        $file = $statement->fetchObject(__NAMESPACE__ . '\File');
+
+        if (false === $file) {
+            throw new DAV\Exception\NotFound(
+                sprintf('User %s is not found.', $name)
+            );
         }
 
-        return new File($name);
+        return $file;
     }
 
     /**
