@@ -211,19 +211,20 @@ class Directory implements DAV\INode, DAV\ICollection
     }
 
     /**
-     * Checks if a child-node with the specified name exists
+     * Check if a child-node with the specified name exists.
      *
-     * @param string $name
+     * @param  string  $name    Name of the user.
      * @return bool
      */
     public function childExists($name)
     {
-        file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
-        if ('b' === $name) {
-            return false;
-        }
+        $database  = $this->getDatabase();
+        $statement = $database->prepare(
+            'SELECT EXISTS (SELECT id FROM users WHERE username = :username)'
+        );
+        $statement->execute(['username' => $name]);
 
-        return true;
+        return boolval($statement->fetchColumn(0));
     }
 
     /**
