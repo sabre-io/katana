@@ -159,9 +159,7 @@ class File implements DAV\INode, DAV\IFile, JsonSerializable
     }
 
     /**
-     * Returns the mime-type for a file
-     *
-     * If null is returned, we'll assume application/octet-stream
+     * Return the MIME-type for a file.
      *
      * @return string|null
      */
