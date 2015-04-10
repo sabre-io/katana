@@ -122,12 +122,12 @@ class File implements DAV\INode, DAV\IFile, JsonSerializable
     }
 
     /**
-     * Replaces the contents of the file.
+     * Replace the contents of the file.
      *
      * The data argument is a readable stream resource.
      *
      * After a succesful put operation, you may choose to return an ETag. The
-     * etag must always be surrounded by double-quotes. These quotes must
+     * ETag must always be surrounded by double-quotes. These quotes must
      * appear in the actual string you're returning.
      *
      * Clients may use the ETag from a PUT request to later on make sure that
@@ -138,12 +138,14 @@ class File implements DAV\INode, DAV\IFile, JsonSerializable
      * different object on a subsequent GET you are strongly recommended to not
      * return an ETag, and just return null.
      *
-     * @param resource $data
+     * @param  resource  $data    Data.
      * @return string|null
      */
     public function put($data)
     {
-        file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
+        throw new DAV\Exception\Forbidden(
+            sprintf('Updating the user %s is forbidden.', $this->getName())
+        );
     }
 
     /**
