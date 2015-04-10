@@ -76,18 +76,6 @@ class File implements DAV\INode, DAV\IFile, JsonSerializable
     }
 
     /**
-     * Delete the current node.
-     *
-     * @return void
-     */
-    public function delete()
-    {
-        throw new DAV\Exception\Forbidden(
-            sprintf('Deleting the user %s is forbidden.', $this->getName())
-        );
-    }
-
-    /**
      * Return the name of the node.
      * This is used to generate the URL.
      *
@@ -107,6 +95,18 @@ class File implements DAV\INode, DAV\IFile, JsonSerializable
     public function setName($name)
     {
         file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
+    }
+
+    /**
+     * Delete the current node.
+     *
+     * @return void
+     */
+    public function delete()
+    {
+        throw new DAV\Exception\Forbidden(
+            sprintf('Deleting the user %s is forbidden.', $this->getName())
+        );
     }
 
     /**
