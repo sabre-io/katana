@@ -208,10 +208,6 @@ class Directory implements DAV\INode, DAV\ICollection
         $statement = $database->prepare('SELECT id, username FROM users');
         $statement->execute();
 
-        if (false === $statement->execute()) {
-            // deal with the error.
-        }
-
         return $statement->fetchAll(
             $database::FETCH_CLASS,
             __NAMESPACE__ . '\File'
