@@ -22,6 +22,7 @@
 
 namespace Sabre\Katana\Dav\Users\Collection;
 
+use Sabre\Katana\Exception\Dav as Exception;
 use Sabre\DAV;
 use JsonSerializable;
 
@@ -34,15 +35,48 @@ use JsonSerializable;
  */
 class File implements DAV\INode, DAV\IFile, JsonSerializable
 {
+    /**
+     * ID of the user.
+     *
+     * @var int
+     */
     public $id       = null;
+
+    /**
+     * Username of the user.
+     *
+     * @var string
+     */
     public $username = null;
 
+    /**
+     * Constructor.
+     * The constructor is called after the attributes are set. Consequently, we
+     * check they are valid, i.e. not empty. Should not happen but we prevent
+     * a corrupted state by throwing an internal server error exception.
+     *
+     * @return void
+     * @throw  Exception\InternalServerError
+     */
     public function __construct()
     {
+        if (empty($this->id)) {
+            throw new Exception\InternalServerError(
+                'User ID cannot be empty. Something unexpected happened.'
+            );
+        }
+
+        if (empty($this->username)) {
+            throw new Exception\InternalServerError(
+                'Username cannot be empty. Something unexpected happened.'
+            );
+        }
+
+        return;
     }
 
     /**
-     * Deleted the current node
+     * Delete the current node.
      *
      * @return void
      */
@@ -52,15 +86,13 @@ class File implements DAV\INode, DAV\IFile, JsonSerializable
     }
 
     /**
-     * Returns the name of the node.
-     *
-     * This is used to generate the url.
+     * Return the name of the node.
+     * This is used to generate the URL.
      *
      * @return string
      */
     public function getName()
     {
-        file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
         return $this->id;
     }
 
