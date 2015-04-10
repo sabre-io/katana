@@ -194,7 +194,7 @@ class File implements DAV\INode, DAV\IFile, JsonSerializable
     }
 
     /**
-     * Returns the size of the node, in bytes
+     * Returns the size of the node, in bytes.
      *
      * @return int
      */
