@@ -93,7 +93,7 @@ class File implements DAV\INode, DAV\IFile, JsonSerializable
      */
     public function getName()
     {
-        return $this->id;
+        return $this->username;
     }
 
     /**
