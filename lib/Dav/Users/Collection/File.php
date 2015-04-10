@@ -149,15 +149,13 @@ class File implements DAV\INode, DAV\IFile, JsonSerializable
     }
 
     /**
-     * Returns the data
+     * Return the data.
      *
-     * This method may either return a string or a readable stream resource
-     *
-     * @return mixed
+     * @return string
      */
     public function get()
     {
-        return json_encode(strlen($this));
+        return json_encode($this);
     }
 
     /**
