@@ -371,7 +371,7 @@ Katana.ApplicationView = Ember.View.extend({
 /**
  * Application adapter.
  */
-Katana.ApplicationAdapter = DS.FixtureAdapter;
+Katana.ApplicationAdapter = KatanaWebDAVAdapter;
 
 /**
  * Users route.
