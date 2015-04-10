@@ -211,8 +211,9 @@ class File implements DAV\INode, DAV\IFile, JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id'       => $this->id,
-            'username' => $this->username
+            'id'          => $this->id,
+            'username'    => $this->username,
+            'displayName' => ucfirst($this->username)
         ];
     }
 }
