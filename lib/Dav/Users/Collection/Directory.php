@@ -121,7 +121,7 @@ class Directory implements DAV\INode, DAV\ICollection
     }
 
     /**
-     * Creates a new file in the directory
+     * Create a new file in the directory.
      *
      * Data will either be supplied as a stream resource, or in certain cases
      * as a string. Keep in mind that you may have to support either.
@@ -129,7 +129,7 @@ class Directory implements DAV\INode, DAV\ICollection
      * After successful creation of the file, you may choose to return the ETag
      * of the new file here.
      *
-     * The returned ETag must be surrounded by double-quotes (The quotes should
+     * The returned ETag must be surrounded by double-quotes (the quotes should
      * be part of the actual string).
      *
      * If you cannot accurately determine the ETag, you should not return it.
@@ -174,7 +174,7 @@ class Directory implements DAV\INode, DAV\ICollection
      * This method must throw Sabre\DAV\Exception\NotFound if the node does not
      * exist.
      *
-     * @param string $name
+     * @param  string  $name    Name of the user.
      * @return DAV\INode
      * @throw  DAV\Exception\NotFound
      */
@@ -229,7 +229,7 @@ class Directory implements DAV\INode, DAV\ICollection
     /**
      * Get database.
      *
-     * @return Database;
+     * @return Database
      */
     protected function getDatabase()
     {
