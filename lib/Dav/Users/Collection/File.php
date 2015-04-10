@@ -110,14 +110,15 @@ class File implements DAV\INode, DAV\IFile, JsonSerializable
     }
 
     /**
-     * Returns the last modification time, as a unix timestamp
+     * Return the last modification time, as a Unix timestamp.
+     * This information is not stored in the database so we return the current
+     * time.
      *
      * @return int
      */
     public function getLastModified()
     {
-        file_put_contents('/tmp/a', __METHOD__ . "\n", FILE_APPEND);
-        return 0;
+        return time();
     }
 
     /**
