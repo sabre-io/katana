@@ -24,7 +24,7 @@ namespace Sabre\Katana\Server;
 
 use Sabre\Katana\Configuration;
 use Sabre\Katana\Database;
-use Sabre\Katana\Dav\Authentification;
+use Sabre\Katana\Dav\Authentication;
 use Sabre\CalDAV;
 use Sabre\CardDAV;
 use Sabre\DAV;
@@ -100,7 +100,7 @@ class Server
         $this->initializeConfiguration();
         $this->initializeDatabase();
         $this->initializeServer();
-        $this->initializeAuthentification();
+        $this->initializeAuthentication();
         $this->initializePrincipals($principalBackend);
         $this->initializeCalDAV($principalBackend);
         $this->initializeCardDAV($principalBackend);
@@ -160,11 +160,11 @@ class Server
      *
      * @return void
      */
-    protected function initializeAuthentification()
+    protected function initializeAuthentication()
     {
         $configuration = $this->getConfiguration()->authentification;
         $database      = $this->getDatabase();
-        $backend       = new Authentification\BasicBackend($database);
+        $backend       = new Authentication\BasicBackend($database);
         $plugin        = new DAV\Auth\Plugin($backend, $configuration->realm);
         $this->getServer()->addPlugin($plugin);
 

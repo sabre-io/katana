@@ -20,7 +20,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Sabre\Katana\Dav\Authentification;
+namespace Sabre\Katana\Dav\Authentication;
 
 use Sabre\Katana\Database;
 use Sabre\DAV\Auth\Backend;
