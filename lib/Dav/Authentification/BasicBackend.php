@@ -34,14 +34,14 @@ use Sabre\DAV\Exception\NotAuthenticated;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class BasicBackend extends Backend\AbstractBasic
-{
+class BasicBackend extends Backend\AbstractBasic {
+
     /**
      * Database.
      *
      * @var Database
      */
-    protected $_database   = null;
+    protected $database   = null;
 
     /**
      * Current realm.
@@ -49,7 +49,7 @@ class BasicBackend extends Backend\AbstractBasic
      *
      * @var string
      */
-    private $_currentRealm = null;
+    private $currentRealm = null;
 
     /**
      * Constructor.
@@ -57,11 +57,9 @@ class BasicBackend extends Backend\AbstractBasic
      * @param  Database  $database    Database.
      * @return void
      */
-    public function __construct(Database $database)
-    {
-        $this->_database = $database;
+    function __construct(Database $database) {
 
-        return;
+        $this->database = $database;
     }
 
     /**
@@ -72,9 +70,9 @@ class BasicBackend extends Backend\AbstractBasic
      * @param  string  $password    Password.
      * @return boolean
      */
-    protected function validateUserPass($username, $password)
-    {
-        $database  = $this->_database;
+    protected function validateUserPass($username, $password) {
+
+        $database  = $this->database;
         $statement = $database->prepare(
             'SELECT digesta1 FROM users WHERE username = :username'
         );
@@ -83,7 +81,7 @@ class BasicBackend extends Backend\AbstractBasic
         $digest         = $statement->fetch($database::FETCH_COLUMN, 0);
         $expectedDigest = md5(
             $username . ':' .
-            $this->_currentRealm . ':' .
+            $this->currentRealm . ':' .
             $password
         );
 
@@ -113,18 +111,18 @@ class BasicBackend extends Backend\AbstractBasic
      * @return boolean
      * @throw  NotAuthenticated
      */
-    public function authenticate(Server $server, $realm)
-    {
-        $this->_currentRealm = $realm;
+    function authenticate(Server $server, $realm) {
+
+        $this->currentRealm = $realm;
 
         try {
 
             $out = parent::authenticate($server, $realm);
-            $this->_currentRealm = null;
+            $this->currentRealm = null;
 
         } catch (NotAuthenticated $exception) {
 
-            $this->_currentRealm = null;
+            $this->currentRealm = null;
             $request             = $server->httpRequest;
             $response            = $server->httpResponse;
 

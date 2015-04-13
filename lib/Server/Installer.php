@@ -101,7 +101,7 @@ class Installer {
      * @param  string  $directory    Directory.
      * @return boolean
      */
-    public static function isDirectoryEmpty($directory)
+    static function isDirectoryEmpty($directory)
     {
         $iterator = new Iterator\CallbackFilter(
             new Iterator\FileSystem($directory),

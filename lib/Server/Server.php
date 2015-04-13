@@ -140,7 +140,7 @@ class Server {
         $this->server->setBaseUri(
             $this->getConfiguration()->base_url ?: '/'
         );
-        $this->_server->addPlugin(new DAV\Browser\Plugin());
+        $this->server->addPlugin(new DAV\Browser\Plugin());
     }
 
     /**

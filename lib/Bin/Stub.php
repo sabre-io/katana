@@ -37,8 +37,7 @@ use PharException;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Stub extends AbstractCommand
-{
+class Stub extends AbstractCommand {
     /**
      * Format: ZIP.
      *
