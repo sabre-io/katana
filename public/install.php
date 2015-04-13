@@ -94,20 +94,6 @@ if (false !== $pos = strpos($url, '?')) {
             }
         )
         ->post(
-            'login',
-            '/login',
-            function() use($request, $response) {
-                $response->setBody(
-                    json_encode(
-                        Installer::checkLogin($request->getBodyAsString())
-                    )
-                );
-                HTTP\Sapi::sendResponse($response);
-
-                return;
-            }
-        )
-        ->post(
             'password',
             '/password',
             function() use($request, $response) {
@@ -217,7 +203,6 @@ if (false !== $pos = strpos($url, '?')) {
                     Installer::createAdministratorProfile(
                         $configuration,
                         $database,
-                        $payload->login,
                         $payload->email,
                         $payload->password
                     );

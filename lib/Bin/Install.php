@@ -85,7 +85,6 @@ class Install extends AbstractCommand
 
         $form = [
             'baseUrl'  => '/',
-            'login'    => null,
             'email'    => null,
             'password' => null,
             'database' => [
@@ -132,7 +131,7 @@ class Install extends AbstractCommand
                     'foreground(yellow)'
                 ), "\n\n",
                 'Choose the base URL:               ', $input('/'), "\n",
-                'Choose the administrator login:    ', $input(), "\n",
+                'Your administrator login:          ', Server::ADMINISTRATOR_LOGIN, "\n",
                 'Choose the administrator password: ', $input(), "\n",
                 'Choose the administrator email:    ', $input(), "\n",
                 'Choose the database driver:        ', '🔘 SQLite ⚪️ MySQL', "\n";
@@ -286,29 +285,28 @@ class Install extends AbstractCommand
         $form['baseUrl'] = $step(
             0,
             'Choose the base URL',
-            function($baseUrl) {
-                return Installer::checkBaseUrl($baseUrl);
+            function($baseUrl) use($verbose) {
+                $valid = Installer::checkBaseUrl($baseUrl);
 
+                if (true === $valid && true === $verbose) {
+                    Cursor::move('↓');
+                }
+
+                return $valid;
             },
             'Base URL must start and end by a slash' . "\n" .
             'Check the Section “The base URL” on http://sabre.io/dav/gettingstarted/.',
             '/'
         );
 
-        $form['login'] = $step(
-            1,
-            'Choose the administrator login',
-            function($administratorLogin) {
-                return Installer::checkLogin($administratorLogin);
-            },
-            'Login must not be empty' . "\n" .
-            'How then would call you?'
-        );
+        if (false === $verbose) {
+            echo 'Your administrator login: ', Server::ADMINISTRATOR_LOGIN, "\n";
+        }
 
         $oldReadline = $readline;
         $readline    = new Console\Readline\Password();
         $form['password'] = $step(
-            2,
+            1,
             'Choose the administrator password',
             function($administratorPassword) {
                 return Installer::checkPassword(
@@ -322,7 +320,7 @@ class Install extends AbstractCommand
         $readline = $oldReadline;
 
         $form['email'] = $step(
-            3,
+            2,
             'Choose the administrator email',
             function($administratorEmail) {
                 return Installer::checkEmail(
@@ -401,7 +399,7 @@ class Install extends AbstractCommand
 
         } else {
             $form['database']['driver'] = $step(
-                4,
+                3,
                 'Choose the database driver (sqlite or mysql)',
                 function($databaseDriver) {
                     return in_array($databaseDriver, ['sqlite', 'mysql']);
@@ -496,7 +494,6 @@ class Install extends AbstractCommand
             Installer::createAdministratorProfile(
                 $configuration,
                 $database,
-                $form['login'],
                 $form['email'],
                 $form['password']
             );

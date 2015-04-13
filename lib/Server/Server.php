@@ -41,11 +41,18 @@ use Sabre\DAVACL;
 class Server
 {
     /**
+     * Administrator login.
+     *
+     * @const string
+     */
+    const ADMINISTRATOR_LOGIN = 'admin';
+
+    /**
      * Path to the configuration file.
      *
      * @const string
      */
-    const CONFIGURATION_FILE = 'katana://data/etc/configuration/server.json';
+    const CONFIGURATION_FILE  = 'katana://data/etc/configuration/server.json';
 
     /**
      * sabre/dav server.

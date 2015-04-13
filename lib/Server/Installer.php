@@ -438,7 +438,6 @@ class Installer
      *
      * @param  Configuration  $configuration    Configuration.
      * @param  Database       $database         Database.
-     * @param  string         $login            Administrator's login.
      * @param  string         $email            Administrator's email.
      * @param  string         $password         Administrator's password.
      * @return boolean
@@ -447,7 +446,6 @@ class Installer
     public static function createAdministratorProfile(
         Configuration $configuration,
         Database $database,
-        $login,
         $email,
         $password
     )
@@ -459,6 +457,8 @@ class Installer
                 11
             );
         }
+
+        $login = Server::ADMINISTRATOR_LOGIN;
 
         if (false === static::checkLogin($login)) {
             throw new Exception\Installation('Login is invalid.', 12);
@@ -482,17 +482,17 @@ class Installer
                 'VALUES (:uri, :email, :displayname)'
             );
             $statement->execute([
-                'uri'         => 'principals/admin',
+                'uri'         => 'principals/' . $login,
                 'email'       => $email,
                 'displayname' => 'Administrator'
             ]);
             $statement->execute([
-                'uri'         => 'principals/admin/calendar-proxy-read',
+                'uri'         => 'principals/' . $login . '/calendar-proxy-read',
                 'email'       => null,
                 'displayname' => null
             ]);
             $statement->execute([
-                'uri'         => 'principals/admin/calendar-proxy-write',
+                'uri'         => 'principals/' . $login . '/calendar-proxy-write',
                 'email'       => null,
                 'displayname' => null
             ]);

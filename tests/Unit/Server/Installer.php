@@ -24,6 +24,7 @@ namespace Sabre\Katana\Test\Unit\Server;
 
 use Sabre\Katana\Test\Unit\Suite;
 use Sabre\Katana\Server\Installer as CUT;
+use Sabre\Katana\Server\Server;
 use Sabre\Katana\Configuration;
 use Sabre\Katana\Database;
 use Sabre\HTTP;
@@ -997,7 +998,7 @@ class Installer extends Suite
                     )
                 ),
                 $database = CUT::createDatabase($configuration),
-                $login    = 'gordon',
+                $login    = Server::ADMINISTRATOR_LOGIN,
                 $email    = 'gordon@freeman.hl',
                 $password = '💩'
             )
@@ -1005,7 +1006,6 @@ class Installer extends Suite
                 $result = CUT::createAdministratorProfile(
                     $configuration,
                     $database,
-                    $login,
                     $email,
                     $password
                 )
@@ -1030,7 +1030,7 @@ class Installer extends Suite
                 ->string($tuple->id)
                     ->isEqualTo('1')
                 ->string($tuple->uri)
-                    ->isEqualTo('principals/admin')
+                    ->isEqualTo('principals/' . $login)
                 ->string($tuple->email)
                     ->isEqualTo($email)
                 ->string($tuple->displayname)
@@ -1040,7 +1040,7 @@ class Installer extends Suite
                 ->string($tuple->id)
                     ->isEqualTo('2')
                 ->string($tuple->uri)
-                    ->isEqualTo('principals/admin/calendar-proxy-read')
+                    ->isEqualTo('principals/' . $login . '/calendar-proxy-read')
                 ->variable($tuple->email)
                     ->isNull()
                 ->variable($tuple->displayname)
@@ -1050,7 +1050,7 @@ class Installer extends Suite
                 ->string($tuple->id)
                     ->isEqualTo('3')
                 ->string($tuple->uri)
-                    ->isEqualTo('principals/admin/calendar-proxy-write')
+                    ->isEqualTo('principals/' . $login . '/calendar-proxy-write')
                 ->variable($tuple->email)
                     ->isNull()
                 ->variable($tuple->displayname)
@@ -1069,7 +1069,7 @@ class Installer extends Suite
 
                 ->let($tuple = $collection[0])
                 ->string($tuple->username)
-                    ->isEqualTo('gordon')
+                    ->isEqualTo($login)
                 ->string($tuple->digesta1)
                     ->isEqualTo(md5($login . ':' . $realm . ':' . $password));
     }
@@ -1092,42 +1092,11 @@ class Installer extends Suite
                     $configuration,
                     $database,
                     null,
-                    null,
                     null
                 );
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation')
                 ->hasMessage('Configuration is corrupted, the authentication branch is missing.');
-    }
-
-    /**
-     * @tags installation configuration database sqlite authentication administration
-     */
-    public function case_create_administrator_profile_bad_login()
-    {
-        $this
-            ->given(
-                $configuration = new Configuration(
-                    $this->helper->configuration(
-                        'configuration.json',
-                        [
-                            'authentication' => []
-                        ]
-                    )
-                ),
-                $database = new Database($this->helper->sqlite())
-            )
-            ->exception(function() use($configuration, $database) {
-                CUT::createAdministratorProfile(
-                    $configuration,
-                    $database,
-                    '',
-                    'gordon@freeman.hl',
-                    '💩'
-                );
-            })
-                ->isInstanceOf('Sabre\Katana\Exception\Installation')
-                ->hasMessage('Login is invalid.');
     }
 
     /**
@@ -1151,7 +1120,6 @@ class Installer extends Suite
                 CUT::createAdministratorProfile(
                     $configuration,
                     $database,
-                    'gordon',
                     'a',
                     '💩'
                 );
@@ -1181,7 +1149,6 @@ class Installer extends Suite
                 CUT::createAdministratorProfile(
                     $configuration,
                     $database,
-                    'gordon',
                     'gordon@freeman.hl',
                     ''
                 );

@@ -36,7 +36,6 @@ use Sabre\Katana\Test\Helper;
  */
 class Server extends OriginalServer
 {
-    const ADMINISTRATOR_LOGIN    = 'gordon';
     const ADMINISTRATOR_EMAIL    = 'katana@domain.tld';
     const ADMINISTRATOR_PASSWORD = '🔒';
     const ADMINISTRATOR_REALM    = '627dc738650b9be482b3aa3ad56c306f0e73107e';
@@ -86,7 +85,6 @@ class Server extends OriginalServer
         Installer::createAdministratorProfile(
             $this->getConfiguration(),
             $database,
-            static::ADMINISTRATOR_LOGIN,
             static::ADMINISTRATOR_EMAIL,
             static::ADMINISTRATOR_PASSWORD
         );

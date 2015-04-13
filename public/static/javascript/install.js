@@ -5,7 +5,6 @@
 
         valid          : false,
         invalidBaseUrl : false,
-        invalidLogin   : null,
         invalidPassword: null,
         invalidEmail   : null,
         origin         : window.location.origin,
@@ -13,7 +12,6 @@
         {
             return window.location.pathname.replace(/\/+[^\/]*$/, '/') + 'server.php/';
         }.property(),
-        login           : '',
         password        : '',
         passwordBis     : '',
         email           : '',
@@ -41,7 +39,6 @@
             var verdict = true;
 
             verdict = verdict && (false === this.get('invalidBaseUrl'));
-            verdict = verdict && (false === this.get('invalidLogin'));
             verdict = verdict && (false === this.get('invalidPassword'));
             verdict = verdict && (false === this.get('invalidEmail'));
 
@@ -74,22 +71,6 @@
 
             return;
         }.observes('baseUrl'),
-
-        validateLogin: function()
-        {
-            var self  = this;
-            var login = encodeURIComponent(this.get('login'));
-            $
-                .postJSON('?/login', login)
-                .done(function(verdict) {
-
-                    self.set('invalidLogin', false === verdict);
-                    self.validate();
-
-                    return;
-
-                });
-        }.observes('login'),
 
         validatePassword: function()
         {
@@ -172,7 +153,6 @@
                     encodeURIComponent(
                         JSON.stringify({
                             baseurl : baseUrl,
-                            login   : this.get('login'),
                             email   : this.get('email'),
                             password: this.get('password'),
                             database: {
