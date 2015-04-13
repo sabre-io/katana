@@ -29,6 +29,5 @@ namespace Sabre\Katana\Exception;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Update extends Exception
-{
+class Update extends Exception {
 }

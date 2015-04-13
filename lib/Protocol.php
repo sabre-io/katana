@@ -34,8 +34,7 @@ use Hoa\Core;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Protocol extends Core\Protocol\Wrapper
-{
+class Protocol extends Core\Protocol\Wrapper {
     /**
      * The protocol scheme.
      *
@@ -52,7 +51,7 @@ class Protocol extends Core\Protocol\Wrapper
      * @param   bool    $exists    If true, try to find the first that exists,
      * @return  mixed
      */
-    public static function realPath($path, $exists = true)
+    static function realPath($path, $exists = true)
     {
         $path = str_replace(self::SCHEME . '://', 'hoa://', $path);
 

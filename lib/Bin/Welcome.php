@@ -31,8 +31,8 @@ use Hoa\Console;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Welcome extends AbstractCommand
-{
+class Welcome extends AbstractCommand {
+
     /**
      * Logo.
      *
@@ -67,8 +67,8 @@ LOGO;
      *
      * @return int
      */
-    public function main()
-    {
+    function main() {
+
         $prefix  = SABRE_KATANA_PREFIX;
         $verbose = Console::isDirect(STDOUT);
 
@@ -132,8 +132,8 @@ LOGO;
      *
      * @return void
      */
-    public function usage()
-    {
+    function usage() {
+
         echo
             'Usage  : welcome <options>', "\n",
             'Options:', "\n",

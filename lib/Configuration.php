@@ -32,21 +32,21 @@ use StdClass;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Configuration
-{
+class Configuration {
+
     /**
      * Name of the configuration file.
      *
      * @var string
      */
-    protected $_filename      = null;
+    protected $filename      = null;
 
     /**
      * Configurations as a StdClass.
      *
      * @var StdClass
      */
-    protected $_configuration = null;
+    protected $configuration = null;
 
     /**
      * Read the configurations.
@@ -56,8 +56,8 @@ class Configuration
      * @return void
      * @throw  Exception\Environment
      */
-    public function __construct($filename, $allowEmpty = false)
-    {
+    function __construct($filename, $allowEmpty = false) {
+
         if (false === file_exists($filename)) {
             throw new Exception\Environment(
                 'The %s configuration file is not found.',
@@ -66,12 +66,12 @@ class Configuration
             );
         }
 
-        $this->_filename = $filename;
+        $this->filename = $filename;
         $content         = file_get_contents($filename);
 
         if (empty($content) && true === $allowEmpty) {
 
-            $this->_configuration = new StdClass();
+            $this->configuration = new StdClass();
             return;
 
         }
@@ -92,7 +92,7 @@ class Configuration
 
         }
 
-        $this->_configuration = $decodedJson;
+        $this->configuration = $decodedJson;
 
         return;
     }
@@ -103,9 +103,8 @@ class Configuration
      * @param  string  $name    Entry name.
      * @return boolean
      */
-    public function __isset($name)
-    {
-        return isset($this->_configuration->$name);
+    function __isset($name) {
+        return isset($this->configuration->$name);
     }
 
     /**
@@ -114,9 +113,8 @@ class Configuration
      * @param  string  $name    Entry name.
      * @return mixed
      */
-    public function __get($name)
-    {
-        return $this->_configuration->$name;
+    function __get($name) {
+        return $this->configuration->$name;
     }
 
     /**
@@ -126,9 +124,8 @@ class Configuration
      * @param  mixed   $value    Entry value.
      * @return void
      */
-    public function __set($name, $value)
-    {
-        $this->_configuration->$name = $value;
+    function __set($name, $value) {
+        $this->configuration->$name = $value;
 
         return;
     }
@@ -139,10 +136,8 @@ class Configuration
      * @param  string  $name     Entry name.
      * @return void
      */
-    public function __unset($name)
-    {
-        unset($this->_configuration->$name);
-
+    function __unset($name) {
+        unset($this->configuration->$name);
         return;
     }
 
@@ -151,11 +146,10 @@ class Configuration
      *
      * @return boolean
      */
-    public function save()
-    {
+    function save() {
         return false !== file_put_contents(
             $this->getFilename(),
-            json_encode($this->_configuration, JSON_PRETTY_PRINT)
+            json_encode($this->configuration, JSON_PRETTY_PRINT)
         );
     }
 
@@ -164,8 +158,7 @@ class Configuration
      *
      * @return string
      */
-    public function getFilename()
-    {
-        return $this->_filename;
+    function getFilename() {
+        return $this->filename;
     }
 }

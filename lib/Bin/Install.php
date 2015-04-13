@@ -36,8 +36,8 @@ use Hoa\Console\Chrome\Text;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Install extends AbstractCommand
-{
+class Install extends AbstractCommand {
+
     protected $options = [
         ['verbose', Console\GetOption::NO_ARGUMENT, 'v'],
         ['help',    Console\GetOption::NO_ARGUMENT, 'h'],
@@ -49,8 +49,8 @@ class Install extends AbstractCommand
      *
      * @return int
      */
-    public function main()
-    {
+    function main() {
+
         $verbose = !(Console::isDirect(STDOUT) || !OS_WIN);
 
         while (false !== $c = $this->getOption($v)) {
@@ -523,8 +523,7 @@ class Install extends AbstractCommand
      *
      * @return void
      */
-    public function usage()
-    {
+    function usage() {
         echo
             'Usage  : install <options>', "\n",
             'Options:', "\n",
@@ -539,8 +538,7 @@ class Install extends AbstractCommand
      *
      * @return string
      */
-    public static function getBaseURLInfo()
-    {
+    static function getBaseURLInfo() {
         return
             'The base URL is the full URL to `server.php` in your ' .
             'sabre/katana installation. If you are going to run ' .

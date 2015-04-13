@@ -31,8 +31,8 @@ use Sabre\Katana\Exception;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Updater
-{
+class Updater {
+
     /**
      * Default update server URL.
      *
@@ -61,8 +61,9 @@ class Updater
      * @param  array   $queries         Extra queries to add.
      * @return string
      */
-    public static function getUpdateUrl($updateServer = null, array $queries = [])
-    {
+
+    static function getUpdateUrl($updateServer = null, array $queries = []) {
+    
         if (null === $updateServer) {
             $updateServer = static::DEFAULT_UPDATE_SERVER;
         }
@@ -104,8 +105,8 @@ class Updater
      * @return array
      * @throw  Exception\Update
      */
-    public static function filterVersions(array $versions, $currentVersion, $format)
-    {
+    static function filterVersions(array $versions, $currentVersion, $format) {
+
         $out = [];
 
         foreach ($versions as $version => $urls) {
