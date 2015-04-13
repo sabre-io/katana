@@ -31,8 +31,8 @@ use PharData;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Zip extends PharData
-{
+class Zip extends PharData {
+
     /**
      * Open a ZIP archive. If it does not exist, attempt to create it.
      *
@@ -41,8 +41,8 @@ class Zip extends PharData
      * @param  string  $alias       Alias (see original documentation).
      * @return void
      */
-    public function __construct($filename, $flags = null, $alias = null)
-    {
+    function __construct($filename, $flags = null, $alias = null) {
+
         return parent::__construct($filename, $flags, $alias, Phar::ZIP);
     }
 }

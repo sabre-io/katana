@@ -37,8 +37,8 @@ use Sabre\DAVACL;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Server
-{
+class Server {
+
     /**
      * Path to the configuration file.
      *
@@ -51,32 +51,29 @@ class Server
      *
      * @var DAV\Server
      */
-    protected $_server        = null;
+    protected $server        = null;
 
     /**
      * Server configurations.
      *
      * @var Configuration
      */
-    protected $_configuration = null;
+    protected $configuration = null;
 
     /**
      * Database.
      *
      * @var Database
      */
-    protected $_database      = null;
+    protected $database      = null;
 
     /**
      * Construct and initialize the server.
      *
      * @return void
      */
-    public function __construct()
-    {
+    function __construct() {
         $this->initialize();
-
-        return;
     }
 
     /**
@@ -95,8 +92,8 @@ class Server
      *
      * @return void
      */
-    protected function initialize()
-    {
+    protected function initialize() {
+
         $this->initializeConfiguration();
         $this->initializeDatabase();
         $this->initializeServer();
@@ -106,8 +103,6 @@ class Server
         $this->initializeCardDAV($principalBackend);
         $this->initializeACL();
         $this->initializeSynchronization();
-
-        return;
     }
 
     /**
@@ -115,11 +110,8 @@ class Server
      *
      * @return void
      */
-    protected function initializeConfiguration()
-    {
-        $this->_configuration = new Configuration(static::CONFIGURATION_FILE);
-
-        return;
+    protected function initializeConfiguration() {
+        $this->configuration = new Configuration(static::CONFIGURATION_FILE);
     }
 
     /**
@@ -127,16 +119,14 @@ class Server
      *
      * @return void
      */
-    protected function initializeDatabase()
-    {
+    protected function initializeDatabase() {
+
         $configuration   = $this->getConfiguration()->database;
-        $this->_database = new Database(
+        $this->database = new Database(
             $configuration->dsn,
             $configuration->username,
             $configuration->password
         );
-
-        return;
     }
 
     /**
@@ -144,15 +134,13 @@ class Server
      *
      * @return void
      */
-    protected function initializeServer()
-    {
-        $this->_server = new DAV\Server(null);
-        $this->_server->setBaseUri(
+    protected function initializeServer() {
+
+        $this->server = new DAV\Server(null);
+        $this->server->setBaseUri(
             $this->getConfiguration()->base_url ?: '/'
         );
         $this->_server->addPlugin(new DAV\Browser\Plugin());
-
-        return;
     }
 
     /**
@@ -160,15 +148,13 @@ class Server
      *
      * @return void
      */
-    protected function initializeAuthentification()
-    {
+    protected function initializeAuthentification() {
+
         $configuration = $this->getConfiguration()->authentification;
         $database      = $this->getDatabase();
         $backend       = new Authentification\BasicBackend($database);
         $plugin        = new DAV\Auth\Plugin($backend, $configuration->realm);
         $this->getServer()->addPlugin($plugin);
-
-        return;
     }
 
     /**
@@ -177,16 +163,14 @@ class Server
      * @param  DAVACL\PrincipalBackend\PDO  &$backend    Retrieve the principals backend by-reference.
      * @return void
      */
-    protected function initializePrincipals(DAVACL\PrincipalBackend\PDO &$backend = null)
-    {
+    protected function initializePrincipals(DAVACL\PrincipalBackend\PDO &$backend = null) {
+
         if (null === $backend) {
             $backend = new DAVACL\PrincipalBackend\PDO($this->getDatabase());
         }
 
         $node = new CalDAV\Principal\Collection($backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
-
-        return;
     }
 
     /**
@@ -195,15 +179,14 @@ class Server
      * @param  DAVACL\PrincipalBackend\PDO  $principalBackend  The principal backend.
      * @return void
      */
-    protected function initializeCalDAV(DAVACL\PrincipalBackend\PDO $principalBackend)
-    {
+    protected function initializeCalDAV(DAVACL\PrincipalBackend\PDO $principalBackend) {
+
         $backend = new CalDAV\Backend\PDO($this->getDatabase());
         $node    = new CalDAV\CalendarRoot($principalBackend, $backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
         $this->getServer()->addPlugin(new CalDAV\Plugin());
         $this->getServer()->addPlugin(new CalDAV\Schedule\Plugin());
 
-        return;
     }
 
     /**
@@ -212,8 +195,8 @@ class Server
      * @param  DAVACL\PrincipalBackend\PDO  $principalBackend  The principal backend.
      * @return void
      */
-    protected function initializeCardDAV(DAVACL\PrincipalBackend\PDO $principalBackend)
-    {
+    protected function initializeCardDAV(DAVACL\PrincipalBackend\PDO $principalBackend) {
+
         $backend = new CardDAV\Backend\PDO($this->getDatabase());
         $node    = new CardDAV\AddressBookRoot($principalBackend, $backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
@@ -227,11 +210,8 @@ class Server
      *
      * @return void
      */
-    protected function initializeACL()
-    {
+    protected function initializeACL() {
         $this->getServer()->addPlugin(new DAVACL\Plugin());
-
-        return;
     }
 
     /**
@@ -239,11 +219,9 @@ class Server
      *
      * @return void
      */
-    protected function initializeSynchronization()
-    {
+    protected function initializeSynchronization() {
         $this->getServer()->addPlugin(new DAV\Sync\Plugin());
 
-        return;
     }
 
     /**
@@ -251,9 +229,9 @@ class Server
      *
      * @return DAV\Server
      */
-    public function getServer()
-    {
-        return $this->_server;
+    function getServer() {
+
+        return $this->server;
     }
 
     /**
@@ -261,9 +239,9 @@ class Server
      *
      * @return Configuration
      */
-    public function getConfiguration()
-    {
-        return $this->_configuration;
+    function getConfiguration() {
+
+        return $this->configuration;
     }
 
     /**
@@ -271,18 +249,16 @@ class Server
      *
      * @return Database
      */
-    public function getDatabase()
-    {
-        return $this->_database;
+    function getDatabase() {
+
+        return $this->database;
     }
 
     /**
      * Run the server, i.e. consume the current request.
      */
-    public function run()
-    {
-        $this->getServer()->exec();
+    function run() {
 
-        return;
+        $this->getServer()->exec();
     }
 }

@@ -65,8 +65,7 @@ class Stub extends AbstractCommand
      *
      * @return int
      */
-    public function main()
-    {
+    function main() {
         $format = 0;
 
         while (false !== $c = $this->getOption($v)) {
@@ -153,8 +152,7 @@ class Stub extends AbstractCommand
      *
      * @return void
      */
-    public function usage()
-    {
+    function usage() {
         echo
             'Usage  : stub <options>', "\n",
             'Options:', "\n",
