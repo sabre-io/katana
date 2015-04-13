@@ -167,8 +167,10 @@ class Server
     {
         $configuration = $this->getConfiguration()->authentication;
         $database      = $this->getDatabase();
-        $backend       = new Authentication\BasicBackend($database);
-        $plugin        = new DAV\Auth\Plugin($backend, $configuration->realm);
+        $backend       = new Authentification\BasicBackend($database);
+        $backend->setRealm($configuration->realm);
+
+        $plugin = new DAV\Auth\Plugin($backend);
         $this->getServer()->addPlugin($plugin);
 
         return;

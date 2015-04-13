@@ -25,7 +25,8 @@ namespace Sabre\Katana\Dav\Authentication;
 use Sabre\Katana\Database;
 use Sabre\DAV\Auth\Backend;
 use Sabre\DAV\Server;
-use Sabre\DAV\Exception\NotAuthenticated;
+use Sabre\HTTP\RequestInterface as Request;
+use Sabre\HTTP\ResponseInterface as Response;
 
 /**
  * Basic authentication.
@@ -42,14 +43,6 @@ class BasicBackend extends Backend\AbstractBasic
      * @var Database
      */
     protected $_database   = null;
-
-    /**
-     * Current realm.
-     * Must be null outside `authenticate` calls.
-     *
-     * @var string
-     */
-    private $_currentRealm = null;
 
     /**
      * Constructor.
@@ -83,7 +76,7 @@ class BasicBackend extends Backend\AbstractBasic
         $digest         = $statement->fetch($database::FETCH_COLUMN, 0);
         $expectedDigest = md5(
             $username . ':' .
-            $this->_currentRealm . ':' .
+            $this->realm . ':' .
             $password
         );
 
@@ -103,39 +96,23 @@ class BasicBackend extends Backend\AbstractBasic
     }
 
     /**
-     * Override the parent `authenticate` method to catch the current realm and
-     * to remove the WWW-Authenticate header in the response if the
-     * X-Requested-With header is present in the request. This last trick
-     * prevents the browser to prompt of dialog to the user.
+     * Override the parent `challenge` method to remove the `WWW-Authenticate`
+     * header in the response if the `X-Requested-With` header is present in the
+     * request. This last trick prevents the browser to prompt of dialog to the
+     * user.
      *
-     * @param  Server  $server    Server (not katana, the sabre/dav one).
-     * @param  string  $realm     Realm.
-     * @return boolean
-     * @throw  NotAuthenticated
+     * @param  Request   $request     Request.
+     * @param  Response  $response    Response.
+     * @return void
      */
-    public function authenticate(Server $server, $realm)
+    public function challenge(Request $request, Response $response)
     {
-        $this->_currentRealm = $realm;
+        parent::challenge($request, $response);
 
-        try {
-
-            $out = parent::authenticate($server, $realm);
-            $this->_currentRealm = null;
-
-        } catch (NotAuthenticated $exception) {
-
-            $this->_currentRealm = null;
-            $request             = $server->httpRequest;
-            $response            = $server->httpResponse;
-
-            if ('XMLHttpRequest' === $request->getHeader('X-Requested-With')) {
-                $response->removeHeader('WWW-Authenticate');
-            }
-
-            throw $exception;
-
+        if ('XMLHttpRequest' === $request->getHeader('X-Requested-With')) {
+            $response->removeHeader('WWW-Authenticate');
         }
 
-        return $out;
+        return;
     }
 }
