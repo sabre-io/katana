@@ -58,7 +58,7 @@ class Server extends OriginalServer
     {
         $configuration        = new Helper\Configuration();
         $sqlite               = new Helper\SQLite();
-        $this->_configuration = new Configuration(
+        $this->configuration = new Configuration(
             $configuration(
                 'configuration.json',
                 [

@@ -146,11 +146,11 @@ class Server {
      * @return void
      */
     protected function initializeServer() {
-        $this->_server = new SabreDav\Server(null);
-        $this->_server->setBaseUri(
+        $this->server = new SabreDav\Server(null);
+        $this->server->setBaseUri(
             $this->getConfiguration()->base_url ?: '/'
         );
-        $this->_server->addPlugin(new SabreDav\Browser\Plugin());
+        $this->server->addPlugin(new SabreDav\Browser\Plugin());
     }
 
     /**

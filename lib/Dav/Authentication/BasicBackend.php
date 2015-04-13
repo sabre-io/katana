@@ -36,14 +36,14 @@ use Sabre\HTTP\ResponseInterface as Response;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class BasicBackend extends Backend\AbstractBasic
-{
+class BasicBackend extends Backend\AbstractBasic {
+
     /**
      * Database.
      *
      * @var Database
      */
-    protected $_database   = null;
+    protected $database   = null;
 
     /**
      * Constructor.
@@ -51,11 +51,9 @@ class BasicBackend extends Backend\AbstractBasic
      * @param  Database  $database    Database.
      * @return void
      */
-    public function __construct(Database $database)
-    {
-        $this->_database = $database;
+    function __construct(Database $database) {
 
-        return;
+        $this->database = $database;
     }
 
     /**
@@ -66,16 +64,15 @@ class BasicBackend extends Backend\AbstractBasic
      * @param  string  $password    Password.
      * @return boolean
      */
-    protected function validateUserPass($username, $password)
-    {
-        $database  = $this->_database;
+    protected function validateUserPass($username, $password) {
+
+        $database  = $this->database;
         $statement = $database->prepare(
             'SELECT digesta1 FROM users WHERE username = :username'
         );
         $statement->execute(['username' => $username]);
 
         $digest = $statement->fetch($database::FETCH_COLUMN, 0);
-
         return User::checkPassword($password, $digest);
     }
 
@@ -89,14 +86,11 @@ class BasicBackend extends Backend\AbstractBasic
      * @param  Response  $response    Response.
      * @return void
      */
-    public function challenge(Request $request, Response $response)
-    {
+    public function challenge(Request $request, Response $response) {
         parent::challenge($request, $response);
 
         if ('XMLHttpRequest' === $request->getHeader('X-Requested-With')) {
             $response->removeHeader('WWW-Authenticate');
         }
-
-        return;
     }
 }
