@@ -25,7 +25,6 @@ namespace Sabre\Katana\Server;
 use Sabre\Katana\Configuration;
 use Sabre\Katana\Database;
 use Sabre\Katana\Dav\Authentication;
-use Sabre\Katana\Dav\Users;
 use Sabre\CalDAV;
 use Sabre\CardDAV;
 use Sabre\DAV;
@@ -99,8 +98,7 @@ class Server
      *    * CalDAV,
      *    * CardDAV,
      *    * ACL,
-     *    * synchronization,
-     *    * user.
+     *    * synchronization.
      *
      * @return void
      */
@@ -115,7 +113,6 @@ class Server
         $this->initializeCardDAV($principalBackend);
         $this->initializeACL();
         $this->initializeSynchronization();
-        $this->initializeUser();
 
         return;
     }
@@ -260,25 +257,6 @@ class Server
     protected function initializeSynchronization()
     {
         $this->getServer()->addPlugin(new DAV\Sync\Plugin());
-
-        return;
-    }
-
-    /**
-     * Initialize user.
-     *
-     * @return void
-     */
-    protected function initializeUser()
-    {
-        /*
-        $this->getServer()->tree->getNodeForPath('')->addChild(
-            new Users\Collection\Directory(
-                'users',
-                $this->getDatabase()
-            )
-        );
-        */
 
         return;
     }
