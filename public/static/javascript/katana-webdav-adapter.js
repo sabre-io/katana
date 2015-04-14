@@ -31,7 +31,9 @@ Ember.libraries.register('Ember Katana WebDAV Adapter', '0.0.1');
  */
 var KatanaWebDAVAdapter = DS.Adapter.extend({
 
-    createRecord: function()
+    usersURL: '/server.php/principals/',
+
+    createRecord: function(store, type, snapshot)
     {
         console.log('KWDAV createRecord');
     },
@@ -62,12 +64,11 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
     findAll: function(store, type, sinceToken)
     {
         var self      = this;
-        var usersURL  = '/server.php/principals/';
-        var userRegex = new RegExp('^' + usersURL + '([^/]+)/$');
+        var userRegex = new RegExp('^' + this.usersURL + '([^/]+)/$');
 
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
-                self.xhr('PROPFIND', usersURL).then(
+                self.xhr('PROPFIND', self.usersURL).then(
                     function(data) {
                         var multiStatus = KatanaWebDAVParser.multiStatus(data);
                         var promises    = [];
