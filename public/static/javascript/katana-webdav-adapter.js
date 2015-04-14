@@ -84,13 +84,43 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
 
     find: function(store, type, id, snapshot)
     {
+        var self = this;
+
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
-                resolve({
-                    id: id,
-                    username: id,
-                    displayName: 'Display name of ' + id
-                });
+                self.xhr(
+                    'PROPFIND',
+                    self.usersURL + id,
+                    {
+                        'Content-Type': 'application/xml; charset=utf-8'
+                    },
+                    '<?xml version="1.0" encoding="utf-8" ?>' + "\n" +
+                    '<d:propfind xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">' + "\n" +
+                    '  <d:prop>' + "\n" +
+                    '    <d:displayname />' + "\n" +
+                    '    <s:email-address />' + "\n" +
+                    '  </d:prop>' + "\n" +
+                    '</d:propfind>'
+                ).then(
+                    function(data) {
+                        var multiStatus = KatanaWebDAVParser.multiStatus(data);
+                        var properties  = multiStatus[0].propStat[0].properties;
+
+                        resolve({
+                            id         : id,
+                            username   : id,
+                            displayName: properties['{DAV:}displayname'],
+                            email      : properties['{http://sabredav.org/ns}email-address']
+                        });
+
+                        return;
+                    },
+                    function(error) {
+                        console.log('nok');
+                        console.log(error);
+                    }
+                );
+                return;
             }
         );
     },
