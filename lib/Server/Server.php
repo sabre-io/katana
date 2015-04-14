@@ -265,12 +265,14 @@ class Server
      */
     protected function initializeUser()
     {
+        /*
         $this->getServer()->tree->getNodeForPath('')->addChild(
             new Users\Collection\Directory(
                 'users',
                 $this->getDatabase()
             )
         );
+        */
 
         return;
     }
