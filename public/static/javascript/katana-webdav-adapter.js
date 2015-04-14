@@ -35,7 +35,41 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
 
     createRecord: function(store, type, snapshot)
     {
-        console.log('KWDAV createRecord');
+        var self = this;
+
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                self.xhr(
+                    'MKCOL',
+                    self.usersURL + snapshot.get('username'),
+                    {
+                        'Content-Type': 'application/xml; charset=utf-8'
+                    },
+                    '<?xml version="1.0" encoding="utf-8" ?>' + "\n" +
+                    '<d:mkcol xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">' + "\n" +
+                    '  <d:set>' + "\n" +
+                    '    <d:prop>' + "\n" +
+                    '      <d:resourcetype>' + "\n" +
+                    '        <d:principal/>' + "\n" +
+                    '      </d:resourcetype>' + "\n" +
+                    '      <d:displayname>' + snapshot.get('displayName') + '</d:displayname>' + "\n" +
+                    '      <s:email-address>' + snapshot.get('email') + '</s:email-address>' + "\n" +
+                    '    </d:prop>' + "\n" +
+                    '  </d:set>' + "\n" +
+                    '</d:mkcol>'
+                ).then(
+                    function(data) {
+                        resolve(data);
+                        return;
+                    },
+                    function(error) {
+                        console.log('nok');
+                        console.log(error);
+                    }
+                );
+                return;
+            }
+        );
     },
 
     updateRecord: function()
@@ -110,7 +144,7 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
         console.log('KWDAV findQuery');
     },
 
-    xhr: function(method, url)
+    xhr: function(method, url, headers, body)
     {
         var self = this;
         return new Ember.RSVP.Promise(
@@ -118,6 +152,8 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                 Ember.$.ajax({
                     method     : method,
                     url        : url,
+                    data       : body,
+                    headers    : headers,
                     processData: false,
                     success    : function(data, status, xhr)
                     {
