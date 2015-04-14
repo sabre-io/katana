@@ -241,7 +241,13 @@ class Server
      */
     protected function initializeACL()
     {
-        $this->getServer()->addPlugin(new DAVACL\Plugin());
+        $plugin                               = new DAVACL\Plugin();
+        $plugin->adminPrincipals[]            = 'principals/' . static::ADMINISTRATOR_LOGIN;
+        $plugin->allowAccessToNodesWithoutACL = false;
+        $plugin->hideNodesFromListings        = true;
+        $plugin->defaultUsernamePath          = 'principals/';
+
+        $this->getServer()->addPlugin($plugin);
 
         return;
     }
