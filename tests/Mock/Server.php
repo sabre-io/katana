@@ -64,8 +64,8 @@ class Server extends OriginalServer
             $configuration(
                 'configuration.json',
                 [
-                    'base_url'         => '/',
-                    'authentification' => [
+                    'base_url'       => '/',
+                    'authentication' => [
                         'realm' => static::ADMINISTRATOR_REALM
                     ],
                     'database' => [

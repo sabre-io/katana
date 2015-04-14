@@ -86,7 +86,7 @@ class Server
      *    * configurations,
      *    * database,
      *    * server,
-     *    * authentification,
+     *    * authentication,
      *    * principals,
      *    * CalDAV,
      *    * CardDAV,
@@ -156,13 +156,13 @@ class Server
     }
 
     /**
-     * Initialize the authentification.
+     * Initialize the authentication.
      *
      * @return void
      */
     protected function initializeAuthentication()
     {
-        $configuration = $this->getConfiguration()->authentification;
+        $configuration = $this->getConfiguration()->authentication;
         $database      = $this->getDatabase();
         $backend       = new Authentication\BasicBackend($database);
         $plugin        = new DAV\Auth\Plugin($backend, $configuration->realm);

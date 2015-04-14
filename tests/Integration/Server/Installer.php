@@ -32,7 +32,7 @@ use Sabre\Katana\Server\Installer as CUT;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  *
- * @tags installation configuration database sqlite mysql authentification administration
+ * @tags installation configuration database sqlite mysql authentication administration
  */
 class Installer extends Suite
 {

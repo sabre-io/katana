@@ -28,7 +28,7 @@ use Sabre\DAV\Server;
 use Sabre\DAV\Exception\NotAuthenticated;
 
 /**
- * Basic authentification.
+ * Basic authentication.
  *
  * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
  * @author Ivan Enderlin

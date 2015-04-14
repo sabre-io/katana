@@ -36,7 +36,7 @@ use Mock;
 class Server extends Suite
 {
     /**
-     * @tags server authentification
+     * @tags server authentication
      */
     public function case_unauthorized()
     {
@@ -49,7 +49,7 @@ class Server extends Suite
     }
 
     /**
-     * @tags server authentification
+     * @tags server authentication
      */
     public function case_authorized()
     {

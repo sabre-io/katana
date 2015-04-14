@@ -147,7 +147,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_correct_login()
     {
@@ -160,7 +160,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_incorrect_login()
     {
@@ -173,7 +173,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_correct_password()
     {
@@ -190,7 +190,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_incorrect_empty_password()
     {
@@ -209,7 +209,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_incorrect_unmatched_password()
     {
@@ -233,7 +233,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_correct_email()
     {
@@ -250,7 +250,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_incorrect_empty_email()
     {
@@ -269,7 +269,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_incorrect_unmatched_email()
     {
@@ -535,7 +535,7 @@ class Installer extends Suite
                 ->array($content = json_decode($jsonContent, true))
                     ->hasKey('base_url')
                     ->hasKey('database')
-                ->array($content['authentification'])
+                ->array($content['authentication'])
                     ->hasKey('realm')
                 ->array($content['database'])
                     ->hasKey('dsn')
@@ -544,7 +544,7 @@ class Installer extends Suite
 
                 ->string($content['base_url'])
                     ->isEqualTo('/')
-                ->string($content['authentification']['realm'])
+                ->string($content['authentication']['realm'])
                     ->matches('#^[a-f0-9]{40}$#')
                 ->string($content['database']['dsn'])
                     ->matches('#^sqlite:katana://data/variable/database/katana_\d+\.sqlite#')
@@ -974,7 +974,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation configuration database sqlite authentification administration
+     * @tags installation configuration database sqlite authentication administration
      */
     public function case_create_administrator_profile()
     {
@@ -985,7 +985,7 @@ class Installer extends Suite
                     $this->helper->configuration(
                         'configuration.json',
                         [
-                            'authentification' => [
+                            'authentication' => [
                                 'realm' => $realm
                             ],
                             'database' => [
@@ -1075,9 +1075,9 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation configuration database sqlite authentification administration
+     * @tags installation configuration database sqlite authentication administration
      */
-    public function case_create_administrator_profile_authentification_is_required()
+    public function case_create_administrator_profile_authentication_is_required()
     {
         $this
             ->given(
@@ -1097,11 +1097,11 @@ class Installer extends Suite
                 );
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation')
-                ->hasMessage('Configuration is corrupted, the authentification branch is missing.');
+                ->hasMessage('Configuration is corrupted, the authentication branch is missing.');
     }
 
     /**
-     * @tags installation configuration database sqlite authentification administration
+     * @tags installation configuration database sqlite authentication administration
      */
     public function case_create_administrator_profile_bad_login()
     {
@@ -1111,7 +1111,7 @@ class Installer extends Suite
                     $this->helper->configuration(
                         'configuration.json',
                         [
-                            'authentification' => []
+                            'authentication' => []
                         ]
                     )
                 ),
@@ -1131,7 +1131,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation configuration database sqlite authentification administration
+     * @tags installation configuration database sqlite authentication administration
      */
     public function case_create_administrator_profile_bad_email()
     {
@@ -1141,7 +1141,7 @@ class Installer extends Suite
                     $this->helper->configuration(
                         'configuration.json',
                         [
-                            'authentification' => []
+                            'authentication' => []
                         ]
                     )
                 ),
@@ -1161,7 +1161,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation configuration database sqlite authentification administration
+     * @tags installation configuration database sqlite authentication administration
      */
     public function case_create_administrator_profile_bad_password()
     {
@@ -1171,7 +1171,7 @@ class Installer extends Suite
                     $this->helper->configuration(
                         'configuration.json',
                         [
-                            'authentification' => []
+                            'authentication' => []
                         ]
                     )
                 ),

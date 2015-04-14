@@ -355,17 +355,17 @@ class Installer
 
         }
 
-        $authentificationRealm = sha1(Core::uuid());
+        $authenticationRealm = sha1(Core::uuid());
         touch($filename);
 
-        $configuration                          = new Configuration($filename, true);
-        $configuration->base_url                = $content['baseUrl'];
-        $configuration->authentification        = new StdClass();
-        $configuration->authentification->realm = $authentificationRealm;
-        $configuration->database                = new StdClass();
-        $configuration->database->dsn           = $dsn;
-        $configuration->database->username      = $content['database']['username'];
-        $configuration->database->password      = $content['database']['password'];
+        $configuration                        = new Configuration($filename, true);
+        $configuration->base_url              = $content['baseUrl'];
+        $configuration->authentication        = new StdClass();
+        $configuration->authentication->realm = $authenticationRealm;
+        $configuration->database              = new StdClass();
+        $configuration->database->dsn         = $dsn;
+        $configuration->database->username    = $content['database']['username'];
+        $configuration->database->password    = $content['database']['password'];
         $configuration->save();
 
         return $configuration;
@@ -452,9 +452,9 @@ class Installer
         $password
     )
     {
-        if (false === isset($configuration->authentification)) {
+        if (false === isset($configuration->authentication)) {
             throw new Exception\Installation(
-                'Configuration is corrupted, the authentification branch ' .
+                'Configuration is corrupted, the authentication branch ' .
                 'is missing.',
                 11
             );
@@ -472,7 +472,7 @@ class Installer
             throw new Exception\Installation('Password is invalid.', 14);
         }
 
-        $realm  = $configuration->authentification->realm;
+        $realm  = $configuration->authentication->realm;
         $digest = md5($login . ':' . $realm . ':' . $password);
 
         try {
