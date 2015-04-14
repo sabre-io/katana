@@ -48,13 +48,22 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
 
     find: function(store, type, id, snapshot)
     {
-        return new Ember.$.getJSON('/server.php/users/' + id);
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                resolve({
+                    id: id,
+                    username: id,
+                    displayName: 'Display name of ' + id
+                });
+            }
+        );
     },
 
     findAll: function(store, type, sinceToken)
     {
-        var self     = this;
-        var usersURL = '/server.php/users/';
+        var self      = this;
+        var usersURL  = '/server.php/principals/';
+        var userRegex = new RegExp('^' + usersURL + '([^/]+)/$');
 
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
@@ -65,7 +74,7 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
 
                         multiStatus.forEach(
                             function(response) {
-                                var user = response.href.substring(usersURL.length);
+                                var user = (userRegex.exec(response.href) || [null, null])[1];
 
                                 if (user) {
                                     promises.push(self.find(store, type, user));
@@ -78,6 +87,7 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                         Ember.RSVP.all(promises).then(
                             function(users) {
                                 resolve(users);
+                                return;
                             }
                         );
 
