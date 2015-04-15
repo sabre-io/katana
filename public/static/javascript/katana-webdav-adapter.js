@@ -77,9 +77,28 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
         console.log('KWDAV updateRecord');
     },
 
-    deleteRecord: function()
+    deleteRecord: function(store, type, snapshot)
     {
-        console.log('KWDAV deleteRecord');
+        var self = this;
+
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                self.xhr(
+                    'DELETE',
+                    self.usersURL + snapshot.get('username')
+                ).then(
+                    function(data) {
+                        resolve(data);
+                        return;
+                    },
+                    function(error) {
+                        console.log('nok');
+                        console.log(error);
+                        reject(error);
+                    }
+                );
+            }
+        );
     },
 
     find: function(store, type, id, snapshot)
