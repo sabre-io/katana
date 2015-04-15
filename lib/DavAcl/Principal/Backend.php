@@ -22,7 +22,9 @@
 
 namespace Sabre\Katana\DavAcl\Principal;
 
+use Sabre\Katana\Server\Server;
 use Sabre\DAVACL as SabreDavAcl;
+use Sabre\DAV as SabreDav;
 
 /**
  * Principal backend implementation.
@@ -40,6 +42,17 @@ class Backend extends SabreDavAcl\PrincipalBackend\PDO
      */
     public function deletePrincipal($path)
     {
+        $administratorPrincipal = 'principals/' . Server::ADMINISTRATOR_LOGIN;
+
+        if ($path === $administratorPrincipal) {
+            throw new SabreDav\Exception\Forbidden(
+                sprintf(
+                    'Deleting the first administrator %s is forbidden.',
+                    $administratorPrincipal
+                )
+            );
+        }
+
         $statement = $this->pdo->prepare(
             'DELETE FROM ' . $this->tableName . ' WHERE uri = :uri'
         );
