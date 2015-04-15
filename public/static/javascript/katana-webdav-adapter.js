@@ -132,29 +132,43 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
 
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
-                self.xhr('PROPFIND', self.usersURL).then(
+                self.xhr(
+                    'PROPFIND',
+                    self.usersURL,
+                    {
+                        'Content-Type': 'application/xml; charset=utf-8'
+                    },
+                    '<?xml version="1.0" encoding="utf-8" ?>' + "\n" +
+                    '<d:propfind xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">' + "\n" +
+                    '  <d:prop>' + "\n" +
+                    '    <d:displayname />' + "\n" +
+                    '    <s:email-address />' + "\n" +
+                    '  </d:prop>' + "\n" +
+                    '</d:propfind>'
+                ).then(
                     function(data) {
                         var multiStatus = KatanaWebDAVParser.multiStatus(data);
-                        var promises    = [];
+                        var users       = [];
 
                         multiStatus.forEach(
                             function(response) {
                                 var user = (userRegex.exec(response.href) || [null, null])[1];
 
                                 if (user) {
-                                    promises.push(self.find(store, type, user));
+                                    var properties  = response.propStat[0].properties;
+                                    users.push({
+                                        id         : user,
+                                        username   : user,
+                                        displayName: properties['{DAV:}displayname'],
+                                        email      : properties['{http://sabredav.org/ns}email-address']
+                                    });
                                 }
 
                                 return;
                             }
                         );
 
-                        Ember.RSVP.all(promises).then(
-                            function(users) {
-                                resolve(users);
-                                return;
-                            }
-                        );
+                        resolve(users);
 
                         return;
                     },
