@@ -28,6 +28,24 @@
 <body>
 
 <script type="text/x-handlebars">
+  <div id="modalAlert" class="ui basic modal">
+    <div class="ui red header">{{alert.title}}</div>
+    <div class="content">
+      <div class="image">
+        <i class="warning sign icon"></i>
+      </div>
+      <div class="description"><p>{{{alert.content}}}</p></div>
+    </div>
+    <div class="actions">
+      <div class="ui one fluid inverted buttons">
+        <button class="ui basic inverted green right labeled icon approve button">
+          Ok
+          <i class="checkmark icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <main>
     <h1 class="ui icon center aligned header">
       <i class="settings icon"></i>
@@ -141,19 +159,28 @@
 </script>
 
 <script type="text/x-handlebars" id="user">
-  <div id="modalUserAskDeleting" class="ui small modal">
-    <i class="close icon"></i>
+  <div id="modalUserAskDeleting" class="ui basic modal">
     <div class="header">Delete the user</div>
     <div class="content">
-      Are you sure you want to delete <strong>{{model.displayName}}</strong>
-      ({{model.username}})?
+      <div class="image">
+        <i class="remove user icon"></i>
+      </div>
+      <div class="description">
+        <p>Are you sure you want to delete
+        <strong>{{model.displayName}}</strong> ({{model.username}})?</p>
+      </div>
     </div>
     <div class="actions">
-      <button class="ui negative button">No</button>
-      <button class="ui positive right labeled icon button">
-        Yes!
-        <i class="checkmark icon"></i>
-      </button>
+      <div class="ui two fluid inverted buttons">
+        <button class="ui basic inverted red right labeled icon deny button">
+          No
+          <i class="remove icon"></i>
+        </button>
+        <button class="ui basic inverted green right labeled icon approve button">
+          Yes!
+          <i class="checkmark icon"></i>
+        </button>
+      </div>
     </div>
   </div>
 

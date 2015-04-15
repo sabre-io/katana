@@ -191,6 +191,38 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
         {
             this.get('session').invalidate();
             return;
+        },
+
+        /**
+         * Show the alert modal window.
+         */
+        alert: function(title, content)
+        {
+            var controller = this.controllerFor('application');
+            var oldTitle   = controller.get('alert.title');
+            var oldContent = controller.get('alert.content');
+
+            controller.set('alert.title',   title);
+            controller.set('alert.content', content);
+
+            var clean = function() {
+                controller.set('alert.title',   oldTitle);
+                controller.set('alert.content', oldContent);
+
+                return true;
+            };
+
+            $('#modalAlert')
+                .modal(
+                    'setting',
+                    {
+                        onDeny:    clean,
+                        onApprove: clean
+                    }
+                )
+                .modal('show');
+
+            return;
         }
 
     }
@@ -227,6 +259,14 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
      * Whether the session is about to expire or not.
      */
     sessionWillExpire: false,
+
+    /**
+     * Current alert title and message.
+     */
+    alert: {
+        title  : 'Alert',
+        content: '(unknown)'
+    },
 
     /**
      * Run a session tick.
@@ -336,12 +376,12 @@ Katana.ApplicationView = Ember.View.extend({
             this,
             function() {
                 // Configure the modal behavior.
-                $('.ui.modal').modal(
+                $$('.ui.modal').modal(
                     'setting',
                     {
                         transition: 'fade up',
-                        closable: false,
-                        onDeny: function() {
+                        closable  : false,
+                        onDeny    : function() {
                             return false;
                         },
                         onApprove: function() {
@@ -565,8 +605,32 @@ Katana.UserController = Ember.Controller.extend({
          */
         applyDeleting: function()
         {
-            this.get('model').destroyRecord();
-            this.transitionToRoute('users');
+            var self        = this;
+            var model       = this.get('model');
+            var username    = model.get('username');
+            var displayName = model.get('displayName');
+
+            model
+                .destroyRecord()
+                .then(
+                    function() {
+                        self.transitionToRoute('users');
+                        return;
+                    },
+                    function() {
+                        self.send(
+                            'alert',
+                            'Cannot delete',
+                            'An error occured while deleting ' +
+                            '<strong>' + displayName + '</strong> ' +
+                            '(' + username + '). ' +
+                            'Probably because it is forbidden.'
+                        );
+                        self.get('model').rollback();
+
+                        return;
+                    }
+                );
 
             return;
         }

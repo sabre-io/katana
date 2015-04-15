@@ -62,10 +62,10 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                         resolve(data);
                         return;
                     },
-                    function(error) {
+                    function(xhr) {
                         console.log('nok');
-                        console.log(error);
-                        reject(error);
+                        console.log(xhr);
+                        reject(xhr);
                     }
                 );
                 return;
@@ -92,10 +92,10 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                         resolve(data);
                         return;
                     },
-                    function(error) {
+                    function(xhr) {
                         console.log('nok');
-                        console.log(error);
-                        reject(error);
+                        console.log(xhr);
+                        reject(xhr);
                     }
                 );
             }
@@ -135,10 +135,10 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
 
                         return;
                     },
-                    function(error) {
+                    function(xhr) {
                         console.log('nok');
-                        console.log(error);
-                        reject(error);
+                        console.log(xhr);
+                        reject(xhr);
                     }
                 );
                 return;
@@ -193,10 +193,10 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
 
                         return;
                     },
-                    function(error) {
+                    function(xhr) {
                         console.log('nok');
-                        console.log(error);
-                        reject(error);
+                        console.log(xhr);
+                        reject(xhr);
                     }
                 );
                 return;
@@ -223,12 +223,29 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                     processData: false,
                     success    : function(data, status, xhr)
                     {
+                        xhr.then = null;
                         Ember.run(null, resolve, xhr.responseText);
+
                         return;
                     },
                     error: function(xhr, status, error)
                     {
-                        Ember.run(null, reject, error);
+                        var isObject = xhr !== null && typeof xhr === 'object';
+
+                        if (isObject) {
+                            xhr.then = null;
+
+                            if (!xhr.errorThrown) {
+                                if (typeof error === 'string') {
+                                    xhr.errorThrown = new Error(error);
+                                } else {
+                                    xhr.errorThrown = error;
+                                }
+                            }
+                        }
+
+                        Ember.run(null, reject, xhr);
+
                         return;
                     }
                 });
