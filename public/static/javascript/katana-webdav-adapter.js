@@ -65,6 +65,7 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                     function(error) {
                         console.log('nok');
                         console.log(error);
+                        reject(error);
                     }
                 );
                 return;
@@ -137,6 +138,7 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                     function(error) {
                         console.log('nok');
                         console.log(error);
+                        reject(error);
                     }
                 );
                 return;
@@ -194,6 +196,7 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                     function(error) {
                         console.log('nok');
                         console.log(error);
+                        reject(error);
                     }
                 );
                 return;
