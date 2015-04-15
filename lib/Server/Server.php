@@ -24,11 +24,13 @@ namespace Sabre\Katana\Server;
 
 use Sabre\Katana\Configuration;
 use Sabre\Katana\Database;
-use Sabre\Katana\Dav\Authentication;
-use Sabre\CalDAV;
-use Sabre\CardDAV;
-use Sabre\DAV;
-use Sabre\DAVACL;
+use Sabre\Katana\Dav;
+use Sabre\Katana\DavAcl;
+use Sabre\Katana\CalDav;
+use Sabre\CalDAV as SabreCalDav;
+use Sabre\CardDAV as SabreCardDav;
+use Sabre\DAV as SabreDav;
+use Sabre\DAVACL as SabreDavAcl;
 
 /**
  * Server main class.
@@ -56,7 +58,7 @@ class Server
     /**
      * sabre/dav server.
      *
-     * @var DAV\Server
+     * @var SabreDav\Server
      */
     protected $_server        = null;
 
@@ -153,11 +155,11 @@ class Server
      */
     protected function initializeServer()
     {
-        $this->_server = new DAV\Server(null);
+        $this->_server = new SabreDav\Server(null);
         $this->_server->setBaseUri(
             $this->getConfiguration()->base_url ?: '/'
         );
-        $this->_server->addPlugin(new DAV\Browser\Plugin());
+        $this->_server->addPlugin(new SabreDav\Browser\Plugin());
 
         return;
     }
@@ -171,10 +173,10 @@ class Server
     {
         $configuration = $this->getConfiguration()->authentication;
         $database      = $this->getDatabase();
-        $backend       = new Authentication\BasicBackend($database);
+        $backend       = new Dav\Authentication\BasicBackend($database);
         $backend->setRealm($configuration->realm);
 
-        $plugin = new DAV\Auth\Plugin($backend);
+        $plugin = new SabreDav\Auth\Plugin($backend);
         $this->getServer()->addPlugin($plugin);
 
         return;
@@ -183,16 +185,16 @@ class Server
     /**
      * Initialize the principals.
      *
-     * @param  DAVACL\PrincipalBackend\PDO  &$backend    Retrieve the principals backend by-reference.
+     * @param  DavAcl\Principal\Backend  &$backend    Retrieve the principals backend by-reference.
      * @return void
      */
-    protected function initializePrincipals(DAVACL\PrincipalBackend\PDO &$backend = null)
+    protected function initializePrincipals(DavAcl\Principal\Backend &$backend = null)
     {
         if (null === $backend) {
-            $backend = new DAVACL\PrincipalBackend\PDO($this->getDatabase());
+            $backend = new DavAcl\Principal\Backend($this->getDatabase());
         }
 
-        $node = new CalDAV\Principal\Collection($backend);
+        $node = new CalDav\Principal\Collection($backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
 
         return;
@@ -201,16 +203,16 @@ class Server
     /**
      * Initialize CalDAV.
      *
-     * @param  DAVACL\PrincipalBackend\PDO  $principalBackend  The principal backend.
+     * @param  DavACl\Principal\Backend  $principalBackend  The principal backend.
      * @return void
      */
-    protected function initializeCalDAV(DAVACL\PrincipalBackend\PDO $principalBackend)
+    protected function initializeCalDAV(DavAcl\Principal\Backend $principalBackend)
     {
-        $backend = new CalDAV\Backend\PDO($this->getDatabase());
-        $node    = new CalDAV\CalendarRoot($principalBackend, $backend);
+        $backend = new SabreCalDav\Backend\PDO($this->getDatabase());
+        $node    = new SabreCalDav\CalendarRoot($principalBackend, $backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
-        $this->getServer()->addPlugin(new CalDAV\Plugin());
-        $this->getServer()->addPlugin(new CalDAV\Schedule\Plugin());
+        $this->getServer()->addPlugin(new SabreCalDav\Plugin());
+        $this->getServer()->addPlugin(new SabreCalDav\Schedule\Plugin());
 
         return;
     }
@@ -218,15 +220,15 @@ class Server
     /**
      * Initialize CardDAV.
      *
-     * @param  DAVACL\PrincipalBackend\PDO  $principalBackend  The principal backend.
+     * @param  DavAcl\Principal\Backend  $principalBackend  The principal backend.
      * @return void
      */
-    protected function initializeCardDAV(DAVACL\PrincipalBackend\PDO $principalBackend)
+    protected function initializeCardDAV(DavAcl\Principal\Backend $principalBackend)
     {
-        $backend = new CardDAV\Backend\PDO($this->getDatabase());
-        $node    = new CardDAV\AddressBookRoot($principalBackend, $backend);
+        $backend = new SabreCardDav\Backend\PDO($this->getDatabase());
+        $node    = new SabreCardDav\AddressBookRoot($principalBackend, $backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
-        $this->getServer()->addPlugin(new CardDAV\Plugin());
+        $this->getServer()->addPlugin(new SabreCardDav\Plugin());
 
         return;
     }
@@ -238,7 +240,7 @@ class Server
      */
     protected function initializeACL()
     {
-        $plugin                               = new DAVACL\Plugin();
+        $plugin                               = new SabreDavAcl\Plugin();
         $plugin->adminPrincipals[]            = 'principals/' . static::ADMINISTRATOR_LOGIN;
         $plugin->allowAccessToNodesWithoutACL = false;
         $plugin->hideNodesFromListings        = true;
@@ -256,7 +258,7 @@ class Server
      */
     protected function initializeSynchronization()
     {
-        $this->getServer()->addPlugin(new DAV\Sync\Plugin());
+        $this->getServer()->addPlugin(new SabreDav\Sync\Plugin());
 
         return;
     }
@@ -264,7 +266,7 @@ class Server
     /**
      * Get the underlying server.
      *
-     * @return DAV\Server
+     * @return SabreDav\Server
      */
     public function getServer()
     {
