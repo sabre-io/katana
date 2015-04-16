@@ -376,10 +376,9 @@ Katana.ApplicationView = Ember.View.extend({
             this,
             function() {
                 // Configure the modal behavior.
-                $$('.ui.modal').modal(
+                $('.ui.modal').modal(
                     'setting',
                     {
-                        transition: 'fade up',
                         closable  : false,
                         onDeny    : function() {
                             return false;
