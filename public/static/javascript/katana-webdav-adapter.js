@@ -59,7 +59,9 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                     '</d:mkcol>'
                 ).then(
                     function(data) {
-                        resolve(data);
+                        resolve({
+                            id: snapshot.get('username')
+                        });
                     },
                     function(xhr) {
                         console.log('nok');
