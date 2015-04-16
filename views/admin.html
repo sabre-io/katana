@@ -28,24 +28,6 @@
 <body>
 
 <script type="text/x-handlebars">
-  <div id="modalAlert" class="ui basic modal">
-    <div class="ui red header">{{alert.title}}</div>
-    <div class="content">
-      <div class="image">
-        <i class="warning sign icon"></i>
-      </div>
-      <div class="description"><p>{{{alert.content}}}</p></div>
-    </div>
-    <div class="actions">
-      <div class="ui one fluid inverted buttons">
-        <button class="ui basic inverted green right labeled icon approve button">
-          Ok
-          <i class="checkmark icon"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-
   <main>
     <h1 class="ui icon center aligned header">
       <i class="settings icon"></i>
@@ -130,6 +112,24 @@
       </div>
     {{/if}}
   </main>
+
+  <div id="modalAlert" class="ui basic modal">
+    <div class="ui red header">{{alert.title}}</div>
+    <div class="content">
+      <div class="image">
+        <i class="warning sign icon"></i>
+      </div>
+      <div class="description"><p>{{{alert.content}}}</p></div>
+    </div>
+    <div class="actions">
+      <div class="ui one fluid inverted buttons">
+        <button class="ui basic inverted green right labeled icon approve button">
+          Ok
+          <i class="checkmark icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 </script>
 
 <script type="text/x-handlebars" id="users">
