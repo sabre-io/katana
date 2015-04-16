@@ -226,9 +226,15 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
 
     },
 
-    findQuery: function()
+    findQuery: function(store, type, query, recordArray)
     {
         console.log('KWDAV findQuery');
+        return this.findAll(store, type, null);
+    },
+
+    generateIdForRecord: function(store, inputProperties)
+    {
+        return 'new';
     },
 
     xhr: function(method, url, headers, body)
