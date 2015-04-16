@@ -721,24 +721,3 @@ Katana.User = DS.Model.extend(KatanaValidatorMixin, {
     }
 
 });
-
-Katana.User.FIXTURES = [
-    {
-        id: 0,
-        username: 'gordon',
-        displayName: 'Administrator',
-        email: 'gordon@freeman.hl'
-    },
-    {
-        id: 1,
-        username: 'ivan',
-        displayName: 'Hywan',
-        email: 'ivan@fruux.com'
-    },
-    {
-        id: 2,
-        username: 'alix',
-        displayName: 'Alix Vence',
-        email: 'alix@freeman.hl'
-    }
-];
