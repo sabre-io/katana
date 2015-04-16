@@ -444,7 +444,9 @@ Katana.UsersController = Ember.Controller.extend({
             var record = this.store.createRecord(
                 'user',
                 {
-                    displayName: 'Unnamed'
+                    username   : '',
+                    displayName: 'Unnamed',
+                    email      : ''
                 }
             );
             this.transitionToRoute(
