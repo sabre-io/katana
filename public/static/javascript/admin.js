@@ -567,13 +567,19 @@ Katana.UserController = Ember.Controller.extend({
          */
         applyEditing: function()
         {
+            var self = this;
+
             if (true !== this.get('isEditing')) {
                 throw "Cannot save the current user because it was not in the editing mode.";
             }
 
-            this.get('model').save();
-            this.set('isEditing', false);
-            this.set('edit',      false);
+            this.get('model').validate().then(
+                function() {
+                    self.get('model').save();
+                    self.set('isEditing', false);
+                    self.set('edit',      false);
+                }
+            );
 
             return;
         },
