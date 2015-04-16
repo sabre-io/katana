@@ -74,40 +74,42 @@ var KatanaValidatorMixin = Ember.Mixin.create({
         for (var validatorName in this.validators) {
             this._validatorErrorBuckets[validatorName] = [];
 
-            if (undefined !== this.get(validatorName)) {
-                var propertyName = validatorName;
-                this.addObserver(
-                    propertyName,
-                    this.validators,
-                    new function() {
-                        var validator = self.validators[validatorName];
-                        var name      = validatorName;
-
-                        return function(sender, key, value, context, rev) {
-                            var promise = (validator.bind(self))(
-                                sender,
-                                key,
-                                value,
-                                context,
-                                rev
-                            );
-
-                            promise.then(
-                                self._onResolve.bind(
-                                    self,
-                                    self._validatorErrorBuckets[name]
-                                ),
-                                self._onReject.bind(
-                                    self,
-                                    self._validatorErrorBuckets[name]
-                                )
-                            ).finally(function() {
-                                self.set('valid', self.computeVerdict());
-                            });
-                        }
-                    }
-                );
+            if (undefined === this.get(validatorName)) {
+                continue;
             }
+
+            var propertyName = validatorName;
+            this.addObserver(
+                propertyName,
+                this.validators,
+                new function() {
+                    var validator = self.validators[validatorName];
+                    var name      = validatorName;
+
+                    return function(sender, key, value, context, rev) {
+                        var promise = (validator.bind(self))(
+                            sender,
+                            key,
+                            value,
+                            context,
+                            rev
+                        );
+
+                        promise.then(
+                            self._onResolve.bind(
+                                self,
+                                self._validatorErrorBuckets[name]
+                            ),
+                            self._onReject.bind(
+                                self,
+                                self._validatorErrorBuckets[name]
+                            )
+                        ).finally(function() {
+                            self.set('valid', self.computeVerdict());
+                        });
+                    }
+                }
+            );
         }
     },
 
@@ -211,44 +213,46 @@ var KatanaValidatorMixin = Ember.Mixin.create({
         this.set('valid', false);
 
         for (var validatorName in this.validators) {
-            if (undefined !== this.get(validatorName)) {
-                validatorPromises.push(
-                    new Ember.RSVP.Promise(
-                        new function() {
-                            var name = validatorName;
-
-                            return function(resolve, reject) {
-                                var promise = (self.validators[name].bind(self))(
-                                    null,
-                                    null,
-                                    self.get(name),
-                                    null,
-                                    null
-                                );
-
-                                promise.then(
-                                    function(data) {
-                                        self._onResolve.call(
-                                            self,
-                                            self._validatorErrorBuckets[name],
-                                            data
-                                        );
-                                        resolve(true);
-                                    },
-                                    function(error) {
-                                        self._onReject.call(
-                                            self,
-                                            self._validatorErrorBuckets[name],
-                                            error
-                                        );
-                                        reject(error);
-                                    }
-                                );
-                            }
-                        }
-                    )
-                );
+            if (undefined === this.get(validatorName)) {
+                continue;
             }
+
+            validatorPromises.push(
+                new Ember.RSVP.Promise(
+                    new function() {
+                        var name = validatorName;
+
+                        return function(resolve, reject) {
+                            var promise = (self.validators[name].bind(self))(
+                                null,
+                                null,
+                                self.get(name),
+                                null,
+                                null
+                            );
+
+                            promise.then(
+                                function(data) {
+                                    self._onResolve.call(
+                                        self,
+                                        self._validatorErrorBuckets[name],
+                                        data
+                                    );
+                                    resolve(true);
+                                },
+                                function(error) {
+                                    self._onReject.call(
+                                        self,
+                                        self._validatorErrorBuckets[name],
+                                        error
+                                    );
+                                    reject(error);
+                                }
+                            );
+                        }
+                    }
+                )
+            );
         }
 
         var defer = Ember.RSVP.defer();
