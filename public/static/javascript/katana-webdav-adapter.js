@@ -68,14 +68,43 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                         reject(xhr);
                     }
                 );
-                return;
             }
         );
     },
 
-    updateRecord: function()
+    updateRecord: function(store, type, snapshot)
     {
-        console.log('KWDAV updateRecord');
+        var self = this;
+
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                self.xhr(
+                    'PROPPATCH',
+                    self.usersURL + snapshot.get('username'),
+                    {
+                        'Content-Type': 'application/xml; charset=utf-8'
+                    },
+                    '<?xml version="1.0" encoding="utf-8" ?>' + "\n" +
+                    '<d:propertyupdate xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">' + "\n" +
+                    '  <d:set>' + "\n" +
+                    '    <d:prop>' + "\n" +
+                    '      <d:displayname>' + snapshot.get('displayName') + '</d:displayname>' + "\n" +
+                    '      <s:email-address>' + snapshot.get('email') + '</s:email-address>' + "\n" +
+                    '    </d:prop>' + "\n" +
+                    '  </d:set>' + "\n" +
+                    '</d:propertyupdate>'
+                ).then(
+                    function(data) {
+                        resolve(data);
+                    },
+                    function(xhr) {
+                        console.log('nok');
+                        console.log(xhr);
+                        reject(xhr);
+                    }
+                );
+            }
+        );
     },
 
     deleteRecord: function(store, type, snapshot)
