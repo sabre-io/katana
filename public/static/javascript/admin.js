@@ -548,8 +548,9 @@ Katana.UserController = Ember.Controller.extend({
             // Newly created record.
             if (true === model.get('isNew')) {
 
-                model.deleteRecord();
+                model.destroyRecord();
                 this.set('isEditing', false);
+                this.set('edit',      false);
                 this.transitionToRoute('users');
 
                 return;
@@ -558,6 +559,7 @@ Katana.UserController = Ember.Controller.extend({
 
             model.rollback();
             this.set('isEditing', false);
+            this.set('edit',      false);
 
             return;
         },
