@@ -20,7 +20,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ember.libraries.register('Ember Katana Validator', '0.0.2');
+Ember.libraries.register('Ember Katana Validator', '0.0.3');
 
 /**
  * A simple validator mixin.
@@ -72,20 +72,18 @@ var KatanaValidatorMixin = Ember.Mixin.create({
         var self = this;
 
         for (var validatorName in this.validators) {
+            this._validatorErrorBuckets[validatorName] = [];
 
-            if (this.get(validatorName)) {
-
+            if (undefined !== this.get(validatorName)) {
                 var propertyName = validatorName;
                 this.addObserver(
                     propertyName,
                     this.validators,
                     new function() {
-
                         var validator = self.validators[validatorName];
-                        var errorIds  = [];
+                        var name      = validatorName;
 
                         return function(sender, key, value, context, rev) {
-
                             var promise = (validator.bind(self))(
                                 sender,
                                 key,
@@ -95,72 +93,98 @@ var KatanaValidatorMixin = Ember.Mixin.create({
                             );
 
                             promise.then(
-                                function() {
-                                    // Clean errors.
-                                    errorIds.forEach(
-                                        function(errorId) {
-                                            if (self.validatorErrors[errorId]) {
-                                                self.set(
-                                                    'validatorErrors.' + errorId,
-                                                    null
-                                                );
-                                            }
-                                        }
-                                    );
-                                    return;
-                                },
-                                function(error) {
-
-                                    // Is it a known error?
-                                    if (-1 === errorIds.indexOf(error.id)) {
-                                        errorIds.push(error.id);
-                                    }
-
-                                    // Remove previous errors.
-                                    errorIds.forEach(
-                                        function(errorId) {
-                                            if (self.validatorErrors[errorId] &&
-                                                errorId !== error.id) {
-                                                self.set(
-                                                    'validatorErrors.' + errorId,
-                                                    null
-                                                );
-                                            }
-                                        }
-                                    );
-
-                                    // Publish the new error.
-                                    self.set(
-                                        'validatorErrors.' + error.id,
-                                        error.message
-                                    );
-
-                                    return;
-
-                                }
+                                self._onResolve.bind(
+                                    self,
+                                    self._validatorErrorBuckets[name]
+                                ),
+                                self._onReject.bind(
+                                    self,
+                                    self._validatorErrorBuckets[name]
+                                )
                             ).finally(function() {
-                                self.validate();
-                                return;
+                                self.set('valid', self.computeVerdict());
                             });
-
-                            return;
-
                         }
                     }
                 );
-
             }
-
         }
-
-        return;
     },
 
-    validatorErrors: {/* errorId: errorMessage */},
-    validators: {},
-    valid: true,
+    /**
+     * Each validator has its own error bucket. It associates a message to an
+     * ID.
+     */
+    _validatorErrorBuckets: {},
 
-    validate: function()
+    /**
+     * All validator errors.
+     */
+    validatorErrors       : {/* errorId : errorMessage */},
+
+    /**
+     * User-defined validators.
+     */
+    validators            : {},
+
+    /**
+     * A boolean indicating whether all the data are valid or not.
+     */
+    valid                 : true,
+
+    /**
+     * Clean errors when a property is valid.
+     */
+    _onResolve: function(errorBucket)
+    {
+        var self = this;
+
+        // Clean errors.
+        errorBucket.forEach(
+            function(errorId) {
+                if (self.validatorErrors[errorId]) {
+                    self.set(
+                        'validatorErrors.' + errorId,
+                        null
+                    );
+                }
+            }
+        );
+    },
+
+    /**
+     * Deal with errors.
+     */
+    _onReject: function(errorBucket, error)
+    {
+        var self = this;
+
+        // Is it a known error?
+        if (-1 === errorBucket.indexOf(error.id)) {
+            errorBucket.push(error.id);
+        }
+
+        // Remove previous errors.
+        errorBucket.forEach(
+            function(errorId) {
+                if (self.validatorErrors[errorId] &&
+                    errorId !== error.id) {
+                    self.set(
+                        'validatorErrors.' + errorId,
+                        null
+                    );
+                }
+            }
+        );
+
+        // Publish the new error.
+        this.set(
+            'validatorErrors.' + error.id,
+            error.message
+        );
+    },
+
+    computeVerdict: function()
     {
         var verdict = true;
 
@@ -168,8 +192,95 @@ var KatanaValidatorMixin = Ember.Mixin.create({
             verdict = verdict && (null === this.validatorErrors[errorId]);
         }
 
-        this.set('valid', verdict);
+        if (true === verdict) {
+            var promise = this.get('_validatePromise');
 
-        return;
+            if (promise) {
+                promise.resolve(true);
+            }
+        }
+
+        return verdict;
+    },
+
+    validate: function()
+    {
+        var self              = this;
+        var validatorPromises = [];
+
+        this.set('valid', false);
+
+        for (var validatorName in this.validators) {
+            if (undefined !== this.get(validatorName)) {
+                validatorPromises.push(
+                    new Ember.RSVP.Promise(
+                        new function() {
+                            var name = validatorName;
+
+                            return function(resolve, reject) {
+                                var promise = (self.validators[name].bind(self))(
+                                    null,
+                                    null,
+                                    self.get(name),
+                                    null,
+                                    null
+                                );
+
+                                promise.then(
+                                    function(data) {
+                                        self._onResolve.call(
+                                            self,
+                                            self._validatorErrorBuckets[name],
+                                            data
+                                        );
+                                        resolve(true);
+                                    },
+                                    function(error) {
+                                        self._onReject.call(
+                                            self,
+                                            self._validatorErrorBuckets[name],
+                                            error
+                                        );
+                                        reject(error);
+                                    }
+                                );
+                            }
+                        }
+                    )
+                );
+            }
+        }
+
+        var defer = Ember.RSVP.defer();
+
+        Ember.RSVP.allSettled(validatorPromises).then(
+            function(data) {
+                var fulfilled = [];
+                var rejected  = [];
+
+                data.forEach(
+                    function(result) {
+                        if ('rejected' === result.state) {
+                            rejected.push(result.reason);
+                        } else {
+                            fulfilled.push(result.value);
+                        }
+                    }
+                );
+
+                if (0 === rejected.length) {
+                    defer.resolve(fulfilled);
+                } else {
+                    defer.reject(rejected);
+                }
+            },
+            function(error) {
+                defer.reject(error);
+            }
+        ).finally(function() {
+            self.set('valid', self.computeVerdict());
+        });
+
+        return defer.promise;
     }
 });
