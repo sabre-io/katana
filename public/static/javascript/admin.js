@@ -447,7 +447,7 @@ Katana.UsersController = Ember.Controller.extend({
          */
         requestCreating: function()
         {
-            var record = this.store.createRecord(
+            var record = this.get('store').createRecord(
                 'user',
                 {
                     username   : '',
@@ -479,7 +479,7 @@ Katana.UserRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
     model: function(params)
     {
-        return this.store.find('user', params.user_id);
+        return this.get('store').find('user', params.user_id);
     }
 
 });
