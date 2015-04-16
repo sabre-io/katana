@@ -419,7 +419,13 @@ Katana.UsersRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
     model: function()
     {
-        return this.store.find('user');
+        return this.get('store').filter(
+            'user',
+            {},
+            function(user) {
+                return true;
+            }
+        );
     }
 
 });
