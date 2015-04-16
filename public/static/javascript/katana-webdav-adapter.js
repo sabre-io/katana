@@ -60,7 +60,6 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                 ).then(
                     function(data) {
                         resolve(data);
-                        return;
                     },
                     function(xhr) {
                         console.log('nok');
@@ -119,7 +118,6 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                 ).then(
                     function(data) {
                         resolve(data);
-                        return;
                     },
                     function(xhr) {
                         console.log('nok');
@@ -161,8 +159,6 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                             displayName: properties['{DAV:}displayname'],
                             email      : properties['{http://sabredav.org/ns}email-address']
                         });
-
-                        return;
                     },
                     function(xhr) {
                         console.log('nok');
@@ -170,7 +166,6 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                         reject(xhr);
                     }
                 );
-                return;
             }
         );
     },
@@ -213,14 +208,10 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                                         email      : properties['{http://sabredav.org/ns}email-address']
                                     });
                                 }
-
-                                return;
                             }
                         );
 
                         resolve(users);
-
-                        return;
                     },
                     function(xhr) {
                         console.log('nok');
@@ -228,7 +219,6 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                         reject(xhr);
                     }
                 );
-                return;
             }
         );
 
@@ -250,15 +240,11 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                     data       : body,
                     headers    : headers,
                     processData: false,
-                    success    : function(data, status, xhr)
-                    {
+                    success    : function(data, status, xhr) {
                         xhr.then = null;
                         Ember.run(null, resolve, xhr.responseText);
-
-                        return;
                     },
-                    error: function(xhr, status, error)
-                    {
+                    error: function(xhr, status, error) {
                         var isObject = xhr !== null && typeof xhr === 'object';
 
                         if (isObject) {
@@ -274,8 +260,6 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                         }
 
                         Ember.run(null, reject, xhr);
-
-                        return;
                     }
                 });
             }
