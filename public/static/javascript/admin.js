@@ -526,6 +526,9 @@ Katana.UserController = Ember.Controller.extend({
         return;
     }.observes('isEditing'),
 
+    /**
+     * Username is editable only once: When creating the user.
+     */
     isUsernameEditable: function()
     {
         return this.get('isEditing') && this.get('model').get('isNew');
