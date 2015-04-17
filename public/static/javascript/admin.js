@@ -526,6 +526,11 @@ Katana.UserController = Ember.Controller.extend({
         return;
     }.observes('isEditing'),
 
+    isUsernameEditable: function()
+    {
+        return this.get('isEditing') && this.get('model').get('isNew');
+    }.property('isEditing', 'model'),
+
     actions: {
 
         /**

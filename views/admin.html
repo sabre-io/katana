@@ -213,7 +213,7 @@
   <form class="ui form">
     <div class="inline field">
       <label>Username:</label>
-      {{#if isEditing}}
+      {{#if isUsernameEditable}}
         {{input type="text" value=model.username}}
       {{else}}
       <strong>{{model.username}}</strong>
