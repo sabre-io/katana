@@ -39,9 +39,9 @@ use Hoa\Console\Chrome\Text;
 class Install extends AbstractCommand
 {
     protected $options = [
-        ['no-verbose', Console\GetOption::NO_ARGUMENT, 'V'],
-        ['help',       Console\GetOption::NO_ARGUMENT, 'h'],
-        ['help',       Console\GetOption::NO_ARGUMENT, '?']
+        ['verbose', Console\GetOption::NO_ARGUMENT, 'v'],
+        ['help',    Console\GetOption::NO_ARGUMENT, 'h'],
+        ['help',    Console\GetOption::NO_ARGUMENT, '?']
     ];
 
     /**
@@ -51,7 +51,7 @@ class Install extends AbstractCommand
      */
     public function main()
     {
-        $verbose = Console::isDirect(STDOUT) || !OS_WIN;
+        $verbose = !(Console::isDirect(STDOUT) || !OS_WIN);
 
         while (false !== $c = $this->getOption($v)) {
             switch ($c) {
@@ -60,8 +60,8 @@ class Install extends AbstractCommand
                     $this->resolveOptionAmbiguity($v);
                     break;
 
-                case 'V':
-                    $verbose = !$v;
+                case 'v':
+                    $verbose = $v;
                     break;
 
                 case 'h':
@@ -524,7 +524,7 @@ class Install extends AbstractCommand
             'Usage  : install <options>', "\n",
             'Options:', "\n",
             $this->makeUsageOptionsList([
-                'V'    => 'Be as less verbose as possible.',
+                'v'    => 'Be as more verbose as possible.',
                 'help' => 'This help.'
             ]);
     }
