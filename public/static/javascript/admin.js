@@ -24,8 +24,6 @@ Ember.Application.initializer({
     initialize: function(container, application) {
         container.register('authenticator:custom', Katana.CustomAuthenticator);
         container.register('authorizer:custom',    Katana.CustomAuthorizer);
-
-        return;
     }
 });
 
@@ -43,7 +41,6 @@ Katana = Ember.Application.create({
     ready: function()
     {
         this.lastActivity = new Date();
-        return;
     }
 
 });
@@ -93,16 +90,13 @@ Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
                         Ember.run(function() {
                             resolve({token: basic});
                         });
-                        return;
                     },
                     function(xhr, status, error) {
                         Ember.run(function() {
                             reject();
                         });
-                        return;
                     }
                 );
-                return;
             }
         );
     },
@@ -138,8 +132,6 @@ Katana.CustomAuthorizer = SimpleAuth.Authorizers.Base.extend({
                 'Authorization', 'Basic ' + session.content.token
             );
         }
-
-        return;
     }
 
 });
@@ -175,7 +167,6 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
         requestModal: function()
         {
             $('html').addClass('modal');
-            return;
         },
 
         /**
@@ -184,7 +175,6 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
         cancelModal: function()
         {
             $('html').removeClass('modal');
-            return;
         },
 
         /**
@@ -193,7 +183,6 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
         invalidateSession: function()
         {
             this.get('session').invalidate();
-            return;
         },
 
         /**
@@ -224,8 +213,6 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
                     }
                 )
                 .modal('show');
-
-            return;
         }
 
     }
@@ -314,8 +301,6 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
             },
             1000
         );
-
-        return;
     }.observes('lastSessionTick').on('init'),
 
     actions: {
@@ -349,18 +334,12 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
                         );
 
                         $('html').addClass('logged');
-
-                        return;
                     },
                     function(message) {
                         self.set('valid',      false);
                         self.set('submitting', false);
-
-                        return;
                     }
                 );
-
-            return;
         }
 
     }
@@ -393,21 +372,17 @@ Katana.ApplicationView = Ember.View.extend({
                         }
                     }
                 );
-                return;
             }
         );
 
         // Check the inactivity of the user.
         var updateLastActivity = function() {
             Katana.lastActivity = new Date();
-            return;
         };
 
         $(window).mousemove(updateLastActivity);
         $(window).click(updateLastActivity);
         $(window).keypress(updateLastActivity);
-
-        return;
     }
 
 });
@@ -470,8 +445,6 @@ Katana.UsersController = Ember.Controller.extend({
                     }
                 }
             );
-
-            return;
         }
 
     }
@@ -510,8 +483,6 @@ Katana.UserController = Ember.Controller.extend({
         if ('true' === this.get('edit')) {
             this.send('requestEditing');
         }
-
-        return;
     }.observes('edit'),
 
     /**
@@ -529,7 +500,6 @@ Katana.UserController = Ember.Controller.extend({
                 ? 'requestModal'
                 : 'cancelModal'
         );
-        return;
     }.observes('isEditing'),
 
     /**
@@ -548,8 +518,6 @@ Katana.UserController = Ember.Controller.extend({
         requestEditing: function()
         {
             this.set('isEditing', true);
-
-            return;
         },
 
         /**
@@ -580,8 +548,6 @@ Katana.UserController = Ember.Controller.extend({
             model.rollback();
             this.set('isEditing', false);
             this.set('edit',      false);
-
-            return;
         },
 
         /**
@@ -613,8 +579,6 @@ Katana.UserController = Ember.Controller.extend({
                     );
                 }
             );
-
-            return;
         },
 
         /**
@@ -655,7 +619,6 @@ Katana.UserController = Ember.Controller.extend({
                 .then(
                     function() {
                         self.transitionToRoute('users');
-                        return;
                     },
                     function() {
                         self.send(
@@ -667,12 +630,8 @@ Katana.UserController = Ember.Controller.extend({
                             'Probably because it is forbidden.'
                         );
                         self.get('model').rollback();
-
-                        return;
                     }
                 );
-
-            return;
         }
 
     }
