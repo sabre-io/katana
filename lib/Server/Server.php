@@ -171,12 +171,9 @@ class Server
      */
     protected function initializeAuthentication()
     {
-        $configuration = $this->getConfiguration()->authentication;
-        $database      = $this->getDatabase();
-        $backend       = new Dav\Authentication\BasicBackend($database);
-        $backend->setRealm($configuration->realm);
-
-        $plugin = new SabreDav\Auth\Plugin($backend);
+        $database = $this->getDatabase();
+        $backend  = new Dav\Authentication\BasicBackend($database);
+        $plugin   = new SabreDav\Auth\Plugin($backend);
         $this->getServer()->addPlugin($plugin);
 
         return;
@@ -196,6 +193,7 @@ class Server
 
         $node = new CalDav\Principal\Collection($backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
+        $this->getServer()->addPlugin(new DavAcl\User\Plugin($this->getDatabase()));
 
         return;
     }

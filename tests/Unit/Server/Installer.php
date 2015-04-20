@@ -27,6 +27,7 @@ use Sabre\Katana\Server\Installer as CUT;
 use Sabre\Katana\Server\Server;
 use Sabre\Katana\Configuration;
 use Sabre\Katana\Database;
+use Sabre\Katana\DavAcl\User\Plugin as User;
 use Sabre\HTTP;
 
 /**
@@ -536,8 +537,6 @@ class Installer extends Suite
                 ->array($content = json_decode($jsonContent, true))
                     ->hasKey('base_url')
                     ->hasKey('database')
-                ->array($content['authentication'])
-                    ->hasKey('realm')
                 ->array($content['database'])
                     ->hasKey('dsn')
                     ->hasKey('username')
@@ -545,8 +544,6 @@ class Installer extends Suite
 
                 ->string($content['base_url'])
                     ->isEqualTo('/')
-                ->string($content['authentication']['realm'])
-                    ->matches('#^[a-f0-9]{40}$#')
                 ->string($content['database']['dsn'])
                     ->matches('#^sqlite:katana://data/variable/database/katana_\d+\.sqlite#')
                 ->string($content['database']['username'])
@@ -981,14 +978,10 @@ class Installer extends Suite
     {
         $this
             ->given(
-                $realm         = '🔒',
                 $configuration = new Configuration(
                     $this->helper->configuration(
                         'configuration.json',
                         [
-                            'authentication' => [
-                                'realm' => $realm
-                            ],
                             'database' => [
                                 'dsn'      => $this->helper->sqlite(),
                                 'username' => '',
@@ -1071,32 +1064,8 @@ class Installer extends Suite
                 ->string($tuple->username)
                     ->isEqualTo($login)
                 ->string($tuple->digesta1)
-                    ->isEqualTo(md5($login . ':' . $realm . ':' . $password));
-    }
-
-    /**
-     * @tags installation configuration database sqlite authentication administration
-     */
-    public function case_create_administrator_profile_authentication_is_required()
-    {
-        $this
-            ->given(
-                $configuration = new Configuration(
-                    $this->helper->configuration('configuration.json'),
-                    true
-                ),
-                $database = new Database($this->helper->sqlite())
-            )
-            ->exception(function() use($configuration, $database) {
-                CUT::createAdministratorProfile(
-                    $configuration,
-                    $database,
-                    null,
-                    null
-                );
-            })
-                ->isInstanceOf('Sabre\Katana\Exception\Installation')
-                ->hasMessage('Configuration is corrupted, the authentication branch is missing.');
+                ->boolean(User::checkPassword($password, $tuple->digesta1))
+                    ->isTrue();
     }
 
     /**

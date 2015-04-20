@@ -38,7 +38,6 @@ class Server extends OriginalServer
 {
     const ADMINISTRATOR_EMAIL    = 'katana@domain.tld';
     const ADMINISTRATOR_PASSWORD = '🔒';
-    const ADMINISTRATOR_REALM    = '627dc738650b9be482b3aa3ad56c306f0e73107e';
 
     public $request  = null;
     public $response = null;
@@ -63,10 +62,7 @@ class Server extends OriginalServer
             $configuration(
                 'configuration.json',
                 [
-                    'base_url'       => '/',
-                    'authentication' => [
-                        'realm' => static::ADMINISTRATOR_REALM
-                    ],
+                    'base_url' => '/',
                     'database' => [
                         'dsn'      => $sqlite(true),
                         'username' => '',

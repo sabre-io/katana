@@ -25,6 +25,7 @@ namespace Sabre\Katana\Server;
 use Sabre\Katana\Configuration;
 use Sabre\Katana\Database;
 use Sabre\Katana\Exception;
+use Sabre\Katana\DavAcl\User\Plugin as User;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
 use Hoa\Core;
@@ -355,17 +356,14 @@ class Installer
 
         }
 
-        $authenticationRealm = sha1(Core::uuid());
         touch($filename);
 
-        $configuration                        = new Configuration($filename, true);
-        $configuration->base_url              = $content['baseUrl'];
-        $configuration->authentication        = new StdClass();
-        $configuration->authentication->realm = $authenticationRealm;
-        $configuration->database              = new StdClass();
-        $configuration->database->dsn         = $dsn;
-        $configuration->database->username    = $content['database']['username'];
-        $configuration->database->password    = $content['database']['password'];
+        $configuration                     = new Configuration($filename, true);
+        $configuration->base_url           = $content['baseUrl'];
+        $configuration->database           = new StdClass();
+        $configuration->database->dsn      = $dsn;
+        $configuration->database->username = $content['database']['username'];
+        $configuration->database->password = $content['database']['password'];
         $configuration->save();
 
         return $configuration;
@@ -450,14 +448,6 @@ class Installer
         $password
     )
     {
-        if (false === isset($configuration->authentication)) {
-            throw new Exception\Installation(
-                'Configuration is corrupted, the authentication branch ' .
-                'is missing.',
-                11
-            );
-        }
-
         $login = Server::ADMINISTRATOR_LOGIN;
 
         if (false === static::checkLogin($login)) {
@@ -472,11 +462,9 @@ class Installer
             throw new Exception\Installation('Password is invalid.', 14);
         }
 
-        $realm  = $configuration->authentication->realm;
-        $digest = md5($login . ':' . $realm . ':' . $password);
+        $digest = User::hashPassword($password);
 
         try {
-
             $statement = $database->prepare(
                 'INSERT INTO principals (uri, email, displayname) ' .
                 'VALUES (:uri, :email, :displayname)'
@@ -505,7 +493,6 @@ class Installer
                 'username' => $login,
                 'digest'   => $digest
             ]);
-
         } catch (PDOException $exception) {
             throw new Exception\Installation(
                 'An error occured while creating the administrator profile.',

@@ -23,6 +23,7 @@
 namespace Sabre\Katana\Dav\Authentication;
 
 use Sabre\Katana\Database;
+use Sabre\Katana\DavAcl\User\Plugin as User;
 use Sabre\DAV\Auth\Backend;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface as Request;
@@ -73,26 +74,9 @@ class BasicBackend extends Backend\AbstractBasic
         );
         $statement->execute(['username' => $username]);
 
-        $digest         = $statement->fetch($database::FETCH_COLUMN, 0);
-        $expectedDigest = md5(
-            $username . ':' .
-            $this->realm . ':' .
-            $password
-        );
+        $digest = $statement->fetch($database::FETCH_COLUMN, 0);
 
-        $length = mb_strlen($digest, '8bit');
-
-        if ($length !== mb_strlen($expectedDigest, '8bit')) {
-            return false;
-        }
-
-        $out = 0;
-
-        for ($i = 0; $i < $length; ++$i) {
-            $out |= ord($digest[$i]) ^ ord($expectedDigest[$i]);
-        }
-
-        return 0 === $out;
+        return User::checkPassword($password, $digest);
     }
 
     /**

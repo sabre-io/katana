@@ -452,7 +452,8 @@ Katana.UsersController = Ember.Controller.extend({
                 {
                     username   : '',
                     displayName: 'Unnamed',
-                    email      : ''
+                    email      : '',
+                    newPassword: null
                 }
             );
             this.transitionToRoute(
@@ -679,6 +680,7 @@ Katana.User = DS.Model.extend(KatanaValidatorMixin, {
     username   : DS.attr('string'),
     displayName: DS.attr('string'),
     email      : DS.attr('string'),
+    newPassword: DS.attr('string'),
 
     validators: {
 
@@ -744,6 +746,31 @@ Katana.User = DS.Model.extend(KatanaValidatorMixin, {
                 });
             } else {
                 defer.resolve(email);
+            }
+
+            return defer.promise;
+        },
+
+        newPassword: function()
+        {
+            var defer       = Ember.RSVP.defer();
+            var newPassword = this.get('email');
+
+            if (true === this.get('isNew')) {
+                if (!newPassword) {
+                    defer.reject({
+                        id     : 'newPassword_empty',
+                        message: 'New password cannot be empty.'
+                    });
+                } else {
+                    defer.resolve(newPassword);
+                }
+            } else {
+                if (!newPassword) {
+                    defer.resolve(null);
+                } else {
+                    defer.resolve(newPassword);
+                }
             }
 
             return defer.promise;
