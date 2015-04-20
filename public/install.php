@@ -27,6 +27,7 @@ use Sabre\Katana\Server\Server;
 use Sabre\Katana\Configuration;
 use Sabre\HTTP;
 use Hoa\Router;
+use Hoa\Dispatcher;
 use Hoa\Eventsource;
 
 /**
@@ -73,11 +74,12 @@ $query = '';
  *
  * Else, we print the installation page.
  */
+
 if (false !== $pos = strpos($url, '?')) {
 
     $response->addHeader('Content-Type', 'application/json');
 
-    $router = new Hoa\Router\Http();
+    $router = new Router\Http();
     $router
         ->post(
             'baseurl',
@@ -231,7 +233,7 @@ if (false !== $pos = strpos($url, '?')) {
     $query = substr($url, $pos + 1);
     $router->route($query);
 
-    $dispatcher = new Hoa\Dispatcher\Basic();
+    $dispatcher = new Dispatcher\Basic();
     $dispatcher->dispatch($router);
 
 } else {
