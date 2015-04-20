@@ -130,6 +130,7 @@ class Install extends AbstractCommand
                     'Installation of sabre/' . "\n" . Welcome::LOGO,
                     'foreground(yellow)'
                 ), "\n\n",
+                static::getBaseURLInfo(), "\n\n",
                 'Choose the base URL:               ', $input('/'), "\n",
                 'Your administrator login:          ', Server::ADMINISTRATOR_LOGIN, "\n",
                 'Choose the administrator password: ', $input(), "\n",
@@ -244,6 +245,10 @@ class Install extends AbstractCommand
             };
 
         } else {
+
+            echo
+                'Installation of sabre/' . "\n" . Welcome::LOGO, "\n\n",
+                static::getBaseURLInfo(), "\n\n";
 
             $step = function($index, $label, Callable $validator, $errorMessage, $default = '')
                     use(&$readline) {
@@ -527,5 +532,20 @@ class Install extends AbstractCommand
                 'v'    => 'Be as more verbose as possible.',
                 'help' => 'This help.'
             ]);
+    }
+
+    /**
+     * Get the base URL information message.
+     *
+     * @return string
+     */
+    public static function getBaseURLInfo()
+    {
+        return
+            'The base URL is the full URL to `server.php` in your ' .
+            'sabre/katana installation. If you are going to run ' .
+            'sabre/katana in a subdirectory, this means that it might ' .
+            'look semothing like this ' .
+            '`/dir/katana/public/server.php/`.';
     }
 }
