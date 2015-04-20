@@ -188,7 +188,7 @@
                         if (100 === data.percent) {
                             setTimeout(
                                 function() {
-                                    window.location = baseUrl;
+                                    window.location = window.location.pathname.replace(/\/+[^\/]*$/, '/') + 'admin.php';
                                 },
                                 3000
                             );
