@@ -345,6 +345,8 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
                             1000
                         );
 
+                        $('html').addClass('logged');
+
                         return;
                     },
                     function(message) {

@@ -13,6 +13,7 @@
 
   <link rel="stylesheet" href="static/vendor/semantic-ui/dist/semantic.min.css" type="text/css" />
   <link rel="stylesheet" href="static/css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="static/css/ui.css" type="text/css" />
 
   <style>
     .segment {
@@ -28,15 +29,17 @@
 <body>
 
 <script type="text/x-handlebars">
-  <main>
+  <header>
     <h1 class="ui icon center aligned header">
-      <i class="settings icon"></i>
+      <img src="static/image/katana_logo.svg" alt="sabre/katana's logo" />
       <div class="content">
         Administration of sabre/katana
         <div class="sub header">Manage your awesome server!</div>
       </div>
     </h1>
+  </header>
 
+  <main>
     {{#if sessionWillExpire}}
       <div class="ui icon negative message">
         <i class="warning sign icon"></i>
