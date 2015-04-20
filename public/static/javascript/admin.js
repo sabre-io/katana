@@ -592,13 +592,17 @@ Katana.UserController = Ember.Controller.extend({
 
             this.get('model').validate().then(
                 function() {
+                    var model = self.get('model');
+
                     self.set('isEditing', false);
                     self.set('edit',      false);
-                    self.get('model').save().then(
+
+                    model.save().then(
                         function() {
+                            model.set('newPassword', null);
                             self.transitionToRoute(
                                 'user',
-                                self.get('model').get('username')
+                                model.get('username')
                             );
                         }
                     );
