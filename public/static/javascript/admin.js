@@ -5,11 +5,14 @@ ENV['katana'] = {
 };
 ENV['simple-auth'] = {
     // Declare our custom authorizer.
-    authorizer: 'authorizer:custom',
+    authorizer         : 'authorizer:custom',
 
     // The session is stored in memory, it disappears when the application
     // reload.
-    store     : 'simple-auth-session-store:ephemeral'
+    store              : 'simple-auth-session-store:ephemeral',
+
+    // Login page.
+    authenticationRoute: '/'
 };
 
 /**
