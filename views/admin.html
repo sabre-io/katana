@@ -88,7 +88,7 @@
     {{else}}
       <div class="ui three columns centered grid">
         <div class="column">
-          <form {{action 'authenticate' on='submit'}} {{bind-attr class=":ui :column :segment :form valid::error submitting:loading"}}>
+          <form {{action 'authenticate' on='submit'}} {{bind-attr class=":ui :column :segment :form valid::error submitting:loading"}} autocomplete="off">
             <h2 class="ui header">Log in</h2>
 
             <div class="ui error message">
