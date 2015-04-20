@@ -147,6 +147,7 @@ class Phar extends Suite
             ->in(Protocol::realPath('katana://data/lib/hoa/iterator'))
             ->in(Protocol::realPath('katana://data/lib/hoa/router'))
             ->in(Protocol::realPath('katana://data/lib/sabre/uri'))
+            ->in(Protocol::realPath('katana://data/lib/ircmaxell/password-compat'))
             ->name('/\.php$/')
             ->notIn('/^\.git$/');
 
