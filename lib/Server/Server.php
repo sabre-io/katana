@@ -39,8 +39,8 @@ use Sabre\DAVACL as SabreDavAcl;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Server
-{
+class Server {
+
     /**
      * Administrator login.
      *
@@ -60,32 +60,29 @@ class Server
      *
      * @var SabreDav\Server
      */
-    protected $_server        = null;
+    protected $server        = null;
 
     /**
      * Server configurations.
      *
      * @var Configuration
      */
-    protected $_configuration = null;
+    protected $configuration = null;
 
     /**
      * Database.
      *
      * @var Database
      */
-    protected $_database      = null;
+    protected $database      = null;
 
     /**
      * Construct and initialize the server.
      *
      * @return void
      */
-    public function __construct()
-    {
+    function __construct() {
         $this->initialize();
-
-        return;
     }
 
     /**
@@ -104,8 +101,8 @@ class Server
      *
      * @return void
      */
-    protected function initialize()
-    {
+    protected function initialize() {
+
         $this->initializeConfiguration();
         $this->initializeDatabase();
         $this->initializeServer();
@@ -115,8 +112,6 @@ class Server
         $this->initializeCardDAV($principalBackend);
         $this->initializeACL();
         $this->initializeSynchronization();
-
-        return;
     }
 
     /**
@@ -124,11 +119,8 @@ class Server
      *
      * @return void
      */
-    protected function initializeConfiguration()
-    {
-        $this->_configuration = new Configuration(static::CONFIGURATION_FILE);
-
-        return;
+    protected function initializeConfiguration() {
+        $this->configuration = new Configuration(static::CONFIGURATION_FILE);
     }
 
     /**
@@ -136,16 +128,14 @@ class Server
      *
      * @return void
      */
-    protected function initializeDatabase()
-    {
+    protected function initializeDatabase() {
+
         $configuration   = $this->getConfiguration()->database;
-        $this->_database = new Database(
+        $this->database = new Database(
             $configuration->dsn,
             $configuration->username,
             $configuration->password
         );
-
-        return;
     }
 
     /**
@@ -153,15 +143,12 @@ class Server
      *
      * @return void
      */
-    protected function initializeServer()
-    {
+    protected function initializeServer() {
         $this->_server = new SabreDav\Server(null);
         $this->_server->setBaseUri(
             $this->getConfiguration()->base_url ?: '/'
         );
         $this->_server->addPlugin(new SabreDav\Browser\Plugin());
-
-        return;
     }
 
     /**
@@ -169,14 +156,11 @@ class Server
      *
      * @return void
      */
-    protected function initializeAuthentication()
-    {
+    protected function initializeAuthentication() {
         $database = $this->getDatabase();
         $backend  = new Dav\Authentication\BasicBackend($database);
         $plugin   = new SabreDav\Auth\Plugin($backend);
         $this->getServer()->addPlugin($plugin);
-
-        return;
     }
 
     /**
@@ -185,8 +169,7 @@ class Server
      * @param  DavAcl\Principal\Backend  &$backend    Retrieve the principals backend by-reference.
      * @return void
      */
-    protected function initializePrincipals(DavAcl\Principal\Backend &$backend = null)
-    {
+    protected function initializePrincipals(DavAcl\Principal\Backend &$backend = null) {
         if (null === $backend) {
             $backend = new DavAcl\Principal\Backend($this->getDatabase());
         }
@@ -194,8 +177,6 @@ class Server
         $node = new CalDav\Principal\Collection($backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
         $this->getServer()->addPlugin(new DavAcl\User\Plugin($this->getDatabase()));
-
-        return;
     }
 
     /**
@@ -204,15 +185,13 @@ class Server
      * @param  DavACl\Principal\Backend  $principalBackend  The principal backend.
      * @return void
      */
-    protected function initializeCalDAV(DavAcl\Principal\Backend $principalBackend)
-    {
+    protected function initializeCalDAV(DavAcl\Principal\Backend $principalBackend) {
         $backend = new SabreCalDav\Backend\PDO($this->getDatabase());
         $node    = new SabreCalDav\CalendarRoot($principalBackend, $backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
         $this->getServer()->addPlugin(new SabreCalDav\Plugin());
         $this->getServer()->addPlugin(new SabreCalDav\Schedule\Plugin());
 
-        return;
     }
 
     /**
@@ -221,14 +200,11 @@ class Server
      * @param  DavAcl\Principal\Backend  $principalBackend  The principal backend.
      * @return void
      */
-    protected function initializeCardDAV(DavAcl\Principal\Backend $principalBackend)
-    {
+    protected function initializeCardDAV(DavAcl\Principal\Backend $principalBackend) {
         $backend = new SabreCardDav\Backend\PDO($this->getDatabase());
         $node    = new SabreCardDav\AddressBookRoot($principalBackend, $backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
         $this->getServer()->addPlugin(new SabreCardDav\Plugin());
-
-        return;
     }
 
     /**
@@ -236,8 +212,7 @@ class Server
      *
      * @return void
      */
-    protected function initializeACL()
-    {
+    protected function initializeACL() {
         $plugin                               = new SabreDavAcl\Plugin();
         $plugin->adminPrincipals[]            = 'principals/' . static::ADMINISTRATOR_LOGIN;
         $plugin->allowAccessToNodesWithoutACL = false;
@@ -245,8 +220,6 @@ class Server
         $plugin->defaultUsernamePath          = 'principals/';
 
         $this->getServer()->addPlugin($plugin);
-
-        return;
     }
 
     /**
@@ -254,11 +227,8 @@ class Server
      *
      * @return void
      */
-    protected function initializeSynchronization()
-    {
+    protected function initializeSynchronization() {
         $this->getServer()->addPlugin(new SabreDav\Sync\Plugin());
-
-        return;
     }
 
     /**
@@ -266,9 +236,9 @@ class Server
      *
      * @return SabreDav\Server
      */
-    public function getServer()
-    {
-        return $this->_server;
+    function getServer() {
+
+        return $this->server;
     }
 
     /**
@@ -276,9 +246,9 @@ class Server
      *
      * @return Configuration
      */
-    public function getConfiguration()
-    {
-        return $this->_configuration;
+    function getConfiguration() {
+
+        return $this->configuration;
     }
 
     /**
@@ -286,18 +256,16 @@ class Server
      *
      * @return Database
      */
-    public function getDatabase()
-    {
-        return $this->_database;
+    function getDatabase() {
+
+        return $this->database;
     }
 
     /**
      * Run the server, i.e. consume the current request.
      */
-    public function run()
-    {
-        $this->getServer()->exec();
+    function run() {
 
-        return;
+        $this->getServer()->exec();
     }
 }

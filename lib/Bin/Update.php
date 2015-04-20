@@ -39,8 +39,7 @@ use Hoa\File;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Update extends AbstractCommand
-{
+class Update extends AbstractCommand {
     /**
      * Operation: fetch.
      *
@@ -69,8 +68,7 @@ class Update extends AbstractCommand
      *
      * @return int
      */
-    public function main()
-    {
+    function main() {
         $operation    = 0;
         $location     = null;
         $updateServer = Updater::DEFAULT_UPDATE_SERVER;
@@ -290,8 +288,7 @@ class Update extends AbstractCommand
      *
      * @return void
      */
-    public function usage()
-    {
+    function usage() {
         echo
             'Usage  : update <options>', "\n",
             'Options:', "\n",
