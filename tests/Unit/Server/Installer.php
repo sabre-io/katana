@@ -24,8 +24,10 @@ namespace Sabre\Katana\Test\Unit\Server;
 
 use Sabre\Katana\Test\Unit\Suite;
 use Sabre\Katana\Server\Installer as CUT;
+use Sabre\Katana\Server\Server;
 use Sabre\Katana\Configuration;
 use Sabre\Katana\Database;
+use Sabre\Katana\DavAcl\User\Plugin as User;
 use Sabre\HTTP;
 
 /**
@@ -147,7 +149,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_correct_login()
     {
@@ -160,7 +162,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_incorrect_login()
     {
@@ -173,7 +175,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_correct_password()
     {
@@ -190,7 +192,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_incorrect_empty_password()
     {
@@ -209,7 +211,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_incorrect_unmatched_password()
     {
@@ -233,7 +235,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_correct_email()
     {
@@ -250,7 +252,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_incorrect_empty_email()
     {
@@ -269,7 +271,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation authentification
+     * @tags installation authentication
      */
     public function case_check_incorrect_unmatched_email()
     {
@@ -535,8 +537,6 @@ class Installer extends Suite
                 ->array($content = json_decode($jsonContent, true))
                     ->hasKey('base_url')
                     ->hasKey('database')
-                ->array($content['authentification'])
-                    ->hasKey('realm')
                 ->array($content['database'])
                     ->hasKey('dsn')
                     ->hasKey('username')
@@ -544,8 +544,6 @@ class Installer extends Suite
 
                 ->string($content['base_url'])
                     ->isEqualTo('/')
-                ->string($content['authentification']['realm'])
-                    ->matches('#^[a-f0-9]{40}$#')
                 ->string($content['database']['dsn'])
                     ->matches('#^sqlite:katana://data/variable/database/katana_\d+\.sqlite#')
                 ->string($content['database']['username'])
@@ -974,20 +972,16 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation configuration database sqlite authentification administration
+     * @tags installation configuration database sqlite authentication administration
      */
     public function case_create_administrator_profile()
     {
         $this
             ->given(
-                $realm         = '🔒',
                 $configuration = new Configuration(
                     $this->helper->configuration(
                         'configuration.json',
                         [
-                            'authentification' => [
-                                'realm' => $realm
-                            ],
                             'database' => [
                                 'dsn'      => $this->helper->sqlite(),
                                 'username' => '',
@@ -997,7 +991,7 @@ class Installer extends Suite
                     )
                 ),
                 $database = CUT::createDatabase($configuration),
-                $login    = 'gordon',
+                $login    = Server::ADMINISTRATOR_LOGIN,
                 $email    = 'gordon@freeman.hl',
                 $password = '💩'
             )
@@ -1005,7 +999,6 @@ class Installer extends Suite
                 $result = CUT::createAdministratorProfile(
                     $configuration,
                     $database,
-                    $login,
                     $email,
                     $password
                 )
@@ -1030,7 +1023,7 @@ class Installer extends Suite
                 ->string($tuple->id)
                     ->isEqualTo('1')
                 ->string($tuple->uri)
-                    ->isEqualTo('principals/admin')
+                    ->isEqualTo('principals/' . $login)
                 ->string($tuple->email)
                     ->isEqualTo($email)
                 ->string($tuple->displayname)
@@ -1040,7 +1033,7 @@ class Installer extends Suite
                 ->string($tuple->id)
                     ->isEqualTo('2')
                 ->string($tuple->uri)
-                    ->isEqualTo('principals/admin/calendar-proxy-read')
+                    ->isEqualTo('principals/' . $login . '/calendar-proxy-read')
                 ->variable($tuple->email)
                     ->isNull()
                 ->variable($tuple->displayname)
@@ -1050,7 +1043,7 @@ class Installer extends Suite
                 ->string($tuple->id)
                     ->isEqualTo('3')
                 ->string($tuple->uri)
-                    ->isEqualTo('principals/admin/calendar-proxy-write')
+                    ->isEqualTo('principals/' . $login . '/calendar-proxy-write')
                 ->variable($tuple->email)
                     ->isNull()
                 ->variable($tuple->displayname)
@@ -1069,69 +1062,14 @@ class Installer extends Suite
 
                 ->let($tuple = $collection[0])
                 ->string($tuple->username)
-                    ->isEqualTo('gordon')
+                    ->isEqualTo($login)
                 ->string($tuple->digesta1)
-                    ->isEqualTo(md5($login . ':' . $realm . ':' . $password));
+                ->boolean(User::checkPassword($password, $tuple->digesta1))
+                    ->isTrue();
     }
 
     /**
-     * @tags installation configuration database sqlite authentification administration
-     */
-    public function case_create_administrator_profile_authentification_is_required()
-    {
-        $this
-            ->given(
-                $configuration = new Configuration(
-                    $this->helper->configuration('configuration.json'),
-                    true
-                ),
-                $database = new Database($this->helper->sqlite())
-            )
-            ->exception(function() use($configuration, $database) {
-                CUT::createAdministratorProfile(
-                    $configuration,
-                    $database,
-                    null,
-                    null,
-                    null
-                );
-            })
-                ->isInstanceOf('Sabre\Katana\Exception\Installation')
-                ->hasMessage('Configuration is corrupted, the authentification branch is missing.');
-    }
-
-    /**
-     * @tags installation configuration database sqlite authentification administration
-     */
-    public function case_create_administrator_profile_bad_login()
-    {
-        $this
-            ->given(
-                $configuration = new Configuration(
-                    $this->helper->configuration(
-                        'configuration.json',
-                        [
-                            'authentification' => []
-                        ]
-                    )
-                ),
-                $database = new Database($this->helper->sqlite())
-            )
-            ->exception(function() use($configuration, $database) {
-                CUT::createAdministratorProfile(
-                    $configuration,
-                    $database,
-                    '',
-                    'gordon@freeman.hl',
-                    '💩'
-                );
-            })
-                ->isInstanceOf('Sabre\Katana\Exception\Installation')
-                ->hasMessage('Login is invalid.');
-    }
-
-    /**
-     * @tags installation configuration database sqlite authentification administration
+     * @tags installation configuration database sqlite authentication administration
      */
     public function case_create_administrator_profile_bad_email()
     {
@@ -1141,7 +1079,7 @@ class Installer extends Suite
                     $this->helper->configuration(
                         'configuration.json',
                         [
-                            'authentification' => []
+                            'authentication' => []
                         ]
                     )
                 ),
@@ -1151,7 +1089,6 @@ class Installer extends Suite
                 CUT::createAdministratorProfile(
                     $configuration,
                     $database,
-                    'gordon',
                     'a',
                     '💩'
                 );
@@ -1161,7 +1098,7 @@ class Installer extends Suite
     }
 
     /**
-     * @tags installation configuration database sqlite authentification administration
+     * @tags installation configuration database sqlite authentication administration
      */
     public function case_create_administrator_profile_bad_password()
     {
@@ -1171,7 +1108,7 @@ class Installer extends Suite
                     $this->helper->configuration(
                         'configuration.json',
                         [
-                            'authentification' => []
+                            'authentication' => []
                         ]
                     )
                 ),
@@ -1181,7 +1118,6 @@ class Installer extends Suite
                 CUT::createAdministratorProfile(
                     $configuration,
                     $database,
-                    'gordon',
                     'gordon@freeman.hl',
                     ''
                 );

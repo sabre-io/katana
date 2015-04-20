@@ -20,15 +20,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Sabre\Katana\Dav\Authentification;
+namespace Sabre\Katana\Dav\Authentication;
 
 use Sabre\Katana\Database;
+use Sabre\Katana\DavAcl\User\Plugin as User;
 use Sabre\DAV\Auth\Backend;
 use Sabre\DAV\Server;
-use Sabre\DAV\Exception\NotAuthenticated;
+use Sabre\HTTP\RequestInterface as Request;
+use Sabre\HTTP\ResponseInterface as Response;
 
 /**
- * Basic authentification.
+ * Basic authentication.
  *
  * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
  * @author Ivan Enderlin
@@ -42,14 +44,6 @@ class BasicBackend extends Backend\AbstractBasic {
      * @var Database
      */
     protected $database   = null;
-
-    /**
-     * Current realm.
-     * Must be null outside `authenticate` calls.
-     *
-     * @var string
-     */
-    private $currentRealm = null;
 
     /**
      * Constructor.
@@ -78,62 +72,26 @@ class BasicBackend extends Backend\AbstractBasic {
         );
         $statement->execute(['username' => $username]);
 
-        $digest         = $statement->fetch($database::FETCH_COLUMN, 0);
-        $expectedDigest = md5(
-            $username . ':' .
-            $this->currentRealm . ':' .
-            $password
-        );
+        $digest = $statement->fetch($database::FETCH_COLUMN, 0);
 
-        $length = mb_strlen($digest, '8bit');
-
-        if ($length !== mb_strlen($expectedDigest, '8bit')) {
-            return false;
-        }
-
-        $out = 0;
-
-        for ($i = 0; $i < $length; ++$i) {
-            $out |= ord($digest[$i]) ^ ord($expectedDigest[$i]);
-        }
-
-        return 0 === $out;
+        return User::checkPassword($password, $digest);
     }
 
     /**
-     * Override the parent `authenticate` method to catch the current realm and
-     * to remove the WWW-Authenticate header in the response if the
-     * X-Requested-With header is present in the request. This last trick
-     * prevents the browser to prompt of dialog to the user.
+     * Override the parent `challenge` method to remove the `WWW-Authenticate`
+     * header in the response if the `X-Requested-With` header is present in the
+     * request. This last trick prevents the browser to prompt of dialog to the
+     * user.
      *
-     * @param  Server  $server    Server (not katana, the sabre/dav one).
-     * @param  string  $realm     Realm.
-     * @return boolean
-     * @throw  NotAuthenticated
+     * @param  Request   $request     Request.
+     * @param  Response  $response    Response.
+     * @return void
      */
-    function authenticate(Server $server, $realm) {
+    function challenge(Request $request, Response $response) {
+        parent::challenge($request, $response);
 
-        $this->currentRealm = $realm;
-
-        try {
-
-            $out = parent::authenticate($server, $realm);
-            $this->currentRealm = null;
-
-        } catch (NotAuthenticated $exception) {
-
-            $this->currentRealm = null;
-            $request             = $server->httpRequest;
-            $response            = $server->httpResponse;
-
-            if ('XMLHttpRequest' === $request->getHeader('X-Requested-With')) {
-                $response->removeHeader('WWW-Authenticate');
-            }
-
-            throw $exception;
-
+        if ('XMLHttpRequest' === $request->getHeader('X-Requested-With')) {
+            $response->removeHeader('WWW-Authenticate');
         }
-
-        return $out;
     }
 }

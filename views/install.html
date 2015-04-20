@@ -13,13 +13,14 @@
 
   <link rel="stylesheet" href="static/vendor/semantic-ui/dist/semantic.min.css" type="text/css" />
   <link rel="stylesheet" href="static/css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="static/css/ui.css" type="text/css" />
 </head>
 <body>
 
 <script type="text/x-handlebars">
   <main>
     <h1 class="ui icon center aligned header">
-      <i class="settings icon"></i>
+      <img src="static/image/katana_logo.svg" alt="sabre/katana's logo" />
       <div class="content">Installation of sabre/katana</div>
     </h1>
 
@@ -28,41 +29,35 @@
     <form {{bind-attr class=":ui :form :segment valid::error submitting:loading"}}>
       <div class="ui page grid">
         {{#unless valid}}
-        <div class="sixteen wide column">
-          {{#if invalidBaseUrl}}
-          <div class="ui error message">
-            <div class="header">Base URL must start and end by a slash</div>
-            <p>Check the Section <cite>The base URL</cite> on
-            <a href="http://sabre.io/dav/gettingstarted/">sabre/dav's
-            documentation</a>. In addition, according to your HTTP
-            configuration, the <code>server.php</code> part must be include.</p>
+          <div class="sixteen wide column">
+            {{#if invalidBaseUrl}}
+              <div class="ui error message">
+                <div class="header">Base URL must start and end by a slash</div>
+                <p>Check the Section <cite>The base URL</cite> on
+                <a href="http://sabre.io/dav/gettingstarted/">sabre/dav's
+                documentation</a>. In addition, according to your HTTP
+                configuration, the <code>server.php</code> part must be include.</p>
+              </div>
+            {{/if}}
+            {{#if invalidPassword}}
+              <div class="ui error message">
+                <div class="header">Passwords do not match</div>
+                <p>Administrator passwords must match.</p>
+              </div>
+            {{/if}}
+            {{#if invalidEmail}}
+              <div class="ui error message">
+                <div class="header">Email is invalid</div>
+                <p>The given email seems invalid or they do not match.</p>
+              </div>
+            {{/if}}
+            {{#if invalidDatabase}}
+              <div class="ui error message">
+                <div class="header">Database is invalid</div>
+                <p>The given database parameters seem invalid.</p>
+              </div>
+            {{/if}}
           </div>
-          {{/if}}
-          {{#if invalidLogin}}
-          <div class="ui error message">
-            <div class="header">Login must not be empty</div>
-            <p>How then would call you?</p>
-          </div>
-          {{/if}}
-          {{#if invalidPassword}}
-          <div class="ui error message">
-            <div class="header">Passwords do not match</div>
-            <p>Administrator passwords must match.</p>
-          </div>
-          {{/if}}
-          {{#if invalidEmail}}
-          <div class="ui error message">
-            <div class="header">Email is invalid</div>
-            <p>The given email seems invalid or they do not match.</p>
-          </div>
-          {{/if}}
-          {{#if invalidDatabase}}
-          <div class="ui error message">
-            <div class="header">Database is invalid</div>
-            <p>The given database parameters seem invalid.</p>
-          </div>
-          {{/if}}
-        </div>
         {{/unless}}
 
         <div class="six wide column">
@@ -88,15 +83,11 @@
         <div class="six wide column">
           <label for="administrator_login">
             <i class="user icon"></i>
-            Choose the administrator login:
+            Your administrator login:
           </label>
         </div>
         <div class="ten wide column">
-          {{input type="text"
-                  id="administrator_login"
-                  name="administrator_login"
-                  required="true"
-                  value=login}}
+          admin
         </div>
 
         <div class="six wide column">
@@ -177,75 +168,75 @@
         </div>
 
         {{#if showMySQLPanel}}
-        <div class="six wide column">
-          <label for="database_mysql_host">
-            <i class="database icon"></i>
-              Choose MySQL host:
-          </label>
-        </div>
-        <div class="ten wide column">
-          {{input type="text"
-                  id="database_mysql_host"
-                  name="database_mysql_host"
-                  required="true"
-                  value=databaseHost}}
-        </div>
+          <div class="six wide column">
+            <label for="database_mysql_host">
+              <i class="database icon"></i>
+                Choose MySQL host:
+            </label>
+          </div>
+          <div class="ten wide column">
+            {{input type="text"
+                    id="database_mysql_host"
+                    name="database_mysql_host"
+                    required="true"
+                    value=databaseHost}}
+          </div>
 
-        <div class="six wide column">
-          <label for="database_mysql_port">
-            <i class="database icon"></i>
-              Choose MySQL port:
-          </label>
-        </div>
-        <div class="ten wide column">
-          {{input type="number"
-                  id="database_mysql_port"
-                  name="database_mysql_port"
-                  required="true"
-                  value=databasePort}}
-        </div>
+          <div class="six wide column">
+            <label for="database_mysql_port">
+              <i class="database icon"></i>
+                Choose MySQL port:
+            </label>
+          </div>
+          <div class="ten wide column">
+            {{input type="number"
+                    id="database_mysql_port"
+                    name="database_mysql_port"
+                    required="true"
+                    value=databasePort}}
+          </div>
 
-        <div class="six wide column">
-          <label for="database_mysql_name">
-            <i class="database icon"></i>
-              Choose MySQL database name:
-          </label>
-        </div>
-        <div class="ten wide column">
-          {{input type="text"
-                  id="database_mysql_name"
-                  name="database_mysql_name"
-                  required="true"
-                  value=databaseName}}
-        </div>
+          <div class="six wide column">
+            <label for="database_mysql_name">
+              <i class="database icon"></i>
+                Choose MySQL database name:
+            </label>
+          </div>
+          <div class="ten wide column">
+            {{input type="text"
+                    id="database_mysql_name"
+                    name="database_mysql_name"
+                    required="true"
+                    value=databaseName}}
+          </div>
 
-        <div class="six wide column">
-          <label for="database_mysql_username">
-            <i class="database icon"></i>
-              Choose MySQL username:
-          </label>
-        </div>
-        <div class="ten wide column">
-          {{input type="text"
-                  id="database_mysql_username"
-                  name="database_mysql_username"
-                  required="true"
-                  value=databaseUsername}}
-        </div>
+          <div class="six wide column">
+            <label for="database_mysql_username">
+              <i class="database icon"></i>
+                Choose MySQL username:
+            </label>
+          </div>
+          <div class="ten wide column">
+            {{input type="text"
+                    id="database_mysql_username"
+                    name="database_mysql_username"
+                    required="true"
+                    value=databaseUsername}}
+          </div>
 
-        <div class="six wide column">
-          <label for="database_mysql_username">
-            <i class="database icon"></i>
-              Choose MySQL password:
-          </label>
-        </div>
-        <div class="ten wide column">
-          {{input type="password"
-                  id="database_mysql_password"
-                  name="database_mysql_password"
-                  required="true"
-                  value=databasePassword}}
-        </div>
+          <div class="six wide column">
+            <label for="database_mysql_username">
+              <i class="database icon"></i>
+                Choose MySQL password:
+            </label>
+          </div>
+          <div class="ten wide column">
+            {{input type="password"
+                    id="database_mysql_password"
+                    name="database_mysql_password"
+                    required="true"
+                    value=databasePassword}}
+          </div>
         {{/if}}
 
         <div class="right floated column">
@@ -259,18 +250,20 @@
     </form>
 
     {{#if submitting}}
-    <div id="progress" class="ui indicating progress">
-      <div class="bar"></div>
-      <div class="label">Progression…</div>
-    </div>
+      <div class="ui segment">
+        <div id="progress" class="ui indicating progress">
+          <div class="bar"></div>
+          <div class="label">Progression…</div>
+        </div>
+      </div>
     {{/if}}
   </main>
 </script>
 
 <script src="static/vendor/jquery/dist/jquery.min.js"></script>
 <script src="static/vendor/semantic-ui/dist/semantic.min.js"></script>
-<script src="static/vendor/handlebars/handlebars.min.js"></script>
 <script src="static/vendor/ember/ember.min.js"></script>
+<script src="static/vendor/ember/ember-template-compiler.js"></script>
 <script src="static/vendor/ember-data/ember-data.min.js"></script>
 <script src="static/javascript/install.js"></script>
 

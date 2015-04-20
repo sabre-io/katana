@@ -2,6 +2,10 @@
     font-size: 1em;
 }
 
+header {
+    padding-top: 4em;
+}
+
 main {
-    padding: 4em 3em 0 3em;
+    padding: 2em 3em 0;
 }

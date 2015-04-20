@@ -27,6 +27,7 @@ use Sabre\Katana\Server\Server;
 use Sabre\Katana\Configuration;
 use Sabre\HTTP;
 use Hoa\Router;
+use Hoa\Dispatcher;
 use Hoa\Eventsource;
 
 /**
@@ -77,7 +78,7 @@ if (false !== $pos = strpos($url, '?')) {
 
     $response->addHeader('Content-Type', 'application/json');
 
-    $router = new Hoa\Router\Http();
+    $router = new Router\Http();
     $router
         ->post(
             'baseurl',
@@ -86,20 +87,6 @@ if (false !== $pos = strpos($url, '?')) {
                 $response->setBody(
                     json_encode(
                         Installer::checkBaseUrl($request->getBodyAsString())
-                    )
-                );
-                HTTP\Sapi::sendResponse($response);
-
-                return;
-            }
-        )
-        ->post(
-            'login',
-            '/login',
-            function() use($request, $response) {
-                $response->setBody(
-                    json_encode(
-                        Installer::checkLogin($request->getBodyAsString())
                     )
                 );
                 HTTP\Sapi::sendResponse($response);
@@ -217,7 +204,6 @@ if (false !== $pos = strpos($url, '?')) {
                     Installer::createAdministratorProfile(
                         $configuration,
                         $database,
-                        $payload->login,
                         $payload->email,
                         $payload->password
                     );
@@ -244,9 +230,9 @@ if (false !== $pos = strpos($url, '?')) {
         );
 
     $query = substr($url, $pos + 1);
-    $router->route($query);
+    $router->route($query, '/');
 
-    $dispatcher = new Hoa\Dispatcher\Basic();
+    $dispatcher = new Dispatcher\Basic();
     $dispatcher->dispatch($router);
 
 } else {

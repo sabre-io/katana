@@ -59,22 +59,22 @@ Tags are attached to test suites or test cases in order to classify them in
 another way. Here is the list of the existing tags with their respective
 description:
 
-| Tags               | Description                              |
-|--------------------|------------------------------------------|
-| `server`           | About the serfver                        |
-| `configuration`    | About the configuration                  |
-| `database`         | About the database (whatever the driver) |
-| `sqlite`           | About the SQLite driver of the database  |
-| `mysql`            | About the MySQL driver of the database   |
-| `protocol`         | About the `katana://` protocol           |
-| `installation`     | About the installation                   |
-| `update`           | About the update                         |
-| `http`             | About code using HTTP                    |
-| `authentification` | About the authentification               |
-| `administration`   | About the administration                 |
-| `stub`             | About the stub                           |
-| `phar`             | About the PHAR archive                   |
-| `zip`              | About the ZIP archive                    |
+| Tags             | Description                              |
+|------------------|------------------------------------------|
+| `server`         | About the serfver                        |
+| `configuration`  | About the configuration                  |
+| `database`       | About the database (whatever the driver) |
+| `sqlite`         | About the SQLite driver of the database  |
+| `mysql`          | About the MySQL driver of the database   |
+| `protocol`       | About the `katana://` protocol           |
+| `installation`   | About the installation                   |
+| `update`         | About the update                         |
+| `http`           | About code using HTTP                    |
+| `authentication` | About the authentication                 |
+| `administration` | About the administration                 |
+| `stub`           | About the stub                           |
+| `phar`           | About the PHAR archive                   |
+| `zip`            | About the ZIP archive                    |
 
 To run all the tests about the installation, we can use the following command
 line:

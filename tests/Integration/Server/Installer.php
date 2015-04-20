@@ -32,7 +32,7 @@ use Sabre\Katana\Server\Installer as CUT;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  *
- * @tags installation configuration database sqlite mysql authentification administration
+ * @tags installation configuration database sqlite mysql authentication administration
  */
 class Installer extends Suite
 {
@@ -42,7 +42,6 @@ class Installer extends Suite
             ->given(
                 $payload = (object) [
                     'baseurl'  => '/katana/',
-                    'login'    => 'admin',
                     'email'    => 'gordon@freeman.hl',
                     'password' => '🔒 💩',
                     'database' => (object) [
@@ -64,7 +63,6 @@ class Installer extends Suite
             ->given(
                 $payload = (object) [
                     'baseurl'  => '/katana/',
-                    'login'    => 'admin',
                     'email'    => 'gordon@freeman.hl',
                     'password' => '🔒 💩',
                     'database' => (object) [
@@ -113,7 +111,6 @@ class Installer extends Suite
                 $result = CUT::createAdministratorProfile(
                     $configuration,
                     $database,
-                    $payload->login,
                     $payload->email,
                     $payload->password
                 )

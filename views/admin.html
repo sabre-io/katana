@@ -13,6 +13,7 @@
 
   <link rel="stylesheet" href="static/vendor/semantic-ui/dist/semantic.min.css" type="text/css" />
   <link rel="stylesheet" href="static/css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="static/css/ui.css" type="text/css" />
 
   <style>
     .segment {
@@ -28,15 +29,17 @@
 <body>
 
 <script type="text/x-handlebars">
-  <main>
+  <header>
     <h1 class="ui icon center aligned header">
-      <i class="settings icon"></i>
+      <img src="static/image/katana_logo.svg" alt="sabre/katana's logo" />
       <div class="content">
         Administration of sabre/katana
         <div class="sub header">Manage your awesome server!</div>
       </div>
     </h1>
+  </header>
 
+  <main>
     {{#if sessionWillExpire}}
       <div class="ui icon negative message">
         <i class="warning sign icon"></i>
@@ -55,19 +58,19 @@
         {{#link-to 'users' class="item"}}
           <i class="users icon"></i> Users
         {{/link-to}}
-        <a class="item">
+        <a class="item disabled">
           <i class="calendar icon"></i> Calendars
         </a>
-        <a class="item">
+        <a class="item disabled">
           <i class="book icon"></i> Address books
         </a>
-        <a class="item">
+        <a class="item disabled">
           <i class="tasks icon"></i> Tasks
         </a>
-        <a class="item">
+        <a class="item disabled">
           <i class="dashboard icon"></i> Dashboard
         </a>
-        <a class="item">
+        <a class="item disabled">
           <i class="settings icon"></i> Settings
         </a>
 
@@ -85,7 +88,7 @@
     {{else}}
       <div class="ui three columns centered grid">
         <div class="column">
-          <form {{action 'authenticate' on='submit'}} {{bind-attr class=":ui :column :segment :form valid::error submitting:loading"}}>
+          <form {{action 'authenticate' on='submit'}} {{bind-attr class=":ui :column :segment :form valid::error submitting:loading"}} autocomplete="off">
             <h2 class="ui header">Log in</h2>
 
             <div class="ui error message">
@@ -95,7 +98,7 @@
 
             <div class="field">
               <label>Username:</label>
-              {{input type="text" value=username}}
+              {{input type="text" value=username autofocus="true"}}
             </div>
             <div class="field">
               <label>Password:</label>
@@ -112,6 +115,24 @@
       </div>
     {{/if}}
   </main>
+
+  <div id="modalAlert" class="ui basic modal">
+    <div class="ui red header">{{alert.title}}</div>
+    <div class="content">
+      <div class="image">
+        <i class="warning sign icon"></i>
+      </div>
+      <div class="description"><p>{{{alert.content}}}</p></div>
+    </div>
+    <div class="actions">
+      <div class="ui one fluid inverted buttons">
+        <button class="ui basic inverted green right labeled icon approve button">
+          Ok
+          <i class="checkmark icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 </script>
 
 <script type="text/x-handlebars" id="users">
@@ -141,19 +162,28 @@
 </script>
 
 <script type="text/x-handlebars" id="user">
-  <div id="modalUserAskDeleting" class="ui small modal">
-    <i class="close icon"></i>
+  <div id="modalUserAskDeleting" class="ui basic modal">
     <div class="header">Delete the user</div>
     <div class="content">
-      Are you sure you want to delete <strong>{{model.displayName}}</strong>
-      ({{model.username}})?
+      <div class="image">
+        <i class="remove user icon"></i>
+      </div>
+      <div class="description">
+        <p>Are you sure you want to delete
+        <strong>{{model.displayName}}</strong> ({{model.username}})?</p>
+      </div>
     </div>
     <div class="actions">
-      <button class="ui negative button">No</button>
-      <button class="ui positive right labeled icon button">
-        Yes!
-        <i class="checkmark icon"></i>
-      </button>
+      <div class="ui two fluid inverted buttons">
+        <button class="ui basic inverted red right labeled icon deny button">
+          No
+          <i class="remove icon"></i>
+        </button>
+        <button class="ui basic inverted green right labeled icon approve button">
+          Yes!
+          <i class="checkmark icon"></i>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -181,54 +211,102 @@
         <p>Email is not syntactically valid.</p>
       </div>
     {{/if}}
+
+    {{#if model.validatorErrors.newPassword_empty}}
+      <div class="ui error message">
+        <p>Password cannot be empty.</p>
+      </div>
+    {{/if}}
   {{/unless}}
 
-  <form class="ui form">
-    <div class="inline field">
-      <label>Username:</label>
-      {{#if isEditing}}
-        {{input type="text" value=model.username}}
-      {{else}}
-      <strong>{{model.username}}</strong>
-      {{/if}}
+  <form class="ui middle aligned grid">
+    <div class="row">
+      <div class="three wide column">
+        <label>Username:</label>
+      </div>
+      <div class="eight wide column">
+        <div class="ui fluid input">
+          {{#if isUsernameEditable}}
+            {{input type="text" value=model.username}}
+          {{else}}
+            <strong>{{model.username}}</strong>
+          {{/if}}
+        </div>
+      </div>
     </div>
-    <div class="inline field">
-      <label>Display name:</label>
-      {{#if isEditing}}
-        {{input type="text" value=model.displayName}}
-      {{else}}
-      <strong>{{model.displayName}}</strong>
-      {{/if}}
+    <div class="row">
+      <div class="three wide column">
+        <label>Display name:</label>
+      </div>
+      <div class="eight wide column">
+        <div class="ui fluid input">
+          {{#if isEditing}}
+            {{input type="text" value=model.displayName}}
+          {{else}}
+            <strong>{{model.displayName}}</strong>
+          {{/if}}
+        </div>
+      </div>
     </div>
-    <div class="inline field">
-      <label>Email:</label>
-      {{#if isEditing}}
-        {{input type="email" value=model.email}}
-      {{else}}
-      <strong>{{model.email}}</strong>
-      {{/if}}
+    <div class="row">
+      <div class="three wide column">
+        <label>Email:</label>
+      </div>
+      <div class="eight wide column">
+        <div class="ui fluid input">
+          {{#if isEditing}}
+            {{input type="email" value=model.email}}
+          {{else}}
+            <strong>{{model.email}}</strong>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="three wide column">
+        {{#if model.isNew}}
+          <label>Password:</label>
+        {{else}}
+          <label>New password:</label>
+        {{/if}}
+      </div>
+      <div class="eight wide column">
+        <div class="ui fluid input">
+          {{#if isEditing}}
+            {{#if model.isNew}}
+              {{input type="password" value=model.newPassword}}
+            {{else}}
+              {{input type="password" value=model.newPassword placeholder="(empty to not change)"}}
+            {{/if}}
+          {{else}}
+          <strong>•••••••</strong>
+          {{/if}}
+        </div>
+      </div>
     </div>
 
-    <div class="right aligned column">
-      {{#if isEditing}}
-        <button type="submit" {{action 'applyEditing'}} {{bind-attr disabled="model.valid:false:true" class=":ui :positive :right :labeled :icon model.valid::disabled :button"}}>
-          Save
-          <i class="save icon"></i>
-        </button>
-        <button {{action 'cancelEditing'}} class="ui negative right labeled icon button">
-          Cancel
-          <i class="undo icon"></i>
-        </button>
-      {{else}}
-        <button type="submit" {{action 'requestEditing'}} class="ui primary right labeled icon button">
-          Edit
-          <i class="edit icon"></i>
-        </button>
-        <button {{action 'requestDeleting'}} class="ui negative right labeled icon button">
-          Delete
-          <i class="delete icon"></i>
-        </button>
-      {{/if}}
+    <div class="row">
+      <div class="right aligned column">
+        {{#if isEditing}}
+          <button type="submit" {{action 'applyEditing'}} {{bind-attr disabled="model.valid:false:true" class=":ui :positive :right :labeled :icon model.valid::disabled :button"}}>
+            Save
+            <i class="save icon"></i>
+          </button>
+          <button {{action 'cancelEditing'}} class="ui negative right labeled icon button">
+            Cancel
+            <i class="undo icon"></i>
+          </button>
+        {{else}}
+          <button type="submit" {{action 'requestEditing'}} class="ui primary right labeled icon button">
+            Edit
+            <i class="edit icon"></i>
+          </button>
+          <button {{action 'requestDeleting'}} class="ui negative right labeled icon button">
+            Delete
+            <i class="delete icon"></i>
+          </button>
+        {{/if}}
+      </div>
     </div>
   </form>
 </script>
@@ -279,7 +357,8 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/>.</code></
 <script src="static/vendor/ember/ember-template-compiler.js"></script>
 <script src="static/vendor/ember-data/ember-data.min.js"></script>
 <script src="static/vendor/ember-simple-auth/simple-auth.js"></script>
-<script src="static/javascript/simple-validator.js"></script>
+<script src="static/javascript/katana-validator.js"></script>
+<script src="static/javascript/katana-webdav-adapter.js"></script>
 <script src="static/javascript/admin.js"></script>
 
 </body>

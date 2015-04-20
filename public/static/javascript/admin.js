@@ -5,11 +5,14 @@ ENV['katana'] = {
 };
 ENV['simple-auth'] = {
     // Declare our custom authorizer.
-    authorizer: 'authorizer:custom',
+    authorizer         : 'authorizer:custom',
 
     // The session is stored in memory, it disappears when the application
     // reload.
-    store     : 'simple-auth-session-store:ephemeral'
+    store              : 'simple-auth-session-store:ephemeral',
+
+    // Login page.
+    authenticationRoute: '/'
 };
 
 /**
@@ -21,8 +24,6 @@ Ember.Application.initializer({
     initialize: function(container, application) {
         container.register('authenticator:custom', Katana.CustomAuthenticator);
         container.register('authorizer:custom',    Katana.CustomAuthorizer);
-
-        return;
     }
 });
 
@@ -40,7 +41,6 @@ Katana = Ember.Application.create({
     ready: function()
     {
         this.lastActivity = new Date();
-        return;
     }
 
 });
@@ -90,16 +90,13 @@ Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
                         Ember.run(function() {
                             resolve({token: basic});
                         });
-                        return;
                     },
                     function(xhr, status, error) {
                         Ember.run(function() {
                             reject();
                         });
-                        return;
                     }
                 );
-                return;
             }
         );
     },
@@ -135,8 +132,6 @@ Katana.CustomAuthorizer = SimpleAuth.Authorizers.Base.extend({
                 'Authorization', 'Basic ' + session.content.token
             );
         }
-
-        return;
     }
 
 });
@@ -172,7 +167,6 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
         requestModal: function()
         {
             $('html').addClass('modal');
-            return;
         },
 
         /**
@@ -181,7 +175,6 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
         cancelModal: function()
         {
             $('html').removeClass('modal');
-            return;
         },
 
         /**
@@ -190,7 +183,36 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
         invalidateSession: function()
         {
             this.get('session').invalidate();
-            return;
+        },
+
+        /**
+         * Show the alert modal window.
+         */
+        alert: function(title, content)
+        {
+            var controller = this.controllerFor('application');
+            var oldTitle   = controller.get('alert.title');
+            var oldContent = controller.get('alert.content');
+
+            controller.set('alert.title',   title);
+            controller.set('alert.content', content);
+
+            var clean = function() {
+                controller.set('alert.title',   oldTitle);
+                controller.set('alert.content', oldContent);
+
+                return true;
+            };
+
+            $('#modalAlert')
+                .modal(
+                    'setting',
+                    {
+                        onDeny:    clean,
+                        onApprove: clean
+                    }
+                )
+                .modal('show');
         }
 
     }
@@ -227,6 +249,14 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
      * Whether the session is about to expire or not.
      */
     sessionWillExpire: false,
+
+    /**
+     * Current alert title and message.
+     */
+    alert: {
+        title  : 'Alert',
+        content: '(unknown)'
+    },
 
     /**
      * Run a session tick.
@@ -271,8 +301,6 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
             },
             1000
         );
-
-        return;
     }.observes('lastSessionTick').on('init'),
 
     actions: {
@@ -305,17 +333,13 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
                             1000
                         );
 
-                        return;
+                        $('html').addClass('logged');
                     },
                     function(message) {
                         self.set('valid',      false);
                         self.set('submitting', false);
-
-                        return;
                     }
                 );
-
-            return;
         }
 
     }
@@ -339,9 +363,8 @@ Katana.ApplicationView = Ember.View.extend({
                 $('.ui.modal').modal(
                     'setting',
                     {
-                        transition: 'fade up',
-                        closable: false,
-                        onDeny: function() {
+                        closable  : false,
+                        onDeny    : function() {
                             return false;
                         },
                         onApprove: function() {
@@ -349,21 +372,17 @@ Katana.ApplicationView = Ember.View.extend({
                         }
                     }
                 );
-                return;
             }
         );
 
         // Check the inactivity of the user.
         var updateLastActivity = function() {
             Katana.lastActivity = new Date();
-            return;
         };
 
         $(window).mousemove(updateLastActivity);
         $(window).click(updateLastActivity);
         $(window).keypress(updateLastActivity);
-
-        return;
     }
 
 });
@@ -371,7 +390,7 @@ Katana.ApplicationView = Ember.View.extend({
 /**
  * Application adapter.
  */
-Katana.ApplicationAdapter = DS.FixtureAdapter;
+Katana.ApplicationAdapter = KatanaWebDAVAdapter;
 
 /**
  * Users route.
@@ -380,7 +399,13 @@ Katana.UsersRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
     model: function()
     {
-        return this.store.find('user');
+        return this.get('store').filter(
+            'user',
+            {},
+            function(user) {
+                return true;
+            }
+        );
     }
 
 });
@@ -402,10 +427,13 @@ Katana.UsersController = Ember.Controller.extend({
          */
         requestCreating: function()
         {
-            var record = this.store.createRecord(
+            var record = this.get('store').createRecord(
                 'user',
                 {
-                    displayName: 'Unnamed'
+                    username   : '',
+                    displayName: 'Unnamed',
+                    email      : '',
+                    newPassword: null
                 }
             );
             this.transitionToRoute(
@@ -417,8 +445,6 @@ Katana.UsersController = Ember.Controller.extend({
                     }
                 }
             );
-
-            return;
         }
 
     }
@@ -432,7 +458,7 @@ Katana.UserRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
     model: function(params)
     {
-        return this.store.find('user', params.user_id);
+        return this.get('store').find('user', params.user_id);
     }
 
 });
@@ -457,8 +483,6 @@ Katana.UserController = Ember.Controller.extend({
         if ('true' === this.get('edit')) {
             this.send('requestEditing');
         }
-
-        return;
     }.observes('edit'),
 
     /**
@@ -476,8 +500,15 @@ Katana.UserController = Ember.Controller.extend({
                 ? 'requestModal'
                 : 'cancelModal'
         );
-        return;
     }.observes('isEditing'),
+
+    /**
+     * Username is editable only once: When creating the user.
+     */
+    isUsernameEditable: function()
+    {
+        return this.get('isEditing') && this.get('model').get('isNew');
+    }.property('isEditing', 'model'),
 
     actions: {
 
@@ -487,8 +518,6 @@ Katana.UserController = Ember.Controller.extend({
         requestEditing: function()
         {
             this.set('isEditing', true);
-
-            return;
         },
 
         /**
@@ -507,8 +536,9 @@ Katana.UserController = Ember.Controller.extend({
             // Newly created record.
             if (true === model.get('isNew')) {
 
-                model.deleteRecord();
+                model.destroyRecord();
                 this.set('isEditing', false);
+                this.set('edit',      false);
                 this.transitionToRoute('users');
 
                 return;
@@ -517,8 +547,7 @@ Katana.UserController = Ember.Controller.extend({
 
             model.rollback();
             this.set('isEditing', false);
-
-            return;
+            this.set('edit',      false);
         },
 
         /**
@@ -526,15 +555,30 @@ Katana.UserController = Ember.Controller.extend({
          */
         applyEditing: function()
         {
+            var self = this;
+
             if (true !== this.get('isEditing')) {
                 throw "Cannot save the current user because it was not in the editing mode.";
             }
 
-            this.get('model').save();
-            this.set('isEditing', false);
-            this.set('edit',      false);
+            this.get('model').validate().then(
+                function() {
+                    var model = self.get('model');
 
-            return;
+                    self.set('isEditing', false);
+                    self.set('edit',      false);
+
+                    model.save().then(
+                        function() {
+                            model.set('newPassword', null);
+                            self.transitionToRoute(
+                                'user',
+                                model.get('username')
+                            );
+                        }
+                    );
+                }
+            );
         },
 
         /**
@@ -565,10 +609,29 @@ Katana.UserController = Ember.Controller.extend({
          */
         applyDeleting: function()
         {
-            this.get('model').destroyRecord();
-            this.transitionToRoute('users');
+            var self        = this;
+            var model       = this.get('model');
+            var username    = model.get('username');
+            var displayName = model.get('displayName');
 
-            return;
+            model
+                .destroyRecord()
+                .then(
+                    function() {
+                        self.transitionToRoute('users');
+                    },
+                    function() {
+                        self.send(
+                            'alert',
+                            'Cannot delete',
+                            'An error occured while deleting ' +
+                            '<strong>' + displayName + '</strong> ' +
+                            '(' + username + '). ' +
+                            'Probably because it is forbidden.'
+                        );
+                        self.get('model').rollback();
+                    }
+                );
         }
 
     }
@@ -580,11 +643,12 @@ Katana.UserController = Ember.Controller.extend({
  */
 Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin);
 
-Katana.User = DS.Model.extend(SimpleValidatorMixin, {
+Katana.User = DS.Model.extend(KatanaValidatorMixin, {
 
     username   : DS.attr('string'),
     displayName: DS.attr('string'),
     email      : DS.attr('string'),
+    newPassword: DS.attr('string'),
 
     validators: {
 
@@ -653,29 +717,33 @@ Katana.User = DS.Model.extend(SimpleValidatorMixin, {
             }
 
             return defer.promise;
+        },
+
+        newPassword: function()
+        {
+            var defer       = Ember.RSVP.defer();
+            var newPassword = this.get('email');
+
+            if (true === this.get('isNew')) {
+                if (!newPassword) {
+                    defer.reject({
+                        id     : 'newPassword_empty',
+                        message: 'New password cannot be empty.'
+                    });
+                } else {
+                    defer.resolve(newPassword);
+                }
+            } else {
+                if (!newPassword) {
+                    defer.resolve(null);
+                } else {
+                    defer.resolve(newPassword);
+                }
+            }
+
+            return defer.promise;
         }
 
     }
 
 });
-
-Katana.User.FIXTURES = [
-    {
-        id: 0,
-        username: 'gordon',
-        displayName: 'Administrator',
-        email: 'gordon@freeman.hl'
-    },
-    {
-        id: 1,
-        username: 'ivan',
-        displayName: 'Hywan',
-        email: 'ivan@fruux.com'
-    },
-    {
-        id: 2,
-        username: 'alix',
-        displayName: 'Alix Vence',
-        email: 'alix@freeman.hl'
-    }
-];

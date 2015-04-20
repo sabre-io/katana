@@ -1,0 +1,34 @@
+body {
+    position: relative;
+    background: radial-gradient(circle at 100% 0%, #efd6c9, #d8b4a2);
+}
+
+body::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    content: '';
+    opacity: 0;
+
+    background: url('../image/background.jpg') 50% 50% no-repeat scroll;
+    background-size: cover;
+
+    z-index: -1;
+
+    transition: opacity .4s ease;
+}
+
+html:not(.logged) > body::before {
+    opacity: 1;
+}
+
+header > h1 > img {
+    width: 100px !important;
+}
+
+.segment {
+    background: rgba(255, 255, 255, .85) !important;
+}
