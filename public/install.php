@@ -74,7 +74,6 @@ $query = '';
  *
  * Else, we print the installation page.
  */
-
 if (false !== $pos = strpos($url, '?')) {
 
     $response->addHeader('Content-Type', 'application/json');
@@ -231,7 +230,7 @@ if (false !== $pos = strpos($url, '?')) {
         );
 
     $query = substr($url, $pos + 1);
-    $router->route($query);
+    $router->route($query, '/');
 
     $dispatcher = new Dispatcher\Basic();
     $dispatcher->dispatch($router);
