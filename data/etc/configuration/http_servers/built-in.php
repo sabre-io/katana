@@ -40,27 +40,22 @@ $router
     ->any(
         'a',
         '.*',
-        function(Dispatcher\Kit $_this)
-        {
+        function (Dispatcher\Kit $_this) {
             $uri  = $_this->router->getURI();
             $file = 'katana://public/' . rtrim($uri, '/');
 
             if (!empty($uri) && true === file_exists($file)) {
-
                 if ('.php' === substr($file, -4)) {
-
                     require $file;
-                    return;
 
+                    return;
                 }
 
                 $stream = new File\Read($file);
 
                 try {
-
                     $mime  = new Mime($stream);
                     $_mime = $mime->getMime();
-
                 } catch (Mime\Exception $e) {
                     $_mime = 'text/plain';
                 }
@@ -69,7 +64,6 @@ $router
                 echo $stream->readAll();
 
                 return;
-
             }
 
             require 'katana://public/server.php';
