@@ -240,7 +240,7 @@ class Server
     {
         $plugin                               = new SabreDavAcl\Plugin();
         $plugin->adminPrincipals[]            = 'principals/' . static::ADMINISTRATOR_LOGIN;
-        $plugin->allowAccessToNodesWithoutACL = false;
+        $plugin->allowAccessToNodesWithoutACL = true;
         $plugin->hideNodesFromListings        = true;
         $plugin->defaultUsernamePath          = 'principals/';
 
