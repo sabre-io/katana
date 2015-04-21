@@ -1,0 +1,86 @@
+<!-- remove `.min` to get the original versions of all minified resources -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <title>Installation of sabre/katana</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+  <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+
+  <meta name="viewport" content="initial-scale=1.0" />
+
+  <link rel="stylesheet" href="static/vendor/semantic-ui/dist/semantic.min.css" type="text/css" />
+  <link rel="stylesheet" href="static/css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="static/css/ui.css" type="text/css" />
+</head>
+<body>
+
+<header>
+  <h1 class="ui icon center aligned header">
+    <img src="static/image/katana_logo.svg" alt="sabre/katana's logo" />
+    <div class="content">Permissions to install sabre/katana</div>
+  </h1>
+</header>
+
+<main class="ui page grid">
+  <div class="column">
+    <div class="ui segment">
+      <div class="ui icon warning message">
+        <i class="warning icon"></i>
+        <div class="content">
+          <p>It seems sabre/katana does not have the correct permissions to be
+          installed.</p>
+        </div>
+      </div>
+
+      <p>Don't worry.</p>
+
+      <h2>How to fix?</h2>
+
+      <p>You have basically two options. Most of the time, all you have to do is
+      either to change the “mode” of the files or to change the “owner” of the
+      files.</p>
+
+      <h3>Changing the modes</h3>
+
+      <p>You want your files to be readable and writable by your HTTP server and
+      sabre/katana. Only files in the <code>data/</code> directory are
+      impacted. Thus, in a terminal, run:</p>
+      <pre><code>$ cd path/to/katana/
+$ chmod -R a+rw data/</code></pre>
+
+      <h3>Changing the owners</h3>
+
+      <p>Another solution is your want your files to have the same owner that
+      your HTTP server (or PHP FastCGI) instance. Again, only files in the
+      <code>data/</code> directory are impacted. Thus, in a terminal, run:</p>
+      <pre><code>$ cd path/to/katana/
+$ chown -R www-data:www-data data/</code></pre>
+      <p>The user and the group are commonly <code>www-data</code>. It could
+      also be <code>www</code> or <code>_www</code>.</p>
+
+      <h2>Extra</h2>
+
+      <p>Here are some useful information about the <code>data/</code>
+      directory:</p>
+      <ul>
+        <li>the current user: <code><?= $userId ?></code> (<?= $user ?>),</li>
+        <li>the current group: <code><?= $groupId ?></code>,</li>
+        <li>permissions: <code><?= $permissions ?></code>.</li>
+      </ul>
+
+      <div class="ui icon info message">
+        <i class="info icon"></i>
+        <div class="content">
+          <p>Need more help? <a href="http://sabre.io/support/">Feel free to
+          ask</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>
