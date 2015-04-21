@@ -105,8 +105,7 @@ class Installer extends Suite
     {
         $this
             ->given(
-                $request  = new HTTP\Request(),
-                $request->setBaseUrl('/mybase/'),
+                $request  = new HTTP\Request(null, '/mybase/foo'),
                 $response = new HTTP\Response()
             )
             ->when($result = CUT::redirectToInstall($response, $request))

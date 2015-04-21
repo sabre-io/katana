@@ -28,6 +28,7 @@ use Sabre\Katana\Exception;
 use Sabre\Katana\DavAcl\User\Plugin as User;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
+use Sabre\Uri;
 use Hoa\Core;
 use Hoa\Iterator;
 use Hoa\String\String;
@@ -84,8 +85,10 @@ class Installer
      */
     public static function redirectToInstall(Response $response, Request $request)
     {
+        list($dirname) = Uri\split($request->getUrl());
+
         $response->setStatus(307);
-        $response->setHeader('Location', $request->getBaseUrl() . 'install.php');
+        $response->setHeader('Location', $dirname . '/install.php');
         $response->setBody(
             'The application is not installed. ' .
             'You are going to be redirected to the installation page.'
