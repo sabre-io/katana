@@ -4,8 +4,9 @@
 
 header {
     padding-top: 4em;
+    margin-bottom: 4em;
 }
 
 main {
-    padding: 2em 3em 0;
+    padding: 0 3em;
 }
