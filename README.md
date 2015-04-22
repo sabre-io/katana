@@ -1,22 +1,43 @@
-# sabre/katana
+# ![K (sabre/katana's logo)](public/static/image/katana_logo_full.png)
 
-sabre/katana is a CalDAV, CardDAV and WebDAV ready-to-use server on top of
-[sabre/dav][0].
+sabre/katana is a [CalDAV], [CardDAV] and [WebDAV] ready-to-use server on top of
+[sabre/dav]. It means you can have your own **calendars**, **tasks** and
+**contacts** server in a minute, robust, safe and secure.
+
+## Features
+
+When sabre/katana is installed, you can:
+
+  * manage **users** with the administration panel,
+  * create, update and delete **calendars** and **tasks** with any
+    [CalDAV]-compatible client,
+  * create, update and delete **contacts** with any [CardDAV]-compatible
+    client.
+
+More than 35 RFCs supported. See [the exhaustive list of all supported
+standars][sabre_standards]. This includes: vCard 4.0, iCalendar 2.0, jCal,
+jCard, iTip, iMip, ACL etc.
+
+[WebDAV] support is coming soon.
+
+sabre/katana is powered by [sabre/dav], an open source [WebDAV], [CardDAV]
+and [CalDAV] technology, trusted by the likes of [Atmail], [Box], [fruux]
+and [ownCloud].
 
 ## Install
 
-If you get sabre/katana through an archive, skip the pre-requisites.
+If you downloaded sabre/katana as an archive, skip the pre-requisites.
 
 ### Pre-requisites
 
-To grab dependencies of the project, make sure you have [Composer][1]
-installed, and then run:
+To grab dependencies of the project, make sure you have [Composer] installed,
+and then run:
 
 ```sh
 $ composer install
 ```
 
-Also, make sure you have [Bower][5] installed, and then run:
+Also, make sure you have [Bower] installed, and then run:
 
 ```sh
 $ bower install
@@ -52,10 +73,6 @@ You need to execute the following command:
  $ bin/katana install --no-verbose
  ```
 
-### Supported databases
-
-So far, sabre/katana can be installed with [SQLite][6] or [MySQL][7].
-
 ## Update
 
 To update sabre/katana, you have two options.
@@ -80,7 +97,7 @@ To update sabre/katana, you have two options.
      $ unzip -u data/share/update/katana_vx.y.z.zip -d .
      ```
 
-  2. Second solution is **automatic** but less common. It requires a [PHAR][8]
+  2. Second solution is **automatic** but less common. It requires a [PHAR]
      archive. Download the latest versions with the following command:
 
      ```sh
@@ -128,30 +145,40 @@ to create an executable PHAR archive.
 
 **⚠️ Warning**: The current command does not backup MySQL database.
 
+## Supported technologies
+
+So far, sabre/katana can be installed with [SQLite] or [MySQL]. It works in all
+major browsers, except IE9 (we are working on it).
+
 ## Build status
 
 | branch | status |
 | ------ | ------ |
 | master | [![Build Status](https://travis-ci.org/fruux/sabre-katana.png?branch=master)](https://travis-ci.org/fruux/sabre-katana) |
 
-
 # Questions?
 
-Head over to the [sabre/dav mailinglist][2], or you can also just open a ticket
-on [GitHub][3].
-
+Head over to the [sabre/dav mailinglist][mailinglist], or you can also just
+[open a ticket on GitHub][issues].
 
 # Made at fruux
 
-sabre/katana is being developed by [fruux][4]. Drop us a line for commercial
+sabre/katana is being developed by [fruux]. Drop us a line for commercial
 services or enterprise support.
 
-[0]: http://sabre.io/
-[1]: http://getcomposer.org/
-[2]: http://groups.google.com/group/sabredav-discuss
-[3]: https://github.com/fruux/sabre-katana/issues/
-[4]: https://fruux.com/
-[5]: http://bower.io/
-[6]: http://sqlite.org/
-[7]: http://mysql.com/
-[8]: http://php.net/phar
+[Atmail]: https://www.atmail.com/
+[Bower]: http://bower.io/
+[Box]: https://www.box.com/blog/in-search-of-an-open-source-webdav-solution/
+[CalDAV]: https://en.wikipedia.org/wiki/CalDAV
+[CardDAV]: https://en.wikipedia.org/wiki/CardDAV
+[Composer]: http://getcomposer.org/
+[MySQL]: http://mysql.com/
+[PHAR]: http://php.net/phar
+[SQLite]: http://sqlite.org/
+[WebDAV]: https://en.wikipedia.org/wiki/WebDAV
+[fruux]: https://fruux.com/
+[issues]: https://github.com/fruux/sabre-katana/issues/
+[mailinglist]: http://groups.google.com/group/sabredav-discuss
+[ownCloud]: http://owncloud.org/
+[sabre/dav]: http://sabre.io/
+[sabre_standards]: http://sabre.io/dav/standards-support/

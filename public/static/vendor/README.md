@@ -1,4 +1,6 @@
-# sabre/katana's dependencies
+# ![K (sabre/katana's logo)](../../../public/static/image/katana_logo_full.png)
+
+## Dependencies
 
 If this directory is **empty**, it means that the dependencies are not installed
 yet.
