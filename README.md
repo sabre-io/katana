@@ -1,7 +1,7 @@
 # sabre/katana
 
 sabre/katana is a CalDAV, CardDAV and WebDAV ready-to-use server on top of
-[SabreDAV][0].
+[sabre/dav][0].
 
 ## Install
 
@@ -22,7 +22,7 @@ Also, make sure you have [Bower][5] installed, and then run:
 $ bower install
 ```
 
-Then, to install sabre/katana, you have two interfaces.
+Then, to install sabre/katana, you have two options.
 
 ### In your browser
 
@@ -58,7 +58,7 @@ So far, sabre/katana can be installed with [SQLite][6] or [MySQL][7].
 
 ## Update
 
-To update sabre/katana, you have two interfaces.
+To update sabre/katana, you have two options.
 
 ### In your browser
 
@@ -143,7 +143,7 @@ on [GitHub][3].
 
 # Made at fruux
 
-This library is being developed by [fruux][4]. Drop us a line for commercial
+sabre/katana is being developed by [fruux][4]. Drop us a line for commercial
 services or enterprise support.
 
 [0]: http://sabre.io/
