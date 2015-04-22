@@ -49,7 +49,7 @@ class Phar extends Suite
                 ->array(explode("\n", $result))
                     ->containsValues([
                         '/bootstrap.php',
-                        '/data/lib/autoload.php'
+                        '/vendor/autoload.php'
                     ]);
     }
 
@@ -85,7 +85,7 @@ class Phar extends Suite
             ->then
                 ->boolean(file_exists($outputDirectory . DS . 'bootstrap.php'))
                     ->isTrue()
-                ->boolean(file_exists($outputDirectory . DS . 'data' . DS . 'lib' . DS . 'autoload.php'))
+                ->boolean(file_exists($outputDirectory . DS . 'vendor' . DS . 'autoload.php'))
                     ->isTrue();
     }
 
@@ -107,7 +107,7 @@ class Phar extends Suite
             ->then
                 ->boolean(file_exists($collimator))
                     ->isTrue()
-                ->boolean(file_exists($outputDirectory . DS . 'data' . DS . 'lib' . DS . 'autoload.php'))
+                ->boolean(file_exists($outputDirectory . DS . 'vendor' . DS . 'autoload.php'))
                     ->isTrue()
 
             ->when(
@@ -154,8 +154,8 @@ class Phar extends Suite
         $pharName = $this->helper->temporaryFile('.phar');
         $phar     = new CUT($pharName);
         $phar->buildFromIterator($finder, SABRE_KATANA_PREFIX);
-        $phar['bootstrap.php']         = '<?php require \'data/lib/autoload.php\';';
-        $phar['data/lib/autoload.php'] = file_get_contents('katana://data/lib/autoload.php');
+        $phar['bootstrap.php']       = '<?php require \'vendor/autoload.php\';';
+        $phar['vendor/autoload.php'] = file_get_contents('katana://data/lib/autoload.php');
         $phar->setStub($phar->getStubCode());
 
         return $phar;

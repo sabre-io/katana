@@ -67,6 +67,7 @@ Core::getInstance()->initialize([
     'root.data'            => __DIR__ . DS . 'data' . DS,
     'protocol.bin'         => '(:%root.application:)' . 'bin' . DS,
     'protocol.data'        => '(:%root.data:)',
+    'protocol.data/lib'    => "\r" . '(:%root.application:)' . 'vendor' . DS,
     'protocol.lib'         => '(:%root.application:)' . 'lib' . DS,
     'protocol.public'      => '(:%root.application:)' . 'public' . DS,
     'protocol.tests'       => '(:%root.application:)' . 'tests' . DS,
