@@ -14,18 +14,19 @@ When sabre/katana is installed, you can:
   * create, update and delete **contacts** with any [CardDAV]-compatible
     client.
 
-More than 35 RFC supported. See [the exhaustive list of all supported
+More than 35 RFCs supported. See [the exhaustive list of all supported
 standars][sabre_standards]. This includes: vCard 4.0, iCalendar 2.0, jCal,
 jCard, iTip, iMip, ACL etc.
 
-[WebDAV] support ongoing.
+[WebDAV] support is coming soon.
 
-sabre/katana is powered by sabre/dav, the open source [CalDAV], [CardDAV] and
-[WebDAV] server.
+sabre/katana is powered by [sabre/dav], an open source [WebDAV], [CardDAV]
+and [CalDAV] technology, trusted by the likes of [Atmail], [Box], [fruux]
+and [ownCloud].
 
 ## Install
 
-If you get sabre/katana through an archive, skip the pre-requisites.
+If you downloaded sabre/katana as an archive, skip the pre-requisites.
 
 ### Pre-requisites
 
@@ -165,15 +166,18 @@ Head over to the [sabre/dav mailinglist][mailinglist], or you can also just
 sabre/katana is being developed by [fruux]. Drop us a line for commercial
 services or enterprise support.
 
+[Atmail]: https://www.atmail.com/
 [Bower]: http://bower.io/
+[Box]: https://www.box.com/blog/in-search-of-an-open-source-webdav-solution/
 [CalDAV]: https://en.wikipedia.org/wiki/CalDAV
 [CardDAV]: https://en.wikipedia.org/wiki/CardDAV
 [Composer]: http://getcomposer.org/
+[fruux]: https://fruux.com/
 [MySQL]: http://mysql.com/
+[ownCloud]: http://owncloud.org/
 [PHAR]: http://php.net/phar
 [SQLite]: http://sqlite.org/
 [WebDAV]: https://en.wikipedia.org/wiki/WebDAV
-[fruux]: https://fruux.com/
 [issues]: https://github.com/fruux/sabre-katana/issues/
 [mailinglist]: http://groups.google.com/group/sabredav-discuss
 [sabre/dav]: http://sabre.io/
