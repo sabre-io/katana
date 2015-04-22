@@ -38,6 +38,7 @@ class Backend extends SabreDavAcl\PrincipalBackend\PDO
     /**
      * Delete the current node.
      *
+     * @param  string  $path    Path (`principals/…`).
      * @return void
      */
     public function deletePrincipal($path)
@@ -53,10 +54,56 @@ class Backend extends SabreDavAcl\PrincipalBackend\PDO
             );
         }
 
-        $statement = $this->pdo->prepare(
-            'DELETE FROM ' . $this->tableName . ' WHERE uri = :uri'
-        );
+        $uri = $path;
 
-        return $statement->execute(['uri' => $path]);
+        $statement = $this->pdo->prepare(
+            'DELETE FROM calendarobjects ' .
+            'WHERE calendarid IN ( ' .
+            '    SELECT id FROM calendars WHERE principaluri = :uri ' .
+            ')'
+        );
+        $statement->execute(['uri' => $uri]);
+
+        $statement = $this->pdo->prepare(
+            'DELETE FROM calendarchanges ' .
+            'WHERE calendarid IN ( ' .
+            '    SELECT id FROM calendars WHERE principaluri = :uri ' .
+            ')'
+        );
+        $statement->execute(['uri' => $uri]);
+
+        $statement = $this->pdo->prepare(
+            'DELETE FROM calendarsubscriptions ' .
+            'WHERE principaluri = :uri'
+        );
+        $statement->execute(['uri' => $uri]);
+
+        $statement = $this->pdo->prepare(
+            'DELETE FROM schedulingobjects ' .
+            'WHERE principaluri = :uri'
+        );
+        $statement->execute(['uri' => $uri]);
+
+        $statement = $this->pdo->prepare(
+            'DELETE FROM calendars ' .
+            'WHERE principaluri = :uri'
+        );
+        $statement->execute(['uri' => $uri]);
+
+        $statement = $this->pdo->prepare(
+            'DELETE FROM groupmembers ' .
+            'WHERE principal_id IN ( ' .
+            '    SELECT id FROM principals WHERE uri = :uri ' .
+            ')'
+        );
+        $statement->execute(['uri' => $uri]);
+
+        $statement = $this->pdo->prepare(
+            'DELETE FROM principals ' .
+            'WHERE uri = :uri'
+        );
+        $statement->execute(['uri' => $uri]);
+
+        return;
     }
 }
