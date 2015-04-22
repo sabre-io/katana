@@ -159,17 +159,19 @@ $extractTo = null;
 
 while (false !== $c = $options->getOption($v)) {
     switch ($c) {
-
         case '__ambiguous':
             $options->resolveOptionAmbiguity($v);
+
             break;
 
         case 'e':
             $extractTo = $v;
+
             break;
 
         case 'o':
             $overwrite = $v;
+
             break;
 
         case 'm':
@@ -190,57 +192,48 @@ while (false !== $c = $options->getOption($v)) {
                     "\n";
             }
             exit(0);
-            break;
 
         case 's':
             echo $phar->getSignature()['hash'], "\n";
+
             exit(0);
-            break;
 
         case 'l':
-            $prefixLength = strlen('phar://' . $pharPathname);
-            $iterator     = new Iterator\Recursive\Iterator($phar);
+            $iterator = new Iterator\Recursive\Iterator($phar);
+
             foreach ($iterator as $value) {
                 echo '/' . $iterator->getSubPathName(), "\n";
             }
+
             exit(0);
-            break;
 
         case 'h':
         case '?':
         default:
             return usage();
-            break;
-
     }
 }
 
 if (null !== $extractTo) {
-
     if (false === file_exists($extractTo)) {
         mkdir($extractTo);
     }
 
     if (false === file_exists($extractTo)) {
-
         echo
             $extractTo, ' cannot be created.', "\n",
             'Extraction abort.', "\n";
         exit(1);
-
     }
 
     try {
         $code = false === $phar->extractTo($extractTo, null, $overwrite);
     }  catch (PharException $exception) {
-
         echo $exception->getMessage();
         $code = 1;
-
     }
 
     exit($code);
-
 } else {
     exit(usage());
 }
