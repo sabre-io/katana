@@ -73,11 +73,11 @@ class Phar extends PHPPhar
         $stub = new File\Read(__FILE__);
         $stub->seek(__COMPILER_HALT_OFFSET__);
 
-        return trim($stub->read(1 << 20)) . "\n" . '__halt_compiler();';
+        return trim($stub->read(1 << 20)) . "\n" . '__HALT_COMPILER();';
     }
 }
 
-__halt_compiler();
+__HALT_COMPILER();
 #!/usr/bin/env php
 <?php
 
