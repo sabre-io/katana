@@ -172,13 +172,13 @@ services or enterprise support.
 [CalDAV]: https://en.wikipedia.org/wiki/CalDAV
 [CardDAV]: https://en.wikipedia.org/wiki/CardDAV
 [Composer]: http://getcomposer.org/
-[fruux]: https://fruux.com/
 [MySQL]: http://mysql.com/
-[ownCloud]: http://owncloud.org/
 [PHAR]: http://php.net/phar
 [SQLite]: http://sqlite.org/
 [WebDAV]: https://en.wikipedia.org/wiki/WebDAV
+[fruux]: https://fruux.com/
 [issues]: https://github.com/fruux/sabre-katana/issues/
 [mailinglist]: http://groups.google.com/group/sabredav-discuss
+[ownCloud]: http://owncloud.org/
 [sabre/dav]: http://sabre.io/
 [sabre_standards]: http://sabre.io/dav/standards-support/
