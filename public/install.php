@@ -29,6 +29,7 @@ use Sabre\HTTP;
 use Hoa\Router;
 use Hoa\Dispatcher;
 use Hoa\Eventsource;
+use Hoa\File;
 
 /**
  * This file aims at installing the application.
@@ -42,7 +43,7 @@ $request  = HTTP\Sapi::getRequest();
 $response = new HTTP\Response();
 
 /**
- * If the applications has already been installed, redirect to the index.
+ * If the application has already been installed, redirect to the index.
  */
 if (true === Installer::isInstalled()) {
 
@@ -59,10 +60,32 @@ if (true === Installer::isInstalled()) {
  * If dependencies have not been installed, we print a specific message.
  */
 if (true === Installer::isDirectoryEmpty('katana://public/static/vendor/')) {
-
     echo file_get_contents('katana://views/install_bower.html');
-    return;
 
+    return;
+}
+
+/**
+ * If the application has not the correct permissions.
+ */
+$dataDirectory = new File\Directory('katana://data/');
+$dataDirectory->clearStatisticCache();
+
+if (false === $dataDirectory->isWritable()) {
+    $view = function () use ($dataDirectory) {
+        $user        = get_current_user();
+        $userId      = getmyuid();
+        $groupId     = getmygid();
+        $permissions = $dataDirectory->getReadablePermissions();
+
+        require 'katana://views/install_permissions.html';
+
+        return;
+    };
+
+    $view();
+
+    return;
 }
 
 $url   = $request->getUrl();

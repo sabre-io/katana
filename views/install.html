@@ -18,14 +18,14 @@
 <body>
 
 <script type="text/x-handlebars">
-  <main>
+  <header>
     <h1 class="ui icon center aligned header">
       <img src="static/image/katana_logo.svg" alt="sabre/katana's logo" />
       <div class="content">Installation of sabre/katana</div>
     </h1>
+  </header>
 
-    <div class="ui hidden divider"></div>
-
+  <main>
     <form {{bind-attr class=":ui :form :segment valid::error submitting:loading"}}>
       <div class="ui page grid">
         {{#unless valid}}
