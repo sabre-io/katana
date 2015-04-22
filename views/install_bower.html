@@ -6,28 +6,68 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
   <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+
+  <meta name="viewport" content="initial-scale=1.0" />
+
+  <link rel="stylesheet" href="static/css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="static/css/ui.css" type="text/css" />
+
+  <style>
+    @font-face {
+        font-family: 'Lato';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Lato Regular'), local('Lato-Regular'), url('https://fonts.gstatic.com/s/lato/v11/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2') format('woff2'), url('https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff') format('woff');
+    }
+
+    body {
+        font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    main {
+        margin: 0 2em;
+        padding: 1em;
+        border-radius: 0.28em;
+        box-shadow: 0px 0px 0px 1px rgba(39, 41, 43, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+        background: rgba(255, 255, 255, 0.85);
+    }
+  </style>
 </head>
 <body>
 
-<h1>Dependencies</h1>
+<header>
+  <h1>
+    <img src="static/image/katana_logo.svg" alt="sabre/katana's logo" />
+    <br />
+    Missing dependencies
+  </h1>
+</header>
 
-<p>Apparently, not all dependencies have been installed.</p>
-<p>Dependencies are managed by <a href="http://bower.io/">Bower</a>. They are
-declared in the <code>bower.json</code> file at the root of the project. We
-assume this is your current working directory. Then, to install them, please
-run:</p>
-<pre><code>$ bower install --production</code></pre>
+<main>
+  <h2>Dependencies</h2>
 
-<h2>Development dependencies</h2>
+  <p>Apparently, not all dependencies have been installed.</p>
+  <p>Dependencies are managed by <a href="http://bower.io/">Bower</a>. They are
+  declared in the <code>bower.json</code> file at the root of the project. We
+  assume this is your current working directory. Then, to install them, please
+  run:</p>
+  <pre><code>$ bower install --production</code></pre>
 
-<p>To be able to run tests or such development tools, simply omit the
-<code>--production</code> option. Thus, to install all dependencies, please
-run:</p>
-<pre><code>$ bower install</code></pre>
+  <h2>Development dependencies</h2>
 
-<h2>What's next?</h2>
+  <p>To be able to run tests or such development tools, simply omit the
+  <code>--production</code> option. Thus, to install all dependencies, please
+  run:</p>
+  <pre><code>$ bower install</code></pre>
 
-<p>Simply refresh this page!</p>
+  <h2>What's next?</h2>
+
+  <p>Simply refresh this page!</p>
+</main>
 
 </body>
 </html>
