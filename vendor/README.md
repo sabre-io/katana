@@ -1,4 +1,4 @@
-# ![K (sabre/katana's logo)](../../public/static/image/katana_logo_full.png)
+# ![K (sabre/katana's logo)](../public/static/image/katana_logo_full.png)
 
 ## Dependencies
 
