@@ -71,8 +71,6 @@ class Installer {
             'The application is already installed. ' .
             'You are going to be redirected to the home.'
         );
-
-        return;
     }
 
     /**
@@ -93,8 +91,6 @@ class Installer {
             'The application is not installed. ' .
             'You are going to be redirected to the installation page.'
         );
-
-        return;
     }
 
     /**

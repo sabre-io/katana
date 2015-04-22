@@ -142,8 +142,6 @@ class Stub extends AbstractCommand {
         }
 
         echo $archiveName, "\n";
-
-        return;
     }
 
     /**

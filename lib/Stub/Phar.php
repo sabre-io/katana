@@ -62,8 +62,6 @@ class Phar extends PHPPhar {
             'copyright' => 'Copyright (C) 2015 fruux GmbH (https://fruux.com/)',
             'datetime'  => date('c')
         ]);
-
-        return;
     }
 
     /**

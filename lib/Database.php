@@ -58,8 +58,6 @@ class Database extends PDO {
         } else {
             parent::__construct($dsn, $username, $password);
         }
-
-        return;
     }
 
     /**

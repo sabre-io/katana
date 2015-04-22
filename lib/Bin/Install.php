@@ -240,8 +240,6 @@ class Install extends AbstractCommand {
                 Cursor::colorize('normal');
                 sleep(1);
 
-                return;
-
             };
 
         } else {
@@ -355,8 +353,6 @@ class Install extends AbstractCommand {
                     echo '🔘 SQLite ⚪️ MySQL';
                     Cursor::restore();
 
-                    return;
-
                 }
             );
             $radioReadline->addMapping(
@@ -371,8 +367,6 @@ class Install extends AbstractCommand {
                     Cursor::clear('→');
                     echo '⚪️ SQLite 🔘 MySQL';
                     Cursor::restore();
-
-                    return;
 
                 }
             );
@@ -514,8 +508,6 @@ class Install extends AbstractCommand {
         }
 
         Window::setTitle($oldTitle);
-
-        return;
     }
 
     /**

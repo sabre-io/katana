@@ -39,10 +39,8 @@ class User extends SabreCalDav\Principal\User
      *
      * @return void
      */
-    public function delete()
+    function delete()
     {
         $this->principalBackend->deletePrincipal($this->principalProperties['uri']);
-
-        return;
     }
 }

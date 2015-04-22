@@ -125,7 +125,5 @@ class Backend extends SabreDavAcl\PrincipalBackend\PDO
             'WHERE uri = :uri'
         );
         $statement->execute(['uri' => $uri]);
-
-        return;
     }
 }

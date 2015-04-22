@@ -105,7 +105,6 @@ LOGO;
         if (false === $verbose) {
 
             echo implode("\n", $this->commands);
-            return;
 
         }
 
@@ -124,7 +123,6 @@ LOGO;
             '<options> always contains -h, -? and --help to get the usage ' .
             'of the command.', "\n";
 
-        return;
     }
 
     /**

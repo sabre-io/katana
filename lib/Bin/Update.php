@@ -169,9 +169,6 @@ class Update extends AbstractCommand {
                 Cursor::colorize('foreground(' . $color . ') background(' . $color . ')');
                 echo str_repeat('|', ($percent * $barWidth) / 100);
                 Cursor::colorize('normal');
-
-                return;
-
             };
 
             foreach ($versionsToFetch as $versionNumber => $versionUrl) {
@@ -201,8 +198,6 @@ class Update extends AbstractCommand {
 
                         Cursor::clear('↔');
                         echo 'Downloading… ';
-                        return;
-
                     }
                 );
                 $fileIn->on(
@@ -223,9 +218,6 @@ class Update extends AbstractCommand {
                             $previousPercent = $percent;
                             $progress($percent);
                         }
-
-                        return;
-
                     }
                 );
                 $fileIn->open();
@@ -279,8 +271,6 @@ class Update extends AbstractCommand {
         } else {
             return $this->usage();
         }
-
-        return;
     }
 
     /**

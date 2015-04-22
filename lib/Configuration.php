@@ -72,8 +72,6 @@ class Configuration {
         if (empty($content) && true === $allowEmpty) {
 
             $this->configuration = new StdClass();
-            return;
-
         }
 
         $decodedJson = @json_decode($content);
@@ -93,8 +91,6 @@ class Configuration {
         }
 
         $this->configuration = $decodedJson;
-
-        return;
     }
 
     /**
@@ -126,8 +122,6 @@ class Configuration {
      */
     function __set($name, $value) {
         $this->configuration->$name = $value;
-
-        return;
     }
 
     /**
@@ -138,7 +132,6 @@ class Configuration {
      */
     function __unset($name) {
         unset($this->configuration->$name);
-        return;
     }
 
     /**
