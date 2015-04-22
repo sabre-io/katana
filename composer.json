@@ -32,7 +32,6 @@
         "ircmaxell/password-compat": "~1.0"
     },
     "require-dev": {
-        "ext-phar"                 : "~2.0, >=2.0.2",
         "atoum/atoum"              : "~2.0",
         "atoum/praspel-extension"  : "~0.1",
         "atoum/ruler-extension"    : "~1.0, >=1.0.2",
@@ -40,7 +39,8 @@
     },
     "suggest": {
         "ext-pdo_sqlite": "If you decide to use SQLite.",
-        "ext-pdo_mysql" : "If you decide to use MySQL."
+        "ext-pdo_mysql" : "If you decide to use MySQL.",
+        "ext-phar" : "If you plan to package sabre/katana as a phar archive"
     },
     "autoload": {
         "psr-4": {
