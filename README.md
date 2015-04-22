@@ -20,9 +20,8 @@ jCard, iTip, iMip, ACL etc.
 
 [WebDAV] support ongoing.
 
-sabre/katana is powered by <img src="http://sabre.io/img/logo.png" height="20px" alt="" /> sabre/dav, the open source [CalDAV], [CardDAV] and [WebDAV] server, used by:
-
-<img src="http://sabre.io/img/trusted/atmail.png" alt="atmail" height="60px" /> <img src="http://sabre.io/img/trusted/box.png" alt="box" height="60px" /> <img src="http://sabre.io/img/trusted/fruux.png" alt="fruux" height="60px" /> <img src="http://sabre.io/img/trusted/owncloud.png" alt="ownCloud" height="60px" />
+sabre/katana is powered by sabre/dav, the open source [CalDAV], [CardDAV] and
+[WebDAV] server.
 
 ## Install
 
@@ -161,7 +160,7 @@ major browsers, except IE9 (we are working on it).
 Head over to the [sabre/dav mailinglist][mailinglist], or you can also just
 [open a ticket on GitHub][issues].
 
-# Made at <img src="https://fruux.com/static/img/fruux/logo-big.png" height="50px" alt="fruux" />
+# Made at fruux
 
 sabre/katana is being developed by [fruux]. Drop us a line for commercial
 services or enterprise support.
