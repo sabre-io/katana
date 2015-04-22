@@ -474,7 +474,7 @@ class Installer extends Suite
             ->given(
                 $parameters = [
                     'driver'   => 'mysql',
-                    'host'     => 'foo.katana',
+                    'host'     => 'localhost',
                     'port'     => '1',
                     'name'     => 'bar',
                     'username' => 'gordon',
