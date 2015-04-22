@@ -24,7 +24,8 @@ sudo: false
 
 cache: vendor
 
-before_script: composer install --dev
+before_script:
+  - composer update --prefer-source $LOWEST_DEPS
 
 script:
   - ./bin/atoum -c tests/.atoum.php -bf tests/.bootstrap.atoum.php
