@@ -1,9 +1,10 @@
-# sabre/katana's tests
+# ![K (sabre/katana's logo)](../public/static/image/katana_logo_full.png)
 
 ## Unit testing
 
-Unit tests are written and executed with [atoum](http://atoum.org/). They are
-located in the `Unit/` directory under the `Sabre\Katana\Test\Unit` namespace.
+Unit tests are written and executed with [atoum]. They are located in the
+`Unit/` and `Integration/` directories under the `Sabre\Katana\Test\Unit` and
+`Sabre\Katana\Test\Integration` namespaces.
 
 ### Execution
 
@@ -106,3 +107,5 @@ $ ../bin/atoum --filter 'class = "Sabre\Katana\Test\Unit\Server\Installer" and "
 
 Note we used `and` to refine constraints, i.e. exclude some tests. We can use
 `or` to add more tests.
+
+[atoum]: http://atoum.org/
