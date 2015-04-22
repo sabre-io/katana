@@ -51,10 +51,8 @@ $autoloadFile =
    'autoload.php';
 
 if (false === file_exists($autoloadFile)) {
-
     echo 'Autoloader is not found. Did you run `composer install`?', "\n";
-    return;
-
+    exit(1);
 }
 
 $autoloader = require_once $autoloadFile;
