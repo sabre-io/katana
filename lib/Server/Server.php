@@ -308,6 +308,8 @@ class Server
 
     /**
      * Run the server, i.e. consume the current request.
+     *
+     * @return void
      */
     public function run()
     {
