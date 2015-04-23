@@ -67,12 +67,6 @@ You need to execute the following command:
  $ bin/katana install
  ```
 
- If you are using Windows or you don't want a fancy interface, try:
-
- ```sh
- $ bin/katana install --no-verbose
- ```
-
 ## Update
 
 To update sabre/katana, you have two options.
