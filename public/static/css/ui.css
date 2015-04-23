@@ -1,3 +1,4 @@
+
 body {
     position: relative;
     background: radial-gradient(circle at 100% 0%, #efd6c9, #d8b4a2);
@@ -21,9 +22,9 @@ body::before {
     transition: opacity .4s ease;
 }
 
-html:not(.logged) > body::before {
-    opacity: 1;
-}
+    html:not(.logged) > body::before {
+        opacity: 1;
+    }
 
 header > h1 > img {
     width: 100px !important;
@@ -31,4 +32,10 @@ header > h1 > img {
 
 .segment {
     background: rgba(255, 255, 255, .85) !important;
+    transition: opacity .3s ease;
 }
+
+    html.modal .segment:not(.modal-exclusive) {
+        pointer-events: none;
+        opacity: .3;
+    }
