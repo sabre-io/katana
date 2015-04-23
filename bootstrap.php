@@ -46,8 +46,7 @@ date_default_timezone_set('UTC');
  */
 $autoloadFile =
     __DIR__ . DIRECTORY_SEPARATOR .
-   'data' . DIRECTORY_SEPARATOR .
-   'lib' . DIRECTORY_SEPARATOR .
+   'vendor' . DIRECTORY_SEPARATOR .
    'autoload.php';
 
 if (false === file_exists($autoloadFile)) {
