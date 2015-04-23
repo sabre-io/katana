@@ -99,6 +99,28 @@ class Backend extends SabreDavAcl\PrincipalBackend\PDO
         $statement->execute(['uri' => $uri]);
 
         $statement = $this->pdo->prepare(
+            'DELETE FROM cards ' .
+            'WHERE addressbookid IN ( ' .
+            '    SELECT id FROM addressbooks WHERE principaluri = :uri ' .
+            ')'
+        );
+        $statement->execute(['uri' => $uri]);
+
+        $statement = $this->pdo->prepare(
+            'DELETE FROM addressbookchanges ' .
+            'WHERE addressbookid IN ( ' .
+            '    SELECT id FROM addressbooks WHERE principaluri = :uri ' .
+            ')'
+        );
+        $statement->execute(['uri' => $uri]);
+
+        $statement = $this->pdo->prepare(
+            'DELETE FROM addressbooks ' .
+            'WHERE principaluri = :uri'
+        );
+        $statement->execute(['uri' => $uri]);
+
+        $statement = $this->pdo->prepare(
             'DELETE FROM principals ' .
             'WHERE uri = :uri'
         );
