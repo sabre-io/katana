@@ -107,8 +107,17 @@ class Plugin extends SabreDav\ServerPlugin
             'current_version' => SABRE_KATANA_VERSION
         ];
 
-        $updatesDotJson = Updater::getUpdateUrl();
-        $versions       = @file_get_contents($updatesDotJson);
+        $extra = [];
+
+        if (true === $request->hasHeader('Referer')) {
+            $extra['referer'] = $request->getHeader('Referer');
+        }
+
+        $updatesDotJson = Updater::getUpdateUrl(
+            Updater::DEFAULT_UPDATE_SERVER,
+            $extra
+        );
+        $versions = @file_get_contents($updatesDotJson);
 
         if (!empty($versions)) {
             $versions        = json_decode($versions, true);
