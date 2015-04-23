@@ -58,19 +58,20 @@ class Updater
      * Get the URL of the `updates.json` file, containing the list of updates.
      *
      * @param  string  $updateServer    Update server URL.
+     * @param  array   $queries         Extra queries to add.
      * @return string
      */
-    public static function getUpdateUrl($updateServer = null)
+    public static function getUpdateUrl($updateServer = null, array $queries = [])
     {
         if (null === $updateServer) {
             $updateServer = static::DEFAULT_UPDATE_SERVER;
         }
 
-        return sprintf(
-            '%supdates.json?version=%s',
-            $updateServer,
-            SABRE_KATANA_VERSION
-        );
+        $out                 = $updateServer . 'updates.json';
+        $queries['version']  = SABRE_KATANA_VERSION;
+        $out                .= '?' . http_build_query($queries, '', '&', PHP_QUERY_RFC3986);
+
+        return $out;
     }
 
     /**
