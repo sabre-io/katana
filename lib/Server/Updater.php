@@ -96,7 +96,7 @@ class Updater
      *         …
      *     ]
      *
-     * @param  array  $versions    List of versions.
+     * @param  array   $versions          List of versions.
      * @param  string  $currentVersion    Current version, i.e. lowest version
      *                                    to keep.
      * @param  int     $format            Please, see `FORMAT_*` constant.
