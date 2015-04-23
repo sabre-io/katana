@@ -43,11 +43,9 @@ class Updater extends Suite
             ->then
                 ->string($result)
                     ->isEqualTo(
-                        sprintf(
-                            '%supdates.json?version=%s',
-                            CUT::DEFAULT_UPDATE_SERVER,
-                            SABRE_KATANA_VERSION
-                        )
+                        CUT::DEFAULT_UPDATE_SERVER .
+                        'updates.json?' .
+                        'version=' . SABRE_KATANA_VERSION
                     );
     }
 
@@ -59,11 +57,25 @@ class Updater extends Suite
             ->then
                 ->string($result)
                     ->isEqualTo(
-                        sprintf(
-                            '%supdates.json?version=%s',
-                            $server,
-                            SABRE_KATANA_VERSION
-                        )
+                        $server .
+                        'updates.json?' .
+                        'version=' . SABRE_KATANA_VERSION
+                    );
+    }
+
+    public function case_get_list_of_updates_url_extra_queries()
+    {
+        $this
+            ->given($queries = ['a' => 'b c', 'd' => 'e'])
+            ->when($result = CUT::getUpdateUrl(CUT::DEFAULT_UPDATE_SERVER, $queries))
+            ->then
+                ->string($result)
+                    ->isEqualTo(
+                        CUT::DEFAULT_UPDATE_SERVER .
+                        'updates.json?' .
+                        'a=b%20c&' .
+                        'd=e&' .
+                        'version=' . SABRE_KATANA_VERSION
                     );
     }
 
