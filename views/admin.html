@@ -43,6 +43,20 @@
     {{/if}}
 
     {{#if session.isAuthenticated}}
+      {{#if newVersionAvailable}}
+        <div class="ui icon info message">
+          <i class="close icon"></i>
+          <i class="announcement icon"></i>
+          <div class="content">
+            <div class="header">A new version is available!</div>
+            <p>Your instance of sabre/katana is outdated. A new version is
+            available. To update sabre/katana, please check
+            <a href="https://github.com/fruux/sabre-katana/#update">the
+            documentation</a>.</p>
+          </div>
+        </div>
+      {{/if}}
+
       <nav class="ui segment menu">
         {{#link-to 'users' class="item"}}
           <i class="users icon"></i> Users

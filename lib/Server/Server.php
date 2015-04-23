@@ -100,7 +100,8 @@ class Server
      *    * CalDAV,
      *    * CardDAV,
      *    * ACL,
-     *    * synchronization.
+     *    * synchronization,
+     *    * versions.
      *
      * @return void
      */
@@ -115,6 +116,7 @@ class Server
         $this->initializeCardDAV($principalBackend);
         $this->initializeACL();
         $this->initializeSynchronization();
+        $this->initializeVersions();
 
         return;
     }
@@ -257,6 +259,19 @@ class Server
     protected function initializeSynchronization()
     {
         $this->getServer()->addPlugin(new SabreDav\Sync\Plugin());
+
+        return;
+    }
+
+    /**
+     * Initialize versions.
+     *
+     * @return void
+     */
+    protected function initializeVersions()
+    {
+        $this->getServer()->tree->getNodeForPath('')->addChild(new Dav\Version\Node());
+        $this->getServer()->addPlugin(new Dav\Version\Plugin());
 
         return;
     }

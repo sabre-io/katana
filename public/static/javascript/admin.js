@@ -247,28 +247,33 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
     /**
      * Whether the login form is valid or not.
      */
-    valid            : true,
+    valid              : true,
 
     /**
      * Whether the login form is submitting or not.
      */
-    submitting       : false,
+    submitting         : false,
 
     /**
      * Tick for the session activity. Does not contain any useful information.
      * Only allows to react to an event (tick update).
      */
-    lastSessionTick  : null,
+    lastSessionTick    : null,
 
     /**
      * Number of seconds before the session expires.
      */
-    sessionExpireIn  : 0,
+    sessionExpireIn    : 0,
 
     /**
      * Whether the session is about to expire or not.
      */
-    sessionWillExpire: false,
+    sessionWillExpire  : false,
+
+    /**
+     * Whether a new version of sabre/katana is available.
+     */
+    newVersionAvailable: false,
 
     /**
      * Current alert title and message.
@@ -322,6 +327,20 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
             1000
         );
     }.observes('lastSessionTick').on('init'),
+
+    /**
+     * Check if a new version of sabre/katana is available or not.
+     */
+    checkVersion: function()
+    {
+        var self = this;
+
+        $.getJSON(ENV.katana.base_url + '/versions').then(
+            function(data) {
+                self.set('newVersionAvailable', undefined !== data.next_versions);
+            }
+        );
+    }.observes('session.isAuthenticated'),
 
     actions: {
 
@@ -390,6 +409,15 @@ Katana.ApplicationView = Ember.View.extend({
                         onApprove: function() {
                             return false;
                         }
+                    }
+                );
+
+                // Dismiss message.
+                $('body').on(
+                    'click',
+                    '.message .close',
+                    function() {
+                        $(this).closest('.message').remove();
                     }
                 );
             }
