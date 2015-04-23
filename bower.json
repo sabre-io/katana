@@ -6,6 +6,7 @@
     "ember": "~1.11",
     "ember-data": "~1.0.0-beta.16",
     "ember-simple-auth": "~0.7.3",
-    "event-source-polyfill": "~0.0.4"
+    "event-source-polyfill": "~0.0.4",
+    "node-uuid": "~1.4.3"
   }
 }

@@ -36,12 +36,23 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
         return ENV.katana.base_url + '/principals/';
     },
 
+    getCalendarsURL: function()
+    {
+        return ENV.katana.base_url + '/calendars/';
+    },
+
+    getAddressBooksURL: function()
+    {
+        return ENV.katana.base_url + '/addressbooks/';
+    },
+
     createRecord: function(store, type, snapshot)
     {
         var self = this;
 
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
+                // Principals.
                 self.xhr(
                     'MKCOL',
                     self.getPrincipalsURL() + snapshot.get('username'),
@@ -53,7 +64,7 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                     '  <d:set>' + "\n" +
                     '    <d:prop>' + "\n" +
                     '      <d:resourcetype>' + "\n" +
-                    '        <d:principal/>' + "\n" +
+                    '        <d:principal />' + "\n" +
                     '      </d:resourcetype>' + "\n" +
                     '      <d:displayname>' + snapshot.get('displayName') + '</d:displayname>' + "\n" +
                     '      <s:email-address>' + snapshot.get('email') + '</s:email-address>' + "\n" +
@@ -61,6 +72,110 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                     '    </d:prop>' + "\n" +
                     '  </d:set>' + "\n" +
                     '</d:mkcol>'
+                ).then(
+                    function(data) {
+                        // One default calendar.
+                        return self.xhr(
+                            'MKCOL',
+                            self.getCalendarsURL() + snapshot.get('username') + '/' + uuid.v4() + '/',
+                            {
+                                'Content-Type': 'application/xml; charset=utf-8'
+                            },
+                            '<?xml version="1.0"?>' + "\n" +
+                            '<d:mkcol xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">' + "\n" +
+                            '  <d:set>' + "\n" +
+                            '    <d:prop>' + "\n" +
+                            '      <d:resourcetype>' + "\n" +
+                            '        <d:collection />' + "\n" +
+                            '        <c:calendar />' + "\n" +
+                            '      </d:resourcetype>' + "\n" +
+                            '      <d:displayname>Home</d:displayname>' + "\n" +
+                            '      <c:supported-calendar-component-set>' + "\n" +
+                            '        <c:comp name="VEVENT" />' + "\n" +
+                            '      </c:supported-calendar-component-set>' + "\n" +
+                            '      <x:calendar-color xmlns:x="http://apple.com/ns/ical/">#00508CFF</x:calendar-color>' + "\n" +
+                            '    </d:prop>' + "\n" +
+                            '  </d:set>' + "\n" +
+                            '</d:mkcol>'
+                        );
+                    }
+                ).then(
+                    function(data) {
+                        // Another default calendar.
+                        return self.xhr(
+                            'MKCOL',
+                            self.getCalendarsURL() + snapshot.get('username') + '/' + uuid.v4() + '/',
+                            {
+                                'Content-Type': 'application/xml; charset=utf-8'
+                            },
+                            '<?xml version="1.0"?>' + "\n" +
+                            '<d:mkcol xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">' + "\n" +
+                            '  <d:set>' + "\n" +
+                            '    <d:prop>' + "\n" +
+                            '      <d:resourcetype>' + "\n" +
+                            '        <d:collection />' + "\n" +
+                            '        <c:calendar />' + "\n" +
+                            '      </d:resourcetype>' + "\n" +
+                            '      <d:displayname>Work</d:displayname>' + "\n" +
+                            '      <c:supported-calendar-component-set>' + "\n" +
+                            '        <c:comp name="VEVENT" />' + "\n" +
+                            '      </c:supported-calendar-component-set>' + "\n" +
+                            '      <x:calendar-color xmlns:x="http://apple.com/ns/ical/">#AF1917FF</x:calendar-color>' + "\n" +
+                            '    </d:prop>' + "\n" +
+                            '  </d:set>' + "\n" +
+                            '</d:mkcol>'
+                        );
+                    }
+                ).then(
+                    function(data) {
+                        // Default task list.
+                        return self.xhr(
+                            'MKCOL',
+                            self.getCalendarsURL() + snapshot.get('username') + '/' + uuid.v4() + '/',
+                            {
+                                'Content-Type': 'application/xml; charset=utf-8'
+                            },
+                            '<?xml version="1.0"?>' + "\n" +
+                            '<d:mkcol xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">' + "\n" +
+                            '  <d:set>' + "\n" +
+                            '    <d:prop>' + "\n" +
+                            '      <d:resourcetype>' + "\n" +
+                            '        <d:collection />' + "\n" +
+                            '        <c:calendar />' + "\n" +
+                            '      </d:resourcetype>' + "\n" +
+                            '      <d:displayname>Tasks</d:displayname>' + "\n" +
+                            '      <c:supported-calendar-component-set>' + "\n" +
+                            '        <c:comp name="VTODO" />' + "\n" +
+                            '      </c:supported-calendar-component-set>' + "\n" +
+                            '      <x:calendar-color xmlns:x="http://apple.com/ns/ical/">#AF1917FF</x:calendar-color>' + "\n" +
+                            '    </d:prop>' + "\n" +
+                            '  </d:set>' + "\n" +
+                            '</d:mkcol>'
+                        );
+                    }
+                ).then(
+                    function(data) {
+                        // Default address book.
+                        return self.xhr(
+                            'MKCOL',
+                            self.getAddressBooksURL() + snapshot.get('username') + '/' + uuid.v4() + '/',
+                            {
+                                'Content-Type': 'application/xml; charset=utf-8'
+                            },
+                            '<?xml version="1.0"?>' + "\n" +
+                            '<d:mkcol xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:carddav">' + "\n" +
+                            '  <d:set>' + "\n" +
+                            '    <d:prop>' + "\n" +
+                            '      <d:resourcetype>' + "\n" +
+                            '        <d:collection />' + "\n" +
+                            '        <c:addressbook />' + "\n" +
+                            '      </d:resourcetype>' + "\n" +
+                            '      <d:displayname>Contacts</d:displayname>' + "\n" +
+                            '    </d:prop>' + "\n" +
+                            '  </d:set>' + "\n" +
+                            '</d:mkcol>'
+                        );
+                    }
                 ).then(
                     function(data) {
                         resolve({
@@ -249,6 +364,7 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
     xhr: function(method, url, headers, body)
     {
         var self = this;
+
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
                 Ember.$.ajax({
