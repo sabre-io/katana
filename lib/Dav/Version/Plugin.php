@@ -70,8 +70,22 @@ class Plugin extends SabreDav\ServerPlugin
         ];
     }
 
+    /**
+     * Use this method to tell the server this plugin defines additional
+     * HTTP methods.
+     *
+     * This method is passed a URI. It should only return HTTP methods that are
+     * available for the specified URI.
+     *
+     * @param  string $path
+     * @return array
+     */
     public function getHTTPMethods($path)
     {
+        if (Node::NAME !== $path) {
+            return [];
+        }
+
         return ['GET'];
     }
 
@@ -99,7 +113,7 @@ class Plugin extends SabreDav\ServerPlugin
      */
     public function httpGet(Request $request, Response $response)
     {
-        if ('versions' !== $request->getPath()) {
+        if (Node::NAME !== $request->getPath()) {
             return;
         }
 

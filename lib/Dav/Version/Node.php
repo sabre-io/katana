@@ -34,12 +34,19 @@ use Sabre\DAV as SabreDav;
 class Node extends SabreDav\Node
 {
     /**
+     * Define the node name.
+     *
+     * @const string
+     */
+    const NAME = 'versions';
+
+    /**
      * Get the node's name.
      *
      * @return string
      */
     public function getName()
     {
-        return 'versions';
+        return self::NAME;
     }
 }
