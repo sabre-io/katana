@@ -40,7 +40,7 @@
     "suggest": {
         "ext-pdo_sqlite": "If you decide to use SQLite.",
         "ext-pdo_mysql" : "If you decide to use MySQL.",
-        "ext-phar" : "If you plan to package sabre/katana as a phar archive"
+        "ext-phar"      : "If you plan to package sabre/katana as a phar archive"
     },
     "autoload": {
         "psr-4": {
