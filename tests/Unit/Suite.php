@@ -36,8 +36,7 @@ class Suite extends atoum\test
 {
     const defaultNamespace = '#\\\Test\\\Unit\\\#';
 
-    public function __construct()
-    {
+    function __construct() {
         $self = $this;
 
         $this->setMethodPrefix('case');
@@ -70,21 +69,17 @@ class Suite extends atoum\test
             }
         );
 
-        return;
     }
 
-    public function getTestedClassName()
-    {
+    function getTestedClassName() {
         return 'StdClass';
     }
 
-    public function getTestedClassNamespace()
-    {
+    function getTestedClassNamespace() {
         return '\\';
     }
 
-    public function beforeTestMethod($methodName)
-    {
+    function beforeTestMethod($methodName) {
         $out             = parent::beforeTestMethod($methodName);
         $testedClassName = self::getTestedClassNameFromTestClass(
             $this->getClass(),

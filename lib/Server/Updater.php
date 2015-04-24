@@ -63,7 +63,7 @@ class Updater {
      */
 
     static function getUpdateUrl($updateServer = null, array $queries = []) {
-    
+
         if (null === $updateServer) {
             $updateServer = static::DEFAULT_UPDATE_SERVER;
         }

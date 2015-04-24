@@ -33,10 +33,9 @@ use Sabre\Katana\Database as CUT;
  *
  * @tags database
  */
-class Database extends Suite
-{
-    public function case_extends_pdo()
-    {
+class Database extends Suite {
+
+    function case_extends_pdo() {
         $this
             ->given($sqlite = $this->helper->sqlite())
             ->when($result = new CUT($sqlite))
@@ -45,8 +44,7 @@ class Database extends Suite
                     ->isInstanceOf('PDO');
     }
 
-    public function case_template_schema_iterator()
-    {
+    function case_template_schema_iterator() {
         $this
             ->given(
                 $sqlite   = $this->helper->sqlite(),

@@ -32,10 +32,9 @@ use Sabre\HTTP\ResponseInterface;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Sapi extends OriginalSapi
-{
-    public static function sendResponse(ResponseInterface $response)
-    {
-        return;
+class Sapi extends OriginalSapi {
+
+    static function sendResponse(ResponseInterface $response) {
+
     }
 }

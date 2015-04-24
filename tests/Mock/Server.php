@@ -34,16 +34,16 @@ use Sabre\Katana\Test\Helper;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Server extends OriginalServer
-{
+class Server extends OriginalServer {
+
     const ADMINISTRATOR_EMAIL    = 'katana@domain.tld';
     const ADMINISTRATOR_PASSWORD = '🔒';
 
     public $request  = null;
     public $response = null;
 
-    protected function initializeServer()
-    {
+    protected function initializeServer() {
+
         parent::initializeServer();
 
         $server         = $this->getServer();
@@ -51,11 +51,10 @@ class Server extends OriginalServer
         $this->request  = &$server->httpRequest;
         $this->response = &$server->httpResponse;
 
-        return;
     }
 
-    protected function initializeConfiguration()
-    {
+    protected function initializeConfiguration() {
+
         $configuration        = new Helper\Configuration();
         $sqlite               = new Helper\SQLite();
         $this->configuration = new Configuration(
@@ -71,12 +70,10 @@ class Server extends OriginalServer
                 ]
             )
         );
-
-        return;
     }
 
-    protected function initializeDatabase()
-    {
+    protected function initializeDatabase() {
+
         $database = Installer::createDatabase($this->getConfiguration());
         Installer::createAdministratorProfile(
             $this->getConfiguration(),

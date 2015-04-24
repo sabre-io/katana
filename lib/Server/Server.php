@@ -201,10 +201,11 @@ class Server {
      * @param  DavAcl\Principal\Backend  $principalBackend  The principal backend.
      * @return void
      */
-    protected function initializeCardDAV(DAVACL\PrincipalBackend\PDO $principalBackend) {
+    protected function initializeCardDAV(DavAcl\Principal\Backend $principalBackend) {
 
-        $backend = new CardDAV\Backend\PDO($this->getDatabase());
-        $node    = new CardDAV\AddressBookRoot($principalBackend, $backend);
+        $backend = new SabreCardDav\Backend\PDO($this->getDatabase());
+        $node    = new SabreCardDav\AddressBookRoot($principalBackend, $backend);
+
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
         $this->getServer()->addPlugin(new SabreCardDav\Plugin());
     }
