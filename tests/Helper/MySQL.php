@@ -44,7 +44,7 @@ class MySQL
      *
      * @var array
      */
-    protected $_databases = [];
+    protected $databases = [];
 
     /**
      * Run the helper.
@@ -82,7 +82,7 @@ class MySQL
         $database->exec($query);
         unset($database);
 
-        $this->_databases[] = $databaseName;
+        $this->databases[] = $databaseName;
 
         return $databaseName;
     }
@@ -94,7 +94,7 @@ class MySQL
      */
     public function __destruct()
     {
-        if (empty($this->_databases)) {
+        if (empty($this->databases)) {
             return;
         }
 
@@ -104,7 +104,7 @@ class MySQL
             HELPER_MYSQL_PASSWORD
         );
 
-        foreach ($this->_databases as $databaseName) {
+        foreach ($this->databases as $databaseName) {
             $database->exec('DROP DATABASE ' . $databaseName);
         }
 

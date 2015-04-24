@@ -41,7 +41,7 @@ use Sabre\HTTP;
  */
 class Installer extends Suite
 {
-    protected $_defaultConfiguration = [
+    protected $defaultConfiguration = [
         'baseUrl'          => '/',
         'database' => [
             'driver'   => 'sqlite',
@@ -517,7 +517,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $content['database']['driver']   = 'sqlite',
                 $content['database']['username'] = 'foo',
                 $content['database']['password'] = 'bar'
@@ -559,7 +559,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $this->remove($content, 'baseUrl')
             )
             ->exception(function() use($filename, $content) {
@@ -576,7 +576,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $content['baseUrl'] = 'a'
             )
             ->exception(function() use($filename, $content) {
@@ -593,7 +593,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $this->remove($content, 'database')
             )
             ->exception(function() use($filename, $content) {
@@ -610,7 +610,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $this->remove($content, 'database', 'driver')
             )
             ->exception(function() use($filename, $content) {
@@ -627,7 +627,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $content['database']['driver'] = ''
             )
             ->exception(function() use($filename, $content) {
@@ -644,7 +644,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $this->remove($content, 'database', 'username')
             )
             ->exception(function() use($filename, $content) {
@@ -661,7 +661,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $this->remove($content, 'database', 'password')
             )
             ->exception(function() use($filename, $content) {
@@ -678,7 +678,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $content['database']['driver'] = 'mysql',
                 $content['database']['port']   = '42',
                 $content['database']['name']   = 'bar'
@@ -697,7 +697,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $content['database']['driver'] = 'mysql',
                 $content['database']['host']   = '',
                 $content['database']['port']   = '42',
@@ -717,7 +717,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $content['database']['driver'] = 'mysql',
                 $content['database']['host']   = 'foo',
                 $content['database']['name']   = 'bar'
@@ -736,7 +736,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $content['database']['driver'] = 'mysql',
                 $content['database']['host']   = 'foo',
                 $content['database']['port']   = '',
@@ -756,7 +756,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $content['database']['driver'] = 'mysql',
                 $content['database']['host']   = 'foo',
                 $content['database']['port']   = '42'
@@ -775,7 +775,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $content['database']['driver'] = 'mysql',
                 $content['database']['host']   = 'foo',
                 $content['database']['port']   = '42',
@@ -795,7 +795,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $content['database']['driver'] = 'crazydb'
             )
             ->exception(function() use($filename, $content) {
@@ -812,7 +812,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $content['database']['driver'] = 'sqlite'
             )
             ->when($result = CUT::createConfigurationFile($filename, $content))
@@ -829,7 +829,7 @@ class Installer extends Suite
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
-                $content  = $this->_defaultConfiguration,
+                $content  = $this->defaultConfiguration,
                 $content['database']['driver'] = 'mysql',
                 $content['database']['host']   = 'foo',
                 $content['database']['port']   = '42',

@@ -43,15 +43,15 @@ use PDOException;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Installer
-{
+class Installer {
+
     /**
      * Check whether the application has been installed or not.
      *
      * @return boolean
      */
-    public static function isInstalled()
-    {
+    static function isInstalled() {
+
         return true === file_exists(Server::CONFIGURATION_FILE);
     }
 
@@ -63,16 +63,14 @@ class Installer
      * @param  Configuration  $configuration    Configuration.
      * @return void
      */
-    public static function redirectToIndex(Response $response, Configuration $configuration)
-    {
+    static function redirectToIndex(Response $response, Configuration $configuration) {
+
         $response->setStatus(308);
         $response->setHeader('Location', $configuration->base_url);
         $response->setBody(
             'The application is already installed. ' .
             'You are going to be redirected to the home.'
         );
-
-        return;
     }
 
     /**
@@ -83,7 +81,7 @@ class Installer
      * @param  Request   $request     HTTP request.
      * @return void
      */
-    public static function redirectToInstall(Response $response, Request $request)
+    static function redirectToInstall(Response $response, Request $request)
     {
         list($dirname) = Uri\split($request->getUrl());
 
@@ -93,8 +91,6 @@ class Installer
             'The application is not installed. ' .
             'You are going to be redirected to the installation page.'
         );
-
-        return;
     }
 
     /**
@@ -105,7 +101,7 @@ class Installer
      * @param  string  $directory    Directory.
      * @return boolean
      */
-    public static function isDirectoryEmpty($directory)
+    static function isDirectoryEmpty($directory)
     {
         $iterator = new Iterator\CallbackFilter(
             new Iterator\FileSystem($directory),
@@ -130,8 +126,8 @@ class Installer
      * @param  string  $baseUrl    Base URL.
      * @return boolean
      */
-    public static function checkBaseUrl($baseUrl)
-    {
+    static function checkBaseUrl($baseUrl) {
+
         return 0 !== preg_match('#^/(.+/)?$#', $baseUrl);
     }
 
@@ -141,10 +137,9 @@ class Installer
      * @param  string  $login    Login.
      * @return boolean
      */
-    public static function checkLogin($login)
-    {
-        $string = new String($login);
+    static function checkLogin($login) {
 
+        $string = new String($login);
         return 0 < count($string);
     }
 
@@ -155,8 +150,8 @@ class Installer
      * @param  string  $strings    Strings to check.
      * @return boolean
      */
-    protected static function checkConfirmation($strings)
-    {
+    protected static function checkConfirmation($strings) {
+
         $length = mb_strlen($strings);
 
         if (0 === $length || 0 !== ($length % 2)) {
@@ -177,8 +172,8 @@ class Installer
      * @param  string  $passwords    Passwords.
      * @return boolean
      */
-    public static function checkPassword($passwords)
-    {
+    static function checkPassword($passwords) {
+
         return static::checkConfirmation($passwords);
     }
 
@@ -188,8 +183,8 @@ class Installer
      * @param  string  $emails    Emails.
      * @return boolean
      */
-    public static function checkEmail($emails)
-    {
+    static function checkEmail($emails) {
+
         if (false === static::checkConfirmation($emails)) {
             return false;
         }
@@ -215,8 +210,8 @@ class Installer
      * @return boolean
      * @throw  Exception\Installation
      */
-    public static function checkDatabase(array $parameters)
-    {
+    static function checkDatabase(array $parameters) {
+
         if (empty($parameters['driver']) ||
             !isset($parameters['host']) ||
             !isset($parameters['port']) ||
@@ -298,7 +293,7 @@ class Installer
      * @return Configuration
      * @throw  Exception\Installation
      */
-    public static function createConfigurationFile($filename, array $content)
+    static function createConfigurationFile($filename, array $content)
     {
         if (!isset($content['baseUrl']) ||
             !isset($content['database']) ||
@@ -379,7 +374,7 @@ class Installer
      * @return Database
      * @throw  Exception\Installation
      */
-    public static function createDatabase(Configuration $configuration)
+    static function createDatabase(Configuration $configuration)
     {
         if (!isset($configuration->database)) {
             throw new Exception\Installation(
@@ -444,13 +439,12 @@ class Installer
      * @return boolean
      * @throw  Exception\Installation
      */
-    public static function createAdministratorProfile(
+    static function createAdministratorProfile(
         Configuration $configuration,
         Database $database,
         $email,
         $password
-    )
-    {
+    ) {
         $login = Server::ADMINISTRATOR_LOGIN;
 
         if (false === static::checkLogin($login)) {

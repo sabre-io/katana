@@ -31,6 +31,5 @@ use Hoa\Core;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Exception extends Core\Exception
-{
+class Exception extends Core\Exception {
 }

@@ -35,8 +35,8 @@ use Phar as PHPPhar;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Phar extends PHPPhar
-{
+class Phar extends PHPPhar {
+
     /**
      * Open a PHAR archive. If it does not exist, attempt to create it.
      *
@@ -45,7 +45,7 @@ class Phar extends PHPPhar
      * @param  string  $alias       Alias (see original documentation).
      * @return void
      */
-    public function __construct($filename, $flags = null, $alias = null)
+    function __construct($filename, $flags = null, $alias = null)
     {
         if (null !== $alias) {
             parent::__construct($filename, $flags, $alias);
@@ -62,8 +62,6 @@ class Phar extends PHPPhar
             'copyright' => 'Copyright (C) 2015 fruux GmbH (https://fruux.com/)',
             'datetime'  => date('c')
         ]);
-
-        return;
     }
 
     /**
@@ -71,8 +69,8 @@ class Phar extends PHPPhar
      *
      * @return string
      */
-    public function getStubCode()
-    {
+    function getStubCode() {
+
         $stub = new File\Read(__FILE__);
         $stub->seek(__COMPILER_HALT_OFFSET__);
 

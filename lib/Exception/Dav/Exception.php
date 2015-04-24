@@ -31,6 +31,5 @@ use Sabre\DAV;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Exception extends DAV\Exception
-{
+class Exception extends DAV\Exception {
 }

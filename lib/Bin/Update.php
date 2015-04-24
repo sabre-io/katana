@@ -39,8 +39,7 @@ use Hoa\File;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Update extends AbstractCommand
-{
+class Update extends AbstractCommand {
     /**
      * Operation: fetch.
      *
@@ -69,8 +68,7 @@ class Update extends AbstractCommand
      *
      * @return int
      */
-    public function main()
-    {
+    function main() {
         $operation    = 0;
         $location     = null;
         $updateServer = Updater::DEFAULT_UPDATE_SERVER;
@@ -171,9 +169,6 @@ class Update extends AbstractCommand
                 Cursor::colorize('foreground(' . $color . ') background(' . $color . ')');
                 echo str_repeat('|', ($percent * $barWidth) / 100);
                 Cursor::colorize('normal');
-
-                return;
-
             };
 
             foreach ($versionsToFetch as $versionNumber => $versionUrl) {
@@ -203,8 +198,6 @@ class Update extends AbstractCommand
 
                         Cursor::clear('↔');
                         echo 'Downloading… ';
-                        return;
-
                     }
                 );
                 $fileIn->on(
@@ -225,9 +218,6 @@ class Update extends AbstractCommand
                             $previousPercent = $percent;
                             $progress($percent);
                         }
-
-                        return;
-
                     }
                 );
                 $fileIn->open();
@@ -281,8 +271,6 @@ class Update extends AbstractCommand
         } else {
             return $this->usage();
         }
-
-        return;
     }
 
     /**
@@ -290,8 +278,7 @@ class Update extends AbstractCommand
      *
      * @return void
      */
-    public function usage()
-    {
+    function usage() {
         echo
             'Usage  : update <options>', "\n",
             'Options:', "\n",

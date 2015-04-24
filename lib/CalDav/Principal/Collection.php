@@ -32,16 +32,14 @@ use Sabre\CalDAV as SabreCalDav;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Collection extends SabreCalDav\Principal\Collection
-{
+class Collection extends SabreCalDav\Principal\Collection {
     /**
      * Return a child object based on principal information.
      *
      * @param  array  $principalInformation    Principal information.
      * @return User
      */
-    public function getChildForPrincipal(array $principalInformation)
-    {
+    function getChildForPrincipal(array $principalInformation) {
         return new User($this->principalBackend, $principalInformation);
     }
 }

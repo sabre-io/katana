@@ -33,8 +33,8 @@ use PDO;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Database extends PDO
-{
+class Database extends PDO {
+
     /**
      * Overload the parent constructor.
      * The username and password might come from the configuration file. Thus,
@@ -46,8 +46,7 @@ class Database extends PDO
      * @param  string  $password    Password.
      * @return void
      */
-    public function __construct($dsn, $username = null, $password = null)
-    {
+    function __construct($dsn, $username = null, $password = null) {
         if ('sqlite:katana://' === substr($dsn, 0, 16)) {
             $dsn = 'sqlite:' . Protocol::realPath(substr($dsn, 7), false);
         }
@@ -59,8 +58,6 @@ class Database extends PDO
         } else {
             parent::__construct($dsn, $username, $password);
         }
-
-        return;
     }
 
     /**
@@ -68,8 +65,7 @@ class Database extends PDO
      *
      * @return Finder
      */
-    public function getTemplateSchemaIterator()
-    {
+    function getTemplateSchemaIterator() {
         $driverName = $this->getAttribute($this::ATTR_DRIVER_NAME);
         $finder     = new Finder();
         $finder

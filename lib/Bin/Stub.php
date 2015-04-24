@@ -37,8 +37,7 @@ use PharException;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Stub extends AbstractCommand
-{
+class Stub extends AbstractCommand {
     /**
      * Format: ZIP.
      *
@@ -65,8 +64,7 @@ class Stub extends AbstractCommand
      *
      * @return int
      */
-    public function main()
-    {
+    function main() {
         $format = 0;
 
         while (false !== $c = $this->getOption($v)) {
@@ -144,8 +142,6 @@ class Stub extends AbstractCommand
         }
 
         echo $archiveName, "\n";
-
-        return;
     }
 
     /**
@@ -153,8 +149,7 @@ class Stub extends AbstractCommand
      *
      * @return void
      */
-    public function usage()
-    {
+    function usage() {
         echo
             'Usage  : stub <options>', "\n",
             'Options:', "\n",

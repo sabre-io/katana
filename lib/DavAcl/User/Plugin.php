@@ -34,21 +34,20 @@ use Sabre\HTTP\ResponseInterface as Response;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Plugin extends SabreDav\ServerPlugin
-{
+class Plugin extends SabreDav\ServerPlugin {
     /**
      * DAV server.
      *
      * @var DAV\Server;
      */
-    protected $_server   = null;
+    protected $server   = null;
 
     /**
      * Database.
      *
      * @var Database
      */
-    protected $_database = null;
+    protected $database = null;
 
     /**
      * Constructor.
@@ -56,11 +55,9 @@ class Plugin extends SabreDav\ServerPlugin
      * @param  Database  $database    Database.
      * @return void
      */
-    public function __construct(Database $database)
+    function __construct(Database $database)
     {
-        $this->_database = $database;
-
-        return;
+        $this->database = $database;
     }
 
     /**
@@ -71,7 +68,7 @@ class Plugin extends SabreDav\ServerPlugin
      *
      * @return string
      */
-    public function getPluginName()
+    function getPluginName()
     {
         return 'user';
     }
@@ -87,7 +84,7 @@ class Plugin extends SabreDav\ServerPlugin
      *
      * @return array
      */
-    public function getPluginInfo()
+    function getPluginInfo()
     {
         return [
             'name'        => $this->getPluginName(),
@@ -107,14 +104,12 @@ class Plugin extends SabreDav\ServerPlugin
      * @param  SabreDav\Server $server    Server.
      * @return void
      */
-    public function initialize(SabreDav\Server $server)
+    function initialize(SabreDav\Server $server)
     {
-        $this->_server = $server;
+        $this->server = $server;
 
-        $this->_server->on('afterUnbind', [$this, 'afterUnbind']);
-        $this->_server->on('propPatch',   [$this, 'propPatch']);
-
-        return;
+        $this->server->on('afterUnbind', [$this, 'afterUnbind']);
+        $this->server->on('propPatch',   [$this, 'propPatch']);
     }
 
     /**
@@ -124,10 +119,10 @@ class Plugin extends SabreDav\ServerPlugin
      * @param  string  $path    Path.
      * @return boolean
      */
-    public function afterUnbind($path)
+    function afterUnbind($path)
     {
         $username  = substr($path, strlen('principals/'));
-        $database  = $this->_database;
+        $database  = $this->database;
         $statement = $database->prepare(
             'DELETE FROM users WHERE username = :username'
         );
@@ -143,10 +138,10 @@ class Plugin extends SabreDav\ServerPlugin
      * @param  SabreDav\PropPatch  $propPatch    The `PROPPATCH` object.
      * @return void
      */
-    public function propPatch($path, SabreDav\PropPatch $propPatch)
+    function propPatch($path, SabreDav\PropPatch $propPatch)
     {
         $username = substr($path, strlen('principals/'));
-        $database = $this->_database;
+        $database = $this->database;
 
         $propPatch->handle(
             [
@@ -168,8 +163,6 @@ class Plugin extends SabreDav\ServerPlugin
                 ]);
             }
         );
-
-        return;
     }
 
     /**
