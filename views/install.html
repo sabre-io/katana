@@ -27,39 +27,37 @@
 
   <main>
     <form {{bind-attr class=":ui :form :segment valid::error submitting:loading"}}>
-      <div class="ui page grid">
-        {{#unless valid}}
-          <div class="sixteen wide column">
-            {{#if invalidBaseUrl}}
-              <div class="ui error message">
-                <div class="header">Base URL must start and end by a slash</div>
-                <p>Check the Section <cite>The base URL</cite> on
-                <a href="http://sabre.io/dav/gettingstarted/">sabre/dav's
-                documentation</a>. In addition, according to your HTTP
-                configuration, the <code>server.php</code> part must be include.</p>
-              </div>
-            {{/if}}
-            {{#if invalidPassword}}
-              <div class="ui error message">
-                <div class="header">Passwords do not match</div>
-                <p>Administrator passwords must match.</p>
-              </div>
-            {{/if}}
-            {{#if invalidEmail}}
-              <div class="ui error message">
-                <div class="header">Email is invalid</div>
-                <p>The given email seems invalid or they do not match.</p>
-              </div>
-            {{/if}}
-            {{#if invalidDatabase}}
-              <div class="ui error message">
-                <div class="header">Database is invalid</div>
-                <p>The given database parameters seem invalid.</p>
-              </div>
-            {{/if}}
+      {{#unless valid}}
+        {{#if invalidBaseUrl}}
+          <div class="ui error message">
+            <div class="header">Base URL must start and end by a slash</div>
+            <p>Check the Section <cite>The base URL</cite> on
+            <a href="http://sabre.io/dav/gettingstarted/">sabre/dav's
+            documentation</a>. In addition, according to your HTTP
+            configuration, the <code>server.php</code> part must be include.</p>
           </div>
-        {{/unless}}
+        {{/if}}
+        {{#if invalidPassword}}
+          <div class="ui error message">
+            <div class="header">Passwords do not match</div>
+            <p>Administrator passwords must match.</p>
+          </div>
+        {{/if}}
+        {{#if invalidEmail}}
+          <div class="ui error message">
+            <div class="header">Email is invalid</div>
+            <p>The given email seems invalid or they do not match.</p>
+          </div>
+        {{/if}}
+        {{#if invalidDatabase}}
+          <div class="ui error message">
+            <div class="header">Database is invalid</div>
+            <p>The given database parameters seem invalid.</p>
+          </div>
+        {{/if}}
+      {{/unless}}
 
+      <div class="ui middle aligned page grid">
         <div class="six wide column">
           <label for="base_url">
             <i class="disk outline icon"></i>
@@ -239,12 +237,14 @@
           </div>
         {{/if}}
 
-        <div class="right floated column">
-          <input type="submit"
-                 {{bind-attr class=":positive :ui :button valid::disabled"}}
-                 value="Install!"
-                 {{bind-attr disabled="valid:false:true"}}
-                 {{action "submit"}} />
+        <div class="row">
+          <div class="right aligned column">
+            <input type="submit"
+                   {{bind-attr class=":positive :ui :button valid::disabled"}}
+                   value="Install!"
+                   {{bind-attr disabled="valid:false:true"}}
+                   {{action "submit"}} />
+          </div>
         </div>
       </div>
     </form>
