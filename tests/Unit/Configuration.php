@@ -33,10 +33,9 @@ use Sabre\Katana\Configuration as CUT;
  *
  * @tags configuration
  */
-class Configuration extends Suite
-{
-    public function case_file_not_found()
-    {
+class Configuration extends Suite {
+
+    function case_file_not_found() {
         $this
             ->exception(function () {
                 new CUT('/foo/42');
@@ -44,8 +43,7 @@ class Configuration extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Environment');
     }
 
-    public function case_invalid_json()
-    {
+    function case_invalid_json() {
         $this
             ->given(
                 $file = $this->helper->configuration('configuration.json'),
@@ -57,8 +55,7 @@ class Configuration extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Environment');
     }
 
-    public function case_get_filename()
-    {
+    function case_get_filename() {
         $this
             ->given(
                 $file = $this->helper->configuration(
@@ -73,8 +70,7 @@ class Configuration extends Suite
                     ->isEqualTo($file);
     }
 
-    public function case_isset()
-    {
+    function case_isset() {
         $this
             ->given(
                 $configuration = new CUT(
@@ -95,8 +91,7 @@ class Configuration extends Suite
                     ->isFalse();
     }
 
-    public function case_get()
-    {
+    function case_get() {
         $this
             ->given(
                 $configuration = new CUT(
@@ -126,8 +121,7 @@ class Configuration extends Suite
                     ->isEqualTo('bar');
     }
 
-    public function case_set()
-    {
+    function case_set() {
         $this
             ->given(
                 $configuration = new CUT(
@@ -159,8 +153,7 @@ class Configuration extends Suite
                     ->isEqualTo('💩');
     }
 
-    public function case_unset()
-    {
+    function case_unset() {
         $this
             ->given(
                 $configuration = new CUT(
@@ -184,8 +177,7 @@ class Configuration extends Suite
                     ->isFalse();
     }
 
-    public function case_save()
-    {
+    function case_save() {
         $this
             ->given(
                 $file = $this->helper->configuration(
@@ -219,8 +211,7 @@ class Configuration extends Suite
                     ->isEqualTo(153);
     }
 
-    public function case_do_not_allow_empty()
-    {
+    function case_do_not_allow_empty() {
         $this
             ->given($file = $this->helper->configuration('configuration.json'))
             ->exception(function () use($file) {
@@ -235,8 +226,7 @@ class Configuration extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Environment');
     }
 
-    public function case_allow_empty()
-    {
+    function case_allow_empty() {
         $this
             ->given($file = $this->helper->configuration('configuration.json'))
             ->when($result = new CUT($file, true))
@@ -244,8 +234,7 @@ class Configuration extends Suite
                 ->object($result);
     }
 
-    public function case_allow_empty_invalid_json()
-    {
+    function case_allow_empty_invalid_json() {
         $this
             ->given(
                 $file = $this->helper->configuration('configuration.json'),
@@ -257,8 +246,7 @@ class Configuration extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Environment');
     }
 
-    public function case_empty_file_set()
-    {
+    function case_empty_file_set() {
         $this
             ->given(
                 $file          = $this->helper->configuration('configuration.json'),

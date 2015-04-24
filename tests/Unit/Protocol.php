@@ -35,8 +35,7 @@ use Sabre\Katana\Protocol as CUT;
  */
 class Protocol extends Suite
 {
-    public function case_application_public()
-    {
+    function case_application_public() {
         $this
             ->given($path = 'katana://public/')
             ->when($result = CUT::realPath($path))
@@ -52,8 +51,7 @@ class Protocol extends Suite
                     );
     }
 
-    public function case_application_views()
-    {
+    function case_application_views() {
         $this
             ->given($path = 'katana://views/')
             ->when($result = CUT::realPath($path))
@@ -69,8 +67,7 @@ class Protocol extends Suite
                     );
     }
 
-    public function case_data_root()
-    {
+    function case_data_root() {
         $this
             ->given($path = 'katana://data/')
             ->when($result = CUT::realPath($path))
