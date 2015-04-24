@@ -12,8 +12,12 @@ bin/praspel
 bin/sabredav
 bin/vobject
 
-# Bower
+# Bower and NPM
 public/static/vendor/
+
+# NPM
+node_modules/
+views/semantic-ui/dist/
 
 # Vim
 .*.swp

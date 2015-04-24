@@ -1,0 +1,6 @@
+{
+  "name": "sabre-katana",
+  "dependencies": {
+    "semantic-ui": "^1.12.1"
+  }
+}
