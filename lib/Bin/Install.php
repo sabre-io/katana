@@ -144,11 +144,11 @@ class Install extends AbstractCommand {
             Cursor::move('→', $labelMaxWidth);
 
             // Disable arrow up and down.
-            $_no_echo = function($readline) {
+            $no_echo = function($readline) {
                 return $readline::STATE_NO_ECHO;
             };
-            $readline->addMapping("\e[A", $_no_echo);
-            $readline->addMapping("\e[B", $_no_echo);
+            $readline->addMapping("\e[A", $no_echo);
+            $readline->addMapping("\e[B", $no_echo);
 
             $step = function($index, $label, callable $validator, $errorMessage, $default = '')
                     use($numberOfSteps, &$readline, $resetInput, $labelMaxWidth) {
@@ -173,13 +173,13 @@ class Install extends AbstractCommand {
                         Cursor::move('LEFT');
                         Cursor::move('↓', $numberOfSteps - $index + 1);
 
-                        list($_title, $_message) = explode("\n", $errorMessage);
+                        list($title, $message) = explode("\n", $errorMessage);
 
                         Cursor::colorize('foreground(white) background(red)');
-                        echo $_title, "\n";
+                        echo $title, "\n";
 
                         Cursor::colorize('foreground(red) background(normal)');
-                        echo $_message;
+                        echo $message;
 
                         Cursor::restore();
 

@@ -39,7 +39,7 @@ class Helper
      *
      * @var array
      */
-    protected $_helpers = [];
+    protected $helpers = [];
 
     /**
      * Register a new helper.
@@ -50,7 +50,7 @@ class Helper
      */
     public function registerHelper($name, callable $helper)
     {
-        $this->_helpers[$name] = $helper;
+        $this->helpers[$name] = $helper;
 
         return;
     }
@@ -64,12 +64,12 @@ class Helper
      */
     public function __call($name, Array $arguments)
     {
-        if (!isset($this->_helpers[$name])) {
+        if (!isset($this->helpers[$name])) {
             throw new RuntimeException(sprintf('Helper %s does not exist.', $name));
         }
 
         return call_user_func_array(
-            $this->_helpers[$name],
+            $this->helpers[$name],
             $arguments
         );
     }

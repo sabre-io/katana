@@ -34,8 +34,7 @@ use Sabre\HTTP\ResponseInterface as Response;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Plugin extends SabreDav\ServerPlugin
-{
+class Plugin extends SabreDav\ServerPlugin {
     /**
      * DAV server.
      *

@@ -29,13 +29,11 @@ namespace Sabre\Katana\Exception\Dav;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class InternalServerError extends Exception
-{
+class InternalServerError extends Exception {
     /**
      * Return the HTTP sttus code for this exception.
      */
-    public function getHTTPCode()
-    {
+    function getHTTPCode() {
         return 500;
     }
 }

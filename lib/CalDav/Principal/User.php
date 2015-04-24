@@ -32,8 +32,7 @@ use Sabre\CalDAV as SabreCalDav;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class User extends SabreCalDav\Principal\User
-{
+class User extends SabreCalDav\Principal\User {
     /**
      * Deletes the current node.
      *

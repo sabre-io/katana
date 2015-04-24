@@ -35,8 +35,7 @@ use Sabre\HTTP\ResponseInterface as Response;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Plugin extends SabreDav\ServerPlugin
-{
+class Plugin extends SabreDav\ServerPlugin {
     /**
      * Returns a plugin name.
      *
@@ -45,8 +44,7 @@ class Plugin extends SabreDav\ServerPlugin
      *
      * @return string
      */
-    public function getPluginName()
-    {
+    function getPluginName() {
         return 'version';
     }
 
@@ -61,8 +59,7 @@ class Plugin extends SabreDav\ServerPlugin
      *
      * @return array
      */
-    public function getPluginInfo()
-    {
+    function getPluginInfo() {
         return [
             'name'        => $this->getPluginName(),
             'description' => 'Get current version and check if a new one exists.',
@@ -80,8 +77,7 @@ class Plugin extends SabreDav\ServerPlugin
      * @param  string $path
      * @return array
      */
-    public function getHTTPMethods($path)
-    {
+    function getHTTPMethods($path) {
         if (Node::NAME !== $path) {
             return [];
         }
@@ -100,8 +96,7 @@ class Plugin extends SabreDav\ServerPlugin
      * @param  SabreDav\Server $server    Server.
      * @return void
      */
-    public function initialize(SabreDav\Server $server)
-    {
+    function initialize(SabreDav\Server $server) {
         $server->on('method:GET', [$this, 'httpGet']);
 
         return;
@@ -111,8 +106,7 @@ class Plugin extends SabreDav\ServerPlugin
      *
      * @return boolean
      */
-    public function httpGet(Request $request, Response $response)
-    {
+    function httpGet(Request $request, Response $response) {
         if (Node::NAME !== $request->getPath()) {
             return;
         }

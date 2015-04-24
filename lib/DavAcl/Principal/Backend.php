@@ -33,16 +33,14 @@ use Sabre\DAV as SabreDav;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Backend extends SabreDavAcl\PrincipalBackend\PDO
-{
+class Backend extends SabreDavAcl\PrincipalBackend\PDO {
     /**
      * Delete the current node.
      *
      * @param  string  $path    Path (`principals/…`).
      * @return void
      */
-    public function deletePrincipal($path)
-    {
+    function deletePrincipal($path) {
         $administratorPrincipal = 'principals/' . Server::ADMINISTRATOR_LOGIN;
 
         if ($path === $administratorPrincipal) {

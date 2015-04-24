@@ -31,8 +31,7 @@ use Sabre\DAV as SabreDav;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Node extends SabreDav\Node
-{
+class Node extends SabreDav\Node {
     /**
      * Define the node name.
      *
@@ -45,8 +44,7 @@ class Node extends SabreDav\Node
      *
      * @return string
      */
-    public function getName()
-    {
+    function getName() {
         return self::NAME;
     }
 }

@@ -86,7 +86,7 @@ class BasicBackend extends Backend\AbstractBasic {
      * @param  Response  $response    Response.
      * @return void
      */
-    public function challenge(Request $request, Response $response) {
+    function challenge(Request $request, Response $response) {
         parent::challenge($request, $response);
 
         if ('XMLHttpRequest' === $request->getHeader('X-Requested-With')) {
