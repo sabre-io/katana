@@ -9,13 +9,12 @@ php:
 matrix:
   fast_finish: true
   allow_failures:
-      - php: 7
+    - php: 7
 
 env:
   matrix:
     - LOWEST_DEPS="" TEST_DEPS=""
     - LOWEST_DEPS="--prefer-lowest" TEST_DEPS="tests/Sabre/"
-
 
 services:
   - mysql
@@ -31,3 +30,7 @@ script:
   - ./bin/atoum -c tests/.atoum.php -bf tests/.bootstrap.atoum.php
   - ./bin/phpcs -p --standard=tests/phpcs.xml lib/
 
+notifications:
+  slack:
+    rooms:
+      secure: LVmBXAz0TKdB8dsB9Rt+M5+KnpStxEbOKuNVHN/lYOYmnB5CNogc/TDUKIFe5OUHAjGbn3xUy+tgBIME/RZLPAC6aAKpw0BPbGXYeagYlDBj9HUR9sUDrwV+l/75e4QWZPrUwS1dIa4ePirosIlYZwlwfGzEz8SgVY2x7BZFBEs=
