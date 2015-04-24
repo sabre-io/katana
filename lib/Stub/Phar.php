@@ -20,6 +20,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+ // @TODO: Workaround for
+ // https://github.com/fruux/sabre-katana/commit/acd27d0e8d188dfaed1e811ffaf0f493a6cd02a8
+ // @codingStandardsIgnoreFile
 namespace Sabre\Katana\Stub;
 
 use Hoa\File;

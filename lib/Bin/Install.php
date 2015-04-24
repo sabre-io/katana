@@ -150,7 +150,7 @@ class Install extends AbstractCommand
             $readline->addMapping("\e[A", $_no_echo);
             $readline->addMapping("\e[B", $_no_echo);
 
-            $step = function($index, $label, Callable $validator, $errorMessage, $default = '')
+            $step = function($index, $label, callable $validator, $errorMessage, $default = '')
                     use($numberOfSteps, &$readline, $resetInput, $labelMaxWidth) {
 
                 Cursor::colorize('foreground(black) background(#cccccc)');
@@ -250,7 +250,7 @@ class Install extends AbstractCommand
                 'Installation of sabre/' . "\n" . Welcome::LOGO, "\n\n",
                 static::getBaseURLInfo(), "\n\n";
 
-            $step = function($index, $label, Callable $validator, $errorMessage, $default = '')
+            $step = function($index, $label, callable $validator, $errorMessage, $default = '')
                     use(&$readline) {
 
                 do {
