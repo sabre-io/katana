@@ -20,9 +20,9 @@
         "sabre/dav"                : "2.2alpha4",
         "sabre/uri"                : "~1.0",
         "sabre/http"               : "4.0.0alpha1",
-        "hoa/core"                 : "~2.0",
+        "hoa/core"                 : "~2.0, >=2.15.04.13",
         "hoa/console"              : "~2.0",
-        "hoa/dispatcher"           : "~0.0",
+        "hoa/dispatcher"           : "~0.0, >=0.15.01.23",
         "hoa/eventsource"          : "~2.0",
         "hoa/iterator"             : "~1.0",
         "hoa/mime"                 : "~2.0",
@@ -35,6 +35,8 @@
         "atoum/atoum"              : "~2.0",
         "atoum/praspel-extension"  : "~0.1",
         "atoum/ruler-extension"    : "~1.0, >=1.0.2",
+        "hoa/ruler"                : "~1.0, >=1.15.02.02",
+        "hoa/regex"                : "~0.0, >=0.15.02.24",
         "squizlabs/php_codesniffer": "*"
     },
     "suggest": {
