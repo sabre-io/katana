@@ -29,7 +29,6 @@ use Sabre\Katana\DavAcl\User\Plugin as User;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
 use Sabre\Uri;
-use Hoa\Core;
 use Hoa\Iterator;
 use Hoa\String\String;
 use SplFileInfo;
@@ -483,7 +482,7 @@ class Installer {
             ]);
 
             $statement = $database->prepare(
-                'INSERT INTO users (username, digesta1) '.
+                'INSERT INTO users (username, digesta1) ' .
                 'VALUES (:username, :digest)'
             );
             $statement->execute([

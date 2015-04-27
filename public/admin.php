@@ -23,7 +23,6 @@
 require_once __DIR__ . '/../bootstrap.php';
 
 use Sabre\Katana\Server\Installer;
-use Sabre\Katana\Server\Server;
 use Sabre\HTTP;
 
 /**

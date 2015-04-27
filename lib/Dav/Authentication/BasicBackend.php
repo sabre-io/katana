@@ -25,7 +25,6 @@ namespace Sabre\Katana\Dav\Authentication;
 use Sabre\Katana\Database;
 use Sabre\Katana\DavAcl\User\Plugin as User;
 use Sabre\DAV\Auth\Backend;
-use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface as Request;
 use Sabre\HTTP\ResponseInterface as Response;
 

@@ -24,8 +24,6 @@ namespace Sabre\Katana\DavAcl\User;
 
 use Sabre\Katana\Database;
 use Sabre\DAV as SabreDav;
-use Sabre\HTTP\RequestInterface as Request;
-use Sabre\HTTP\ResponseInterface as Response;
 
 /**
  * The user plugin is responsible to keep the user database up-to-date.

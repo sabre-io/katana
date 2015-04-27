@@ -23,7 +23,6 @@
 namespace Sabre\Katana\Test\Unit\Server;
 
 use Sabre\Katana\Test\Unit\Suite;
-use Sabre\Katana\Server\Server as CUT;
 use Mock;
 
 /**

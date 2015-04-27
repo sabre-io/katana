@@ -306,8 +306,8 @@ class Install extends AbstractCommand {
             echo 'Your administrator login: ', Server::ADMINISTRATOR_LOGIN, "\n";
         }
 
-        $oldReadline = $readline;
-        $readline    = new Console\Readline\Password();
+        $oldReadline      = $readline;
+        $readline         = new Console\Readline\Password();
         $form['password'] = $step(
             1,
             'Choose the administrator password',
@@ -449,8 +449,8 @@ class Install extends AbstractCommand {
                 ''
             );
 
-            $oldReadline = $readline;
-            $readline    = new Console\Readline\Password();
+            $oldReadline                  = $readline;
+            $readline                     = new Console\Readline\Password();
             $form['database']['password'] = $step(
                 4,
                 'Choose MySQL password',

@@ -43,7 +43,7 @@ class Installer extends Suite
 {
     protected $defaultConfiguration = [
         'baseUrl'          => '/',
-        'database' => [
+        'database'         => [
             'driver'   => 'sqlite',
             'username' => '',
             'password' => ''
