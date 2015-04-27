@@ -84,7 +84,7 @@ define('SABRE_KATANA', true);
 /**
  * Current version.
  */
-define('SABRE_KATANA_VERSION', '0.1.0');
+define('SABRE_KATANA_VERSION', '0.1.1');
 
 /**
  * Define the prefix.

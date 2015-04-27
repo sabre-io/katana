@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fecf5c025c5f55d9217967c5990b5141",
+    "hash": "c40bd739d88c8e20559e7925ccf003e2",
     "packages": [
         {
             "name": "hoa/console",
@@ -1775,7 +1775,5 @@
         "ext-spl": "*",
         "ext-pdo": "~1.0"
     },
-    "platform-dev": {
-        "ext-phar": "~2.0, >=2.0.2"
-    }
+    "platform-dev": []
 }
