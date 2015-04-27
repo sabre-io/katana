@@ -37,7 +37,7 @@ class SQLite
      * @param  boolean  $forceFile    Force SQLite to work on a file.
      * @return string
      */
-    public function __invoke($forceFile = false)
+    function __invoke($forceFile = false)
     {
         if (true === $forceFile) {
             return 'sqlite:' . stream_get_meta_data(tmpfile())['uri'];

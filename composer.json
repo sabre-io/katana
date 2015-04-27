@@ -37,7 +37,7 @@
         "atoum/ruler-extension"    : "~1.0, >=1.0.2",
         "hoa/ruler"                : "~1.0, >=1.15.02.02",
         "hoa/regex"                : "~0.0, >=0.15.02.24",
-        "squizlabs/php_codesniffer": "~2.0"
+        "fabpot/php-cs-fixer"      : "~1.7"
     },
     "suggest": {
         "ext-pdo_sqlite": "If you decide to use SQLite.",

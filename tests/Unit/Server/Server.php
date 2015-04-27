@@ -23,7 +23,6 @@
 namespace Sabre\Katana\Test\Unit\Server;
 
 use Sabre\Katana\Test\Unit\Suite;
-use Sabre\Katana\Server\Server as CUT;
 use Mock;
 
 /**
@@ -38,7 +37,7 @@ class Server extends Suite
     /**
      * @tags server authentication
      */
-    public function case_unauthorized()
+    function case_unauthorized()
     {
         $this
             ->given($server = new Mock\Server())
@@ -51,7 +50,7 @@ class Server extends Suite
     /**
      * @tags server authentication
      */
-    public function case_authorized()
+    function case_authorized()
     {
         $this
             ->given(

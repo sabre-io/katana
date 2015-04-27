@@ -51,7 +51,7 @@ class MySQL
      *
      * @return string
      */
-    public function __invoke()
+    function __invoke()
     {
         $database = new Database(
             HELPER_MYSQL_DSN,
@@ -92,7 +92,7 @@ class MySQL
      *
      * @return void
      */
-    public function __destruct()
+    function __destruct()
     {
         if (empty($this->databases)) {
             return;

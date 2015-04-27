@@ -36,7 +36,7 @@ use Sabre\Katana\Stub\Phar as CUT;
  */
 class Phar extends Suite
 {
-    public function case_signature()
+    function case_signature()
     {
         $this
             ->given(
@@ -50,7 +50,7 @@ class Phar extends Suite
                     ->isEqualTo('SHA-1');
     }
 
-    public function case_metadata()
+    function case_metadata()
     {
         $this
             ->given($phar = new CUT($this->helper->temporaryFile('.phar')))

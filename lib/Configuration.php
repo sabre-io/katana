@@ -22,7 +22,6 @@
 
 namespace Sabre\Katana;
 
-use Sabre\Katana\Exception;
 use StdClass;
 
 /**

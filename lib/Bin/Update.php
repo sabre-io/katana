@@ -140,14 +140,14 @@ class Update extends AbstractCommand {
              *     }
              */
 
-            $versionsToFetch = Update::filterVersions(
+            $versionsToFetch = Updater::filterVersions(
                 $versions,
                 SABRE_KATANA_VERSION,
                 $operation
             );
 
             $windowWidth = Window::getSize()['x'];
-            $progress    = function($percent) use($windowWidth) {
+            $progress    = function ($percent) use ($windowWidth) {
 
                 Cursor::clear('↔');
                 $message  = 'Downloading… ';
@@ -194,7 +194,7 @@ class Update extends AbstractCommand {
 
                 $fileIn->on(
                     'connect',
-                    function() {
+                    function () {
 
                         Cursor::clear('↔');
                         echo 'Downloading… ';
@@ -202,8 +202,7 @@ class Update extends AbstractCommand {
                 );
                 $fileIn->on(
                     'progress',
-                    function(Core\Event\Bucket $bucket)
-                    use($progress) {
+                    function (Core\Event\Bucket $bucket) use ($progress) {
 
                         static $previousPercent = 0;
 
@@ -252,10 +251,10 @@ class Update extends AbstractCommand {
                     '--overwrite'
                 ]
             );
-            $processus->on('input', function() {
+            $processus->on('input', function () {
                 return false;
             });
-            $processus->on('output', function(Core\Event\Bucket $bucket) {
+            $processus->on('output', function (Core\Event\Bucket $bucket) {
                 echo $bucket->getData()['line'], "\n";
             });
             $processus->run();

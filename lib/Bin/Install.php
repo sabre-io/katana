@@ -106,7 +106,7 @@ class Install extends AbstractCommand {
             $inputMaxWidth = $windowWidth - $labelMaxWidth;
             $numberOfSteps = 5;
 
-            $input = function($default = '') use($inputMaxWidth) {
+            $input = function ($default = '') use ($inputMaxWidth) {
                 return Text::colorize(
                     $default .
                     str_repeat(
@@ -117,7 +117,7 @@ class Install extends AbstractCommand {
                 );
             };
 
-            $resetInput = function($default = '') use($input, $labelMaxWidth) {
+            $resetInput = function ($default = '') use ($input, $labelMaxWidth) {
                 Cursor::move('→', $labelMaxWidth);
                 echo $input($default);
                 Cursor::move('LEFT');
@@ -144,14 +144,13 @@ class Install extends AbstractCommand {
             Cursor::move('→', $labelMaxWidth);
 
             // Disable arrow up and down.
-            $no_echo = function($readline) {
+            $no_echo = function ($readline) {
                 return $readline::STATE_NO_ECHO;
             };
             $readline->addMapping("\e[A", $no_echo);
             $readline->addMapping("\e[B", $no_echo);
 
-            $step = function($index, $label, callable $validator, $errorMessage, $default = '')
-                    use($numberOfSteps, &$readline, $resetInput, $labelMaxWidth) {
+            $step = function ($index, $label, callable $validator, $errorMessage, $default = '') use ($numberOfSteps, &$readline, $resetInput, $labelMaxWidth) {
 
                 Cursor::colorize('foreground(black) background(#cccccc)');
 
@@ -206,7 +205,7 @@ class Install extends AbstractCommand {
 
             };
 
-            $progress = function($percent, $message) use($windowWidth) {
+            $progress = function ($percent, $message) use ($windowWidth) {
 
                 static $margin = 4;
                 $barWidth      = $windowWidth - $margin * 2;
@@ -248,8 +247,7 @@ class Install extends AbstractCommand {
                 'Installation of sabre/' . "\n" . Welcome::LOGO, "\n\n",
                 static::getBaseURLInfo(), "\n\n";
 
-            $step = function($index, $label, callable $validator, $errorMessage, $default = '')
-                    use(&$readline) {
+            $step = function ($index, $label, callable $validator, $errorMessage, $default = '') use (&$readline) {
 
                 do {
 
@@ -277,7 +275,7 @@ class Install extends AbstractCommand {
 
             };
 
-            $progress = function($percent, $message) {
+            $progress = function ($percent, $message) {
 
                 echo $message, "\n";
 
@@ -288,7 +286,7 @@ class Install extends AbstractCommand {
         $form['baseUrl'] = $step(
             0,
             'Choose the base URL',
-            function($baseUrl) use($verbose) {
+            function ($baseUrl) use ($verbose) {
                 $valid = Installer::checkBaseUrl($baseUrl);
 
                 if (true === $valid && true === $verbose) {
@@ -306,12 +304,12 @@ class Install extends AbstractCommand {
             echo 'Your administrator login: ', Server::ADMINISTRATOR_LOGIN, "\n";
         }
 
-        $oldReadline = $readline;
-        $readline    = new Console\Readline\Password();
+        $oldReadline      = $readline;
+        $readline         = new Console\Readline\Password();
         $form['password'] = $step(
             1,
             'Choose the administrator password',
-            function($administratorPassword) {
+            function ($administratorPassword) {
                 return Installer::checkPassword(
                     $administratorPassword .
                     $administratorPassword
@@ -325,7 +323,7 @@ class Install extends AbstractCommand {
         $form['email'] = $step(
             2,
             'Choose the administrator email',
-            function($administratorEmail) {
+            function ($administratorEmail) {
                 return Installer::checkEmail(
                     $administratorEmail .
                     $administratorEmail
@@ -342,7 +340,7 @@ class Install extends AbstractCommand {
             $radioReadline  = new Console\Readline\Password();
             $radioReadline->addMapping(
                 '\e[D',
-                function() use($labelMaxWidth, &$databaseDriver) {
+                function () use ($labelMaxWidth, &$databaseDriver) {
 
                     $databaseDriver = 'sqlite';
 
@@ -357,7 +355,7 @@ class Install extends AbstractCommand {
             );
             $radioReadline->addMapping(
                 '\e[C',
-                function() use($labelMaxWidth, &$databaseDriver) {
+                function () use ($labelMaxWidth, &$databaseDriver) {
 
                     $databaseDriver = 'mysql';
 
@@ -400,7 +398,7 @@ class Install extends AbstractCommand {
             $form['database']['driver'] = $step(
                 3,
                 'Choose the database driver (sqlite or mysql)',
-                function($databaseDriver) {
+                function ($databaseDriver) {
                     return in_array($databaseDriver, ['sqlite', 'mysql']);
                 },
                 'Database driver is invalid' . "\n" .
@@ -414,7 +412,7 @@ class Install extends AbstractCommand {
             $form['database']['host'] = $step(
                 0,
                 'Choose MySQL host',
-                function() {
+                function () {
                     return true;
                 },
                 ''
@@ -423,7 +421,7 @@ class Install extends AbstractCommand {
             $form['database']['port'] = $step(
                 1,
                 'Choose MySQL port',
-                function($port) {
+                function ($port) {
                     return false !== filter_var($port, FILTER_VALIDATE_INT);
                 },
                 'Port is invalid' . "\n" .
@@ -434,7 +432,7 @@ class Install extends AbstractCommand {
             $form['database']['name'] = $step(
                 2,
                 'Choose MySQL database name',
-                function() {
+                function () {
                     return true;
                 },
                 ''
@@ -443,18 +441,18 @@ class Install extends AbstractCommand {
             $form['database']['username'] = $step(
                 3,
                 'Choose MySQL username',
-                function() {
+                function () {
                     return true;
                 },
                 ''
             );
 
-            $oldReadline = $readline;
-            $readline    = new Console\Readline\Password();
+            $oldReadline                  = $readline;
+            $readline                     = new Console\Readline\Password();
             $form['database']['password'] = $step(
                 4,
                 'Choose MySQL password',
-                function() {
+                function () {
                     return true;
                 },
                 ''

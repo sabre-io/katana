@@ -48,7 +48,7 @@ class Helper
      * @param  callable  $helper    Helper.
      * @return void
      */
-    public function registerHelper($name, callable $helper)
+    function registerHelper($name, callable $helper)
     {
         $this->helpers[$name] = $helper;
 
@@ -62,7 +62,7 @@ class Helper
      * @param  array   $arguments    Helper's arguments.
      * @return mixed
      */
-    public function __call($name, Array $arguments)
+    function __call($name, Array $arguments)
     {
         if (!isset($this->helpers[$name])) {
             throw new RuntimeException(sprintf('Helper %s does not exist.', $name));

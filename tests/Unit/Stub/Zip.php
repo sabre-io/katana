@@ -37,7 +37,7 @@ use Phar as PHPPhar;
  */
 class Zip extends Suite
 {
-    public function case_format()
+    function case_format()
     {
         $this
             ->when($zip = new CUT($this->helper->temporaryFile('.zip')))

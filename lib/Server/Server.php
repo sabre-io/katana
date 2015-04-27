@@ -133,7 +133,7 @@ class Server {
     protected function initializeDatabase() {
 
         $configuration   = $this->getConfiguration()->database;
-        $this->database = new Database(
+        $this->database  = new Database(
             $configuration->dsn,
             $configuration->username,
             $configuration->password

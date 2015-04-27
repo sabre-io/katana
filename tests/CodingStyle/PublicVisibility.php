@@ -20,35 +20,48 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Sabre\Katana\Test\Helper;
+namespace Sabre\Katana\Test\CodingStyle;
 
-use atoum\mock\streams\fs\file;
+use Symfony\CS\AbstractFixer;
+use Symfony\CS\FixerInterface;
+use Symfony\CS\Tokenizer\Tokens;
 
 /**
- * Helper for the configurations.
+ * Public visibility is omitted.
  *
  * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Configuration
-{
-    /**
-     * Run the helper.
-     *
-     * @param  string  $filename    Configuration filename.
-     * @param  array   $content     Configuration content (as an array, not as
-     *                              JSON).
-     * @return string
-     */
-    function __invoke($filename, Array $content = null)
-    {
-        $file = (string) file::get($filename);
+class PublicVisibility extends AbstractFixer {
 
-        if (null !== $content) {
-            file_put_contents($file, json_encode($content, JSON_PRETTY_PRINT));
+    function getDescription() {
+        return 'Public visibility is omitted.';
+    }
+
+    function getName() {
+        return 'public_visibility';
+    }
+
+    function getLevel() {
+        return FixerInterface::CONTRIB_LEVEL;
+    }
+
+    function fix(\SplFileInfo $file, $content) {
+        $tokens = Tokens::fromCode($content);
+
+        foreach ($tokens as $i => $token) {
+            if ($token->isGivenKind(T_PUBLIC)) {
+                $token->clear();
+                $tokens->removeTrailingWhitespace($i);
+            }
         }
 
-        return $file;
+        return $tokens->generateCode();
     }
+
+    function getPriority() {
+        return -42;
+    }
+
 }

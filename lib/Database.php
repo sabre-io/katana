@@ -22,7 +22,6 @@
 
 namespace Sabre\Katana;
 
-use Sabre\Katana\Protocol;
 use Hoa\File\Finder;
 use PDO;
 

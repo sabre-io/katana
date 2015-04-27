@@ -28,7 +28,6 @@ use Sabre\Katana\Protocol;
 use Sabre\Katana\Exception;
 use Hoa\Console;
 use Hoa\File\Finder;
-use PharException;
 
 /**
  * Stub the application.

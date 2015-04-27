@@ -56,7 +56,7 @@ class Suite extends atoum\test
         $helpers->registerHelper('temporaryDirectory', new Helper\TemporaryDirectory());
         $assertionManager->setHandler(
             'helper',
-            function() use($helpers) {
+            function () use ($helpers) {
                 return $helpers;
             }
         );
@@ -64,7 +64,7 @@ class Suite extends atoum\test
         // let.
         $assertionManager->setMethodHandler(
             'let',
-            function() use($self) {
+            function () use ($self) {
                 return $self;
             }
         );

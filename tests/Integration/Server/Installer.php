@@ -36,7 +36,7 @@ use Sabre\Katana\Server\Installer as CUT;
  */
 class Installer extends Suite
 {
-    public function case_full_installation_with_sqlite()
+    function case_full_installation_with_sqlite()
     {
         $this
             ->given(
@@ -57,7 +57,7 @@ class Installer extends Suite
             ->case_full_installation($payload);
     }
 
-    public function case_full_installation_with_mysql()
+    function case_full_installation_with_mysql()
     {
         $this
             ->given(
