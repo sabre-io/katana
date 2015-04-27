@@ -95,20 +95,30 @@ Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
             (credentials.password || '')
         );
 
-        var url = ENV.katana.base_url;
-
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
                 Ember.$.ajax({
-                    url    : url,
-                    type   : 'PROPFIND',
+                    method : 'PROPFIND',
+                    url    : ENV.katana.base_url + '/versions',
                     headers: {
-                        'Authorization': 'Basic ' + basic
-                    }
+                        'Authorization': 'Basic ' + basic,
+                        'Content-Type' : 'application/xml; charset=utf-8'
+                    },
+                    processData: false
                 }).then(
-                    function(response, status) {
+                    function(data, status, xhr) {
+                        var multiStatus = KatanaWebDAVParser.multiStatus(xhr.responseText);
+
+                        if (0 !== multiStatus.length) {
+                            Ember.run(function() {
+                                resolve({token: basic});
+                            });
+
+                            return;
+                        }
+
                         Ember.run(function() {
-                            resolve({token: basic});
+                            reject();
                         });
                     },
                     function(xhr, status, error) {
