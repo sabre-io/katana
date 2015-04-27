@@ -82,6 +82,7 @@ class Server {
      * @return void
      */
     function __construct() {
+
         $this->initialize();
     }
 
@@ -122,6 +123,7 @@ class Server {
      * @return void
      */
     protected function initializeConfiguration() {
+
         $this->configuration = new Configuration(static::CONFIGURATION_FILE);
     }
 
@@ -146,6 +148,7 @@ class Server {
      * @return void
      */
     protected function initializeServer() {
+
         $this->server = new SabreDav\Server(null);
         $this->server->setBaseUri(
             $this->getConfiguration()->base_url ?: '/'
@@ -159,6 +162,7 @@ class Server {
      * @return void
      */
     protected function initializeAuthentication() {
+
         $database = $this->getDatabase();
         $backend  = new Dav\Authentication\BasicBackend($database);
         $plugin   = new SabreDav\Auth\Plugin($backend);
@@ -172,6 +176,7 @@ class Server {
      * @return void
      */
     protected function initializePrincipals(DavAcl\Principal\Backend &$backend = null) {
+
         if (null === $backend) {
             $backend = new DavAcl\Principal\Backend($this->getDatabase());
         }
@@ -188,6 +193,7 @@ class Server {
      * @return void
      */
     protected function initializeCalDAV(DavAcl\Principal\Backend $principalBackend) {
+
         $backend = new SabreCalDav\Backend\PDO($this->getDatabase());
         $node    = new SabreCalDav\CalendarRoot($principalBackend, $backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
@@ -216,6 +222,7 @@ class Server {
      * @return void
      */
     protected function initializeACL() {
+
         $plugin                               = new SabreDavAcl\Plugin();
         $plugin->adminPrincipals[]            = 'principals/' . static::ADMINISTRATOR_LOGIN;
         $plugin->allowAccessToNodesWithoutACL = true;
@@ -231,6 +238,7 @@ class Server {
      * @return void
      */
     protected function initializeSynchronization() {
+
         $this->getServer()->addPlugin(new SabreDav\Sync\Plugin());
     }
 
@@ -239,12 +247,10 @@ class Server {
      *
      * @return void
      */
-    protected function initializeVersions()
-    {
+    protected function initializeVersions() {
+
         $this->getServer()->tree->getNodeForPath('')->addChild(new Dav\Version\Node());
         $this->getServer()->addPlugin(new Dav\Version\Plugin());
-
-        return;
     }
 
     /**
