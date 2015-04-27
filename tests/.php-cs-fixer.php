@@ -33,5 +33,21 @@ return
             'self_accessor',
             'short_array_syntax',
             'spaces_cast',
-            'unused_use'
+            'unused_use',
+
+            'elseif',
+            'eol_ending',
+            'function_call_space',
+            'function_declaration',
+            'indentation',
+            'line_after_namespace',
+            'linefeed',
+            'lowercase_constants',
+            'lowercase_keywords',
+            'method_argument_space',
+            'parenthesis',
+            'php_closing_tag',
+            'single_line_after_imports',
+            'trailing_spaces',
+            'visibility'
         ]);
