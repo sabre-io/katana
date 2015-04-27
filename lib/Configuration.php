@@ -67,11 +67,12 @@ class Configuration {
         }
 
         $this->filename = $filename;
-        $content         = file_get_contents($filename);
+        $content        = file_get_contents($filename);
 
         if (empty($content) && true === $allowEmpty) {
 
             $this->configuration = new StdClass();
+            return;
         }
 
         $decodedJson = @json_decode($content);
