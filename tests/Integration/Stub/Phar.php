@@ -40,7 +40,7 @@ use Hoa\File\Finder;
  */
 class Phar extends Suite
 {
-    public function case_stub_list()
+    function case_stub_list()
     {
         $this
             ->given($phar = $this->getPhar($pharName))
@@ -53,7 +53,7 @@ class Phar extends Suite
                     ]);
     }
 
-    public function case_stub_metadata()
+    function case_stub_metadata()
     {
         $this
             ->given($phar = $this->getPhar($pharName))
@@ -63,7 +63,7 @@ class Phar extends Suite
                     ->isNotEmpty();
     }
 
-    public function case_stub_signature()
+    function case_stub_signature()
     {
         $this
             ->given($phar = $this->getPhar($pharName))
@@ -73,7 +73,7 @@ class Phar extends Suite
                     ->isEqualTo($phar->getSignature()['hash']);
     }
 
-    public function case_stub_extract()
+    function case_stub_extract()
     {
         $this
             ->given(
@@ -89,7 +89,7 @@ class Phar extends Suite
                     ->isTrue();
     }
 
-    public function case_stub_extract_overwrite()
+    function case_stub_extract_overwrite()
     {
         $this
             ->given(

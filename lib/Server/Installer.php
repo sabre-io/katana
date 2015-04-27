@@ -104,7 +104,7 @@ class Installer {
     {
         $iterator = new Iterator\CallbackFilter(
             new Iterator\FileSystem($directory),
-            function(SplFileInfo $current) {
+            function (SplFileInfo $current) {
                 return !in_array(
                     $current->getFileName(),
                     [

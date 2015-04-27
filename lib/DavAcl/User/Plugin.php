@@ -169,7 +169,7 @@ class Plugin extends SabreDav\ServerPlugin {
      * @param  string  $password    Password.
      * @return string
      */
-    public static function hashPassword($password)
+    static function hashPassword($password)
     {
         return password_hash(
             $password,
@@ -187,7 +187,7 @@ class Plugin extends SabreDav\ServerPlugin {
      * @param  string  $hash        Password hashed.
      * @return boolean
      */
-    public static function checkPassword($password, $hash)
+    static function checkPassword($password, $hash)
     {
         return password_verify($password, $hash);
     }

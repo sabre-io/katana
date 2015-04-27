@@ -106,7 +106,7 @@ if (false !== $pos = strpos($url, '?')) {
         ->post(
             'baseurl',
             '/baseurl',
-            function() use($request, $response) {
+            function () use ($request, $response) {
                 $response->setBody(
                     json_encode(
                         Installer::checkBaseUrl($request->getBodyAsString())
@@ -120,7 +120,7 @@ if (false !== $pos = strpos($url, '?')) {
         ->post(
             'password',
             '/password',
-            function() use($request, $response) {
+            function () use ($request, $response) {
                 $response->setBody(
                     json_encode(
                         Installer::checkPassword($request->getBodyAsString())
@@ -134,7 +134,7 @@ if (false !== $pos = strpos($url, '?')) {
         ->post(
             'email',
             '/email',
-            function() use($request, $response) {
+            function () use ($request, $response) {
                  $response->setBody(
                     json_encode(
                         Installer::checkEmail($request->getBodyAsString())
@@ -148,7 +148,7 @@ if (false !== $pos = strpos($url, '?')) {
         ->post(
             'database',
             '/database',
-            function() use($request, $response) {
+            function () use ($request, $response) {
                 $payload = json_decode($request->getBodyAsString(), true);
                 $out     = false;
 
@@ -169,10 +169,10 @@ if (false !== $pos = strpos($url, '?')) {
         ->get(
             'install',
             '/install/(?<jsonPayload>.+)',
-            function($jsonPayload) {
+            function ($jsonPayload) {
                 $payload = json_decode($jsonPayload);
                 $source  = new Eventsource\Server();
-                $send    = function($data) use($source) {
+                $send    = function ($data) use ($source) {
 
                     $source->step->send(json_encode($data));
                     sleep(1);

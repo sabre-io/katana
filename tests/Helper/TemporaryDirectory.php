@@ -38,7 +38,7 @@ class TemporaryDirectory
      * @param  boolean  $create           Create if it does not exist.
      * @return string
      */
-    public function __invoke($directoryName, $create = false)
+    function __invoke($directoryName, $create = false)
     {
         $path = sys_get_temp_dir() . DS . $directoryName;
 

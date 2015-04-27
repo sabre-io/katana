@@ -36,7 +36,7 @@ use Sabre\Katana\Server\Updater as CUT;
  */
 class Updater extends Suite
 {
-    public function case_get_list_of_updates_url_default_server()
+    function case_get_list_of_updates_url_default_server()
     {
         $this
             ->when($result = CUT::getUpdateUrl())
@@ -49,7 +49,7 @@ class Updater extends Suite
                     );
     }
 
-    public function case_get_list_of_updates_url_other_server()
+    function case_get_list_of_updates_url_other_server()
     {
         $this
             ->given($server = 'https://domain.tld/')
@@ -63,7 +63,7 @@ class Updater extends Suite
                     );
     }
 
-    public function case_get_list_of_updates_url_extra_queries()
+    function case_get_list_of_updates_url_extra_queries()
     {
         $this
             ->given($queries = ['a' => 'b c', 'd' => 'e'])
@@ -79,7 +79,7 @@ class Updater extends Suite
                     );
     }
 
-    public function case_filter_versions()
+    function case_filter_versions()
     {
         $this
             ->given(
@@ -123,7 +123,7 @@ class Updater extends Suite
                     ]);
     }
 
-    public function case_filter_versions_invalid_list_URL_are_missing()
+    function case_filter_versions_invalid_list_URL_are_missing()
     {
         $this
             ->given(
@@ -133,13 +133,13 @@ class Updater extends Suite
                 $version = '0.0.1',
                 $format  = CUT::FORMAT_PHAR
             )
-            ->exception(function() use($list, $version, $format) {
+            ->exception(function () use ($list, $version, $format) {
                 CUT::filterVersions($list, $version, $format);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Update');
     }
 
-    public function case_filter_versions_invalid_list_PHAR_is_missing()
+    function case_filter_versions_invalid_list_PHAR_is_missing()
     {
         $this
             ->given(
@@ -151,13 +151,13 @@ class Updater extends Suite
                 $version = '0.0.1',
                 $format  = CUT::FORMAT_PHAR
             )
-            ->exception(function() use($list, $version, $format) {
+            ->exception(function () use ($list, $version, $format) {
                 CUT::filterVersions($list, $version, $format);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Update');
     }
 
-    public function case_filter_versions_invalid_list_ZIP_is_missing()
+    function case_filter_versions_invalid_list_ZIP_is_missing()
     {
         $this
             ->given(
@@ -169,7 +169,7 @@ class Updater extends Suite
                 $version = '0.0.1',
                 $format  = CUT::FORMAT_ZIP
             )
-            ->exception(function() use($list, $version, $format) {
+            ->exception(function () use ($list, $version, $format) {
                 CUT::filterVersions($list, $version, $format);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Update');

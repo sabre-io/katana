@@ -101,7 +101,7 @@ Core\Core::enableErrorHandler(true);
  * Log all exceptions.
  */
 event('hoa://Event/Exception')->attach(
-    function(Core\Event\Bucket $bucket) {
+    function (Core\Event\Bucket $bucket) {
         $exception = $bucket->getData();
         $filename  = date('Ymd') . '.exceptions.log';
         $file      = new File\Write('katana://data/variable/log/' . $filename);

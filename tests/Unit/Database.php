@@ -56,7 +56,7 @@ class Database extends Suite {
                     ->isInstanceOf('Hoa\File\Finder')
                 ->foreach(
                     $result,
-                    function($test, $value, $key) {
+                    function ($test, $value, $key) {
                         $test
                             ->string($key)
                                 ->match('/\.sqlite.sql/')

@@ -37,7 +37,7 @@ class TemporaryFile
      * @param  string  $filename    Filename.
      * @return string
      */
-    public function __invoke($filename = '')
+    function __invoke($filename = '')
     {
         return tempnam(sys_get_temp_dir(), 'katana') . $filename;
     }

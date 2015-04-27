@@ -37,7 +37,7 @@ class Server extends Suite
     /**
      * @tags server authentication
      */
-    public function case_unauthorized()
+    function case_unauthorized()
     {
         $this
             ->given($server = new Mock\Server())
@@ -50,7 +50,7 @@ class Server extends Suite
     /**
      * @tags server authentication
      */
-    public function case_authorized()
+    function case_authorized()
     {
         $this
             ->given(
