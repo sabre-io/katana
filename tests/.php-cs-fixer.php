@@ -22,8 +22,23 @@
 
 use Symfony\CS;
 
+$out      = CS\Config\Config::create();
+$iterator = new RegexIterator(
+    new FilesystemIterator(__DIR__ . '/CodingStyle'),
+    '/\.php$/'
+);
+
+foreach ($iterator as $file) {
+    require $file->getPathname();
+
+    $classname =
+        'Sabre\Katana\Test\CodingStyle\\' .
+        substr($file->getFilename(), 0, -4);
+    $out->addCustomFixer(new $classname());
+}
+
 return
-    CS\Config\Config::create()
+    $out
         ->level(CS\FixerInterface::PSR1_LEVEL)
         ->fixers([
             'align_double_arrow',
@@ -49,5 +64,8 @@ return
             'php_closing_tag',
             'single_line_after_imports',
             'trailing_spaces',
-            'visibility'
+            'visibility',
+
+            // sabre defined
+            'public_visibility'
         ]);
