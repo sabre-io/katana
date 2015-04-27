@@ -140,7 +140,7 @@ class Update extends AbstractCommand {
              *     }
              */
 
-            $versionsToFetch = Update::filterVersions(
+            $versionsToFetch = Updater::filterVersions(
                 $versions,
                 SABRE_KATANA_VERSION,
                 $operation
