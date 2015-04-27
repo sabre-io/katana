@@ -5,9 +5,7 @@ vendor/
 bin/atoum
 bin/generate_vcards
 bin/hoa
-bin/naturalselection
-bin/phpcbf
-bin/phpcs
+bin/php-cs-fixer
 bin/praspel
 bin/sabredav
 bin/vobject
