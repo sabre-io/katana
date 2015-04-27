@@ -96,6 +96,7 @@ class Stub extends AbstractCommand {
         $finder
             ->files()
             ->in(SABRE_KATANA_PREFIX)
+            ->notIn('/^node_modules$/')
             ->notIn('/^\.git$/');
 
         if (0 === $format) {
