@@ -1,3 +1,11 @@
 /*******************************
     User Variable Overrides
 *******************************/
+
+@src:
+  url("fonts/@{fontName}.eot?#iefix") format('embedded-opentype'),
+  url("fonts/@{fontName}.woff2") format('woff'),
+  url("fonts/@{fontName}.woff") format('woff'),
+  url("fonts/@{fontName}.ttf") format('truetype'),
+  url("fonts/@{fontName}.svg#icons") format('svg')
+;
