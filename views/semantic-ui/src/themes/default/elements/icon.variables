@@ -35,9 +35,9 @@
 
 @fallbackSRC: url("@{fontPath}/@{fontName}.eot");
 @src:
-  url("fonts/@{fontName}.eot?#iefix") format('embedded-opentype'),
-  url("fonts/@{fontName}.woff2") format('woff'),
-  url("fonts/@{fontName}.woff") format('woff'),
-  url("fonts/@{fontName}.ttf") format('truetype'),
-  url("fonts/@{fontName}.svg#icons") format('svg')
+  url("@{fontPath}/@{fontName}.eot?#iefix") format('embedded-opentype'),
+  url("@{fontPath}/@{fontName}.woff2") format('woff'),
+  url("@{fontPath}/@{fontName}.woff") format('woff'),
+  url("@{fontPath}/@{fontName}.ttf") format('truetype'),
+  url("@{fontPath}/@{fontName}.svg#icons") format('svg')
 ;
