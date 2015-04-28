@@ -21,3 +21,6 @@ build_client:
 		--gulpfile views/semantic-ui/gulpfile.js \
 		--cwd views/semantic-ui/ \
 		build
+	cp -v -r \
+		views/semantic-ui/dist/themes/default/assets/fonts \
+		public/static/vendor/semantic-ui
