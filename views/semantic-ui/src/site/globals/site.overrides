@@ -4,7 +4,9 @@
 
 @font-face {
     font-family: Lato;
-    src: url('../../font/Lato-Regular.woff') format('woff');
+    src: url('../../font/Lato-Regular.woff') format('woff'),
+         url('../../font/Lato-Regular.eot')  format('eot'),
+         url('../../font/Lato-Regular.ttf')  format('truetype');
     font-weight: normal;
     font-style: normal;
 }
