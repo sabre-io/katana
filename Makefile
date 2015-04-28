@@ -23,6 +23,7 @@ devinstall-client: build-semantic-ui
 
 clean:
 	rm -rf node_modules
+	rm -rf views/semantic-ui/dist/
 	rm -f data/variable/log/*.log
 
 distclean: clean distclean-server distclean-client
@@ -37,7 +38,6 @@ distclean-server:
 distclean-client:
 	find public/static/vendor -type d -depth 1 | \
 		xargs rm -rf
-	rm -rf views/semantic-ui/dist/
 
 uninstall:
 	rm -f data/etc/configuration/server.json
