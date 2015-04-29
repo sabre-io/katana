@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Server;
 
 use Sabre\Katana\Configuration;
@@ -175,7 +174,7 @@ class Server {
      * @param  DavAcl\Principal\Backend  &$backend    Retrieve the principals backend by-reference.
      * @return void
      */
-    protected function initializePrincipals(DavAcl\Principal\Backend &$backend = null) {
+    protected function initializePrincipals(DavAcl\Principal\Backend & $backend = null) {
 
         if (null === $backend) {
             $backend = new DavAcl\Principal\Backend($this->getDatabase());

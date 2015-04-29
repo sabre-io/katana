@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Test\Integration\Server;
 
 use Sabre\Katana\Test\Integration\Suite;
@@ -36,15 +35,15 @@ use Sabre\Katana\Server\Installer as CUT;
  */
 class Installer extends Suite
 {
-    public function case_full_installation_with_sqlite()
+    function case_full_installation_with_sqlite()
     {
         $this
             ->given(
-                $payload = (object) [
+                $payload = (object)[
                     'baseurl'  => '/katana/',
                     'email'    => 'gordon@freeman.hl',
                     'password' => '🔒 💩',
-                    'database' => (object) [
+                    'database' => (object)[
                         'driver'   => 'sqlite',
                         'host'     => '',
                         'port'     => '',
@@ -57,15 +56,15 @@ class Installer extends Suite
             ->case_full_installation($payload);
     }
 
-    public function case_full_installation_with_mysql()
+    function case_full_installation_with_mysql()
     {
         $this
             ->given(
-                $payload = (object) [
+                $payload = (object)[
                     'baseurl'  => '/katana/',
                     'email'    => 'gordon@freeman.hl',
                     'password' => '🔒 💩',
-                    'database' => (object) [
+                    'database' => (object)[
                         'driver'   => 'mysql',
                         'host'     => HELPER_MYSQL_HOST,
                         'port'     => HELPER_MYSQL_PORT,

@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Test\Unit;
 
 use Sabre\Katana\Configuration as CUT;
@@ -37,7 +36,7 @@ class Configuration extends Suite {
 
     function case_file_not_found() {
         $this
-            ->exception(function () {
+            ->exception(function() {
                 new CUT('/foo/42');
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Environment');
@@ -49,7 +48,7 @@ class Configuration extends Suite {
                 $file = $this->helper->configuration('configuration.json'),
                 file_put_contents($file, 'x')
             )
-            ->exception(function () use($file) {
+            ->exception(function() use ($file) {
                 new CUT($file);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Environment');
@@ -168,7 +167,7 @@ class Configuration extends Suite {
                 ->boolean($result)
                     ->isTrue()
 
-            ->when(function () use($configuration) {
+            ->when(function() use ($configuration) {
                 unset($configuration->a);
             })
             ->and($result = isset($configuration->a))
@@ -214,13 +213,13 @@ class Configuration extends Suite {
     function case_do_not_allow_empty() {
         $this
             ->given($file = $this->helper->configuration('configuration.json'))
-            ->exception(function () use($file) {
+            ->exception(function() use ($file) {
                 new CUT($file);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Environment')
 
             ->given($file = $this->helper->configuration('configuration.json'))
-            ->exception(function () use($file) {
+            ->exception(function() use ($file) {
                 new CUT($file, false);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Environment');
@@ -240,7 +239,7 @@ class Configuration extends Suite {
                 $file = $this->helper->configuration('configuration.json'),
                 file_put_contents($file, 'x')
             )
-            ->exception(function () use($file) {
+            ->exception(function() use ($file) {
                 new CUT($file, true);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Environment');

@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Bin;
 
 use Sabre\Katana\Server\Installer;
@@ -106,7 +105,7 @@ class Install extends AbstractCommand {
             $inputMaxWidth = $windowWidth - $labelMaxWidth;
             $numberOfSteps = 5;
 
-            $input = function($default = '') use($inputMaxWidth) {
+            $input = function($default = '') use ($inputMaxWidth) {
                 return Text::colorize(
                     $default .
                     str_repeat(
@@ -117,7 +116,7 @@ class Install extends AbstractCommand {
                 );
             };
 
-            $resetInput = function($default = '') use($input, $labelMaxWidth) {
+            $resetInput = function($default = '') use ($input, $labelMaxWidth) {
                 Cursor::move('→', $labelMaxWidth);
                 echo $input($default);
                 Cursor::move('LEFT');
@@ -150,8 +149,7 @@ class Install extends AbstractCommand {
             $readline->addMapping("\e[A", $no_echo);
             $readline->addMapping("\e[B", $no_echo);
 
-            $step = function($index, $label, callable $validator, $errorMessage, $default = '')
-                    use($numberOfSteps, &$readline, $resetInput, $labelMaxWidth) {
+            $step = function($index, $label, callable $validator, $errorMessage, $default = '') use ($numberOfSteps, &$readline, $resetInput, $labelMaxWidth) {
 
                 Cursor::colorize('foreground(black) background(#cccccc)');
 
@@ -206,7 +204,7 @@ class Install extends AbstractCommand {
 
             };
 
-            $progress = function($percent, $message) use($windowWidth) {
+            $progress = function($percent, $message) use ($windowWidth) {
 
                 static $margin = 4;
                 $barWidth      = $windowWidth - $margin * 2;
@@ -248,8 +246,7 @@ class Install extends AbstractCommand {
                 'Installation of sabre/' . "\n" . Welcome::LOGO, "\n\n",
                 static::getBaseURLInfo(), "\n\n";
 
-            $step = function($index, $label, callable $validator, $errorMessage, $default = '')
-                    use(&$readline) {
+            $step = function($index, $label, callable $validator, $errorMessage, $default = '') use (&$readline) {
 
                 do {
 
@@ -288,7 +285,7 @@ class Install extends AbstractCommand {
         $form['baseUrl'] = $step(
             0,
             'Choose the base URL',
-            function($baseUrl) use($verbose) {
+            function($baseUrl) use ($verbose) {
                 $valid = Installer::checkBaseUrl($baseUrl);
 
                 if (true === $valid && true === $verbose) {
@@ -342,7 +339,7 @@ class Install extends AbstractCommand {
             $radioReadline  = new Console\Readline\Password();
             $radioReadline->addMapping(
                 '\e[D',
-                function() use($labelMaxWidth, &$databaseDriver) {
+                function() use ($labelMaxWidth, &$databaseDriver) {
 
                     $databaseDriver = 'sqlite';
 
@@ -357,7 +354,7 @@ class Install extends AbstractCommand {
             );
             $radioReadline->addMapping(
                 '\e[C',
-                function() use($labelMaxWidth, &$databaseDriver) {
+                function() use ($labelMaxWidth, &$databaseDriver) {
 
                     $databaseDriver = 'mysql';
 

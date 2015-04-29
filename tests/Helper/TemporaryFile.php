@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Test\Helper;
 
 /**
@@ -37,7 +36,7 @@ class TemporaryFile
      * @param  string  $filename    Filename.
      * @return string
      */
-    public function __invoke($filename = '')
+    function __invoke($filename = '')
     {
         return tempnam(sys_get_temp_dir(), 'katana') . $filename;
     }

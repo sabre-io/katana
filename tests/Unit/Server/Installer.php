@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Test\Unit\Server;
 
 use Sabre\Katana\Test\Unit\Suite;
@@ -43,14 +42,14 @@ class Installer extends Suite
 {
     protected $defaultConfiguration = [
         'baseUrl'          => '/',
-        'database' => [
+        'database'         => [
             'driver'   => 'sqlite',
             'username' => '',
             'password' => ''
         ]
     ];
 
-    public function case_is_installed()
+    function case_is_installed()
     {
         $this
             ->given($this->function->file_exists = true)
@@ -60,7 +59,7 @@ class Installer extends Suite
                     ->isTrue();
     }
 
-    public function case_is_not_installed()
+    function case_is_not_installed()
     {
         $this
             ->given($this->function->file_exists = false)
@@ -73,7 +72,7 @@ class Installer extends Suite
     /**
      * @tags installation http
      */
-    public function case_redirect_to_index()
+    function case_redirect_to_index()
     {
         $this
             ->given(
@@ -101,7 +100,7 @@ class Installer extends Suite
     /**
      * @tags installation http
      */
-    public function case_redirect_to_install()
+    function case_redirect_to_install()
     {
         $this
             ->given(
@@ -121,11 +120,11 @@ class Installer extends Suite
                     ->isNotEmpty();
     }
 
-    public function case_check_correct_base_url()
+    function case_check_correct_base_url()
     {
         $this
             ->given($_baseUrl = $this->realdom->regex('#^/(.+/)?$#'))
-            ->when(function() use($_baseUrl) {
+            ->when(function() use ($_baseUrl) {
                 foreach ($this->realdom->sampleMany($_baseUrl, 100) as $baseUrl) {
                     $this
                         ->boolean($result = CUT::checkBaseUrl($baseUrl))
@@ -134,11 +133,11 @@ class Installer extends Suite
             });
     }
 
-    public function case_check_incorrect_base_url()
+    function case_check_incorrect_base_url()
     {
         $this
             ->given($_baseUrl = $this->realdom->regex('#[^/].+[^/]$#'))
-            ->when(function() use($_baseUrl) {
+            ->when(function() use ($_baseUrl) {
                 foreach ($this->realdom->sampleMany($_baseUrl, 100) as $baseUrl) {
                     $this
                         ->boolean($result = CUT::checkBaseUrl($baseUrl))
@@ -150,7 +149,7 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    public function case_check_correct_login()
+    function case_check_correct_login()
     {
         $this
             ->given($login = '💩')
@@ -163,7 +162,7 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    public function case_check_incorrect_login()
+    function case_check_incorrect_login()
     {
         $this
             ->given($login = '')
@@ -176,11 +175,11 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    public function case_check_correct_password()
+    function case_check_correct_password()
     {
         $this
             ->given($_password = $this->realdom->regex('#[\w\d_!\-@💩]+#'))
-            ->when(function() use($_password) {
+            ->when(function() use ($_password) {
                 foreach ($this->realdom->sampleMany($_password, 100) as $password) {
                     $this
                         ->given($passwords = $password . $password)
@@ -193,7 +192,7 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    public function case_check_incorrect_empty_password()
+    function case_check_incorrect_empty_password()
     {
         $this
             ->given($password = '')
@@ -212,7 +211,7 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    public function case_check_incorrect_unmatched_password()
+    function case_check_incorrect_unmatched_password()
     {
         $this
             ->given(
@@ -222,7 +221,7 @@ class Installer extends Suite
                     ['💩', '____']
                 ]
             )
-            ->when(function() use($passwords){
+            ->when(function() use ($passwords) {
                 foreach ($passwords as $pair) {
                     list($password, $confirmed) = $pair;
                     $this
@@ -236,11 +235,11 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    public function case_check_correct_email()
+    function case_check_correct_email()
     {
         $this
             ->given($_email = $this->realdom->regex('#\w[\w\d\-_]+[\w\d]@[a-zA-Z\d]\.(com|net|org)#'))
-            ->when(function() use($_email) {
+            ->when(function() use ($_email) {
                 foreach ($this->realdom->sampleMany($_email, 100) as $email) {
                     $this
                         ->given($emails = $email . $email)
@@ -253,7 +252,7 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    public function case_check_incorrect_empty_email()
+    function case_check_incorrect_empty_email()
     {
         $this
             ->given($email = '')
@@ -272,7 +271,7 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    public function case_check_incorrect_unmatched_email()
+    function case_check_incorrect_unmatched_email()
     {
         $this
             ->given(
@@ -282,7 +281,7 @@ class Installer extends Suite
                     ['💩', '____']
                 ]
             )
-            ->when(function() use($emails){
+            ->when(function() use ($emails) {
                 foreach ($emails as $pair) {
                     list($email, $confirmed) = $pair;
                     $this
@@ -296,7 +295,7 @@ class Installer extends Suite
     /**
      * @tags installation database
      */
-    public function case_check_database_driver_is_empty()
+    function case_check_database_driver_is_empty()
     {
         $this
             ->given(
@@ -318,7 +317,7 @@ class Installer extends Suite
     /**
      * @tags installation database
      */
-    public function case_check_database_host_is_required()
+    function case_check_database_host_is_required()
     {
         $this
             ->given(
@@ -339,7 +338,7 @@ class Installer extends Suite
     /**
      * @tags installation database
      */
-    public function case_check_database_port_is_required()
+    function case_check_database_port_is_required()
     {
         $this
             ->given(
@@ -360,7 +359,7 @@ class Installer extends Suite
     /**
      * @tags installation database
      */
-    public function case_check_database_name_is_required()
+    function case_check_database_name_is_required()
     {
         $this
             ->given(
@@ -381,7 +380,7 @@ class Installer extends Suite
     /**
      * @tags installation database
      */
-    public function case_check_database_username_is_required()
+    function case_check_database_username_is_required()
     {
         $this
             ->given(
@@ -402,7 +401,7 @@ class Installer extends Suite
     /**
      * @tags installation database
      */
-    public function case_check_database_password_is_required()
+    function case_check_database_password_is_required()
     {
         $this
             ->given(
@@ -423,7 +422,7 @@ class Installer extends Suite
     /**
      * @tags installation database
      */
-    public function case_check_database_unavailable_driver()
+    function case_check_database_unavailable_driver()
     {
         $this
             ->given(
@@ -446,7 +445,7 @@ class Installer extends Suite
     /**
      * @tags installation database sqlite
      */
-    public function case_check_database_sqlite()
+    function case_check_database_sqlite()
     {
         $this
             ->given(
@@ -468,7 +467,7 @@ class Installer extends Suite
     /**
      * @tags installation database mysql
      */
-    public function case_check_database_mysql_bad_parameters()
+    function case_check_database_mysql_bad_parameters()
     {
         $this
             ->given(
@@ -481,7 +480,7 @@ class Installer extends Suite
                     'password' => '🔒 🔒 🔒'
                 ]
             )
-            ->exception(function() use($parameters) {
+            ->exception(function() use ($parameters) {
                 CUT::checkDatabase($parameters);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -490,7 +489,7 @@ class Installer extends Suite
     /**
      * @tags installation database mysql
      */
-    public function case_check_database_mysql()
+    function case_check_database_mysql()
     {
         $this
             ->given(
@@ -512,7 +511,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration
      */
-    public function case_create_configuration_file()
+    function case_create_configuration_file()
     {
         $this
             ->given(
@@ -554,7 +553,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration
      */
-    public function case_create_configuration_file_base_url_is_required()
+    function case_create_configuration_file_base_url_is_required()
     {
         $this
             ->given(
@@ -562,7 +561,7 @@ class Installer extends Suite
                 $content  = $this->defaultConfiguration,
                 $this->remove($content, 'baseUrl')
             )
-            ->exception(function() use($filename, $content) {
+            ->exception(function() use ($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -571,7 +570,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration
      */
-    public function case_create_configuration_file_base_url_is_not_well_formed()
+    function case_create_configuration_file_base_url_is_not_well_formed()
     {
         $this
             ->given(
@@ -579,7 +578,7 @@ class Installer extends Suite
                 $content  = $this->defaultConfiguration,
                 $content['baseUrl'] = 'a'
             )
-            ->exception(function() use($filename, $content) {
+            ->exception(function() use ($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -588,7 +587,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database
      */
-    public function case_create_configuration_file_database_is_required()
+    function case_create_configuration_file_database_is_required()
     {
         $this
             ->given(
@@ -596,7 +595,7 @@ class Installer extends Suite
                 $content  = $this->defaultConfiguration,
                 $this->remove($content, 'database')
             )
-            ->exception(function() use($filename, $content) {
+            ->exception(function() use ($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -605,7 +604,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database
      */
-    public function case_create_configuration_file_database_driver_is_required()
+    function case_create_configuration_file_database_driver_is_required()
     {
         $this
             ->given(
@@ -613,7 +612,7 @@ class Installer extends Suite
                 $content  = $this->defaultConfiguration,
                 $this->remove($content, 'database', 'driver')
             )
-            ->exception(function() use($filename, $content) {
+            ->exception(function() use ($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -622,7 +621,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database
      */
-    public function case_create_configuration_file_database_driver_is_empty()
+    function case_create_configuration_file_database_driver_is_empty()
     {
         $this
             ->given(
@@ -630,7 +629,7 @@ class Installer extends Suite
                 $content  = $this->defaultConfiguration,
                 $content['database']['driver'] = ''
             )
-            ->exception(function() use($filename, $content) {
+            ->exception(function() use ($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -639,7 +638,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database
      */
-    public function case_create_configuration_file_database_username_is_required()
+    function case_create_configuration_file_database_username_is_required()
     {
         $this
             ->given(
@@ -647,7 +646,7 @@ class Installer extends Suite
                 $content  = $this->defaultConfiguration,
                 $this->remove($content, 'database', 'username')
             )
-            ->exception(function() use($filename, $content) {
+            ->exception(function() use ($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -656,7 +655,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database
      */
-    public function case_create_configuration_file_database_password_is_required()
+    function case_create_configuration_file_database_password_is_required()
     {
         $this
             ->given(
@@ -664,7 +663,7 @@ class Installer extends Suite
                 $content  = $this->defaultConfiguration,
                 $this->remove($content, 'database', 'password')
             )
-            ->exception(function() use($filename, $content) {
+            ->exception(function() use ($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -673,7 +672,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    public function case_create_configuration_file_database_mysql_host_is_required()
+    function case_create_configuration_file_database_mysql_host_is_required()
     {
         $this
             ->given(
@@ -683,7 +682,7 @@ class Installer extends Suite
                 $content['database']['port']   = '42',
                 $content['database']['name']   = 'bar'
             )
-            ->exception(function() use($filename, $content) {
+            ->exception(function() use ($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -692,7 +691,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    public function case_create_configuration_file_database_mysql_empty_host()
+    function case_create_configuration_file_database_mysql_empty_host()
     {
         $this
             ->given(
@@ -703,7 +702,7 @@ class Installer extends Suite
                 $content['database']['port']   = '42',
                 $content['database']['name']   = 'bar'
             )
-            ->exception(function() use($filename, $content) {
+            ->exception(function() use ($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -712,7 +711,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    public function case_create_configuration_file_database_mysql_port_is_required()
+    function case_create_configuration_file_database_mysql_port_is_required()
     {
         $this
             ->given(
@@ -722,7 +721,7 @@ class Installer extends Suite
                 $content['database']['host']   = 'foo',
                 $content['database']['name']   = 'bar'
             )
-            ->exception(function() use($filename, $content) {
+            ->exception(function() use ($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -731,7 +730,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    public function case_create_configuration_file_database_mysql_empty_port()
+    function case_create_configuration_file_database_mysql_empty_port()
     {
         $this
             ->given(
@@ -742,7 +741,7 @@ class Installer extends Suite
                 $content['database']['port']   = '',
                 $content['database']['name']   = 'bar'
             )
-            ->exception(function() use($filename, $content) {
+            ->exception(function() use ($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -751,7 +750,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    public function case_create_configuration_file_database_mysql_name_is_required()
+    function case_create_configuration_file_database_mysql_name_is_required()
     {
         $this
             ->given(
@@ -761,7 +760,7 @@ class Installer extends Suite
                 $content['database']['host']   = 'foo',
                 $content['database']['port']   = '42'
             )
-            ->exception(function() use($filename, $content) {
+            ->exception(function() use ($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -770,7 +769,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    public function case_create_configuration_file_database_mysql_empty_name()
+    function case_create_configuration_file_database_mysql_empty_name()
     {
         $this
             ->given(
@@ -781,7 +780,7 @@ class Installer extends Suite
                 $content['database']['port']   = '42',
                 $content['database']['name']   = ''
             )
-            ->exception(function() use($filename, $content) {
+            ->exception(function() use ($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -790,7 +789,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database
      */
-    public function case_create_configuration_file_database_unknown_driver()
+    function case_create_configuration_file_database_unknown_driver()
     {
         $this
             ->given(
@@ -798,7 +797,7 @@ class Installer extends Suite
                 $content  = $this->defaultConfiguration,
                 $content['database']['driver'] = 'crazydb'
             )
-            ->exception(function() use($filename, $content) {
+            ->exception(function() use ($filename, $content) {
                 CUT::createConfigurationFile($filename, $content);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -807,7 +806,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database sqlite
      */
-    public function case_create_configuration_file_database_sqlite_dsn()
+    function case_create_configuration_file_database_sqlite_dsn()
     {
         $this
             ->given(
@@ -824,7 +823,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    public function case_create_configuration_file_database_mysql_dsn()
+    function case_create_configuration_file_database_mysql_dsn()
     {
         $this
             ->given(
@@ -844,7 +843,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database sqlite
      */
-    public function case_create_sqlite_database()
+    function case_create_sqlite_database()
     {
         $this
             ->given(
@@ -899,7 +898,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    public function case_create_mysql_database()
+    function case_create_mysql_database()
     {
         $this
             ->given(
@@ -953,7 +952,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database
      */
-    public function case_create_database_broken_configuration()
+    function case_create_database_broken_configuration()
     {
         $this
             ->given(
@@ -964,7 +963,7 @@ class Installer extends Suite
                     )
                 )
             )
-            ->exception(function() use($configuration) {
+            ->exception(function() use ($configuration) {
                 CUT::createDatabase($configuration);
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation');
@@ -973,7 +972,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database sqlite authentication administration
      */
-    public function case_create_administrator_profile()
+    function case_create_administrator_profile()
     {
         $this
             ->given(
@@ -1070,7 +1069,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database sqlite authentication administration
      */
-    public function case_create_administrator_profile_bad_email()
+    function case_create_administrator_profile_bad_email()
     {
         $this
             ->given(
@@ -1084,7 +1083,7 @@ class Installer extends Suite
                 ),
                 $database = new Database($this->helper->sqlite())
             )
-            ->exception(function() use($configuration, $database) {
+            ->exception(function() use ($configuration, $database) {
                 CUT::createAdministratorProfile(
                     $configuration,
                     $database,
@@ -1099,7 +1098,7 @@ class Installer extends Suite
     /**
      * @tags installation configuration database sqlite authentication administration
      */
-    public function case_create_administrator_profile_bad_password()
+    function case_create_administrator_profile_bad_password()
     {
         $this
             ->given(
@@ -1113,7 +1112,7 @@ class Installer extends Suite
                 ),
                 $database = new Database($this->helper->sqlite())
             )
-            ->exception(function() use($configuration, $database) {
+            ->exception(function() use ($configuration, $database) {
                 CUT::createAdministratorProfile(
                     $configuration,
                     $database,
@@ -1125,7 +1124,7 @@ class Installer extends Suite
                 ->hasMessage('Password is invalid.');
     }
 
-    public function remove(array &$array, $key1, $key2 = null)
+    function remove(array &$array, $key1, $key2 = null)
     {
         if (isset($array[$key1])) {
 

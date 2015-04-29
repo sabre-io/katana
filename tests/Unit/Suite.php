@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Test\Unit;
 
 use Sabre\Katana\Test\Helper;
@@ -56,7 +55,7 @@ class Suite extends atoum\test
         $helpers->registerHelper('temporaryDirectory', new Helper\TemporaryDirectory());
         $assertionManager->setHandler(
             'helper',
-            function() use($helpers) {
+            function() use ($helpers) {
                 return $helpers;
             }
         );
@@ -64,7 +63,7 @@ class Suite extends atoum\test
         // let.
         $assertionManager->setMethodHandler(
             'let',
-            function() use($self) {
+            function() use ($self) {
                 return $self;
             }
         );

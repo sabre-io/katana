@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Server;
 
 use Sabre\Katana\Exception;
@@ -61,7 +60,6 @@ class Updater {
      * @param  array   $queries         Extra queries to add.
      * @return string
      */
-
     static function getUpdateUrl($updateServer = null, array $queries = []) {
 
         if (null === $updateServer) {

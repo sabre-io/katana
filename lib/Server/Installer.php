@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Server;
 
 use Sabre\Katana\Configuration;
@@ -29,7 +28,6 @@ use Sabre\Katana\DavAcl\User\Plugin as User;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
 use Sabre\Uri;
-use Hoa\Core;
 use Hoa\Iterator;
 use Hoa\String\String;
 use SplFileInfo;
@@ -48,7 +46,7 @@ class Installer {
     /**
      * Check whether the application has been installed or not.
      *
-     * @return boolean
+     * @return bool
      */
     static function isInstalled() {
 
@@ -99,7 +97,7 @@ class Installer {
      * `.empty` and `README.md`.
      *
      * @param  string  $directory    Directory.
-     * @return boolean
+     * @return bool
      */
     static function isDirectoryEmpty($directory)
     {
@@ -124,7 +122,7 @@ class Installer {
      * Check the base URL is syntactically correct.
      *
      * @param  string  $baseUrl    Base URL.
-     * @return boolean
+     * @return bool
      */
     static function checkBaseUrl($baseUrl) {
 
@@ -135,7 +133,7 @@ class Installer {
      * Check the login.
      *
      * @param  string  $login    Login.
-     * @return boolean
+     * @return bool
      */
     static function checkLogin($login) {
 
@@ -148,7 +146,7 @@ class Installer {
      * The argument is the raw concatenation of the two strings to compare.
      *
      * @param  string  $strings    Strings to check.
-     * @return boolean
+     * @return bool
      */
     protected static function checkConfirmation($strings) {
 
@@ -170,7 +168,7 @@ class Installer {
      * Check the password matches a confirmed password and that it is not empty.
      *
      * @param  string  $passwords    Passwords.
-     * @return boolean
+     * @return bool
      */
     static function checkPassword($passwords) {
 
@@ -181,7 +179,7 @@ class Installer {
      * Check the email matches a confirmed email and that it is not empty.
      *
      * @param  string  $emails    Emails.
-     * @return boolean
+     * @return bool
      */
     static function checkEmail($emails) {
 
@@ -207,7 +205,7 @@ class Installer {
      *     ]
      *
      * @param  array $parameters    Parameters.
-     * @return boolean
+     * @return bool
      * @throw  Exception\Installation
      */
     static function checkDatabase(array $parameters) {
@@ -436,7 +434,7 @@ class Installer {
      * @param  Database       $database         Database.
      * @param  string         $email            Administrator's email.
      * @param  string         $password         Administrator's password.
-     * @return boolean
+     * @return bool
      * @throw  Exception\Installation
      */
     static function createAdministratorProfile(
@@ -483,7 +481,7 @@ class Installer {
             ]);
 
             $statement = $database->prepare(
-                'INSERT INTO users (username, digesta1) '.
+                'INSERT INTO users (username, digesta1) ' .
                 'VALUES (:username, :digest)'
             );
             $statement->execute([

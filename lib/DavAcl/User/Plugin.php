@@ -19,13 +19,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\DavAcl\User;
 
 use Sabre\Katana\Database;
 use Sabre\DAV as SabreDav;
-use Sabre\HTTP\RequestInterface as Request;
-use Sabre\HTTP\ResponseInterface as Response;
 
 /**
  * The user plugin is responsible to keep the user database up-to-date.
@@ -117,7 +114,7 @@ class Plugin extends SabreDav\ServerPlugin {
      * from the database.
      *
      * @param  string  $path    Path.
-     * @return boolean
+     * @return bool
      */
     function afterUnbind($path)
     {
@@ -147,7 +144,7 @@ class Plugin extends SabreDav\ServerPlugin {
             [
                 '{http://sabredav.org/ns}password'
             ],
-            function ($properties) use ($username, $database) {
+            function($properties) use ($username, $database) {
                 $statement = $database->prepare(
                     'REPLACE INTO users (username, digesta1) ' .
                     'VALUES (:username, :digest)'
@@ -171,7 +168,7 @@ class Plugin extends SabreDav\ServerPlugin {
      * @param  string  $password    Password.
      * @return string
      */
-    public static function hashPassword($password)
+    static function hashPassword($password)
     {
         return password_hash(
             $password,
@@ -187,9 +184,9 @@ class Plugin extends SabreDav\ServerPlugin {
      *
      * @param  string  $password    Password not hashed.
      * @param  string  $hash        Password hashed.
-     * @return boolean
+     * @return bool
      */
-    public static function checkPassword($password, $hash)
+    static function checkPassword($password, $hash)
     {
         return password_verify($password, $hash);
     }

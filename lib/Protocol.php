@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana;
 
 use Hoa\Core;
@@ -46,7 +45,6 @@ class Protocol extends Core\Protocol\Wrapper {
      * Get the real path of the given URL.
      * Could return false if the path cannot be reached.
      *
-     * @access  public
      * @param   string  $path      Path (or URL).
      * @param   bool    $exists    If true, try to find the first that exists,
      * @return  mixed

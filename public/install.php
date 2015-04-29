@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 require_once __DIR__ . '/../bootstrap.php';
 
 use Sabre\Katana\Server\Installer;
@@ -38,7 +37,6 @@ use Hoa\File;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-
 $request  = HTTP\Sapi::getRequest();
 $response = new HTTP\Response();
 
@@ -72,7 +70,7 @@ $dataDirectory = new File\Directory('katana://data/');
 $dataDirectory->clearStatisticCache();
 
 if (false === $dataDirectory->isWritable()) {
-    $view = function () use ($dataDirectory) {
+    $view = function() use ($dataDirectory) {
         $user        = get_current_user();
         $userId      = getmyuid();
         $groupId     = getmygid();
@@ -106,7 +104,7 @@ if (false !== $pos = strpos($url, '?')) {
         ->post(
             'baseurl',
             '/baseurl',
-            function() use($request, $response) {
+            function() use ($request, $response) {
                 $response->setBody(
                     json_encode(
                         Installer::checkBaseUrl($request->getBodyAsString())
@@ -120,7 +118,7 @@ if (false !== $pos = strpos($url, '?')) {
         ->post(
             'password',
             '/password',
-            function() use($request, $response) {
+            function() use ($request, $response) {
                 $response->setBody(
                     json_encode(
                         Installer::checkPassword($request->getBodyAsString())
@@ -134,7 +132,7 @@ if (false !== $pos = strpos($url, '?')) {
         ->post(
             'email',
             '/email',
-            function() use($request, $response) {
+            function() use ($request, $response) {
                  $response->setBody(
                     json_encode(
                         Installer::checkEmail($request->getBodyAsString())
@@ -148,7 +146,7 @@ if (false !== $pos = strpos($url, '?')) {
         ->post(
             'database',
             '/database',
-            function() use($request, $response) {
+            function() use ($request, $response) {
                 $payload = json_decode($request->getBodyAsString(), true);
                 $out     = false;
 
@@ -172,7 +170,7 @@ if (false !== $pos = strpos($url, '?')) {
             function($jsonPayload) {
                 $payload = json_decode($jsonPayload);
                 $source  = new Eventsource\Server();
-                $send    = function($data) use($source) {
+                $send    = function($data) use ($source) {
 
                     $source->step->send(json_encode($data));
                     sleep(1);

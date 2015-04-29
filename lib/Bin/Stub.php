@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Bin;
 
 use Sabre\Katana\Stub\Zip;
@@ -28,7 +27,6 @@ use Sabre\Katana\Protocol;
 use Sabre\Katana\Exception;
 use Hoa\Console;
 use Hoa\File\Finder;
-use PharException;
 
 /**
  * Stub the application.

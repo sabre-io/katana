@@ -19,13 +19,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Dav\Authentication;
 
 use Sabre\Katana\Database;
 use Sabre\Katana\DavAcl\User\Plugin as User;
 use Sabre\DAV\Auth\Backend;
-use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface as Request;
 use Sabre\HTTP\ResponseInterface as Response;
 
@@ -62,7 +60,7 @@ class BasicBackend extends Backend\AbstractBasic {
      *
      * @param  string  $username    Username.
      * @param  string  $password    Password.
-     * @return boolean
+     * @return bool
      */
     protected function validateUserPass($username, $password) {
 

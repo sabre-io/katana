@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Test\Helper;
 
 use atoum\mock\streams\fs\file;
@@ -41,9 +40,9 @@ class Configuration
      *                              JSON).
      * @return string
      */
-    public function __invoke($filename, Array $content = null)
+    function __invoke($filename, Array $content = null)
     {
-        $file = (string) file::get($filename);
+        $file = (string)file::get($filename);
 
         if (null !== $content) {
             file_put_contents($file, json_encode($content, JSON_PRETTY_PRINT));

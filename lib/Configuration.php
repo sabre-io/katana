@@ -19,10 +19,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana;
 
-use Sabre\Katana\Exception;
 use StdClass;
 
 /**
@@ -52,7 +50,7 @@ class Configuration {
      * Read the configurations.
      *
      * @param  string  $filename      Filename to a valid JSON file.
-     * @param  boolean $allowEmpty    Whether we allow the file to be empty.
+     * @param  bool    $allowEmpty    Whether we allow the file to be empty.
      * @return void
      * @throw  Exception\Environment
      */
@@ -98,7 +96,7 @@ class Configuration {
      * Check if an entry exists.
      *
      * @param  string  $name    Entry name.
-     * @return boolean
+     * @return bool
      */
     function __isset($name) {
         return isset($this->configuration->$name);
@@ -138,7 +136,7 @@ class Configuration {
     /**
      * Save the configurations into the original filename.
      *
-     * @return boolean
+     * @return bool
      */
     function save() {
         return false !== file_put_contents(

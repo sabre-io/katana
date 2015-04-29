@@ -19,11 +19,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 require_once __DIR__ . '/../bootstrap.php';
 
 use Sabre\Katana\Server\Installer;
-use Sabre\Katana\Server\Server;
 use Sabre\HTTP;
 
 /**
@@ -35,7 +33,7 @@ use Sabre\HTTP;
  */
 
 /**
-* If the applications has not already been installed, redirect to install.php.
+ * If the applications has not already been installed, redirect to install.php.
  */
 if (false === Installer::isInstalled()) {
 

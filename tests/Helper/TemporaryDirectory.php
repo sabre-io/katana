@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Test\Helper;
 
 /**
@@ -34,11 +33,11 @@ class TemporaryDirectory
     /**
      * Run the helper.
      *
-     * @param  string   $directoryName    Directory name.
-     * @param  boolean  $create           Create if it does not exist.
+     * @param  string  $directoryName    Directory name.
+     * @param  bool    $create           Create if it does not exist.
      * @return string
      */
-    public function __invoke($directoryName, $create = false)
+    function __invoke($directoryName, $create = false)
     {
         $path = sys_get_temp_dir() . DS . $directoryName;
 

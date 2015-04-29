@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Bin;
 
 use Sabre\Katana\Server\Updater;
@@ -139,15 +138,14 @@ class Update extends AbstractCommand {
              *         …
              *     }
              */
-
-            $versionsToFetch = Update::filterVersions(
+            $versionsToFetch = Updater::filterVersions(
                 $versions,
                 SABRE_KATANA_VERSION,
                 $operation
             );
 
             $windowWidth = Window::getSize()['x'];
-            $progress    = function($percent) use($windowWidth) {
+            $progress    = function($percent) use ($windowWidth) {
 
                 Cursor::clear('↔');
                 $message  = 'Downloading… ';
@@ -202,8 +200,7 @@ class Update extends AbstractCommand {
                 );
                 $fileIn->on(
                     'progress',
-                    function(Core\Event\Bucket $bucket)
-                    use($progress) {
+                    function(Core\Event\Bucket $bucket) use ($progress) {
 
                         static $previousPercent = 0;
 

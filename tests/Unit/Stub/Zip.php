@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Test\Unit\Stub;
 
 use Sabre\Katana\Test\Unit\Suite;
@@ -37,7 +36,7 @@ use Phar as PHPPhar;
  */
 class Zip extends Suite
 {
-    public function case_format()
+    function case_format()
     {
         $this
             ->when($zip = new CUT($this->helper->temporaryFile('.zip')))

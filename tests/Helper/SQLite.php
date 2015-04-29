@@ -19,7 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Sabre\Katana\Test\Helper;
 
 /**
@@ -34,10 +33,10 @@ class SQLite
     /**
      * Run the helper.
      *
-     * @param  boolean  $forceFile    Force SQLite to work on a file.
+     * @param  bool  $forceFile    Force SQLite to work on a file.
      * @return string
      */
-    public function __invoke($forceFile = false)
+    function __invoke($forceFile = false)
     {
         if (true === $forceFile) {
             return 'sqlite:' . stream_get_meta_data(tmpfile())['uri'];
