@@ -77,8 +77,6 @@ if (false === $dataDirectory->isWritable()) {
         $permissions = $dataDirectory->getReadablePermissions();
 
         require 'katana://views/install_permissions.html';
-
-        return;
     };
 
     $view();
@@ -111,8 +109,6 @@ if (false !== $pos = strpos($url, '?')) {
                     )
                 );
                 HTTP\Sapi::sendResponse($response);
-
-                return;
             }
         )
         ->post(
@@ -125,8 +121,6 @@ if (false !== $pos = strpos($url, '?')) {
                     )
                 );
                 HTTP\Sapi::sendResponse($response);
-
-                return;
             }
         )
         ->post(
@@ -139,8 +133,6 @@ if (false !== $pos = strpos($url, '?')) {
                     )
                 );
                 HTTP\Sapi::sendResponse($response);
-
-                return;
             }
         )
         ->post(
@@ -160,8 +152,6 @@ if (false !== $pos = strpos($url, '?')) {
 
                 $response->setBody(json_encode($out));
                 HTTP\Sapi::sendResponse($response);
-
-                return;
             }
         )
         ->get(
@@ -171,12 +161,8 @@ if (false !== $pos = strpos($url, '?')) {
                 $payload = json_decode($jsonPayload);
                 $source  = new Eventsource\Server();
                 $send    = function($data) use ($source) {
-
                     $source->step->send(json_encode($data));
                     sleep(1);
-
-                    return;
-
                 };
 
                 try {
@@ -245,8 +231,6 @@ if (false !== $pos = strpos($url, '?')) {
                     ]);
                     // + log
                 }
-
-                return;
             }
         );
 

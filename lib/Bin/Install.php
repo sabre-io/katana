@@ -67,7 +67,6 @@ class Install extends AbstractCommand {
                 case '?':
                 default:
                     return $this->usage();
-                    break;
 
             }
         }

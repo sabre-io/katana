@@ -65,8 +65,6 @@ $router
             }
 
             require 'katana://public/server.php';
-
-            return;
         }
     );
 

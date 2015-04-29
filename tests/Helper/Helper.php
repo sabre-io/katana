@@ -50,8 +50,6 @@ class Helper
     function registerHelper($name, callable $helper)
     {
         $this->helpers[$name] = $helper;
-
-        return;
     }
 
     /**
