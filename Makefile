@@ -32,8 +32,42 @@ build-semantic-ui:
 		public/static/vendor/semantic-ui
 
 clean:
+	find . -name ".DS_Store" | \
+		xargs rm -f
 	rm -rf node_modules
 	rm -rf views/semantic-ui/dist/
+	find public/static/vendor/ember \
+		-type f \
+		-not -name 'ember.js' -and \
+		-not -name 'ember.min.js' -and \
+		-not -name 'ember-template-compiler.js' | \
+			xargs rm -f
+	find public/static/vendor/ember-data \
+		-type f \
+		-not -name 'ember-data.js' -and \
+		-not -name 'ember-data.js.map' -and \
+		-not -name 'ember-data.min.js' | \
+			xargs rm -f
+	find public/static/vendor/ember-simple-auth \
+		-type f \
+		-not -name 'simple-auth.js' | \
+			xargs rm -f
+	find public/static/vendor/node-uuid \
+		-not -name 'node-uuid' -and \
+		-not -name 'uuid.js' | \
+			xargs rm -rf
+	find public/static/vendor/event-source-polyfill \
+		-not -name 'event-source-polyfill' -and \
+		-not -name 'eventsource.js' -and \
+		-not -name 'eventsource.min.js' | \
+			xargs rm -rf
+	find public/static/vendor/jquery \
+		-not -name 'jquery' -and \
+		-not -name 'dist' -and \
+		-not -name 'jquery.js' -and \
+		-not -name 'jquery.min.js' -and \
+		-not -name 'jquery.min.map' | \
+			xargs rm -rf
 	rm -f data/variable/log/*.log
 
 distclean: clean distclean-server distclean-client
