@@ -177,8 +177,12 @@ Katana.Router.reopen({
  * Declare the router.
  */
 Katana.Router.map(function() {
-    this.resource('users', function() {
-        this.resource('user', {path: ':user_id'});
+    this.resource('users', {path: 'user'}, function() {
+        this.resource('user', {path: ':user_id'}, function() {
+            this.resource('profile', {path: 'profile'});
+            this.resource('calendars', {path: 'calendars'});
+            this.resource('calendar', {path: 'calendar/:calendar_id'});
+        });
     });
     this.resource('about');
 });
@@ -255,6 +259,11 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
 Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.AuthenticationControllerMixin, {
 
     /**
+     * Users are sorted by the display name.
+     */
+    sortProperties     : ['displayName'],
+
+    /**
      * Whether the login form is valid or not.
      */
     valid              : true,
@@ -263,6 +272,11 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
      * Whether the login form is submitting or not.
      */
     submitting         : false,
+
+    /**
+     * Whether the application can run or not (it runs if authorized).
+     */
+    authorized         : false,
 
     /**
      * Tick for the session activity. Does not contain any useful information.
@@ -352,6 +366,25 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
         );
     }.observes('session.isAuthenticated'),
 
+    /**
+     * Everything that must run after the applications really starts.
+     */
+    onAuthorized: function()
+    {
+        var self = this;
+
+        // Change the UI.
+        $('html').addClass('logged');
+
+        // Start the session tick.
+        Ember.run.later(
+            function() {
+                self.set('lastSessionTick', new Date());
+            },
+            1000
+        );
+    }.observes('authorized'),
+
     actions: {
 
         /**
@@ -374,19 +407,12 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
                     function(message) {
                         self.set('valid',      true);
                         self.set('submitting', false);
-
-                        Ember.run.later(
-                            function() {
-                                self.set('lastSessionTick', new Date());
-                            },
-                            1000
-                        );
-
-                        $('html').addClass('logged');
+                        self.set('authorized', true);
                     },
                     function(message) {
                         self.set('valid',      false);
                         self.set('submitting', false);
+                        self.set('authorized', false);
                     }
                 );
         }
@@ -450,12 +476,9 @@ Katana.ApplicationView = Ember.View.extend({
  */
 Katana.ApplicationAdapter = KatanaWebDAVAdapter;
 
-/**
- * Users route.
- */
 Katana.UsersRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
-    model: function()
+    model: function(params)
     {
         return this.get('store').filter(
             'user',
@@ -468,15 +491,7 @@ Katana.UsersRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
 });
 
-/**
- * User controller.
- */
 Katana.UsersController = Ember.Controller.extend({
-
-    /**
-     * Users are sorted by the display name.
-     */
-    sortProperties: ['displayName'],
 
     actions: {
 
@@ -495,7 +510,7 @@ Katana.UsersController = Ember.Controller.extend({
                 }
             );
             this.transitionToRoute(
-                'user',
+                'profile',
                 record.get('id'),
                 {
                     queryParams: {
@@ -510,21 +525,21 @@ Katana.UsersController = Ember.Controller.extend({
 });
 
 /**
- * User route.
+ * User profile route.
  */
-Katana.UserRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
+Katana.ProfileRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
-    model: function(params)
+    model: function(params, transition)
     {
-        return this.get('store').find('user', params.user_id);
+        return this.get('store').find('user', transition.params.user.user_id);
     }
 
 });
 
 /**
- * User controller.
+ * User profile controller.
  */
-Katana.UserController = Ember.Controller.extend({
+Katana.ProfileController = Ember.Controller.extend({
 
     queryParams: ['edit'],
 
@@ -630,7 +645,7 @@ Katana.UserController = Ember.Controller.extend({
                         function() {
                             model.set('newPassword', null);
                             self.transitionToRoute(
-                                'user',
+                                'profile',
                                 model.get('username')
                             );
                         }
@@ -701,6 +716,10 @@ Katana.UserController = Ember.Controller.extend({
  */
 Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin);
 
+
+/**
+ * User model.
+ */
 Katana.User = DS.Model.extend(KatanaValidatorMixin, {
 
     username   : DS.attr('string'),

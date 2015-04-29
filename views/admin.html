@@ -18,6 +18,29 @@
 <body>
 
 <script type="text/x-handlebars">
+  {{#if session.isAuthenticated}}
+    <nav class="ui segment secondary pointing menu">
+      {{#link-to 'users' class="item"}}
+        <i class="users icon"></i> Users
+      {{/link-to}}
+      <a class="item disabled">
+        <i class="dashboard icon"></i> Dashboard
+      </a>
+      <a class="item disabled">
+        <i class="settings icon"></i> Settings
+      </a>
+
+      <div class="right menu">
+        {{#link-to 'about' class="item"}}
+          <i class="help circle icon"></i> About
+        {{/link-to}}
+        <a {{action 'invalidateSession'}} class="item">
+          <i class="sign out icon"></i> Log out
+        </a>
+      </div>
+    </nav>
+  {{/if}}
+
   <header>
     <h1 class="ui icon center aligned header">
       <img src="static/image/katana_logo.svg" alt="sabre/katana's logo" />
@@ -57,37 +80,9 @@
         </div>
       {{/if}}
 
-      <nav class="ui segment menu">
-        {{#link-to 'users' class="item"}}
-          <i class="users icon"></i> Users
-        {{/link-to}}
-        <a class="item disabled">
-          <i class="calendar icon"></i> Calendars
-        </a>
-        <a class="item disabled">
-          <i class="book icon"></i> Address books
-        </a>
-        <a class="item disabled">
-          <i class="tasks icon"></i> Tasks
-        </a>
-        <a class="item disabled">
-          <i class="dashboard icon"></i> Dashboard
-        </a>
-        <a class="item disabled">
-          <i class="settings icon"></i> Settings
-        </a>
-
-        <div class="right menu">
-          {{#link-to 'about' class="item"}}
-            <i class="help circle icon"></i> About
-          {{/link-to}}
-          <a {{action 'invalidateSession'}} class="item">
-            <i class="sign out icon"></i> Log out
-          </a>
-        </div>
-      </nav>
-
-      <article>{{outlet}}</article>
+      <article>
+        {{outlet}}
+      </article>
     {{else}}
       <div class="ui three columns centered grid">
         <div class="column">
@@ -147,7 +142,7 @@
           <i class="plus icon"></i>
         </a>
         {{#each model as |user|}}
-          {{#link-to 'user' user.id class="item"}}
+          {{#link-to 'profile' user.username class="item"}}
             {{user.displayName}}
           {{/link-to}}
         {{else}}
@@ -155,16 +150,29 @@
         {{/each}}
       </div>
     </div>
-
     <div class="twelve wide column">
-      <div class="ui segment modal-exclusive">
-        {{outlet}}
-      </div>
+      <nav class="ui segment menu">
+        {{#link-to 'calendars' class="item"}}
+          <i class="calendar icon"></i> Calendars
+        {{/link-to}}
+        <a class="item disabled">
+          <i class="book icon"></i> Address books
+        </a>
+        <a class="item disabled">
+          <i class="tasks icon"></i> Tasks
+        </a>
+      </nav>
+
+      {{outlet}}
     </div>
   </div>
 </script>
 
 <script type="text/x-handlebars" id="user">
+  {{outlet}}
+</script>
+
+<script type="text/x-handlebars" id="profile">
   <div id="modalUserAskDeleting" class="ui basic modal">
     <div class="header">Delete the user</div>
     <div class="content">
@@ -190,128 +198,142 @@
     </div>
   </div>
 
-  {{#unless valid}}
-    {{#if model.validatorErrors.username_empty}}
-      <div class="ui error message">
-        <p>Username cannot be empty.</p>
-      </div>
-    {{/if}}
-
-    {{#if model.validatorErrors.username_unique}}
-      <div class="ui error message">
-        <p>Username must be unique.</p>
-      </div>
-    {{/if}}
-
-    {{#if model.validatorErrors.displayName_empty}}
-      <div class="ui error message">
-        <p>Display name cannot be empty.</p>
-      </div>
-    {{/if}}
-
-    {{#if model.validatorErrors.email_invalid}}
-      <div class="ui error message">
-        <p>Email is not syntactically valid.</p>
-      </div>
-    {{/if}}
-
-    {{#if model.validatorErrors.newPassword_empty}}
-      <div class="ui error message">
-        <p>Password cannot be empty.</p>
-      </div>
-    {{/if}}
-  {{/unless}}
-
-  <form class="ui middle aligned grid">
-    <div class="row">
-      <div class="three wide column">
-        <label>Username:</label>
-      </div>
-      <div class="eight wide column">
-        <div class="ui fluid input">
-          {{#if isUsernameEditable}}
-            {{input type="text" value=model.username}}
-          {{else}}
-            <strong>{{model.username}}</strong>
-          {{/if}}
+  <div class="ui segment modal-exclusive">
+    {{#unless valid}}
+      {{#if model.validatorErrors.username_empty}}
+        <div class="ui error message">
+          <p>Username cannot be empty.</p>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="three wide column">
-        <label>Display name:</label>
-      </div>
-      <div class="eight wide column">
-        <div class="ui fluid input">
-          {{#if isEditing}}
-            {{input type="text" value=model.displayName}}
-          {{else}}
-            <strong>{{model.displayName}}</strong>
-          {{/if}}
+      {{/if}}
+
+      {{#if model.validatorErrors.username_unique}}
+        <div class="ui error message">
+          <p>Username must be unique.</p>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="three wide column">
-        <label>Email:</label>
-      </div>
-      <div class="eight wide column">
-        <div class="ui fluid input">
-          {{#if isEditing}}
-            {{input type="email" value=model.email}}
-          {{else}}
-            <strong>{{model.email}}</strong>
-          {{/if}}
+      {{/if}}
+
+      {{#if model.validatorErrors.displayName_empty}}
+        <div class="ui error message">
+          <p>Display name cannot be empty.</p>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="three wide column">
-        {{#if model.isNew}}
-          <label>Password:</label>
-        {{else}}
-          <label>New password:</label>
-        {{/if}}
-      </div>
-      <div class="eight wide column">
-        <div class="ui fluid input">
-          {{#if isEditing}}
-            {{#if model.isNew}}
-              {{input type="password" value=model.newPassword}}
+      {{/if}}
+
+      {{#if model.validatorErrors.email_invalid}}
+        <div class="ui error message">
+          <p>Email is not syntactically valid.</p>
+        </div>
+      {{/if}}
+
+      {{#if model.validatorErrors.newPassword_empty}}
+        <div class="ui error message">
+          <p>Password cannot be empty.</p>
+        </div>
+      {{/if}}
+    {{/unless}}
+
+    <form class="ui middle aligned grid">
+      <div class="row">
+        <div class="three wide column">
+          <label>Username:</label>
+        </div>
+        <div class="eight wide column">
+          <div class="ui fluid input">
+            {{#if isUsernameEditable}}
+              {{input type="text" value=model.username}}
             {{else}}
-              {{input type="password" value=model.newPassword placeholder="(empty to not change)"}}
+              <strong>{{model.username}}</strong>
             {{/if}}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          <label>Display name:</label>
+        </div>
+        <div class="eight wide column">
+          <div class="ui fluid input">
+            {{#if isEditing}}
+              {{input type="text" value=model.displayName}}
+            {{else}}
+              <strong>{{model.displayName}}</strong>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          <label>Email:</label>
+        </div>
+        <div class="eight wide column">
+          <div class="ui fluid input">
+            {{#if isEditing}}
+              {{input type="email" value=model.email}}
+            {{else}}
+              <strong>{{model.email}}</strong>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="three wide column">
+          {{#if model.isNew}}
+            <label>Password:</label>
           {{else}}
-          <strong>•••••••</strong>
+            <label>New password:</label>
+          {{/if}}
+        </div>
+        <div class="eight wide column">
+          <div class="ui fluid input">
+            {{#if isEditing}}
+              {{#if model.isNew}}
+                {{input type="password" value=model.newPassword}}
+              {{else}}
+                {{input type="password" value=model.newPassword placeholder="(empty to not change)"}}
+              {{/if}}
+            {{else}}
+            <strong>•••••••</strong>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="right aligned column">
+          {{#if isEditing}}
+            <button type="submit" {{action 'applyEditing'}} {{bind-attr disabled="model.valid:false:true" class=":ui :positive :right :labeled :icon model.valid::disabled :button"}}>
+              Save
+              <i class="save icon"></i>
+            </button>
+            <button {{action 'cancelEditing'}} class="ui negative right labeled icon button">
+              Cancel
+              <i class="undo icon"></i>
+            </button>
+          {{else}}
+            <button type="submit" {{action 'requestEditing'}} class="ui primary right labeled icon button">
+              Edit
+              <i class="edit icon"></i>
+            </button>
+            <button {{action 'requestDeleting'}} class="ui negative right labeled icon button">
+              Delete
+              <i class="delete icon"></i>
+            </button>
           {{/if}}
         </div>
       </div>
-    </div>
+    </form>
+  </div>
+</script>
 
-    <div class="row">
-      <div class="right aligned column">
-        {{#if isEditing}}
-          <button type="submit" {{action 'applyEditing'}} {{bind-attr disabled="model.valid:false:true" class=":ui :positive :right :labeled :icon model.valid::disabled :button"}}>
-            Save
-            <i class="save icon"></i>
-          </button>
-          <button {{action 'cancelEditing'}} class="ui negative right labeled icon button">
-            Cancel
-            <i class="undo icon"></i>
-          </button>
-        {{else}}
-          <button type="submit" {{action 'requestEditing'}} class="ui primary right labeled icon button">
-            Edit
-            <i class="edit icon"></i>
-          </button>
-          <button {{action 'requestDeleting'}} class="ui negative right labeled icon button">
-            Delete
-            <i class="delete icon"></i>
-          </button>
-        {{/if}}
-      </div>
-    </div>
-  </form>
+<script type="text/x-handlebars" id="calendars">
+  <div class="ui segment">
+    <p>New calendar: <input type="text" /></p>
+
+    <ul>
+      <li>calendar 1</li>
+      <li>calendar 2</li>
+      <li>calendar 3</li>
+    </ul>
+  </div>
 </script>
 
 <script type="text/x-handlebars" id="about">
