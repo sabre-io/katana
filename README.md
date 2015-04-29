@@ -30,18 +30,15 @@ If you downloaded sabre/katana as an archive, skip the pre-requisites.
 
 ### Pre-requisites
 
-To grab dependencies of the project, make sure you have [Composer] installed,
-and then run:
+To grab dependencies of the project, make sure you have [Composer], [Bower] and
+[NPM] installed, and then run:
 
 ```sh
-$ composer install
+$ make install
 ```
 
-Also, make sure you have [Bower] installed, and then run:
-
-```sh
-$ bower install
-```
+(Note: You can run `make clean` to clean extra files needed for the
+installation).
 
 Then, to install sabre/katana, you have two options.
 
@@ -74,7 +71,8 @@ To update sabre/katana, you have two options.
 
 ### In your browser
 
-**under development** (sorry, we are working hard on it).
+So far, only a message will be prompt, indicating how to update manually.
+We are working on automatic update in the browser.
 
 ### In your terminal
 
@@ -168,6 +166,7 @@ services or enterprise support.
 [CardDAV]: https://en.wikipedia.org/wiki/CardDAV
 [Composer]: http://getcomposer.org/
 [MySQL]: http://mysql.com/
+[NPM]: http://npmjs.org/
 [PHAR]: http://php.net/phar
 [SQLite]: http://sqlite.org/
 [WebDAV]: https://en.wikipedia.org/wiki/WebDAV

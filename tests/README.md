@@ -8,8 +8,8 @@ Unit tests are written and executed with [atoum]. They are located in the
 
 ### Execution
 
-If `require-dev`s in the `composer.json` file are correctly installed, one
-should do (from this directory):
+If `require-dev`s in the `composer.json` file are correctly installed (`make
+devinstall-server`), one should do (from this directory):
 
 ```sh
 $ ../bin/atoum

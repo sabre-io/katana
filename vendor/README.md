@@ -11,37 +11,17 @@ Dependencies are managed by [Composer]. They are declared in the
 To install them:
 
 ```sh
-$ composer install --working-dir ../../ --no-dev
-```
-
-To update them:
-
-```sh
-$ composer update --working-dir ../../ --no-dev
+$ cd ../
+$ make install-server
 ```
 
 ### Development dependencies
 
-To be able to run tests or such development tools, simply omit the `--no-dev`
-option (or replace it by `--dev`, depending of your Composer version).
-
-We assume Composer is up-to-date. Nevertheless, if Composer needs to be updated,
-run:
+To be able to run tests or such development tools, simply run:
 
 ```sh
-$ composer self-update
-```
-
-Then, to install all dependencies:
-
-```sh
-$ composer install --working-dir ../../
-```
-
-To update to all dependencies:
-
-```sh
-$ composer update --working-dir ../../
+$ cd ../
+$ make devinstall-server
 ```
 
 ### Optimizing
