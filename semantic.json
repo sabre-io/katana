@@ -38,7 +38,8 @@
     "dimmer",
     "dropdown",
     "modal",
-    "progress"
+    "progress",
+    "transition"
   ],
   "version": "1.12.1"
 }
