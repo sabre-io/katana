@@ -780,7 +780,7 @@ Katana.User = DS.Model.extend(KatanaValidatorMixin, {
         newPassword: function()
         {
             var defer       = Ember.RSVP.defer();
-            var newPassword = this.get('email');
+            var newPassword = this.get('newPassword');
 
             if (true === this.get('isNew')) {
                 if (!newPassword) {
