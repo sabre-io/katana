@@ -2,24 +2,34 @@ SHELL = bash
 
 all: install
 
-install: install-server install-client
-	bin/katana install
+install: install-server install-client build-client
 
 install-server:
 	composer install --no-dev
 
-install-client: build-semantic-ui
+install-client:
 	bower install --production
 	npm install --no-optional
 
-devinstall: devinstall-server devinstall-client
+devinstall: devinstall-server devinstall-client build-client
 
 devinstall-server:
 	composer install
 
-devinstall-client: build-semantic-ui
+devinstall-client:
 	bower install
 	npm install
+
+build-client: build-semantic-ui
+
+build-semantic-ui:
+	node_modules/.bin/gulp \
+		--gulpfile views/semantic-ui/gulpfile.js \
+		--cwd views/semantic-ui/ \
+		build
+	cp -v -r \
+		views/semantic-ui/dist/themes/default/assets/fonts \
+		public/static/vendor/semantic-ui
 
 clean:
 	rm -rf node_modules
@@ -42,12 +52,3 @@ distclean-client:
 uninstall:
 	rm -f data/etc/configuration/server.json
 	rm -f data/variable/database/katana_*.sqlite
-
-build-semantic-ui:
-	node_modules/.bin/gulp \
-		--gulpfile views/semantic-ui/gulpfile.js \
-		--cwd views/semantic-ui/ \
-		build
-	cp -v -r \
-		views/semantic-ui/dist/themes/default/assets/fonts \
-		public/static/vendor/semantic-ui
