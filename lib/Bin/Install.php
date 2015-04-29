@@ -23,6 +23,7 @@ namespace Sabre\Katana\Bin;
 
 use Sabre\Katana\Server\Installer;
 use Sabre\Katana\Server\Server;
+use Sabre\Uri;
 use Hoa\Console;
 use Hoa\Console\Cursor;
 use Hoa\Console\Window;
@@ -502,6 +503,13 @@ class Install extends AbstractCommand {
             return 2;
 
         }
+
+        list($dirname) = Uri\split($form['baseUrl']);
+
+        echo
+            "\n\n",
+            'The administration interface will be found at this path: ',
+            '<your website>', $dirname, '/admin.php.', "\n";
 
         Window::setTitle($oldTitle);
     }
