@@ -86,3 +86,13 @@ distclean-client:
 uninstall:
 	rm -f data/etc/configuration/server.json
 	rm -f data/variable/database/katana_*.sqlite
+
+test: devinstall-server
+	bin/atoum \
+		--configurations tests/.atoum.php \
+		--bootstrap-file tests/.bootstrap.atoum.php
+	bin/sabre-cs-fixer \
+		fix \
+			--dry-run \
+			--diff \
+			.
