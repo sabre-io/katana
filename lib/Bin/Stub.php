@@ -65,6 +65,7 @@ class Stub extends AbstractCommand {
      * @return int
      */
     function main() {
+
         $format = 0;
 
         while (false !== $c = $this->getOption($v)) {
@@ -96,7 +97,6 @@ class Stub extends AbstractCommand {
         $finder
             ->files()
             ->in(SABRE_KATANA_PREFIX)
-            ->notIn('/^node_modules$/')
             ->notIn('/^\.git$/');
 
         if (0 === $format) {
