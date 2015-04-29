@@ -106,7 +106,5 @@ class MySQL
         foreach ($this->databases as $databaseName) {
             $database->exec('DROP DATABASE ' . $databaseName);
         }
-
-        return;
     }
 }

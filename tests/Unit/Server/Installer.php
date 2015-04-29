@@ -1135,7 +1135,5 @@ class Installer extends Suite
             unset($array[$key1]);
 
         }
-
-        return;
     }
 }

@@ -97,8 +97,6 @@ class Plugin extends SabreDav\ServerPlugin {
      */
     function initialize(SabreDav\Server $server) {
         $server->on('method:GET', [$this, 'httpGet']);
-
-        return;
     }
 
     /**
