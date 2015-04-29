@@ -29,7 +29,7 @@ before_script:
 
 script:
   - ./bin/atoum -c tests/.atoum.php -bf tests/.bootstrap.atoum.php
-  - ./bin/phpcs -p --standard=tests/phpcs.xml lib/
+  - ./bin/sabre-cs-fixer fix --dry-run --diff .
 
 notifications:
   slack:
