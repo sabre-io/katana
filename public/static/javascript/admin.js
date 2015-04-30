@@ -472,10 +472,8 @@ Katana.ApplicationView = Ember.View.extend({
 });
 
 /**
- * Application adapter.
+ * Users route.
  */
-Katana.ApplicationAdapter = KatanaWebDAVAdapter;
-
 Katana.UsersRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
     model: function(params)
@@ -491,6 +489,9 @@ Katana.UsersRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
 });
 
+/**
+ * Users controller.
+ */
 Katana.UsersController = Ember.Controller.extend({
 
     actions: {
@@ -824,3 +825,8 @@ Katana.User = DS.Model.extend(KatanaValidatorMixin, {
     }
 
 });
+
+/**
+ * User adapter.
+ */
+Katana.UserAdapter = KatanaWebDAVPrincipalsAdapter;

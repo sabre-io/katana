@@ -29,7 +29,7 @@ Ember.libraries.register('Ember Katana WebDAV Adapter', '0.0.1');
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-var KatanaWebDAVAdapter = DS.Adapter.extend({
+var KatanaWebDAV = {
 
     getPrincipalsURL: function()
     {
@@ -46,16 +46,54 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
         return ENV.katana.base_url + '/addressbooks/';
     },
 
+    xhr: function(method, url, headers, body)
+    {
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                Ember.$.ajax({
+                    method     : method,
+                    url        : url,
+                    data       : body,
+                    headers    : headers,
+                    processData: false,
+                    success    : function(data, status, xhr) {
+                        xhr.then = null;
+                        Ember.run(null, resolve, xhr.responseText);
+                    },
+                    error: function(xhr, status, error) {
+                        var isObject = xhr !== null && typeof xhr === 'object';
+
+                        if (isObject) {
+                            xhr.then = null;
+
+                            if (!xhr.errorThrown) {
+                                if (typeof error === 'string') {
+                                    xhr.errorThrown = new Error(error);
+                                } else {
+                                    xhr.errorThrown = error;
+                                }
+                            }
+                        }
+
+                        Ember.run(null, reject, xhr);
+                    }
+                });
+            }
+        );
+    }
+
+};
+
+var KatanaWebDAVPrincipalsAdapter = DS.Adapter.extend({
+
     createRecord: function(store, type, snapshot)
     {
-        var self = this;
-
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
                 // Principals.
-                self.xhr(
+                KatanaWebDAV.xhr(
                     'MKCOL',
-                    self.getPrincipalsURL() + snapshot.get('username'),
+                    KatanaWebDAV.getPrincipalsURL() + snapshot.get('username'),
                     {
                         'Content-Type': 'application/xml; charset=utf-8'
                     },
@@ -75,9 +113,9 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                 ).then(
                     function(data) {
                         // One default calendar.
-                        return self.xhr(
+                        return KatanaWebDAV.xhr(
                             'MKCOL',
-                            self.getCalendarsURL() + snapshot.get('username') + '/' + uuid.v4() + '/',
+                            KatanaWebDAV.getCalendarsURL() + snapshot.get('username') + '/' + uuid.v4() + '/',
                             {
                                 'Content-Type': 'application/xml; charset=utf-8'
                             },
@@ -102,9 +140,9 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                 ).then(
                     function(data) {
                         // Another default calendar.
-                        return self.xhr(
+                        return KatanaWebDAV.xhr(
                             'MKCOL',
-                            self.getCalendarsURL() + snapshot.get('username') + '/' + uuid.v4() + '/',
+                            KatanaWebDAV.getCalendarsURL() + snapshot.get('username') + '/' + uuid.v4() + '/',
                             {
                                 'Content-Type': 'application/xml; charset=utf-8'
                             },
@@ -129,9 +167,9 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                 ).then(
                     function(data) {
                         // Default task list.
-                        return self.xhr(
+                        return KatanaWebDAV.xhr(
                             'MKCOL',
-                            self.getCalendarsURL() + snapshot.get('username') + '/' + uuid.v4() + '/',
+                            KatanaWebDAV.getCalendarsURL() + snapshot.get('username') + '/' + uuid.v4() + '/',
                             {
                                 'Content-Type': 'application/xml; charset=utf-8'
                             },
@@ -156,9 +194,9 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
                 ).then(
                     function(data) {
                         // Default address book.
-                        return self.xhr(
+                        return KatanaWebDAV.xhr(
                             'MKCOL',
-                            self.getAddressBooksURL() + snapshot.get('username') + '/' + uuid.v4() + '/',
+                            KatanaWebDAV.getAddressBooksURL() + snapshot.get('username') + '/' + uuid.v4() + '/',
                             {
                                 'Content-Type': 'application/xml; charset=utf-8'
                             },
@@ -194,13 +232,11 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
 
     updateRecord: function(store, type, snapshot)
     {
-        var self = this;
-
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
-                self.xhr(
+                KatanaWebDAV.xhr(
                     'PROPPATCH',
-                    self.getPrincipalsURL() + snapshot.get('username'),
+                    KatanaWebDAV.getPrincipalsURL() + snapshot.get('username'),
                     {
                         'Content-Type': 'application/xml; charset=utf-8'
                     },
@@ -232,13 +268,11 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
 
     deleteRecord: function(store, type, snapshot)
     {
-        var self = this;
-
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
-                self.xhr(
+                KatanaWebDAV.xhr(
                     'DELETE',
-                    self.getPrincipalsURL() + snapshot.get('username')
+                    KatanaWebDAV.getPrincipalsURL() + snapshot.get('username')
                 ).then(
                     function(data) {
                         resolve(data);
@@ -255,13 +289,11 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
 
     find: function(store, type, id, snapshot)
     {
-        var self = this;
-
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
-                self.xhr(
+                KatanaWebDAV.xhr(
                     'PROPFIND',
-                    self.getPrincipalsURL() + id,
+                    KatanaWebDAV.getPrincipalsURL() + id,
                     {
                         'Content-Type': 'application/xml; charset=utf-8'
                     },
@@ -297,14 +329,13 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
 
     findAll: function(store, type, sinceToken)
     {
-        var self      = this;
-        var userRegex = new RegExp('^' + this.getPrincipalsURL() + '([^/]+)/$');
+        var userRegex = new RegExp('^' + KatanaWebDAV.getPrincipalsURL() + '([^/]+)/$');
 
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
-                self.xhr(
+                KatanaWebDAV.xhr(
                     'PROPFIND',
-                    self.getPrincipalsURL(),
+                    KatanaWebDAV.getPrincipalsURL(),
                     {
                         'Content-Type': 'application/xml; charset=utf-8'
                     },
@@ -358,45 +389,8 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
     generateIdForRecord: function(store, inputProperties)
     {
         return 'new';
-    },
-
-    xhr: function(method, url, headers, body)
-    {
-        var self = this;
-
-        return new Ember.RSVP.Promise(
-            function(resolve, reject) {
-                Ember.$.ajax({
-                    method     : method,
-                    url        : url,
-                    data       : body,
-                    headers    : headers,
-                    processData: false,
-                    success    : function(data, status, xhr) {
-                        xhr.then = null;
-                        Ember.run(null, resolve, xhr.responseText);
-                    },
-                    error: function(xhr, status, error) {
-                        var isObject = xhr !== null && typeof xhr === 'object';
-
-                        if (isObject) {
-                            xhr.then = null;
-
-                            if (!xhr.errorThrown) {
-                                if (typeof error === 'string') {
-                                    xhr.errorThrown = new Error(error);
-                                } else {
-                                    xhr.errorThrown = error;
-                                }
-                            }
-                        }
-
-                        Ember.run(null, reject, xhr);
-                    }
-                });
-            }
-        );
     }
+
 });
 
 /**
