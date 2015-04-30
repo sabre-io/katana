@@ -378,12 +378,111 @@ var KatanaWebDAVPrincipalsAdapter = DS.Adapter.extend({
                 );
             }
         );
-
     },
 
     findQuery: function(store, type, query, recordArray)
     {
         return this.findAll(store, type, null);
+    },
+
+    generateIdForRecord: function(store, inputProperties)
+    {
+        return 'new';
+    }
+
+});
+
+var KatanaCalDAVAdapter = DS.Adapter.extend({
+
+    createRecord: function(store, type, snapshot)
+    {
+        console.log('CalDAV adapter createRecord');
+    },
+
+    updateRecord: function(store, type, snapshot)
+    {
+        console.log('CalDAV adapter updateRecord');
+    },
+
+    deleteRecord: function(store, type, snapshot)
+    {
+        console.log('CalDAV adapter deleteRecord');
+    },
+
+    find: function(store, type, id, snapshot)
+    {
+        console.log('CalDAV adapter find');
+    },
+
+    findAll: function(store, type, sinceToken)
+    {
+        console.log('CalDAV adapter findAll');
+        window._ = store;
+        console.log(store);
+        console.log(type);
+    },
+
+    findQuery: function(store, type, query, recordArray)
+    {
+        var username  = query.username;
+
+        if (undefined === username) {
+            return null;
+        }
+
+        var calendarRegex = new RegExp('^' + KatanaWebDAV.getCalendarsURL() + username + '/([^/]+)/$');
+
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                KatanaWebDAV.xhr(
+                    'PROPFIND',
+                    KatanaWebDAV.getCalendarsURL() + username,
+                    {
+                        'Content-Type': 'application/xml; charset=utf-8'
+                    },
+                    '<?xml version="1.0" encoding="utf-8" ?>' + "\n" +
+                    '<d:propfind xmlns:d="DAV:" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:apple="http://apple.com/ns/ical/">' + "\n" +
+                    '  <d:prop>' + "\n" +
+                    '    <d:displayname />' + "\n" +
+                    '    <cal:supported-calendar-component-set />' + "\n" +
+                    '    <apple:calendar-color />' + "\n" +
+                    '  </d:prop>' + "\n" +
+                    '</d:propfind>'
+                ).then(
+                    function(data) {
+                        var multiStatus = KatanaWebDAVParser.multiStatus(data);
+                        var calendars   = [];
+
+                        multiStatus.forEach(
+                            function(response) {
+                                var calendar = (calendarRegex.exec(response.href) || [null, null])[1];
+
+                                if (calendar &&
+                                    'HTTP/1.1 200 OK' === response.propStat[0].status) {
+                                    var properties = response.propStat[0].properties;
+                                    calendars.push({
+                                        id          : calendar,
+                                        calendarName: calendar,
+                                        displayName : properties['{DAV:}displayname'],
+                                        color       : properties['{http://apple.com/ns/ical/}calendar-color'],
+                                        user        : username
+                                    });
+                                }
+                            }
+                        );
+
+                        console.log(calendars);
+
+                        resolve(calendars);
+                    },
+                    function(xhr) {
+                        console.log('nok');
+                        console.log(xhr);
+                        reject(xhr);
+                    }
+                );
+            }
+        );
     },
 
     generateIdForRecord: function(store, inputProperties)

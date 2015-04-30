@@ -326,12 +326,12 @@
 
 <script type="text/x-handlebars" id="calendars">
   <div class="ui segment">
-    <p>New calendar: <input type="text" /></p>
-
     <ul>
-      <li>calendar 1</li>
-      <li>calendar 2</li>
-      <li>calendar 3</li>
+      {{#each model as |calendar|}}
+        <li>{{calendar.displayName}}</li>
+      {{else}}
+        <li>No calendar</li>
+      {{/each}}
     </ul>
   </div>
 </script>

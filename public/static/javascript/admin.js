@@ -180,11 +180,10 @@ Katana.Router.map(function() {
     this.resource('users', {path: 'user'}, function() {
         this.resource('user', {path: ':user_id'}, function() {
             this.resource('profile', {path: 'profile'});
-            this.resource('calendars', {path: 'calendars'});
-            this.resource('calendar', {path: 'calendar/:calendar_id'});
+            this.resource('calendars', {path: 'calendar'});
         });
     });
-    this.resource('about');
+    this.route('about');
 });
 
 /**
@@ -713,6 +712,41 @@ Katana.ProfileController = Ember.Controller.extend({
 });
 
 /**
+ * Calendar route.
+ */
+Katana.CalendarsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
+
+    model: function(params, transition)
+    {
+        return this.get('store').filter(
+            'calendar',
+            {
+                username: transition.params.user.user_id
+            },
+            function(calendar) {
+                return true;
+            }
+        );
+    },
+
+    setupController: function(controller, model)
+    {
+        console.log('foo');
+
+        controller.set('model', null);
+        controller.set('content', null);
+
+        this._super(controller, model);
+        console.log('bar');
+    }
+
+});
+
+Katana.CalendarsController = Ember.Controller.extend(SimpleAuth.AuthenticationControllerMixin, {
+
+});
+
+/**
  * About route.
  */
 Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin);
@@ -727,6 +761,8 @@ Katana.User = DS.Model.extend(KatanaValidatorMixin, {
     displayName: DS.attr('string'),
     email      : DS.attr('string'),
     newPassword: DS.attr('string'),
+
+    calendars  : DS.hasMany('calendar'),
 
     validators: {
 
@@ -830,3 +866,21 @@ Katana.User = DS.Model.extend(KatanaValidatorMixin, {
  * User adapter.
  */
 Katana.UserAdapter = KatanaWebDAVPrincipalsAdapter;
+
+/**
+ * Calendar model.
+ */
+Katana.Calendar = DS.Model.extend(KatanaValidatorMixin, {
+
+    calendarName: DS.attr('string'),
+    displayName : DS.attr('string'),
+    color       : DS.attr('string'),
+
+    user        : DS.belongsTo('user')
+
+});
+
+/**
+ * Calendar adapter.
+ */
+Katana.CalendarAdapter = KatanaCalDAVAdapter;
