@@ -151,24 +151,24 @@
       </div>
     </div>
     <div class="twelve wide column">
-      <nav class="ui segment menu">
-        {{#link-to 'calendars' class="item"}}
-          <i class="calendar icon"></i> Calendars
-        {{/link-to}}
-        <a class="item disabled">
-          <i class="book icon"></i> Address books
-        </a>
-        <a class="item disabled">
-          <i class="tasks icon"></i> Tasks
-        </a>
-      </nav>
-
       {{outlet}}
     </div>
   </div>
 </script>
 
 <script type="text/x-handlebars" id="user">
+  <nav class="ui segment menu">
+    {{#link-to 'calendars' class="item"}}
+      <i class="calendar icon"></i> Calendars
+    {{/link-to}}
+    <a class="item disabled">
+      <i class="book icon"></i> Address books
+    </a>
+    <a class="item disabled">
+      <i class="tasks icon"></i> Tasks
+    </a>
+  </nav>
+
   {{outlet}}
 </script>
 
