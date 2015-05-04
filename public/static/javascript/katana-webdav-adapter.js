@@ -307,7 +307,7 @@ var KatanaWebDAVPrincipalsAdapter = DS.Adapter.extend({
                 ).then(
                     function(data) {
                         var multiStatus = KatanaWebDAVParser.multiStatus(data);
-                        var properties  = multiStatus[0].propStat[0].properties;
+                        var properties  = multiStatus[0].propStat[0].prop;
 
                         resolve({
                             id         : id,
@@ -356,7 +356,7 @@ var KatanaWebDAVPrincipalsAdapter = DS.Adapter.extend({
                                 var user = (userRegex.exec(response.href) || [null, null])[1];
 
                                 if (user) {
-                                    var properties  = response.propStat[0].properties;
+                                    var properties  = response.propStat[0].prop;
                                     users.push({
                                         id         : user,
                                         username   : user,
@@ -459,7 +459,7 @@ var KatanaCalDAVAdapter = DS.Adapter.extend({
 
                                 if (calendar &&
                                     'HTTP/1.1 200 OK' === response.propStat[0].status) {
-                                    var properties = response.propStat[0].properties;
+                                    var properties = response.propStat[0].prop;
                                     calendars.push({
                                         id          : calendar,
                                         calendarName: calendar,
@@ -470,8 +470,6 @@ var KatanaCalDAVAdapter = DS.Adapter.extend({
                                 }
                             }
                         );
-
-                        console.log(calendars);
 
                         resolve(calendars);
                     },
@@ -505,6 +503,9 @@ var KatanaWebDAVParser = {
         'DAV:': 'd'
     },
 
+    /**
+     * Namespace resolving function.
+     */
     namespaceResolver: function(alias)
     {
         for (var uri in this.namespaces) {
@@ -516,6 +517,9 @@ var KatanaWebDAVParser = {
         return null;
     },
 
+    /**
+     * Parse an XML string and return an XMLDocument object.
+     */
     xml: function(xml)
     {
         var parser = new DOMParser();
@@ -523,6 +527,69 @@ var KatanaWebDAVParser = {
         return parser.parseFromString(xml, 'application/xml');
     },
 
+    /**
+     * The PrimiteXMLElement object.
+     */
+    PrimitiveXMLElement: function(name, attributes, children, value) {
+        this.name       = name;
+        this.attributes = attributes || {};
+        this.children   = children || [];
+        this.value      = value;
+
+        this.toString   = function() {
+            return this.value;
+        };
+    },
+
+    /**
+     * Compile an XML document into Javascript primitive.
+     */
+    xmlToPrimitive: function(node)
+    {
+        var value    = null;
+        var children = [];
+        var child    = null;
+
+        for (var i = 0; i < node.children.length; ++i) {
+            children.push(this.xmlToPrimitive(node.children[i]));
+        }
+
+        if (0 === children.length) {
+            value = node.textContent;
+        }
+
+        return new this.PrimitiveXMLElement(
+            '{' + node.namespaceURI + '}' + node.localName,
+            this.xmlAttributesToPrimitive(node.attributes),
+            children,
+            value
+        );
+    },
+
+    /**
+     * Compile an XML attributes into Javascript primitives (an object).
+     */
+    xmlAttributesToPrimitive: function(attributes)
+    {
+        var out       = {};
+        var attribute = null;
+
+        for(var i = 0; i < attributes.length; ++i) {
+            attribute = attributes[i];
+
+            out[
+                '{' + (attribute.namespaceURI || '') + '}' + attribute.nodeName
+            ] = attribute.nodeValue;
+
+            attribute = null;
+        }
+
+        return out;
+    },
+
+    /**
+     * Get a pre-configured XPath evaluator.
+     */
     getXpathEvaluator: function(xmlDocument)
     {
         var self = this;
@@ -538,6 +605,9 @@ var KatanaWebDAVParser = {
         };
     },
 
+    /**
+     * Parse a multi-status payload.
+     */
     multiStatus: function(xml)
     {
         var xmlDocument  = this.xml(xml);
@@ -560,8 +630,8 @@ var KatanaWebDAVParser = {
             while (propStatNode) {
 
                 var propStat = {
-                    status    : xpath('string(d:status)', propStatNode).stringValue,
-                    properties: {}
+                    status: xpath('string(d:status)', propStatNode).stringValue,
+                    prop  : {}
                 };
 
                 var props    = xpath('d:prop/*', propStatNode);
@@ -569,9 +639,9 @@ var KatanaWebDAVParser = {
 
                 while (propNode) {
 
-                    propStat.properties[
-                        '{' + propNode.namespaceURI + '}' + propNode.localName
-                    ] = propNode.textContent;
+                    var handle                 = this.xmlToPrimitive(propNode);
+                    propStat.prop[handle.name] = handle;
+
                     propNode = props.iterateNext();
 
                 }
