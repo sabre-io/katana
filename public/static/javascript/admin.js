@@ -721,7 +721,8 @@ Katana.CalendarsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
         return this.get('store').filter(
             'calendar',
             {
-                username: transition.params.user.user_id
+                username: transition.params.user.user_id,
+                type    : 'vevent'
             },
             function(calendar) {
                 return true;

@@ -424,7 +424,8 @@ var KatanaCalDAVAdapter = DS.Adapter.extend({
 
     findQuery: function(store, type, query, recordArray)
     {
-        var username  = query.username;
+        var username = query.username;
+        var type     = (query.type || 'vevent').toUpperCase();
 
         if (undefined === username) {
             return null;
@@ -460,6 +461,11 @@ var KatanaCalDAVAdapter = DS.Adapter.extend({
                                 if (calendar &&
                                     'HTTP/1.1 200 OK' === response.propStat[0].status) {
                                     var properties = response.propStat[0].prop;
+
+                                    if (type !== properties['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'].children[0].attributes['{}name']) {
+                                        return;
+                                    }
+
                                     calendars.push({
                                         id          : calendar,
                                         calendarName: calendar,
