@@ -624,7 +624,6 @@ var KatanaWebDAVParser = {
         var responseNode = responses.iterateNext();
 
         while (responseNode) {
-
             var response = {
                 href    : xpath('string(d:href)', responseNode).stringValue,
                 propStat: []
@@ -634,7 +633,6 @@ var KatanaWebDAVParser = {
             var propStatNode = propStats.iterateNext();
 
             while (propStatNode) {
-
                 var propStat = {
                     status: xpath('string(d:status)', propStatNode).stringValue,
                     prop  : {}
@@ -644,22 +642,18 @@ var KatanaWebDAVParser = {
                 var propNode = props.iterateNext();
 
                 while (propNode) {
-
                     var handle                 = this.xmlToPrimitive(propNode);
                     propStat.prop[handle.name] = handle;
 
                     propNode = props.iterateNext();
-
                 }
 
                 response.propStat.push(propStat);
                 propStatNode = propStats.iterateNext();
-
             }
 
             result.push(response);
             responseNode = responses.iterateNext();
-
         }
 
         return result;
