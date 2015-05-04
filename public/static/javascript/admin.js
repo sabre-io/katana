@@ -727,22 +727,65 @@ Katana.CalendarsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
                 return true;
             }
         );
-    },
-
-    setupController: function(controller, model)
-    {
-        console.log('foo');
-
-        controller.set('model', null);
-        controller.set('content', null);
-
-        this._super(controller, model);
-        console.log('bar');
     }
 
 });
 
-Katana.CalendarsController = Ember.Controller.extend(SimpleAuth.AuthenticationControllerMixin, {
+/**
+ * Calendars controller.
+ */
+Katana.CalendarsController = Ember.ArrayController.extend(SimpleAuth.AuthenticationControllerMixin, {
+
+    itemController: 'calendar'
+
+});
+
+/**
+ * Calendar controller.
+ */
+Katana.CalendarController = Ember.Controller.extend({
+
+    /**
+     * Transform the calendar color into an HTML color.
+     */
+    itemColor: function()
+    {
+        return 'color: ' + this.get('model').get('color').substring(0, 7);
+    }.property('itemColor'),
+
+    actions: {
+
+        /**
+         * Ask to delete a calendar.
+         */
+        requestDeleting: function()
+        {
+            var self = this;
+
+            $('#modalCalendarAskDeleting')
+                .modal(
+                    'setting',
+                    {
+                        onDeny: function() {
+                            return true;
+                        },
+                        onApprove: function() {
+                            self.send('applyDeleting');
+                            return true;
+                        }
+                    }
+                )
+                .modal('show');
+        },
+
+        /**
+         * Really delete a calendar.
+         */
+        applyDeleting: function()
+        {
+            console.log('really delete it');
+        }
+    }
 
 });
 

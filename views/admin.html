@@ -14,6 +14,16 @@
   <link rel="stylesheet" href="static/vendor/semantic-ui/semantic.min.css" type="text/css" />
   <link rel="stylesheet" href="static/css/layout.css" type="text/css" />
   <link rel="stylesheet" href="static/css/ui.css" type="text/css" />
+
+  <style>
+    .katana-crud {
+        opacity: 0;
+    }
+
+    *:hover > .katana-crud {
+        opacity: 1;
+    }
+  </style>
 </head>
 <body>
 
@@ -325,14 +335,50 @@
 </script>
 
 <script type="text/x-handlebars" id="calendars">
+  <div id="modalCalendarAskDeleting" class="ui basic modal">
+    <div class="header">Delete the calendar</div>
+    <div class="content">
+      <div class="image">
+        <i class="remove user icon"></i>
+      </div>
+      <div class="description">
+        <p>Are you sure you want to delete this calendar?</p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui two fluid inverted buttons">
+        <button class="ui basic inverted red right labeled icon deny button">
+          No
+          <i class="remove icon"></i>
+        </button>
+        <button class="ui basic inverted green right labeled icon approve button">
+          Yes!
+          <i class="checkmark icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="ui segment">
-    <ul>
-      {{#each model as |calendar|}}
-        <li>{{calendar.displayName}}</li>
-      {{else}}
-        <li>No calendar</li>
-      {{/each}}
-    </ul>
+    {{#each controller as |calendar|}}
+      <div class="ui segment" style="padding-bottom: 0">
+        <div class="ui middle aligned grid">
+          <div class="one wide column">
+            <span {{bind-attr style=calendar.itemColor}}>⬤<</span>
+          </div>
+          <div class="twelve wide column">
+            {{calendar.model.displayName}}
+          </div>
+          <div class="katana-crud right aligned right floated three wide column">
+            <button {{action 'requestDeleting'}} class="compact circular ui negative icon button">
+              <i class="remove icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    {{else}}
+      <p>No calendar.</p>
+    {{/each}}
   </div>
 </script>
 
