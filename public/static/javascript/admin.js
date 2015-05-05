@@ -730,64 +730,6 @@ Katana.UsersUserCalendarsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRout
 });
 
 /**
- * Calendars controller.
- */
-Katana.UsersUserCalendarsController = Ember.ArrayController.extend(SimpleAuth.AuthenticationControllerMixin, {
-
-    itemController: 'usersUserCalendar'
-
-});
-
-/**
- * Calendar controller.
- */
-Katana.UsersUserCalendarController = Ember.Controller.extend({
-
-    /**
-     * Transform the calendar color into an HTML color.
-     */
-    itemColor: function()
-    {
-        return 'color: ' + this.get('model').get('color').substring(0, 7);
-    }.property('itemColor'),
-
-    actions: {
-
-        /**
-         * Ask to delete a calendar.
-         */
-        requestDeleting: function()
-        {
-            var self = this;
-
-            $('#modalCalendarAskDeleting')
-                .modal(
-                    'setting',
-                    {
-                        onDeny: function() {
-                            return true;
-                        },
-                        onApprove: function() {
-                            self.send('applyDeleting');
-                            return true;
-                        }
-                    }
-                )
-                .modal('show');
-        },
-
-        /**
-         * Really delete a calendar.
-         */
-        applyDeleting: function()
-        {
-            console.log('really delete it');
-        }
-    }
-
-});
-
-/**
  * About route.
  */
 Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin);
@@ -917,7 +859,12 @@ Katana.Calendar = DS.Model.extend(KatanaValidatorMixin, {
     displayName : DS.attr('string'),
     color       : DS.attr('string'),
 
-    user        : DS.belongsTo('user')
+    user        : DS.belongsTo('user'),
+
+    cssColor: function()
+    {
+        return this.get('color').substring(0, 7);
+    }.property('cssColor')
 
 });
 
