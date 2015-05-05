@@ -152,7 +152,7 @@
           <i class="plus icon"></i>
         </a>
         {{#each model as |user|}}
-          {{#link-to 'profile' user.username class="item"}}
+          {{#link-to 'users.user.profile' user.username class="item"}}
             {{user.displayName}}
           {{/link-to}}
         {{else}}
@@ -166,9 +166,9 @@
   </div>
 </script>
 
-<script type="text/x-handlebars" id="user">
+<script type="text/x-handlebars" id="users/user">
   <nav class="ui segment menu">
-    {{#link-to 'calendars' class="item"}}
+    {{#link-to 'users.user.calendars' class="item"}}
       <i class="calendar icon"></i> Calendars
     {{/link-to}}
     <a class="item disabled">
@@ -182,7 +182,7 @@
   {{outlet}}
 </script>
 
-<script type="text/x-handlebars" id="profile">
+<script type="text/x-handlebars" id="users/user/profile">
   <div id="modalUserAskDeleting" class="ui basic modal">
     <div class="header">Delete the user</div>
     <div class="content">
@@ -334,7 +334,7 @@
   </div>
 </script>
 
-<script type="text/x-handlebars" id="calendars">
+<script type="text/x-handlebars" id="users/user/calendars">
   <div id="modalCalendarAskDeleting" class="ui basic modal">
     <div class="header">Delete the calendar</div>
     <div class="content">

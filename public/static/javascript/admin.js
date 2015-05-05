@@ -177,10 +177,10 @@ Katana.Router.reopen({
  * Declare the router.
  */
 Katana.Router.map(function() {
-    this.resource('users', {path: 'user'}, function() {
-        this.resource('user', {path: ':user_id'}, function() {
-            this.resource('profile', {path: 'profile'});
-            this.resource('calendars', {path: 'calendar'});
+    this.route('users', {path: 'user'}, function() {
+        this.route('user', {path: ':user_id'}, function() {
+            this.route('profile', {path: 'profile'});
+            this.route('calendars', {path: 'calendar'});
         });
     });
     this.route('about');
@@ -527,11 +527,11 @@ Katana.UsersController = Ember.Controller.extend({
 /**
  * User profile route.
  */
-Katana.ProfileRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
+Katana.UsersUserProfileRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
     model: function(params, transition)
     {
-        return this.get('store').find('user', transition.params.user.user_id);
+        return this.get('store').find('user', transition.params['users.user'].user_id);
     }
 
 });
@@ -539,7 +539,7 @@ Katana.ProfileRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 /**
  * User profile controller.
  */
-Katana.ProfileController = Ember.Controller.extend({
+Katana.UsersUserProfileController = Ember.Controller.extend({
 
     queryParams: ['edit'],
 
@@ -714,14 +714,14 @@ Katana.ProfileController = Ember.Controller.extend({
 /**
  * Calendar route.
  */
-Katana.CalendarsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
+Katana.UsersUserCalendarsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
     model: function(params, transition)
     {
         return this.get('store').filter(
             'calendar',
             {
-                username: transition.params.user.user_id,
+                username: transition.params['users.user'].user_id,
                 type    : 'vevent'
             },
             function(calendar) {
@@ -735,16 +735,16 @@ Katana.CalendarsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 /**
  * Calendars controller.
  */
-Katana.CalendarsController = Ember.ArrayController.extend(SimpleAuth.AuthenticationControllerMixin, {
+Katana.UsersUserCalendarsController = Ember.ArrayController.extend(SimpleAuth.AuthenticationControllerMixin, {
 
-    itemController: 'calendar'
+    itemController: 'usersUserCalendar'
 
 });
 
 /**
  * Calendar controller.
  */
-Katana.CalendarController = Ember.Controller.extend({
+Katana.UsersUserCalendarController = Ember.Controller.extend({
 
     /**
      * Transform the calendar color into an HTML color.
