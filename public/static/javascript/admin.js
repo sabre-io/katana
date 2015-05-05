@@ -510,7 +510,7 @@ Katana.UsersController = Ember.Controller.extend({
                 }
             );
             this.transitionToRoute(
-                'profile',
+                'users.user.profile',
                 record.get('id'),
                 {
                     queryParams: {
@@ -645,7 +645,7 @@ Katana.UsersUserProfileController = Ember.Controller.extend({
                         function() {
                             model.set('newPassword', null);
                             self.transitionToRoute(
-                                'profile',
+                                'users.user.profile',
                                 model.get('username')
                             );
                         }
