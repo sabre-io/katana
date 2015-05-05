@@ -346,7 +346,14 @@
           </div>
           <div class="content">
             <span class="description"><strong>{{calendar.displayName}}</strong></span>
-            <div class="extra">{{calendar.calendarName}}</div>
+            <div class="extra">
+              {{calendar.calendarName}}
+              <a {{bind-attr href=calendar.icsURL}}
+                 title="Download this calendar as an ICS file"
+                 class="ui right floated icon">
+                <i class="cloud download icon"></i>
+              </a>
+            </div>
           </div>
         </div>
       {{else}}
