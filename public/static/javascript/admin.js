@@ -864,7 +864,14 @@ Katana.Calendar = DS.Model.extend(KatanaValidatorMixin, {
     cssColor: function()
     {
         return this.get('color').substring(0, 7);
-    }.property('cssColor')
+    }.property('cssColor'),
+
+    icsURL: function()
+    {
+        return KatanaWebDAV.getCalendarsURL() +
+               this.get('user').get('username') + '/' +
+               this.get('calendarName') + '/?export';
+    }.property('icsURL')
 
 });
 
