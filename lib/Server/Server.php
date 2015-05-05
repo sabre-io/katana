@@ -198,6 +198,7 @@ class Server {
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
         $this->getServer()->addPlugin(new SabreCalDav\Plugin());
         $this->getServer()->addPlugin(new SabreCalDav\Schedule\Plugin());
+        $this->getServer()->addPlugin(new SabreCalDav\ICSExportPlugin());
     }
 
     /**
