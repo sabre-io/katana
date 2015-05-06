@@ -67,6 +67,15 @@ Ember.libraries.register('Ember Katana Validator', '0.0.3');
  */
 var KatanaValidatorMixin = Ember.Mixin.create({
 
+    init: function()
+    {
+        this._super.apply(this, arguments);
+
+        if (this instanceof Ember.Controller) {
+            this.ready();
+        }
+    },
+
     ready: function()
     {
         var self = this;
