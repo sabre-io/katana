@@ -180,7 +180,7 @@ Katana.Router.map(function() {
     this.route('users', {path: 'user'}, function() {
         this.route('user', {path: ':user_id'}, function() {
             this.route('profile', {path: 'profile'});
-            this.route('calendars', {path: 'calendar'});
+            this.route('calendars');
         });
     });
     this.route('about');
