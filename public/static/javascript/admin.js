@@ -564,7 +564,7 @@ Katana.UsersUserProfileController = Ember.Controller.extend({
     isEditing: false,
 
     /**
-     *  When we are editing, the application should be in the modal mode.
+     * When we are editing, the application should be in the modal mode.
      */
     autoModal: function()
     {
@@ -773,6 +773,18 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
      * Whether the creating mode is active.
      */
     isCreating      : false,
+
+    /**
+     * When we are creating, the application should be in the modal mode.
+     */
+    autoModal: function()
+    {
+        this.send(
+            true === this.get('isCreating')
+                ? 'requestModal'
+                : 'cancelModal'
+        );
+    }.observes('isCreating'),
 
     /**
      * The new calendar name.

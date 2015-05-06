@@ -32,10 +32,14 @@ header > h1 > img {
 
 .segment {
     background: rgba(255, 255, 255, .85) !important;
+}
+
+.segment, .item {
     transition: opacity .3s ease;
 }
 
-    html.modal .segment:not(.modal-exclusive) {
+    html.modal .segment:not(.modal-exclusive),
+    html.modal .item:not(.modal-exclusive) {
         pointer-events: none;
         opacity: .3;
     }

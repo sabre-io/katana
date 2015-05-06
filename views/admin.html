@@ -332,7 +332,7 @@
     New calendar
     <i class="plus icon"></i>
   </div>
-  <div class="ui attached segment">
+  <div class="ui attached segment modal-exclusive">
     {{#unless valid}}
       {{#if validatorErrors.newCalendarName_empty}}
         <div class="ui error message">
@@ -343,7 +343,7 @@
 
     <div class="ui divided items">
       {{#if isCreating}}
-        <div class="item">
+        <div class="item modal-exclusive">
           <div class="ui tiny image">
             <svg viewBox="0 0 100 100">
               <circle cx="50" cy="50" r="40" {{bind-attr fill=randomColor}} />
