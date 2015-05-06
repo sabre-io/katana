@@ -158,6 +158,9 @@
 
 <script type="text/x-handlebars" id="users/user">
   <nav class="ui segment menu">
+    {{#link-to 'users.user.profile' class="item"}}
+      <i class="user icon"></i> Profile
+    {{/link-to}}
     {{#link-to 'users.user.calendars' class="item"}}
       <i class="calendar icon"></i> Calendars
     {{/link-to}}
