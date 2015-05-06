@@ -601,7 +601,7 @@ Katana.UsersUserProfileController = Ember.Controller.extend({
         cancelEditing: function()
         {
             if (true !== this.get('isEditing')) {
-                throw "Cannot cancel a user editing that is not in editing mode.";
+                throw 'Cannot cancel a user editing that is not in editing mode.';
             }
 
             var model = this.get('model');
@@ -631,7 +631,7 @@ Katana.UsersUserProfileController = Ember.Controller.extend({
             var self = this;
 
             if (true !== this.get('isEditing')) {
-                throw "Cannot save the current user because it was not in the editing mode.";
+                throw 'Cannot save the current user because it was not in the editing mode.';
             }
 
             this.get('model').validate().then(
