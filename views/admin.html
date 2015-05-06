@@ -348,7 +348,7 @@
             <span class="description"><strong>{{calendar.displayName}}</strong></span>
             <div class="extra">
               {{calendar.calendarName}}
-              <a {{bind-attr href=calendar.icsURL}}
+              <a {{bind-attr href=calendar.icsURL download=calendar.calendarFilename}}
                  title="Download this calendar as an ICS file"
                  class="ui right floated icon">
                 <i class="cloud download icon"></i>
