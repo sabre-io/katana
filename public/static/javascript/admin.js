@@ -740,9 +740,7 @@ Katana.UsersUserCalendarsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRout
     setupController: function(controller, model)
     {
         this._super.apply(this, arguments);
-        controller.set('isCreating',      false);
-        controller.set('newCalendarName', null);
-        controller.set('currentUser',     this.get('currentUser'));
+        controller.set('currentUser', this.get('currentUser'));
     },
 
     actions: {
@@ -791,6 +789,13 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
      */
     newCalendarName : null,
 
+    autoReset: function()
+    {
+        this.set('newCalendarName', null);
+        this.clearAllErrors();
+        this.set('valid', true);
+    }.observes('isCreating'),
+
     /**
      * Compute a new random color for the new calendar each time the model
      * changes.
@@ -823,7 +828,6 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
             }
 
             this.set('isCreating', false);
-            this.set('newCalendarName', null);
         },
 
         /**
@@ -846,8 +850,7 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
                         }
                     ).save().then(
                         function() {
-                            self.set('isCreating',      false);
-                            self.set('newCalendarName', null);
+                            self.set('isCreating', false);
                             self.send('refreshModel');
                         }
                     );
@@ -864,7 +867,7 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
             var defer        = Ember.RSVP.defer();
             var calendarName = this.get('newCalendarName');
 
-            if ('' === calendarName) {
+            if (!calendarName) {
                 defer.reject({
                     id     : 'newCalendarName_empty',
                     message: 'New calendar name cannot be empty.'
