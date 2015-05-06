@@ -828,7 +828,7 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
                         {
                             calendarName: uuid.v4(),
                             displayName : self.get('newCalendarName'),
-                            color       : self.get('randomColor'),
+                            color       : self.get('randomColor').toUpperCase() + 'FF',
                             // `user`, simplified
                             username    : self.get('currentUser')
                         }
