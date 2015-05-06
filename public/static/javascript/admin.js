@@ -871,7 +871,13 @@ Katana.Calendar = DS.Model.extend(KatanaValidatorMixin, {
         return KatanaWebDAV.getCalendarsURL() +
                this.get('user').get('username') + '/' +
                this.get('calendarName') + '/?export';
-    }.property('icsURL')
+    }.property('icsURL'),
+
+    calendarFilename: function()
+    {
+        return this.get('user').get('username') + '_' +
+               this.get('calendarName') + '.ics';
+    }.property('calendarFilename')
 
 });
 
