@@ -712,19 +712,158 @@ Katana.UsersUserProfileController = Ember.Controller.extend({
 });
 
 /**
- * Calendar route.
+ * Calendars route.
  */
 Katana.UsersUserCalendarsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
+    /**
+     * Current user (from the dynamic fragment).
+     */
+    currentUser: null,
+
     model: function(params, transition)
     {
+        this.set('currentUser', transition.params['users.user'].user_id);
+
         return this.get('store').find(
             'calendar',
             {
-                username: transition.params['users.user'].user_id,
+                username: this.get('currentUser'),
                 type    : 'vevent'
             }
         );
+    },
+
+    /**
+     * Reset the controller and set the current user.
+     */
+    setupController: function(controller, model)
+    {
+        this._super.apply(this, arguments);
+        controller.set('isCreating',      false);
+        controller.set('newCalendarName', null);
+        controller.set('currentUser',     this.get('currentUser'));
+    },
+
+    actions: {
+
+        /**
+         * Force to refresh the model.
+         */
+        refreshModel: function()
+        {
+            this.refresh();
+        }
+
+    }
+
+});
+
+/**
+ * Calendars controller.
+ */
+Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMixin, {
+
+    /**
+     * Owner of the calendars.
+     */
+    currentUser     : null,
+
+    /**
+     * Whether the creating mode is active.
+     */
+    isCreating      : false,
+
+    /**
+     * The new calendar name.
+     */
+    newCalendarName : null,
+
+    /**
+     * Compute a new random color for the new calendar each time the model
+     * changes.
+     */
+    randomColor     : function()
+    {
+        return '#' +
+               Math.floor(Math.random() * 255).toString(16) +
+               Math.floor(Math.random() * 255).toString(16) +
+               Math.floor(Math.random() * 255).toString(16);
+    }.property('model'),
+
+    actions: {
+
+        /**
+         * Create a new calendar and start the editing mode.
+         */
+        requestCreating: function()
+        {
+            this.set('isCreating', true);
+        },
+
+        /**
+         * Cancel the creating mode.
+         */
+        cancelCreating: function()
+        {
+            if (true !== this.get('isCreating')) {
+                throw 'Cannot cancel a calendar creation that is not in creating mode.';
+            }
+
+            this.set('isCreating', false);
+            this.set('newCalendarName', null);
+        },
+
+        /**
+         * Save the new calendar.
+         */
+        applyCreating: function()
+        {
+            var self = this;
+
+            this.validate().then(
+                function() {
+                    self.get('store').createRecord(
+                        'calendar',
+                        {
+                            calendarName: uuid.v4(),
+                            displayName : self.get('newCalendarName'),
+                            color       : self.get('randomColor'),
+                            // `user`, simplified
+                            username    : self.get('currentUser')
+                        }
+                    ).save().then(
+                        function() {
+                            self.set('isCreating', false);
+                            self.set('newCalendarName', null);
+                            self.send('refreshModel');
+                        }
+                    );
+                }
+            );
+        }
+
+    },
+
+    validators: {
+
+        newCalendarName: function()
+        {
+            var defer        = Ember.RSVP.defer();
+            var calendarName = this.get('newCalendarName');
+
+            if ('' === calendarName) {
+                defer.reject({
+                    id     : 'newCalendarName_empty',
+                    message: 'New calendar name cannot be empty.'
+                });
+            } else {
+                defer.resolve(calendarName);
+            }
+
+            return defer.promise;
+        }
+
     }
 
 });
@@ -853,7 +992,7 @@ Katana.UserAdapter = KatanaWebDAVPrincipalsAdapter;
 /**
  * Calendar model.
  */
-Katana.Calendar = DS.Model.extend(KatanaValidatorMixin, {
+Katana.Calendar = DS.Model.extend({
 
     calendarName: DS.attr('string'),
     displayName : DS.attr('string'),

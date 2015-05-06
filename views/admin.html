@@ -325,8 +325,46 @@
 </script>
 
 <script type="text/x-handlebars" id="users/user/calendars">
-  <div class="ui segment">
+  <div {{action 'requestCreating'}} {{bind-attr class=":ui :top :attached :positive :icon isCreating:disabled: :button"}}>
+    New calendar
+    <i class="plus icon"></i>
+  </div>
+  <div class="ui attached segment">
+    {{#unless valid}}
+      {{#if validatorErrors.newCalendarName_empty}}
+        <div class="ui error message">
+          <p>New calendar name cannot be empty.</p>
+        </div>
+      {{/if}}
+    {{/unless}}
+
     <div class="ui divided items">
+      {{#if isCreating}}
+        <div class="item">
+          <div class="ui tiny image">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" {{bind-attr fill=randomColor}} />
+            </svg>
+          </div>
+          <div class="content">
+            <div class="ui grid form">
+              <div class="eight wide column">
+                {{input type="text" value=newCalendarName placeholder="New calendar name"}}
+              </div>
+              <div class="right aligned eight wide column">
+                <button {{action 'applyCreating'}} {{bind-attr disabled="valid:false:true" class=":ui :positive :right :labeled :icon valid::disabled :button"}}>
+                  Save
+                  <i class="save icon"></i>
+                </button>
+                <button {{action 'cancelCreating'}} class="ui negative right labeled icon button">
+                  Cancel
+                  <i class="undo icon"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/if}}
       {{#each model as |calendar|}}
         <div class="item">
           <div class="ui tiny image">
@@ -335,12 +373,10 @@
             </svg>
           </div>
           <div class="content">
-            <span class="description"><strong>{{calendar.displayName}}</strong></span>
+            <div class="description"><strong>{{calendar.displayName}}</strong></div>
             <div class="extra">
               {{calendar.calendarName}}
-              <a {{bind-attr href=calendar.icsURL download=calendar.calendarFilename}}
-                 title="Download this calendar as an ICS file"
-                 class="ui right floated icon">
+              <a {{bind-attr href=calendar.icsURL download=calendar.calendarFilename}} title="Download this calendar as an ICS file" class="ui right floated icon">
                 <i class="cloud download icon"></i>
               </a>
             </div>
