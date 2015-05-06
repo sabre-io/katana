@@ -789,6 +789,9 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
      */
     newCalendarName : null,
 
+    /**
+     * Auto-reset the data.
+     */
     autoReset: function()
     {
         this.set('newCalendarName', null);
@@ -867,7 +870,7 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
             var defer        = Ember.RSVP.defer();
             var calendarName = this.get('newCalendarName');
 
-            if (!calendarName) {
+            if (true === this.get('isCreating') && !calendarName) {
                 defer.reject({
                     id     : 'newCalendarName_empty',
                     message: 'New calendar name cannot be empty.'
