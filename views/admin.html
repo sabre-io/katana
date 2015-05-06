@@ -302,11 +302,11 @@
           {{#if isEditing}}
             <button type="submit" {{action 'applyEditing'}} {{bind-attr disabled="model.valid:false:true" class=":ui :positive :right :labeled :icon model.valid::disabled :button"}}>
               Save
-              <i class="save icon"></i>
+              <i class="checkmark icon"></i>
             </button>
             <button {{action 'cancelEditing'}} class="ui negative right labeled icon button">
               Cancel
-              <i class="undo icon"></i>
+              <i class="remove icon"></i>
             </button>
           {{else}}
             <button type="submit" {{action 'requestEditing'}} class="ui primary right labeled icon button">
@@ -354,11 +354,11 @@
               <div class="right aligned eight wide column">
                 <button {{action 'applyCreating'}} {{bind-attr disabled="valid:false:true" class=":ui :positive :right :labeled :icon valid::disabled :button"}}>
                   Save
-                  <i class="save icon"></i>
+                  <i class="checkmark icon"></i>
                 </button>
                 <button {{action 'cancelCreating'}} class="ui negative right labeled icon button">
                   Cancel
-                  <i class="undo icon"></i>
+                  <i class="remove icon"></i>
                 </button>
               </div>
             </div>
