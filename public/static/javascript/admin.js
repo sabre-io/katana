@@ -834,7 +834,7 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
                         }
                     ).save().then(
                         function() {
-                            self.set('isCreating', false);
+                            self.set('isCreating',      false);
                             self.set('newCalendarName', null);
                             self.send('refreshModel');
                         }
