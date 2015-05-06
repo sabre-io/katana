@@ -396,7 +396,44 @@ var KatanaCalDAVAdapter = DS.Adapter.extend({
 
     createRecord: function(store, type, snapshot)
     {
-        console.log('CalDAV adapter createRecord');
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                KatanaWebDAV.xhr(
+                    'MKCOL',
+                    KatanaWebDAV.getCalendarsURL() + snapshot.get('username') + '/' + snapshot.get('calendarName') + '/',
+                    {
+                        'Content-Type': 'application/xml; charset=utf-8'
+                    },
+                    '<?xml version="1.0"?>' + "\n" +
+                    '<d:mkcol xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">' + "\n" +
+                    '  <d:set>' + "\n" +
+                    '    <d:prop>' + "\n" +
+                    '      <d:resourcetype>' + "\n" +
+                    '        <d:collection />' + "\n" +
+                    '        <c:calendar />' + "\n" +
+                    '      </d:resourcetype>' + "\n" +
+                    '      <d:displayname>' + snapshot.get('displayName') + '</d:displayname>' + "\n" +
+                    '      <c:supported-calendar-component-set>' + "\n" +
+                    '        <c:comp name="VEVENT" />' + "\n" +
+                    '      </c:supported-calendar-component-set>' + "\n" +
+                    '      <x:calendar-color xmlns:x="http://apple.com/ns/ical/">' + snapshot.get('color') + '</x:calendar-color>' + "\n" +
+                    '    </d:prop>' + "\n" +
+                    '  </d:set>' + "\n" +
+                    '</d:mkcol>'
+                ).then(
+                    function(data) {
+                        resolve({
+                            id: snapshot.get('calendarName')
+                        });
+                    },
+                    function(xhr) {
+                        console.log('nok');
+                        console.log(xhr);
+                        reject(xhr);
+                    }
+                );
+            }
+        );
     },
 
     updateRecord: function(store, type, snapshot)
