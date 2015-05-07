@@ -886,6 +886,20 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
 
 });
 
+Katana.CalendarItemComponent = Ember.Component.extend({
+
+    /**
+     * Component root tag name.
+     */
+    tagName   : 'div',
+
+    /**
+     * Component root tag name classes.
+     */
+    classNames: ['item']
+
+});
+
 /**
  * About route.
  */
