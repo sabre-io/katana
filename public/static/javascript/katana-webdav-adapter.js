@@ -443,7 +443,23 @@ var KatanaCalDAVAdapter = DS.Adapter.extend({
 
     deleteRecord: function(store, type, snapshot)
     {
-        console.log('CalDAV adapter deleteRecord');
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                KatanaWebDAV.xhr(
+                    'DELETE',
+                    KatanaWebDAV.getCalendarsURL() + snapshot.get('user').get('username') + '/' + snapshot.get('calendarName') + '/'
+                ).then(
+                    function(data) {
+                        resolve(data);
+                    },
+                    function(xhr) {
+                        console.log('nok');
+                        console.log(xhr);
+                        reject(xhr);
+                    }
+                );
+            }
+        );
     },
 
     find: function(store, type, id, snapshot)

@@ -131,6 +131,28 @@
       </div>
     </div>
   </div>
+
+  <div id="modalConfirm" class="ui basic modal">
+    <div class="header">{{confirm.title}}</div>
+    <div class="content">
+      <div class="image">
+        <i {{bind-attr class="confirm.type :icon"}}></i>
+      </div>
+      <div class="description">{{{confirm.content}}}</div>
+    </div>
+    <div class="actions">
+      <div class="ui two fluid inverted buttons">
+        <button class="ui basic inverted red right labeled icon deny button">
+          No
+          <i class="remove icon"></i>
+        </button>
+        <button class="ui basic inverted green right labeled icon approve button">
+          Yes!
+          <i class="checkmark icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 </script>
 
 <script type="text/x-handlebars" id="users">
@@ -369,13 +391,7 @@
         </div>
       {{/if}}
       {{#each model as |calendar|}}
-        {{#calendar-item
-          name=calendar.calendarName
-          displayName=calendar.displayName
-          color=calendar.cssColor
-          icsURL=calendar.icsURL
-          filename=calendar.calendarFilename
-          }}
+        {{#calendar-item model=calendar confirm="confirm"}}
         {{/calendar-item}}
       {{else}}
         <p>No calendar.</p>
@@ -427,21 +443,21 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/>.</code></
 <script type="text/x-handlebars" data-template-name="components/calendar-item">
   <div class="ui tiny image">
     <svg viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="40" {{bind-attr fill=color}} />
+      <circle cx="50" cy="50" r="40" {{bind-attr fill=model.cssColor}} />
     </svg>
   </div>
   <div class="content">
-    <div class="description"><strong>{{displayName}}</strong></div>
+    <div class="description"><strong>{{model.displayName}}</strong></div>
     <div class="extra">
-      {{name}}
-      <a {{bind-attr href=icsURL download=filename}} title="Download this calendar as an ICS file" class="ui right floated icon button">
+      {{model.calendarName}}
+      <a {{bind-attr href=model.icsURL download=model.calendarFilename}} title="Download this calendar as an ICS file" class="ui right floated icon button">
         <i class="cloud download icon"></i>
       </a>
       <span class="ui right floated icon buttons">
         <button class="ui primary icon button">
           <i class="edit icon"></i>
         </button>
-        <button class="ui negative icon button">
+        <button {{action 'requestDeleting'}} class="ui negative icon button">
           <i class="delete icon"></i>
         </button>
       </span>

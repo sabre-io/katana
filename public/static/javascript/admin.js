@@ -224,15 +224,13 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
         alert: function(title, content)
         {
             var controller = this.controllerFor('application');
-            var oldTitle   = controller.get('alert.title');
-            var oldContent = controller.get('alert.content');
+            var oldAlert   = controller.get('alert');
 
             controller.set('alert.title',   title);
             controller.set('alert.content', content);
 
             var clean = function() {
-                controller.set('alert.title',   oldTitle);
-                controller.set('alert.content', oldContent);
+                controller.set('alert', oldAlert);
 
                 return true;
             };
@@ -243,6 +241,42 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
                     {
                         onDeny:    clean,
                         onApprove: clean
+                    }
+                )
+                .modal('show');
+        },
+
+        /**
+         * Show the confirm modal window.
+         */
+        confirm: function(type, title, content, onApprove, onDeny)
+        {
+            var controller = this.controllerFor('application');
+            var oldConfirm = controller.get('confirm');
+
+            console.log(type);
+            console.log(title);
+            console.log(content);
+
+            controller.set('confirm.type',    type);
+            controller.set('confirm.title',   title);
+            controller.set('confirm.content', content);
+
+            var cleanAfter = function(callback) {
+                var out = callback();
+                controller.set('confirm', oldConfirm);
+
+                return true;
+            };
+
+            console.log('here');
+
+            $('#modalConfirm')
+                .modal(
+                    'setting',
+                    {
+                        onApprove: cleanAfter.bind(this, onApprove),
+                        onDeny   : cleanAfter.bind(this, onDeny)
                     }
                 )
                 .modal('show');
@@ -303,6 +337,12 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
      */
     alert: {
         title  : 'Alert',
+        content: '(unknown)'
+    },
+
+    confirm: {
+        type   : '',
+        title  : 'Confirm',
         content: '(unknown)'
     },
 
@@ -896,7 +936,45 @@ Katana.CalendarItemComponent = Ember.Component.extend({
     /**
      * Component root tag name classes.
      */
-    classNames: ['item']
+    classNames: ['item'],
+
+    actions: {
+
+        /**
+         * Ask to delete a calendar.
+         */
+        requestDeleting: function()
+        {
+            console.log('foo');
+            var self  = this;
+            var model = this.get('model');
+
+            this.sendAction(
+                'confirm',
+                'remove',
+                'Delete the calendar',
+                '<p>Are you sure you want to delete ' +
+                '<strong>' + model.get('displayName')+ '</strong> ' +
+                '(owned by ' + model.get('user').get('username') + ')?</p>',
+                function() {
+                    self.send('applyDeleting');
+                    return true;
+                },
+                function() {
+                    return true;
+                }
+            );
+        },
+
+        /**
+         * Really delelete a user.
+         */
+        applyDeleting: function()
+        {
+            this.model.destroyRecord();
+        }
+
+    }
 
 });
 
