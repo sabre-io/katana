@@ -935,7 +935,51 @@ Katana.CalendarItemComponent = Ember.Component.extend({
      */
     classNames: ['item'],
 
+    isEditing: false,
+
     actions: {
+
+        /**
+         * Start the editing mode.
+         */
+        requestEditing: function()
+        {
+            this.set('isEditing', true);
+        },
+
+        /**
+         * Cancel the editing mode and rollback the calendar.
+         */
+        cancelEditing: function()
+        {
+            if (true !== this.get('isEditing')) {
+                throw 'Cannot cancel a calendar editing that is not in editing mode.';
+            }
+
+            this.get('model').rollback();
+            this.set('isEditing', false);
+        },
+
+        /**
+         * Save the modification of the calendar.
+         */
+        applyEditing: function()
+        {
+            var self = this;
+
+            if (true !== this.get('isEditing')) {
+                throw 'Cannot save the current calendar because it was not in the editing mode.';
+            }
+
+            this.get('model').validate().then(
+                function() {
+                    var model = self.get('model');
+
+                    self.set('isEditing', false);
+                    model.save();
+                }
+            );
+        },
 
         /**
          * Ask to delete a calendar.
@@ -1099,7 +1143,7 @@ Katana.UserAdapter = KatanaWebDAVPrincipalsAdapter;
 /**
  * Calendar model.
  */
-Katana.Calendar = DS.Model.extend({
+Katana.Calendar = DS.Model.extend(KatanaValidatorMixin, {
 
     calendarName: DS.attr('string'),
     displayName : DS.attr('string'),
@@ -1123,7 +1167,28 @@ Katana.Calendar = DS.Model.extend({
     {
         return this.get('user').get('username') + '_' +
                this.get('calendarName') + '.ics';
-    }.property('calendarFilename')
+    }.property('calendarFilename'),
+
+    validators: {
+
+        displayName: function()
+        {
+            var defer       = Ember.RSVP.defer();
+            var displayName = this.get('displayName');
+
+            if (!displayName) {
+                defer.reject({
+                    id     : 'displayName_empty',
+                    message: 'Calendar name cannot be empty.'
+                });
+            } else {
+                defer.resolve(displayName);
+            }
+
+            return defer.promise;
+        }
+
+    }
 
 });
 

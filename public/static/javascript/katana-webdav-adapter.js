@@ -438,7 +438,34 @@ var KatanaCalDAVAdapter = DS.Adapter.extend({
 
     updateRecord: function(store, type, snapshot)
     {
-        console.log('CalDAV adapter updateRecord');
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                KatanaWebDAV.xhr(
+                    'PROPPATCH',
+                    KatanaWebDAV.getCalendarsURL() + snapshot.get('user').get('username') + '/' + snapshot.get('calendarName') + '/',
+                    {
+                        'Content-Type': 'application/xml; charset=utf-8'
+                    },
+                    '<?xml version="1.0" encoding="utf-8" ?>' + "\n" +
+                    '<d:propertyupdate xmlns:d="DAV:">' + "\n" +
+                    '  <d:set>' + "\n" +
+                    '    <d:prop>' + "\n" +
+                    '      <d:displayname>' + snapshot.get('displayName') + '</d:displayname>' + "\n" +
+                    '    </d:prop>' + "\n" +
+                    '  </d:set>' + "\n" +
+                    '</d:propertyupdate>'
+                ).then(
+                    function(data) {
+                        resolve(data);
+                    },
+                    function(xhr) {
+                        console.log('nok');
+                        console.log(xhr);
+                        reject(xhr);
+                    }
+                );
+            }
+        );
     },
 
     deleteRecord: function(store, type, snapshot)
