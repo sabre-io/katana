@@ -1212,15 +1212,16 @@ Katana.CalendarItemComponent = Ember.Component.extend({
          */
         requestDeleting: function()
         {
-            var self  = this;
-            var model = this.get('model');
+            var self   = this;
+            var model  = this.get('model');
+            var object = 'vevent' === model.get('type') ? 'calendar' : 'task list';
 
             this.sendAction(
                 'confirm',
                 'trash outline',
-                'Delete the calendar',
+                'Delete the ' + object,
                 '<p>Are you sure you want to delete the ' +
-                '<strong>' + model.get('displayName') + '</strong> calendar ' +
+                '<strong>' + model.get('displayName') + '</strong> ' + object + ' ' +
                 '(owned by ' + model.get('user').get('username') + ')?</p>',
                 function() {
                     self.send('applyDeleting');
