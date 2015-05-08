@@ -947,7 +947,7 @@ Katana.CalendarItemComponent = Ember.Component.extend({
 
             this.sendAction(
                 'confirm',
-                'remove',
+                'calendar',
                 'Delete the calendar',
                 '<p>Are you sure you want to delete the ' +
                 '<strong>' + model.get('displayName') + '</strong> calendar ' +
