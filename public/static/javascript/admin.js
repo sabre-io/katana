@@ -935,7 +935,10 @@ Katana.CalendarItemComponent = Ember.Component.extend({
      */
     classNames: ['item'],
 
-    isEditing: false,
+    /**
+     * Whether the editing mode is active.
+     */
+    isEditing : false,
 
     actions: {
 
