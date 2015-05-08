@@ -28,5 +28,9 @@
     "gulp-watch": "^4.2.4",
     "require-dot-file": "^0.4.0",
     "semantic-ui": "^1.12.1"
+  },
+  "devDependencies": {
+    "casperjs": "^1.1.0-beta3",
+    "phantomjs": "^1.9.16"
   }
 }

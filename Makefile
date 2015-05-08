@@ -87,7 +87,7 @@ uninstall:
 	rm -f data/etc/configuration/server.json
 	rm -f data/variable/database/katana_*.sqlite
 
-test: devinstall-server
+test-server: devinstall-server
 	bin/atoum \
 		--configurations tests/.atoum.php \
 		--bootstrap-file tests/.bootstrap.atoum.php
@@ -96,3 +96,12 @@ test: devinstall-server
 			--dry-run \
 			--diff \
 			.
+
+test-client: devinstall-server devinstall-client
+	php \
+		-S 127.0.0.1:57005 \
+		-t . \
+		public/.webserver.php \
+			> /dev/null &
+	export PHANTOMJS_EXECUTABLE=`pwd`/node_modules/.bin/phantomjs
+	node_modules/.bin/casperjs test tests/Integration/Client/
