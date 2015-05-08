@@ -636,8 +636,10 @@ var KatanaWebDAVParser = {
         var children = [];
         var child    = null;
 
-        for (var i = 0; i < node.children.length; ++i) {
-            children.push(this.xmlToPrimitive(node.children[i]));
+        for (var i = 0; i < node.childNodes.length; ++i) {
+            if (node.ELEMENT_NODE === node.childNodes[i].nodeType) {
+                children.push(this.xmlToPrimitive(node.childNodes[i]));
+            }
         }
 
         if (0 === children.length) {
