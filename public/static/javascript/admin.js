@@ -693,22 +693,25 @@ Katana.UsersUserProfileController = Ember.Controller.extend({
          */
         requestDeleting: function()
         {
-            var self = this;
+            var self  = this;
+            var model = this.get('model');
 
-            $('#modalUserAskDeleting')
-                .modal(
-                    'setting',
-                    {
-                        onDeny: function() {
-                            return true;
-                        },
-                        onApprove: function() {
-                            self.send('applyDeleting');
-                            return true;
-                        }
-                    }
-                )
-                .modal('show');
+            this.send(
+                'confirm',
+                'remove user',
+                'Delete the user',
+                'Are you sure you want to delete ' +
+                '<strong>' + model.get('displayName') + '</strong> ' +
+                '(' + model.get('username') + ')?',
+                function() {
+                    self.send('applyDeleting');
+
+                    return true;
+                },
+                function() {
+                    return true;
+                }
+            );
         },
 
         /**
@@ -946,11 +949,12 @@ Katana.CalendarItemComponent = Ember.Component.extend({
                 'confirm',
                 'remove',
                 'Delete the calendar',
-                '<p>Are you sure you want to delete ' +
-                '<strong>' + model.get('displayName')+ '</strong> ' +
+                '<p>Are you sure you want to delete the ' +
+                '<strong>' + model.get('displayName') + '</strong> calendar ' +
                 '(owned by ' + model.get('user').get('username') + ')?</p>',
                 function() {
                     self.send('applyDeleting');
+
                     return true;
                 },
                 function() {

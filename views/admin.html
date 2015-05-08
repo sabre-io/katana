@@ -198,31 +198,6 @@
 </script>
 
 <script type="text/x-handlebars" id="users/user/profile">
-  <div id="modalUserAskDeleting" class="ui basic modal">
-    <div class="header">Delete the user</div>
-    <div class="content">
-      <div class="image">
-        <i class="remove user icon"></i>
-      </div>
-      <div class="description">
-        <p>Are you sure you want to delete
-        <strong>{{model.displayName}}</strong> ({{model.username}})?</p>
-      </div>
-    </div>
-    <div class="actions">
-      <div class="ui two fluid inverted buttons">
-        <button class="ui basic inverted red right labeled icon deny button">
-          No
-          <i class="remove icon"></i>
-        </button>
-        <button class="ui basic inverted green right labeled icon approve button">
-          Yes!
-          <i class="checkmark icon"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-
   <div class="ui segment modal-exclusive">
     {{#unless valid}}
       {{#if model.validatorErrors.username_empty}}
