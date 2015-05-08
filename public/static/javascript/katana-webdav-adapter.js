@@ -414,7 +414,7 @@ var KatanaCalDAVAdapter = DS.Adapter.extend({
                     '      </d:resourcetype>' + "\n" +
                     '      <d:displayname>' + snapshot.get('displayName') + '</d:displayname>' + "\n" +
                     '      <c:supported-calendar-component-set>' + "\n" +
-                    '        <c:comp name="VEVENT" />' + "\n" +
+                    '        <c:comp name="' + snapshot.get('type').toUpperCase() + '" />' + "\n" +
                     '      </c:supported-calendar-component-set>' + "\n" +
                     '      <x:calendar-color xmlns:x="http://apple.com/ns/ical/">' + snapshot.get('color') + '</x:calendar-color>' + "\n" +
                     '    </d:prop>' + "\n" +
@@ -497,9 +497,6 @@ var KatanaCalDAVAdapter = DS.Adapter.extend({
     findAll: function(store, type, sinceToken)
     {
         console.log('CalDAV adapter findAll');
-        window._ = store;
-        console.log(store);
-        console.log(type);
     },
 
     findQuery: function(store, type, query, recordArray)
@@ -549,6 +546,7 @@ var KatanaCalDAVAdapter = DS.Adapter.extend({
                                     calendars.push({
                                         id          : calendar,
                                         calendarName: calendar,
+                                        type        : type,
                                         displayName : properties['{DAV:}displayname'],
                                         color       : properties['{http://apple.com/ns/ical/}calendar-color'],
                                         user        : username

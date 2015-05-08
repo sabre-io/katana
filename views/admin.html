@@ -189,9 +189,9 @@
     <a class="item disabled">
       <i class="book icon"></i> Address books
     </a>
-    <a class="item disabled">
-      <i class="tasks icon"></i> Tasks
-    </a>
+    {{#link-to 'users.user.tasks' class="item"}}
+      <i class="tasks icon"></i> Task lists
+    {{/link-to}}
   </nav>
 
   {{outlet}}
@@ -375,6 +375,57 @@
   </div>
 </script>
 
+<script type="text/x-handlebars" id="users/user/tasks">
+  <div {{action 'requestCreating'}} {{bind-attr class=":ui :top :attached :positive :icon isCreating:disabled: :button"}}>
+    New task list
+    <i class="plus icon"></i>
+  </div>
+  <div class="ui attached segment modal-exclusive">
+    {{#unless valid}}
+      {{#if validatorErrors.newTaskList_empty}}
+        <div class="ui error message">
+          <p>New task list name cannot be empty.</p>
+        </div>
+      {{/if}}
+    {{/unless}}
+
+    <div class="ui divided items">
+      {{#if isCreating}}
+        <div class="item modal-exclusive">
+          <div class="ui tiny image">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" {{bind-attr fill=randomColor}} />
+            </svg>
+          </div>
+          <div class="content">
+            <div class="ui grid form">
+              <div class="eight wide column">
+                {{input type="text" value=newCalendarName placeholder="New task list name"}}
+              </div>
+              <div class="right aligned eight wide column">
+                <button {{action 'applyCreating'}} {{bind-attr disabled="valid:false:true" class=":ui :positive :right :labeled :icon valid::disabled :button"}}>
+                  Save
+                  <i class="checkmark icon"></i>
+                </button>
+                <button {{action 'cancelCreating'}} class="ui negative right labeled icon button">
+                  Cancel
+                  <i class="remove icon"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/if}}
+      {{#each model as |task|}}
+        {{#calendar-item model=task confirm="confirm"}}
+        {{/calendar-item}}
+      {{else}}
+        <p>No task list.</p>
+      {{/each}}
+    </div>
+  </div>
+</script>
+
 <script type="text/x-handlebars" id="about">
   <div class="ui segment">
     <h2 class="ui header">
@@ -426,7 +477,7 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/>.</code></
     {{#unless model.valid}}
       {{#if model.validatorErrors.displayName_empty}}
         <div class="ui error message">
-          <p>Calendar name cannot be empty.</p>
+          <p>Name cannot be empty.</p>
         </div>
       {{/if}}
     {{/unless}}
@@ -456,14 +507,14 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/>.</code></
       <div class="description"><strong>{{model.displayName}}</strong></div>
       <div class="extra">
         {{model.calendarName}}
-        <a {{bind-attr href=model.icsURL download=model.calendarFilename}} title="Download this calendar as an ICS file" class="ui right floated icon button">
+        <a {{bind-attr href=model.icsURL download=model.calendarFilename}} title="Download as an ICS file" class="ui right floated icon button">
           <i class="cloud download icon"></i>
         </a>
         <span class="ui right floated icon buttons">
-          <button {{action 'requestEditing'}} title="Edit this calendar" class="ui primary icon button">
+          <button {{action 'requestEditing'}} title="Edit" class="ui primary icon button">
             <i class="edit icon"></i>
           </button>
-          <button {{action 'requestDeleting'}} title="Delete this calendar" class="ui negative icon button">
+          <button {{action 'requestDeleting'}} title="Delete" class="ui negative icon button">
             <i class="trash outline icon"></i>
           </button>
         </span>

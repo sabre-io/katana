@@ -181,6 +181,7 @@ Katana.Router.map(function() {
         this.route('user', {path: ':user_id'}, function() {
             this.route('profile', {path: 'profile'});
             this.route('calendars');
+            this.route('tasks');
         });
     });
     this.route('about');
@@ -762,6 +763,10 @@ Katana.UsersUserCalendarsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRout
     {
         this.set('currentUser', transition.params['users.user'].user_id);
 
+        return this._model();
+    },
+
+    _model: function() {
         return this.get('store').find(
             'calendar',
             {
@@ -802,12 +807,17 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
     /**
      * Owner of the calendars.
      */
-    currentUser     : null,
+    currentUser : null,
+
+    /**
+     * Calendar type (`vevent` or `vtodo`).
+     */
+    calendarType: 'vevent',
 
     /**
      * Whether the creating mode is active.
      */
-    isCreating      : false,
+    isCreating  : false,
 
     /**
      * When we are creating, the application should be in the modal mode.
@@ -824,7 +834,7 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
     /**
      * The new calendar name.
      */
-    newCalendarName : null,
+    newCalendarName: null,
 
     /**
      * Auto-reset the data.
@@ -883,6 +893,7 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
                         'calendar',
                         {
                             calendarName: uuid.v4(),
+                            type        : self.get('calendarType'),
                             displayName : self.get('newCalendarName'),
                             color       : self.get('randomColor').toUpperCase() + 'FF',
                             // `user`, simplified
@@ -923,102 +934,33 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
 
 });
 
-Katana.CalendarItemComponent = Ember.Component.extend({
+/**
+ * Task lists route.
+ */
+Katana.UsersUserTasksRoute = Katana.UsersUserCalendarsRoute.extend({
 
-    /**
-     * Component root tag name.
-     */
-    tagName   : 'div',
-
-    /**
-     * Component root tag name classes.
-     */
-    classNames: ['item'],
-
-    /**
-     * Whether the editing mode is active.
-     */
-    isEditing : false,
-
-    actions: {
-
-        /**
-         * Start the editing mode.
-         */
-        requestEditing: function()
-        {
-            this.set('isEditing', true);
-        },
-
-        /**
-         * Cancel the editing mode and rollback the calendar.
-         */
-        cancelEditing: function()
-        {
-            if (true !== this.get('isEditing')) {
-                throw 'Cannot cancel a calendar editing that is not in editing mode.';
+    _model: function()
+    {
+        return this.get('store').find(
+            'calendar',
+            {
+                username: this.get('currentUser'),
+                type    : 'vtodo'
             }
-
-            this.get('model').rollback();
-            this.set('isEditing', false);
-        },
-
-        /**
-         * Save the modification of the calendar.
-         */
-        applyEditing: function()
-        {
-            var self = this;
-
-            if (true !== this.get('isEditing')) {
-                throw 'Cannot save the current calendar because it was not in the editing mode.';
-            }
-
-            this.get('model').validate().then(
-                function() {
-                    var model = self.get('model');
-
-                    self.set('isEditing', false);
-                    model.save();
-                }
-            );
-        },
-
-        /**
-         * Ask to delete a calendar.
-         */
-        requestDeleting: function()
-        {
-            var self  = this;
-            var model = this.get('model');
-
-            this.sendAction(
-                'confirm',
-                'trash outline',
-                'Delete the calendar',
-                '<p>Are you sure you want to delete the ' +
-                '<strong>' + model.get('displayName') + '</strong> calendar ' +
-                '(owned by ' + model.get('user').get('username') + ')?</p>',
-                function() {
-                    self.send('applyDeleting');
-
-                    return true;
-                },
-                function() {
-                    return true;
-                }
-            );
-        },
-
-        /**
-         * Really delelete a user.
-         */
-        applyDeleting: function()
-        {
-            this.model.destroyRecord();
-        }
-
+        );
     }
+
+});
+
+/**
+ * Task lists controller.
+ */
+Katana.UsersUserTasksController = Katana.UsersUserCalendarsController.extend({
+
+    /**
+     * Calendar type (`vevent` or `vtodo`).
+     */
+    calendarType: 'vtodo'
 
 });
 
@@ -1149,6 +1091,7 @@ Katana.UserAdapter = KatanaWebDAVPrincipalsAdapter;
 Katana.Calendar = DS.Model.extend(KatanaValidatorMixin, {
 
     calendarName: DS.attr('string'),
+    type        : DS.attr('string'),
     displayName : DS.attr('string'),
     color       : DS.attr('string'),
 
@@ -1199,3 +1142,105 @@ Katana.Calendar = DS.Model.extend(KatanaValidatorMixin, {
  * Calendar adapter.
  */
 Katana.CalendarAdapter = KatanaCalDAVAdapter;
+
+/**
+ * The <calendar-item /> component.
+ */
+Katana.CalendarItemComponent = Ember.Component.extend({
+
+    /**
+     * Component root tag name.
+     */
+    tagName   : 'div',
+
+    /**
+     * Component root tag name classes.
+     */
+    classNames: ['item'],
+
+    /**
+     * Whether the editing mode is active.
+     */
+    isEditing : false,
+
+    actions: {
+
+        /**
+         * Start the editing mode.
+         */
+        requestEditing: function()
+        {
+            this.set('isEditing', true);
+        },
+
+        /**
+         * Cancel the editing mode and rollback the calendar.
+         */
+        cancelEditing: function()
+        {
+            if (true !== this.get('isEditing')) {
+                throw 'Cannot cancel a calendar editing that is not in editing mode.';
+            }
+
+            this.get('model').rollback();
+            this.set('isEditing', false);
+        },
+
+        /**
+         * Save the modification of the calendar.
+         */
+        applyEditing: function()
+        {
+            var self = this;
+
+            if (true !== this.get('isEditing')) {
+                throw 'Cannot save the current calendar because it was not in the editing mode.';
+            }
+
+            this.get('model').validate().then(
+                function() {
+                    var model = self.get('model');
+
+                    self.set('isEditing', false);
+                    model.save();
+                }
+            );
+        },
+
+        /**
+         * Ask to delete a calendar.
+         */
+        requestDeleting: function()
+        {
+            var self  = this;
+            var model = this.get('model');
+
+            this.sendAction(
+                'confirm',
+                'trash outline',
+                'Delete the calendar',
+                '<p>Are you sure you want to delete the ' +
+                '<strong>' + model.get('displayName') + '</strong> calendar ' +
+                '(owned by ' + model.get('user').get('username') + ')?</p>',
+                function() {
+                    self.send('applyDeleting');
+
+                    return true;
+                },
+                function() {
+                    return true;
+                }
+            );
+        },
+
+        /**
+         * Really delelete a user.
+         */
+        applyDeleting: function()
+        {
+            this.model.destroyRecord();
+        }
+
+    }
+
+});
