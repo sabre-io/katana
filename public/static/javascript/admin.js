@@ -254,10 +254,6 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
             var controller = this.controllerFor('application');
             var oldConfirm = controller.get('confirm');
 
-            console.log(type);
-            console.log(title);
-            console.log(content);
-
             controller.set('confirm.type',    type);
             controller.set('confirm.title',   title);
             controller.set('confirm.content', content);
@@ -268,8 +264,6 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
 
                 return true;
             };
-
-            console.log('here');
 
             $('#modalConfirm')
                 .modal(
@@ -945,7 +939,6 @@ Katana.CalendarItemComponent = Ember.Component.extend({
          */
         requestDeleting: function()
         {
-            console.log('foo');
             var self  = this;
             var model = this.get('model');
 
