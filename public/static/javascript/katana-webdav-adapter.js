@@ -575,6 +575,176 @@ var KatanaCalDAVAdapter = DS.Adapter.extend({
 
 });
 
+var KatanaCardDAVAdapter = DS.Adapter.extend({
+
+    createRecord: function(store, type, snapshot)
+    {
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                KatanaWebDAV.xhr(
+                    'MKCOL',
+                    KatanaWebDAV.getAddressBooksURL() + snapshot.get('username') + '/' + snapshot.get('addressBookName') + '/',
+                    {
+                        'Content-Type': 'application/xml; charset=utf-8'
+                    },
+                    '<?xml version="1.0"?>' + "\n" +
+                    '<d:mkcol xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:carddav">' + "\n" +
+                    '  <d:set>' + "\n" +
+                    '    <d:prop>' + "\n" +
+                    '      <d:resourcetype>' + "\n" +
+                    '        <d:collection />' + "\n" +
+                    '        <c:addressbook />' + "\n" +
+                    '      </d:resourcetype>' + "\n" +
+                    '      <d:displayname>' + snapshot.get('displayName') + '</d:displayname>' + "\n" +
+                    '    </d:prop>' + "\n" +
+                    '  </d:set>' + "\n" +
+                    '</d:mkcol>'
+                ).then(
+                    function(data) {
+                        resolve({
+                            id: snapshot.get('addressBookName')
+                        });
+                    },
+                    function(xhr) {
+                        console.log('nok');
+                        console.log(xhr);
+                        reject(xhr);
+                    }
+                );
+            }
+        );
+    },
+
+    updateRecord: function(store, type, snapshot)
+    {
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                KatanaWebDAV.xhr(
+                    'PROPPATCH',
+                    KatanaWebDAV.getAddressBooksURL() +
+                    snapshot.get('user').get('username') + '/' + snapshot.get('addressBookName') + '/',
+                    {
+                        'Content-Type': 'application/xml; charset=utf-8'
+                    },
+                    '<?xml version="1.0" encoding="utf-8" ?>' + "\n" +
+                    '<d:propertyupdate xmlns:d="DAV:">' + "\n" +
+                    '  <d:set>' + "\n" +
+                    '    <d:prop>' + "\n" +
+                    '      <d:displayname>' + snapshot.get('displayName') + '</d:displayname>' + "\n" +
+                    '    </d:prop>' + "\n" +
+                    '  </d:set>' + "\n" +
+                    '</d:propertyupdate>'
+                ).then(
+                    function(data) {
+                        resolve(data);
+                    },
+                    function(xhr) {
+                        console.log('nok');
+                        console.log(xhr);
+                        reject(xhr);
+                    }
+                );
+            }
+        );
+    },
+
+    deleteRecord: function(store, type, snapshot)
+    {
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                KatanaWebDAV.xhr(
+                    'DELETE',
+                    KatanaWebDAV.getAddressBooksURL() +
+                    snapshot.get('user').get('username') + '/' + snapshot.get('addressBookName') + '/'
+                ).then(
+                    function(data) {
+                        resolve(data);
+                    },
+                    function(xhr) {
+                        console.log('nok');
+                        console.log(xhr);
+                        reject(xhr);
+                    }
+                );
+            }
+        );
+    },
+
+    find: function(store, type, id, snapshot)
+    {
+        console.log('CardDAV adapter find');
+    },
+
+    findAll: function(store, type, sinceToken)
+    {
+        console.log('CardDAV adapter findAll');
+    },
+
+    findQuery: function(store, type, query, recordArray)
+    {
+        var username = query.username;
+
+        if (undefined === username) {
+            return null;
+        }
+
+        var addressBookRegex = new RegExp('^' + KatanaWebDAV.getAddressBooksURL() + username + '/([^/]+)/$');
+
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                KatanaWebDAV.xhr(
+                    'PROPFIND',
+                    KatanaWebDAV.getAddressBooksURL() + username,
+                    {
+                        'Content-Type': 'application/xml; charset=utf-8'
+                    },
+                    '<?xml version="1.0" encoding="utf-8" ?>' + "\n" +
+                    '<d:propfind xmlns:d="DAV:">' + "\n" +
+                    '  <d:prop>' + "\n" +
+                    '    <d:displayname />' + "\n" +
+                    '  </d:prop>' + "\n" +
+                    '</d:propfind>'
+                ).then(
+                    function(data) {
+                        var multiStatus  = KatanaWebDAVParser.multiStatus(data);
+                        var addressBooks = [];
+
+                        multiStatus.forEach(
+                            function(response) {
+                                var addressBook = (addressBookRegex.exec(response.href) || [null, null])[1];
+
+                                if (addressBook) {
+                                    var properties = response.propStat[0].prop;
+
+                                    addressBooks.push({
+                                        id             : addressBook,
+                                        addressBookName: addressBook,
+                                        displayName    : properties['{DAV:}displayname'] || addressBook,
+                                        user           : username
+                                    });
+                                }
+                            }
+                        );
+
+                        resolve(addressBooks);
+                    },
+                    function(xhr) {
+                        console.log('nok');
+                        console.log(xhr);
+                        reject(xhr);
+                    }
+                );
+            }
+        );
+    },
+
+    generateIdForRecord: function(store, inputProperties)
+    {
+        return 'new';
+    }
+
+});
+
 /**
  * Some utilities related to XML and WebDAV.
  *
