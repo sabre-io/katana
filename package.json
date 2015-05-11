@@ -27,6 +27,6 @@
     "gulp-util": "^3.0.4",
     "gulp-watch": "^4.2.4",
     "require-dot-file": "^0.4.0",
-    "semantic-ui": "^1.12.1"
+    "semantic-ui": "^1.12.2"
   }
 }
