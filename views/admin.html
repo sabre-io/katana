@@ -186,9 +186,9 @@
     {{#link-to 'users.user.calendars' class="item"}}
       <i class="calendar icon"></i> Calendars
     {{/link-to}}
-    <a class="item disabled">
+    {{#link-to 'users.user.addressBooks' class="item"}}
       <i class="book icon"></i> Address books
-    </a>
+    {{/link-to}}
     {{#link-to 'users.user.tasks' class="item"}}
       <i class="tasks icon"></i> Task lists
     {{/link-to}}
@@ -375,6 +375,52 @@
   </div>
 </script>
 
+<script type="text/x-handlebars" id="users/user/addressBooks">
+  <div {{action 'requestCreating'}} {{bind-attr class=":ui :top :attached :positive :icon isCreating:disabled: :button"}}>
+    New address book
+    <i class="plus icon"></i>
+  </div>
+  <div class="ui attached segment modal-exclusive">
+    {{#unless valid}}
+      {{#if validatorErrors.newAddressBookName_empty}}
+        <div class="ui error message">
+          <p>New address book name cannot be empty.</p>
+        </div>
+      {{/if}}
+    {{/unless}}
+
+    <div class="ui divided items">
+      {{#if isCreating}}
+        <div class="item modal-exclusive">
+          <div class="content">
+            <div class="ui grid form">
+              <div class="eight wide column">
+                {{input type="text" value=newAddressBookName placeholder="New address book name"}}
+              </div>
+              <div class="right aligned eight wide column">
+                <button {{action 'applyCreating'}} {{bind-attr disabled="valid:false:true" class=":ui :positive :right :labeled :icon valid::disabled :button"}}>
+                  Save
+                  <i class="checkmark icon"></i>
+                </button>
+                <button {{action 'cancelCreating'}} class="ui negative right labeled icon button">
+                  Cancel
+                  <i class="remove icon"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/if}}
+      {{#each model as |address_book|}}
+        {{#address-book-item model=address_book confirm="confirm"}}
+        {{/address-book-item}}
+      {{else}}
+        <p>No address book.</p>
+      {{/each}}
+    </div>
+  </div>
+</script>
+
 <script type="text/x-handlebars" id="users/user/tasks">
   <div {{action 'requestCreating'}} {{bind-attr class=":ui :top :attached :positive :icon isCreating:disabled: :button"}}>
     New task list
@@ -510,6 +556,55 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/>.</code></
         <a {{bind-attr href=model.icsURL download=model.calendarFilename}} title="Download as an ICS file" class="ui right floated icon button">
           <i class="cloud download icon"></i>
         </a>
+        <span class="ui right floated icon buttons">
+          <button {{action 'requestEditing'}} title="Edit" class="ui primary icon button">
+            <i class="edit icon"></i>
+          </button>
+          <button {{action 'requestDeleting'}} title="Delete" class="ui negative icon button">
+            <i class="trash outline icon"></i>
+          </button>
+        </span>
+      </div>
+    </div>
+  {{/if}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="components/address-book-item">
+  {{#if isEditing}}
+    <div class="content">
+    {{#unless model.valid}}
+      {{#if model.validatorErrors.displayName_empty}}
+        <div class="ui error message">
+          <p>Name cannot be empty.</p>
+        </div>
+      {{/if}}
+    {{/unless}}
+      <div class="ui grid form">
+        <div class="eight wide column">
+          {{input type="text" value=model.displayName placeholder="New address book name"}}
+        </div>
+        <div class="right aligned eight wide column">
+          <button {{action 'applyEditing'}} {{bind-attr disabled="model.valid:false:true" class=":ui :positive :right :labeled :icon model.valid::disabled :button"}}>
+            Save
+            <i class="checkmark icon"></i>
+          </button>
+          <button {{action 'cancelEditing'}} class="ui negative right labeled icon button">
+            Cancel
+            <i class="remove icon"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  {{else}}
+    <div class="content">
+      <div class="description"><strong>{{model.displayName}}</strong></div>
+      <div class="extra">
+        {{model.addressBookName}}
+        <!--
+        <a {{bind-attr href=model.icsURL download=model.calendarFilename}} title="Download as an ICS file" class="ui right floated icon button">
+          <i class="cloud download icon"></i>
+        </a>
+        -->
         <span class="ui right floated icon buttons">
           <button {{action 'requestEditing'}} title="Edit" class="ui primary icon button">
             <i class="edit icon"></i>

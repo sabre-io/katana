@@ -181,6 +181,7 @@ Katana.Router.map(function() {
         this.route('user', {path: ':user_id'}, function() {
             this.route('profile', {path: 'profile'});
             this.route('calendars');
+            this.route('addressBooks', {path: 'address-books'});
             this.route('tasks');
         });
     });
@@ -935,6 +936,167 @@ Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMix
 });
 
 /**
+ * Address books route.
+ */
+Katana.UsersUserAddressBooksRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
+
+    /**
+     * Current user (from the dynamic fragment).
+     */
+    currentUser: null,
+
+    model: function(params, transition)
+    {
+        this.set('currentUser', transition.params['users.user'].user_id);
+
+        return this.get('store').find(
+            'addressBook',
+            {
+                username: this.get('currentUser')
+            }
+        );
+    },
+
+    /**
+     * Reset the controller and set the current user.
+     */
+    setupController: function(controller, model)
+    {
+        this._super.apply(this, arguments);
+        controller.set('currentUser', this.get('currentUser'));
+    },
+
+    actions: {
+
+        /**
+         * Force to refresh the model.
+         */
+        refreshModel: function()
+        {
+            this.refresh();
+        }
+
+    }
+
+});
+
+/**
+ * Address books controller.
+ */
+Katana.UsersUserAddressBooksController = Ember.Controller.extend(KatanaValidatorMixin, {
+
+    /**
+     * Owner of the address books.
+     */
+    currentUser : null,
+
+    /**
+     * Whether the creating mode is active.
+     */
+    isCreating  : false,
+
+    /**
+     * When we are creating, the application should be in the modal mode.
+     */
+    autoModal: function()
+    {
+        this.send(
+            true === this.get('isCreating')
+                ? 'requestModal'
+                : 'cancelModal'
+        );
+    }.observes('isCreating'),
+
+    /**
+     * The new address book name.
+     */
+    newAddressBookName: null,
+
+    /**
+     * Auto-reset the data.
+     */
+    autoReset: function()
+    {
+        this.set('newAddressBookName', null);
+        this.clearAllErrors();
+        this.set('valid', true);
+    }.observes('isCreating'),
+
+    actions: {
+
+        /**
+         * Create a new calendar and start the editing mode.
+         */
+        requestCreating: function()
+        {
+            this.set('isCreating', true);
+        },
+
+        /**
+         * Cancel the creating mode.
+         */
+        cancelCreating: function()
+        {
+            if (true !== this.get('isCreating')) {
+                throw 'Cannot cancel an address book creation that is not in creating mode.';
+            }
+
+            this.set('isCreating', false);
+        },
+
+        /**
+         * Save the new calendar.
+         */
+        applyCreating: function()
+        {
+            var self = this;
+
+            this.validate().then(
+                function() {
+                    self.get('store').createRecord(
+                        'addressBook',
+                        {
+                            addressBookName: uuid.v4(),
+                            displayName    : self.get('newAddressBookName'),
+                            // `user`, simplified
+                            username       : self.get('currentUser')
+                        }
+                    ).save().then(
+                        function() {
+                            self.set('isCreating', false);
+                            self.send('refreshModel');
+                        }
+                    );
+                }
+            );
+        }
+
+    },
+
+    validators: {
+
+        newAddressBookName: function()
+        {
+            var defer           = Ember.RSVP.defer();
+            var addressBookName = this.get('newAddressBookName');
+
+            if (true === this.get('isCreating') && !addressBookName) {
+                defer.reject({
+                    id     : 'newAddressBookName_empty',
+                    message: 'New address book name cannot be empty.'
+                });
+            } else {
+                defer.resolve(addressBookName);
+            }
+
+            return defer.promise;
+        }
+
+    }
+
+});
+
+/**
  * Task lists route.
  */
 Katana.UsersUserTasksRoute = Katana.UsersUserCalendarsRoute.extend({
@@ -1139,6 +1301,44 @@ Katana.Calendar = DS.Model.extend(KatanaValidatorMixin, {
 });
 
 /**
+ * Address book adapter.
+ */
+Katana.AddressBookAdapter = KatanaCardDAVAdapter;
+
+/**
+ * Address book model.
+ */
+Katana.AddressBook = DS.Model.extend(KatanaValidatorMixin, {
+
+    addressBookName: DS.attr('string'),
+    displayName    : DS.attr('string'),
+
+    user           : DS.belongsTo('user'),
+
+    validators: {
+
+        displayName: function()
+        {
+            var defer       = Ember.RSVP.defer();
+            var displayName = this.get('displayName');
+
+            if (!displayName) {
+                defer.reject({
+                    id     : 'displayName_empty',
+                    message: 'Address book name cannot be empty.'
+                });
+            } else {
+                defer.resolve(displayName);
+            }
+
+            return defer.promise;
+        }
+
+    }
+
+});
+
+/**
  * Calendar adapter.
  */
 Katana.CalendarAdapter = KatanaCalDAVAdapter;
@@ -1235,7 +1435,109 @@ Katana.CalendarItemComponent = Ember.Component.extend({
         },
 
         /**
-         * Really delelete a user.
+         * Really delelete a calendar.
+         */
+        applyDeleting: function()
+        {
+            this.model.destroyRecord();
+        }
+
+    }
+
+});
+
+/**
+ * The <address-book-item /> component.
+ */
+Katana.AddressBookItemComponent = Ember.Component.extend({
+
+    /**
+     * Component root tag name.
+     */
+    tagName   : 'div',
+
+    /**
+     * Component root tag name classes.
+     */
+    classNames: ['item'],
+
+    /**
+     * Whether the editing mode is active.
+     */
+    isEditing : false,
+
+    actions: {
+
+        /**
+         * Start the editing mode.
+         */
+        requestEditing: function()
+        {
+            this.set('isEditing', true);
+        },
+
+        /**
+         * Cancel the editing mode and rollback the address book.
+         */
+        cancelEditing: function()
+        {
+            if (true !== this.get('isEditing')) {
+                throw 'Cannot cancel an address book editing that is not in editing mode.';
+            }
+
+            this.get('model').rollback();
+            this.set('isEditing', false);
+        },
+
+        /**
+         * Save the modification of the calendar.
+         */
+        applyEditing: function()
+        {
+            var self = this;
+
+            if (true !== this.get('isEditing')) {
+                throw 'Cannot save the current address book because it was not in the editing mode.';
+            }
+
+            this.get('model').validate().then(
+                function() {
+                    var model = self.get('model');
+
+                    self.set('isEditing', false);
+                    model.save();
+                }
+            );
+        },
+
+        /**
+         * Ask to delete an address book.
+         */
+        requestDeleting: function()
+        {
+            var self   = this;
+            var model  = this.get('model');
+
+            this.sendAction(
+                'confirm',
+                'trash outline',
+                'Delete the address book',
+                '<p>Are you sure you want to delete the ' +
+                '<strong>' + model.get('displayName') + '</strong> address book ' +
+                '(owned by ' + model.get('user').get('username') + ')?</p>',
+                function() {
+                    self.send('applyDeleting');
+
+                    return true;
+                },
+                function() {
+                    return true;
+                }
+            );
+        },
+
+        /**
+         * Really delelete an address book.
          */
         applyDeleting: function()
         {
