@@ -9,7 +9,7 @@ install-server:
 
 install-client:
 	bower install --production
-	npm install --no-optional
+	npm install --production --no-optional
 
 devinstall: devinstall-server devinstall-client build-client
 
@@ -87,12 +87,27 @@ uninstall:
 	rm -f data/etc/configuration/server.json
 	rm -f data/variable/database/katana_*.sqlite
 
-test: devinstall-server
+test-server: test-server-atoum test-server-cs
+
+test-server-atoum: devinstall-server
 	bin/atoum \
 		--configurations tests/.atoum.php \
 		--bootstrap-file tests/.bootstrap.atoum.php
+
+test-server-cs: devinstall-server
 	bin/sabre-cs-fixer \
 		fix \
 			--dry-run \
 			--diff \
 			.
+
+test-client: test-client-casper
+
+test-client-casper: devinstall-server devinstall-client
+	php \
+		-S 127.0.0.1:57005 \
+		-t . \
+		public/.webserver.php \
+			> /dev/null &
+	export PHANTOMJS_EXECUTABLE=`pwd`/node_modules/.bin/phantomjs
+	node_modules/.bin/casperjs test tests/Integration/Client/

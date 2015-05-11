@@ -1,5 +1,9 @@
 {
   "name": "sabre-katana",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fruux/sabre-katana.git"
+  },
   "dependencies": {
     "better-console": "^0.2.4",
     "del": "^1.1.1",
@@ -28,5 +32,9 @@
     "gulp-watch": "^4.2.4",
     "require-dot-file": "^0.4.0",
     "semantic-ui": "^1.12.1"
+  },
+  "devDependencies": {
+    "casperjs": "^1.1.0-beta3",
+    "phantomjs": "^1.9.16"
   }
 }
