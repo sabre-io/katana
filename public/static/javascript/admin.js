@@ -1315,6 +1315,19 @@ Katana.AddressBook = DS.Model.extend(KatanaValidatorMixin, {
 
     user           : DS.belongsTo('user'),
 
+    vcfURL: function()
+    {
+        return KatanaWebDAV.getAddressBooksURL() +
+               this.get('user').get('username') + '/' +
+               this.get('addressBookName') + '/?export';
+    }.property('vcfURL'),
+
+    addressBookFilename: function()
+    {
+        return this.get('user').get('username') + '_' +
+               this.get('addressBookName') + '.vcf';
+    }.property('addressBookFilename'),
+
     validators: {
 
         displayName: function()

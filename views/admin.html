@@ -600,11 +600,9 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/>.</code></
       <div class="description"><strong>{{model.displayName}}</strong></div>
       <div class="extra">
         {{model.addressBookName}}
-        <!--
-        <a {{bind-attr href=model.icsURL download=model.calendarFilename}} title="Download as an ICS file" class="ui right floated icon button">
+        <a {{bind-attr href=model.vcfURL download=model.addressBookFilename}} title="Download as a VCF file" class="ui right floated icon button">
           <i class="cloud download icon"></i>
         </a>
-        -->
         <span class="ui right floated icon buttons">
           <button {{action 'requestEditing'}} title="Edit" class="ui primary icon button">
             <i class="edit icon"></i>
