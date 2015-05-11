@@ -214,6 +214,7 @@ class Server {
 
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
         $this->getServer()->addPlugin(new SabreCardDav\Plugin());
+        $this->getServer()->addPlugin(new SabreCardDav\VCFExportPlugin());
     }
 
     /**
