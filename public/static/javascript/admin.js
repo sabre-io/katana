@@ -809,7 +809,32 @@ Katana._DavListController = Ember.Controller.extend({
     /**
      * Owner of the DAV list (aka. calendars, address books or task lists).
      */
-    currentUser : null
+    currentUser     : null,
+
+    /**
+     * Whether instructions should be shown or not.
+     */
+    showInstructions: false,
+
+    actions: {
+
+        /**
+         * Request to show instructions.
+         */
+        requestInstructions: function()
+        {
+            this.set('showInstructions', true);
+        },
+
+        /**
+         * Do not show instructions.
+         */
+        cancelInstructions: function()
+        {
+            this.set('showInstructions', false);
+        }
+
+    }
 
 });
 

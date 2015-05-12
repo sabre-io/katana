@@ -340,6 +340,27 @@
       <p>No calendar yet.</p>
     {{/each}}
   {{/calendar-list}}
+
+  {{#if showInstructions}}
+    <div class="ui info message">
+      <i {{action 'cancelInstructions'}} class="close icon"></i>
+      <div class="header">Client instructions</div>
+      <p>In the client application, register a new <strong>CalDAV
+      account</strong> or a new <strong>calendar</strong> with the following
+      information in manual mode:</p>
+      <ul>
+        <li>Username: <code>{{currentUser}}</code>,</li>
+        <li>Password: <em>user's password</em>,</li>
+        <li>Server address: <code>{{ENV.katana.origin_url}}{{ENV.katana.base_url}}</code>.</li>
+      </ul>
+      <p>Ensure that the “Calendars” option is selected.</p>
+    </div>
+  {{else}}
+    <div {{action 'requestInstructions'}} class="ui tiny fluid icon button" style="margin-top: 1em">
+      Show client instructions
+      <i class="chevron down icon"></i>
+    </div>
+  {{/if}}
 </script>
 
 <script type="text/x-handlebars" id="users/user/addressBooks">
@@ -357,6 +378,26 @@
       <p>No address book yet.</p>
     {{/each}}
   {{/address-book-list}}
+
+  {{#if showInstructions}}
+    <div class="ui info message">
+      <i {{action 'cancelInstructions'}} class="close icon"></i>
+      <div class="header">Client instructions</div>
+      <p>In the client application, register a new <strong>CardDAV
+      account</strong> or a new <strong>address book</strong> with the following
+      information in manual mode:</p>
+      <ul>
+        <li>Username: <code>{{currentUser}}</code>,</li>
+        <li>Password: <em>user's password</em>,</li>
+        <li>Server address: <code>{{ENV.katana.origin_url}}{{ENV.katana.base_url}}</code>.</li>
+      </ul>
+    </div>
+  {{else}}
+    <div {{action 'requestInstructions'}} class="ui tiny fluid icon button" style="margin-top: 1em">
+      Show client instructions
+      <i class="chevron down icon"></i>
+    </div>
+  {{/if}}
 </script>
 
 <script type="text/x-handlebars" id="users/user/tasks">
@@ -375,6 +416,27 @@
       <p>No task list yet.</p>
     {{/each}}
   {{/calendar-list}}
+
+  {{#if showInstructions}}
+    <div class="ui info message">
+      <i {{action 'cancelInstructions'}} class="close icon"></i>
+      <div class="header">Client instructions</div>
+      <p>In the client application, register a new <strong>CalDAV
+      account</strong> or a new <strong>task list</strong> with the following
+      information in manual mode:</p>
+      <ul>
+        <li>Username: <code>{{currentUser}}</code>,</li>
+        <li>Password: <em>user's password</em>,</li>
+        <li>Server address: <code>{{ENV.katana.origin_url}}{{ENV.katana.base_url}}</code>.</li>
+      </ul>
+      <p>Ensure that the “Task lists” or “Reminders” option is selected.</p>
+    </div>
+  {{else}}
+    <div {{action 'requestInstructions'}} class="ui tiny fluid icon button" style="margin-top: 1em">
+      Show client instructions
+      <i class="chevron down icon"></i>
+    </div>
+  {{/if}}
 </script>
 
 <script type="text/x-handlebars" id="about">
