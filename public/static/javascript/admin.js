@@ -751,9 +751,10 @@ Katana.UsersUserProfileController = Ember.Controller.extend({
 });
 
 /**
- * Calendars route.
+ * Abstract “DAV list” route. Parent of `UsersUserCalendarsRoute`,
+ * `UsersUserAddressBooksRoute` and `UsersUserTasksRoute`.
  */
-Katana.UsersUserCalendarsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
+Katana._DavListRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
     /**
      * Current user (from the dynamic fragment).
@@ -767,6 +768,55 @@ Katana.UsersUserCalendarsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRout
         return this._model();
     },
 
+    /**
+     * The “real” `model` method that children must implement. It must return a
+     * store.
+     */
+    _model: function() {
+        throw 'Not implemented.';
+    },
+
+    /**
+     * Reset the controller and set the current user.
+     */
+    setupController: function(controller, model)
+    {
+        this._super.apply(this, arguments);
+        controller.set('currentUser', this.get('currentUser'));
+    },
+
+    actions: {
+
+        /**
+         * Force to refresh the model.
+         */
+        refreshModel: function()
+        {
+            this.refresh();
+        }
+
+    }
+
+});
+
+/**
+ * Abstract “DAV list” controller. Parent of `UsersUserCalendarsController`,
+ * `UsersUserAddressBooksController` and `UsersUserTasksController`.
+ */
+Katana._DavListController = Ember.Controller.extend({
+
+    /**
+     * Owner of the DAV list (aka. calendars, address books or task lists).
+     */
+    currentUser : null
+
+});
+
+/**
+ * Calendars route.
+ */
+Katana.UsersUserCalendarsRoute = Katana._DavListRoute.extend({
+
     _model: function() {
         return this.get('store').find(
             'calendar',
@@ -777,205 +827,26 @@ Katana.UsersUserCalendarsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRout
         );
     },
 
-    /**
-     * Reset the controller and set the current user.
-     */
-    setupController: function(controller, model)
-    {
-        this._super.apply(this, arguments);
-        controller.set('currentUser', this.get('currentUser'));
-    },
-
-    actions: {
-
-        /**
-         * Force to refresh the model.
-         */
-        refreshModel: function()
-        {
-            this.refresh();
-        }
-
-    }
-
 });
 
 /**
  * Calendars controller.
  */
-Katana.UsersUserCalendarsController = Ember.Controller.extend(KatanaValidatorMixin, {
-
-    /**
-     * Owner of the calendars.
-     */
-    currentUser : null,
-
-    /**
-     * Calendar type (`vevent` or `vtodo`).
-     */
-    calendarType: 'vevent',
-
-    /**
-     * Whether the creating mode is active.
-     */
-    isCreating  : false,
-
-    /**
-     * When we are creating, the application should be in the modal mode.
-     */
-    autoModal: function()
-    {
-        this.send(
-            true === this.get('isCreating')
-                ? 'requestModal'
-                : 'cancelModal'
-        );
-    }.observes('isCreating'),
-
-    /**
-     * The new calendar name.
-     */
-    newCalendarName: null,
-
-    /**
-     * Auto-reset the data.
-     */
-    autoReset: function()
-    {
-        this.set('newCalendarName', null);
-        this.clearAllErrors();
-        this.set('valid', true);
-    }.observes('isCreating'),
-
-    /**
-     * Compute a new random color for the new calendar each time the model
-     * changes.
-     */
-    randomColor     : function()
-    {
-        return '#' +
-               Math.floor(Math.random() * 255).toString(16) +
-               Math.floor(Math.random() * 255).toString(16) +
-               Math.floor(Math.random() * 255).toString(16);
-    }.property('model'),
-
-    actions: {
-
-        /**
-         * Create a new calendar and start the editing mode.
-         */
-        requestCreating: function()
-        {
-            this.set('isCreating', true);
-        },
-
-        /**
-         * Cancel the creating mode.
-         */
-        cancelCreating: function()
-        {
-            if (true !== this.get('isCreating')) {
-                throw 'Cannot cancel a calendar creation that is not in creating mode.';
-            }
-
-            this.set('isCreating', false);
-        },
-
-        /**
-         * Save the new calendar.
-         */
-        applyCreating: function()
-        {
-            var self = this;
-
-            this.validate().then(
-                function() {
-                    self.get('store').createRecord(
-                        'calendar',
-                        {
-                            calendarName: uuid.v4(),
-                            type        : self.get('calendarType'),
-                            displayName : self.get('newCalendarName'),
-                            color       : self.get('randomColor').toUpperCase() + 'FF',
-                            // `user`, simplified
-                            username    : self.get('currentUser')
-                        }
-                    ).save().then(
-                        function() {
-                            self.set('isCreating', false);
-                            self.send('refreshModel');
-                        }
-                    );
-                }
-            );
-        }
-
-    },
-
-    validators: {
-
-        newCalendarName: function()
-        {
-            var defer        = Ember.RSVP.defer();
-            var calendarName = this.get('newCalendarName');
-
-            if (true === this.get('isCreating') && !calendarName) {
-                defer.reject({
-                    id     : 'newCalendarName_empty',
-                    message: 'New calendar name cannot be empty.'
-                });
-            } else {
-                defer.resolve(calendarName);
-            }
-
-            return defer.promise;
-        }
-
-    }
-
-});
+Katana.UsersUserCalendarsController = Katana._DavListController;
 
 /**
  * Address books route.
  */
-Katana.UsersUserAddressBooksRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
+Katana.UsersUserAddressBooksRoute = Katana._DavListRoute.extend({
 
-    /**
-     * Current user (from the dynamic fragment).
-     */
-    currentUser: null,
-
-    model: function(params, transition)
+    _model: function(params, transition)
     {
-        this.set('currentUser', transition.params['users.user'].user_id);
-
         return this.get('store').find(
             'addressBook',
             {
                 username: this.get('currentUser')
             }
         );
-    },
-
-    /**
-     * Reset the controller and set the current user.
-     */
-    setupController: function(controller, model)
-    {
-        this._super.apply(this, arguments);
-        controller.set('currentUser', this.get('currentUser'));
-    },
-
-    actions: {
-
-        /**
-         * Force to refresh the model.
-         */
-        refreshModel: function()
-        {
-            this.refresh();
-        }
-
     }
 
 });
@@ -983,123 +854,12 @@ Katana.UsersUserAddressBooksRoute = Ember.Route.extend(SimpleAuth.AuthenticatedR
 /**
  * Address books controller.
  */
-Katana.UsersUserAddressBooksController = Ember.Controller.extend(KatanaValidatorMixin, {
-
-    /**
-     * Owner of the address books.
-     */
-    currentUser : null,
-
-    /**
-     * Whether the creating mode is active.
-     */
-    isCreating  : false,
-
-    /**
-     * When we are creating, the application should be in the modal mode.
-     */
-    autoModal: function()
-    {
-        this.send(
-            true === this.get('isCreating')
-                ? 'requestModal'
-                : 'cancelModal'
-        );
-    }.observes('isCreating'),
-
-    /**
-     * The new address book name.
-     */
-    newAddressBookName: null,
-
-    /**
-     * Auto-reset the data.
-     */
-    autoReset: function()
-    {
-        this.set('newAddressBookName', null);
-        this.clearAllErrors();
-        this.set('valid', true);
-    }.observes('isCreating'),
-
-    actions: {
-
-        /**
-         * Create a new calendar and start the editing mode.
-         */
-        requestCreating: function()
-        {
-            this.set('isCreating', true);
-        },
-
-        /**
-         * Cancel the creating mode.
-         */
-        cancelCreating: function()
-        {
-            if (true !== this.get('isCreating')) {
-                throw 'Cannot cancel an address book creation that is not in creating mode.';
-            }
-
-            this.set('isCreating', false);
-        },
-
-        /**
-         * Save the new calendar.
-         */
-        applyCreating: function()
-        {
-            var self = this;
-
-            this.validate().then(
-                function() {
-                    self.get('store').createRecord(
-                        'addressBook',
-                        {
-                            addressBookName: uuid.v4(),
-                            displayName    : self.get('newAddressBookName'),
-                            // `user`, simplified
-                            username       : self.get('currentUser')
-                        }
-                    ).save().then(
-                        function() {
-                            self.set('isCreating', false);
-                            self.send('refreshModel');
-                        }
-                    );
-                }
-            );
-        }
-
-    },
-
-    validators: {
-
-        newAddressBookName: function()
-        {
-            var defer           = Ember.RSVP.defer();
-            var addressBookName = this.get('newAddressBookName');
-
-            if (true === this.get('isCreating') && !addressBookName) {
-                defer.reject({
-                    id     : 'newAddressBookName_empty',
-                    message: 'New address book name cannot be empty.'
-                });
-            } else {
-                defer.resolve(addressBookName);
-            }
-
-            return defer.promise;
-        }
-
-    }
-
-});
+Katana.UsersUserAddressBooksController = Katana._DavListController;
 
 /**
  * Task lists route.
  */
-Katana.UsersUserTasksRoute = Katana.UsersUserCalendarsRoute.extend({
+Katana.UsersUserTasksRoute = Katana._DavListRoute.extend({
 
     _model: function()
     {
@@ -1117,20 +877,12 @@ Katana.UsersUserTasksRoute = Katana.UsersUserCalendarsRoute.extend({
 /**
  * Task lists controller.
  */
-Katana.UsersUserTasksController = Katana.UsersUserCalendarsController.extend({
-
-    /**
-     * Calendar type (`vevent` or `vtodo`).
-     */
-    calendarType: 'vtodo'
-
-});
+Katana.UsersUserTasksController = Katana._DavListController;
 
 /**
  * About route.
  */
 Katana.AboutRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin);
-
 
 /**
  * User model.
@@ -1301,9 +1053,9 @@ Katana.Calendar = DS.Model.extend(KatanaValidatorMixin, {
 });
 
 /**
- * Address book adapter.
+ * Calendar adapter.
  */
-Katana.AddressBookAdapter = KatanaCardDAVAdapter;
+Katana.CalendarAdapter = KatanaCalDAVAdapter;
 
 /**
  * Address book model.
@@ -1352,9 +1104,170 @@ Katana.AddressBook = DS.Model.extend(KatanaValidatorMixin, {
 });
 
 /**
- * Calendar adapter.
+ * Address book adapter.
  */
-Katana.CalendarAdapter = KatanaCalDAVAdapter;
+Katana.AddressBookAdapter = KatanaCardDAVAdapter;
+
+/**
+ * The abstract <_dav-list /> component. Parent of <calendar-list /> and
+ * <address-book-list />.
+ */
+Katana._DavListComponent = Ember.Component.extend(KatanaValidatorMixin, {
+
+    /**
+     */
+    layoutName: 'components/_dav-list',
+
+    /**
+     * Basically `kind` as a literal string (for messages or the view).
+     */
+    subject   : null,
+
+    /**
+     * Whether the creating mode is active.
+     */
+    isCreating: false,
+
+    /**
+     * When we are creating, the application should be in the modal mode.
+     */
+    autoModal : function()
+    {
+        this.sendAction(
+            true === this.get('isCreating')
+                ? 'request-modal'
+                : 'cancel-modal'
+        );
+    }.observes('isCreating'),
+
+    /**
+     * The new item name.
+     */
+    newItemName: null,
+
+    /**
+     * Auto-reset the data.
+     */
+    autoReset: function()
+    {
+        if (false === this.get('isCreating')) {
+            this.set('newItemName', null);
+            this.clearAllErrors();
+            this.set('valid', true);
+        }
+    }.observes('isCreating'),
+
+    /**
+     * Compute a new random color for the new calendar each time the model
+     * changes.
+     */
+    randomColor: function()
+    {
+        return '#' +
+               Math.floor(Math.random() * 255).toString(16) +
+               Math.floor(Math.random() * 255).toString(16) +
+               Math.floor(Math.random() * 255).toString(16);
+    }.property('model'),
+
+    /**
+     * Create a new record. Must be implemented by the children.
+     */
+    newRecord: function()
+    {
+        throw 'Not implemented.';
+    },
+
+    actions: {
+
+        /**
+         * Create a new item and start the editing mode.
+         */
+        requestCreating: function()
+        {
+            this.set('isCreating', true);
+        },
+
+        /**
+         * Cancel the creating mode.
+         */
+        cancelCreating: function()
+        {
+            if (true !== this.get('isCreating')) {
+                throw 'Cannot cancel an item creation (' + this.get('subject') + ') that is not in creating mode.';
+            }
+
+            this.set('isCreating', false);
+        },
+
+        /**
+         * Save the new item.
+         */
+        applyCreating: function()
+        {
+            var self = this;
+
+            this.validate().then(
+                function() {
+                    self.newRecord().save().then(
+                        function() {
+                            self.set('isCreating', false);
+                            self.sendAction('refresh-model');
+                        }
+                    );
+                }
+            );
+        }
+
+    },
+
+    validators: {
+
+        newItemName: function()
+        {
+            var defer       = Ember.RSVP.defer();
+            var newItemName = this.get('newItemName');
+
+            if (true === this.get('isCreating') && !newItemName) {
+                defer.reject({
+                    id     : 'newItemName_empty',
+                    message: 'New item name cannot be empty.'
+                });
+            } else {
+                defer.resolve(newItemName);
+            }
+
+            return defer.promise;
+        }
+
+    }
+
+});
+
+/**
+ * The <calendar-list /> component.
+ */
+Katana.CalendarListComponent = Katana._DavListComponent.extend({
+
+    subject        : 'calendar',
+    'current-user' : null,
+    'calendar-type': null,
+
+    newRecord: function()
+    {
+        return this.get('store').createRecord(
+            'calendar',
+            {
+                calendarName: uuid.v4(),
+                type        : this.get('calendar-type'),
+                displayName : this.get('newItemName'),
+                color       : this.get('randomColor').toUpperCase() + 'FF',
+                // `user`, simplified
+                username    : this.get('current-user')
+            }
+        );
+    }
+
+});
 
 /**
  * The <calendar-item /> component.
@@ -1455,6 +1368,29 @@ Katana.CalendarItemComponent = Ember.Component.extend({
             this.model.destroyRecord();
         }
 
+    }
+
+});
+
+/**
+ * The <address-book-list /> component.
+ */
+Katana.AddressBookListComponent = Katana._DavListComponent.extend({
+
+    subject        : 'address book',
+    'current-user' : null,
+
+    newRecord: function()
+    {
+        return this.get('store').createRecord(
+            'addressBook',
+            {
+                addressBookName: uuid.v4(),
+                displayName    : this.get('newItemName'),
+                // `user`, simplified
+                username       : this.get('current-user')
+            }
+        );
     }
 
 });

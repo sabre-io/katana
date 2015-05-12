@@ -325,151 +325,56 @@
 </script>
 
 <script type="text/x-handlebars" id="users/user/calendars">
-  <div {{action 'requestCreating'}} {{bind-attr class=":ui :top :attached :positive :icon isCreating:disabled: :button"}}>
-    New calendar
-    <i class="plus icon"></i>
-  </div>
-  <div class="ui attached segment modal-exclusive">
-    {{#unless valid}}
-      {{#if validatorErrors.newCalendarName_empty}}
-        <div class="ui error message">
-          <p>New calendar name cannot be empty.</p>
-        </div>
-      {{/if}}
-    {{/unless}}
-
-    <div class="ui divided items">
-      {{#if isCreating}}
-        <div class="item modal-exclusive">
-          <div class="ui tiny image">
-            <svg viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="40" {{bind-attr fill=randomColor}} />
-            </svg>
-          </div>
-          <div class="content">
-            <div class="ui grid form">
-              <div class="eight wide column">
-                {{input type="text" value=newCalendarName placeholder="New calendar name"}}
-              </div>
-              <div class="right aligned eight wide column">
-                <button {{action 'applyCreating'}} {{bind-attr disabled="valid:false:true" class=":ui :positive :right :labeled :icon valid::disabled :button"}}>
-                  Save
-                  <i class="checkmark icon"></i>
-                </button>
-                <button {{action 'cancelCreating'}} class="ui negative right labeled icon button">
-                  Cancel
-                  <i class="remove icon"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      {{/if}}
-      {{#each model as |calendar|}}
-        {{#calendar-item model=calendar confirm="confirm"}}
-        {{/calendar-item}}
-      {{else}}
-        <p>No calendar.</p>
-      {{/each}}
-    </div>
-  </div>
+  {{#calendar-list
+    subject="calendar"
+    model=model
+    store=store
+    request-modal="requestModal"
+    cancel-modal="cancelModal"
+    refresh-model="refreshModel"
+    current-user=currentUser
+    calendar-type="vevent"}}
+    {{#each model as |item|}}
+      {{calendar-item subject="calendar" model=item confirm="confirm"}}
+    {{else}}
+      <p>No calendar yet.</p>
+    {{/each}}
+  {{/calendar-list}}
 </script>
 
 <script type="text/x-handlebars" id="users/user/addressBooks">
-  <div {{action 'requestCreating'}} {{bind-attr class=":ui :top :attached :positive :icon isCreating:disabled: :button"}}>
-    New address book
-    <i class="plus icon"></i>
-  </div>
-  <div class="ui attached segment modal-exclusive">
-    {{#unless valid}}
-      {{#if validatorErrors.newAddressBookName_empty}}
-        <div class="ui error message">
-          <p>New address book name cannot be empty.</p>
-        </div>
-      {{/if}}
-    {{/unless}}
-
-    <div class="ui divided items">
-      {{#if isCreating}}
-        <div class="item modal-exclusive">
-          <div class="content">
-            <div class="ui grid form">
-              <div class="eight wide column">
-                {{input type="text" value=newAddressBookName placeholder="New address book name"}}
-              </div>
-              <div class="right aligned eight wide column">
-                <button {{action 'applyCreating'}} {{bind-attr disabled="valid:false:true" class=":ui :positive :right :labeled :icon valid::disabled :button"}}>
-                  Save
-                  <i class="checkmark icon"></i>
-                </button>
-                <button {{action 'cancelCreating'}} class="ui negative right labeled icon button">
-                  Cancel
-                  <i class="remove icon"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      {{/if}}
-      {{#each model as |address_book|}}
-        {{#address-book-item model=address_book confirm="confirm"}}
-        {{/address-book-item}}
-      {{else}}
-        <p>No address book.</p>
-      {{/each}}
-    </div>
-  </div>
+  {{#address-book-list
+    subject="address book"
+    model=model
+    store=store
+    request-modal="requestModal"
+    cancel-modal="cancelModal"
+    refresh-model="refreshModel"
+    current-user=currentUser}}
+    {{#each model as |item|}}
+      {{address-book-item subject="address book" model=item confirm="confirm"}}
+    {{else}}
+      <p>No address book yet.</p>
+    {{/each}}
+  {{/address-book-list}}
 </script>
 
 <script type="text/x-handlebars" id="users/user/tasks">
-  <div {{action 'requestCreating'}} {{bind-attr class=":ui :top :attached :positive :icon isCreating:disabled: :button"}}>
-    New task list
-    <i class="plus icon"></i>
-  </div>
-  <div class="ui attached segment modal-exclusive">
-    {{#unless valid}}
-      {{#if validatorErrors.newTaskList_empty}}
-        <div class="ui error message">
-          <p>New task list name cannot be empty.</p>
-        </div>
-      {{/if}}
-    {{/unless}}
-
-    <div class="ui divided items">
-      {{#if isCreating}}
-        <div class="item modal-exclusive">
-          <div class="ui tiny image">
-            <svg viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="40" {{bind-attr fill=randomColor}} />
-            </svg>
-          </div>
-          <div class="content">
-            <div class="ui grid form">
-              <div class="eight wide column">
-                {{input type="text" value=newCalendarName placeholder="New task list name"}}
-              </div>
-              <div class="right aligned eight wide column">
-                <button {{action 'applyCreating'}} {{bind-attr disabled="valid:false:true" class=":ui :positive :right :labeled :icon valid::disabled :button"}}>
-                  Save
-                  <i class="checkmark icon"></i>
-                </button>
-                <button {{action 'cancelCreating'}} class="ui negative right labeled icon button">
-                  Cancel
-                  <i class="remove icon"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      {{/if}}
-      {{#each model as |task|}}
-        {{#calendar-item model=task confirm="confirm"}}
-        {{/calendar-item}}
-      {{else}}
-        <p>No task list.</p>
-      {{/each}}
-    </div>
-  </div>
+  {{#calendar-list
+    subject="task list"
+    model=model
+    store=store
+    request-modal="requestModal"
+    cancel-modal="cancelModal"
+    refresh-model="refreshModel"
+    current-user=currentUser
+    calendar-type="vtodo"}}
+    {{#each model as |item|}}
+      {{calendar-item subject="task list" model=item confirm="confirm"}}
+    {{else}}
+      <p>No task list yet.</p>
+    {{/each}}
+  {{/calendar-list}}
 </script>
 
 <script type="text/x-handlebars" id="about">
@@ -512,6 +417,52 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/>.</code></
   </div>
 </script>
 
+<script type="text/x-handlebars" data-template-name="components/_dav-list">
+  <div {{action 'requestCreating'}} {{bind-attr class=":ui :top :attached :positive :icon isCreating:disabled: :button"}}>
+    New {{subject}}
+    <i class="plus icon"></i>
+  </div>
+  <div class="ui attached segment modal-exclusive">
+    {{#unless valid}}
+      {{#if validatorErrors.newItemName_empty}}
+        <div class="ui error message">
+          <p>New {{subject}} name cannot be empty.</p>
+        </div>
+      {{/if}}
+    {{/unless}}
+
+    <div class="ui divided items">
+      {{#if isCreating}}
+        <div class="item modal-exclusive">
+          <div class="ui tiny image">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" {{bind-attr fill=randomColor}} />
+            </svg>
+          </div>
+          <div class="content">
+            <div class="ui grid form">
+              <div class="eight wide column">
+                {{input type="text" value=newItemName placeholder="New name"}}
+              </div>
+              <div class="right aligned eight wide column">
+                <button {{action 'applyCreating'}} {{bind-attr disabled="valid:false:true" class=":ui :positive :right :labeled :icon valid::disabled :button"}}>
+                  Save
+                  <i class="checkmark icon"></i>
+                </button>
+                <button {{action 'cancelCreating'}} class="ui negative right labeled icon button">
+                  Cancel
+                  <i class="remove icon"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/if}}
+      {{yield}}
+    </div>
+  </div>
+</script>
+
 <script type="text/x-handlebars" data-template-name="components/calendar-item">
   {{#if isEditing}}
     <div class="ui tiny image">
@@ -523,13 +474,13 @@ along with this program. If not, see &lt;http://www.gnu.org/licenses/>.</code></
     {{#unless model.valid}}
       {{#if model.validatorErrors.displayName_empty}}
         <div class="ui error message">
-          <p>Name cannot be empty.</p>
+          <p>{{subject}} name cannot be empty.</p>
         </div>
       {{/if}}
     {{/unless}}
       <div class="ui grid form">
         <div class="eight wide column">
-          {{input type="text" value=model.displayName placeholder="New calendar name"}}
+          {{input type="text" value=model.displayName placeholder="New name"}}
         </div>
         <div class="right aligned eight wide column">
           <button {{action 'applyEditing'}} {{bind-attr disabled="model.valid:false:true" class=":ui :positive :right :labeled :icon model.valid::disabled :button"}}>
