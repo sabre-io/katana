@@ -21,7 +21,8 @@
 var ENV = ENV || {};
 
 ENV['katana'] = {
-    base_url: window.location.pathname.replace(/\/+[^\/]*$/, '/') + 'server.php'
+    origin_url: window.location.origin,
+    base_url  : window.location.pathname.replace(/\/+[^\/]*$/, '/') + 'server.php/'
 };
 ENV['simple-auth'] = {
     // Declare our custom authorizer.
@@ -99,7 +100,7 @@ Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
             function(resolve, reject) {
                 Ember.$.ajax({
                     method : 'PROPFIND',
-                    url    : ENV.katana.base_url + '/versions',
+                    url    : ENV.katana.base_url + 'versions',
                     headers: {
                         'Authorization': 'Basic ' + basic,
                         'Content-Type' : 'application/xml; charset=utf-8'
@@ -394,7 +395,7 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
     {
         var self = this;
 
-        $.getJSON(ENV.katana.base_url + '/versions').then(
+        $.getJSON(ENV.katana.base_url + 'versions').then(
             function(data) {
                 self.set('newVersionAvailable', undefined !== data.next_versions);
             }

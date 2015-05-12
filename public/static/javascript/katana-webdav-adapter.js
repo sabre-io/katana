@@ -33,17 +33,17 @@ var KatanaWebDAV = {
 
     getPrincipalsURL: function()
     {
-        return ENV.katana.base_url + '/principals/';
+        return ENV.katana.base_url + 'principals/';
     },
 
     getCalendarsURL: function()
     {
-        return ENV.katana.base_url + '/calendars/';
+        return ENV.katana.base_url + 'calendars/';
     },
 
     getAddressBooksURL: function()
     {
-        return ENV.katana.base_url + '/addressbooks/';
+        return ENV.katana.base_url + 'addressbooks/';
     },
 
     xhr: function(method, url, headers, body)
