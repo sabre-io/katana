@@ -1,7 +1,7 @@
 
 body {
     position: relative;
-    background: radial-gradient(circle at 100% 0%, #efd6c9, #d8b4a2);
+    background: radial-gradient(circle at 100% 0%, #efd6c9, #d8b4a2) fixed;
 }
 
 body::before {
