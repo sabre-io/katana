@@ -1,6 +1,6 @@
 # ![K (sabre/katana's logo)](public/static/image/katana_logo_full.png)
 
-sabre/katana is a [CalDAV], [CardDAV] and [WebDAV] ready-to-use server on top of
+sabre/katana is a [CardDAV], [CalDAV] and [WebDAV] ready-to-use server on top of
 [sabre/dav]. It means you can have your own **calendars**, **tasks** and
 **contacts** server in a minute, robust, safe and secure.
 
@@ -9,10 +9,10 @@ sabre/katana is a [CalDAV], [CardDAV] and [WebDAV] ready-to-use server on top of
 When sabre/katana is installed, you can:
 
   * manage **users** with the administration panel,
-  * create, update and delete **calendars** and **tasks** with any
-    [CalDAV]-compatible client,
   * create, update and delete **contacts** with any [CardDAV]-compatible
-    client.
+    client,
+  * create, update and delete **calendars** and **tasks** with any
+    [CalDAV]-compatible client.
 
 More than 35 RFCs supported. See [the exhaustive list of all supported
 standars][sabre_standards]. This includes: vCard 4.0, iCalendar 2.0, jCal,
@@ -20,8 +20,8 @@ jCard, iTip, iMip, ACL etc.
 
 [WebDAV] support is coming soon.
 
-sabre/katana is powered by [sabre/dav], an open source [WebDAV], [CardDAV]
-and [CalDAV] technology, trusted by the likes of [Atmail], [Box], [fruux]
+sabre/katana is powered by [sabre/dav], an open source [CardDAV], [CalDAV]
+and [WebDAV] technology, trusted by the likes of [Atmail], [Box], [fruux]
 and [ownCloud].
 
 ## Install
