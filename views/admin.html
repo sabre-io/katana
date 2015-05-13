@@ -192,6 +192,9 @@
     {{#link-to 'users.user.tasks' class="item"}}
       <i class="tasks icon"></i> Task lists
     {{/link-to}}
+    {{#link-to 'users.user.files' class="item"}}
+      <i class="folder open outline icon"></i> Files
+    {{/link-to}}
   </nav>
 
   {{outlet}}
@@ -430,6 +433,31 @@
         <li>Server address: <code>{{ENV.katana.origin_url}}{{ENV.katana.base_url}}</code>.</li>
       </ul>
       <p>Make sure that the “Task lists” or “Reminders” option is selected.</p>
+    </div>
+  {{else}}
+    <div {{action 'requestInstructions'}} class="ui tiny fluid icon button" style="margin-top: 1em">
+      Show client instructions
+      <i class="chevron down icon"></i>
+    </div>
+  {{/if}}
+</script>
+
+<script type="text/x-handlebars" id="users/user/files">
+  <div class="ui segment">
+    <p><em>file listing</em></p>
+  </div>
+
+  {{#if showInstructions}}
+    <div class="ui info message">
+      <i {{action 'cancelInstructions'}} class="close icon"></i>
+      <div class="header">Client instructions</div>
+      <p>In the client application, connect to the server with the following
+      information:</p>
+      <ul>
+        <li>Username: <code>{{currentUser}}</code>,</li>
+        <li>Password: <em>user's password</em>,</li>
+        <li>Server address: <code>{{ENV.katana.origin_url}}{{ENV.katana.base_url}}files/{{currentUser}}/</code>.</li>
+      </ul>
     </div>
   {{else}}
     <div {{action 'requestInstructions'}} class="ui tiny fluid icon button" style="margin-top: 1em">

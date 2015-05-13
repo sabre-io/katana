@@ -184,6 +184,7 @@ Katana.Router.map(function() {
             this.route('calendars');
             this.route('addressBooks', {path: 'address-books'});
             this.route('tasks');
+            this.route('files');
         });
     });
     this.route('about');
@@ -904,6 +905,23 @@ Katana.UsersUserTasksRoute = Katana._DavListRoute.extend({
  * Task lists controller.
  */
 Katana.UsersUserTasksController = Katana._DavListController;
+
+/**
+ * Files route.
+ */
+Katana.UsersUserFilesRoute = Katana._DavListRoute.extend({
+
+    _model: function()
+    {
+        return null;
+    }
+
+});
+
+/**
+ * Files controller.
+ */
+Katana.UsersUserFilesController = Katana._DavListController;
 
 /**
  * About route.
