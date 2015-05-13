@@ -24,6 +24,7 @@ views/semantic-ui/dist/
 
 # Katana
 data/etc/configuration/server.json
+data/home/*
 data/share/*.zip
 data/share/*.phar
 data/share/update/
