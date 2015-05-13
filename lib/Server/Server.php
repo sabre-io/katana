@@ -94,8 +94,8 @@ class Server {
      *    * server,
      *    * authentication,
      *    * principals,
-     *    * CalDAV,
      *    * CardDAV,
+     *    * CalDAV,
      *    * ACL,
      *    * synchronization,
      *    * versions.
@@ -109,8 +109,8 @@ class Server {
         $this->initializeServer();
         $this->initializeAuthentication();
         $this->initializePrincipals($principalBackend);
-        $this->initializeCalDAV($principalBackend);
         $this->initializeCardDAV($principalBackend);
+        $this->initializeCalDAV($principalBackend);
         $this->initializeACL();
         $this->initializeSynchronization();
         $this->initializeVersions();
@@ -186,22 +186,6 @@ class Server {
     }
 
     /**
-     * Initialize CalDAV.
-     *
-     * @param  DavACl\Principal\Backend  $principalBackend  The principal backend.
-     * @return void
-     */
-    protected function initializeCalDAV(DavAcl\Principal\Backend $principalBackend) {
-
-        $backend = new SabreCalDav\Backend\PDO($this->getDatabase());
-        $node    = new SabreCalDav\CalendarRoot($principalBackend, $backend);
-        $this->getServer()->tree->getNodeForPath('')->addChild($node);
-        $this->getServer()->addPlugin(new SabreCalDav\Plugin());
-        $this->getServer()->addPlugin(new SabreCalDav\Schedule\Plugin());
-        $this->getServer()->addPlugin(new SabreCalDav\ICSExportPlugin());
-    }
-
-    /**
      * Initialize CardDAV.
      *
      * @param  DavAcl\Principal\Backend  $principalBackend  The principal backend.
@@ -215,6 +199,22 @@ class Server {
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
         $this->getServer()->addPlugin(new SabreCardDav\Plugin());
         $this->getServer()->addPlugin(new SabreCardDav\VCFExportPlugin());
+    }
+
+    /**
+     * Initialize CalDAV.
+     *
+     * @param  DavACl\Principal\Backend  $principalBackend  The principal backend.
+     * @return void
+     */
+    protected function initializeCalDAV(DavAcl\Principal\Backend $principalBackend) {
+
+        $backend = new SabreCalDav\Backend\PDO($this->getDatabase());
+        $node    = new SabreCalDav\CalendarRoot($principalBackend, $backend);
+        $this->getServer()->tree->getNodeForPath('')->addChild($node);
+        $this->getServer()->addPlugin(new SabreCalDav\Plugin());
+        $this->getServer()->addPlugin(new SabreCalDav\Schedule\Plugin());
+        $this->getServer()->addPlugin(new SabreCalDav\ICSExportPlugin());
     }
 
     /**
