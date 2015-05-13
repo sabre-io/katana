@@ -26,6 +26,7 @@ use Sabre\Katana\Database;
 use Sabre\Katana\Dav;
 use Sabre\Katana\DavAcl;
 use Sabre\Katana\CalDav;
+use Sabre\Katana\Protocol;
 use Sabre\CardDAV as SabreCardDav;
 use Sabre\CalDAV as SabreCalDav;
 use Sabre\DAV as SabreDav;
@@ -96,6 +97,7 @@ class Server {
      *    * principals,
      *    * CardDAV,
      *    * CalDAV,
+     *    * WebDAV,
      *    * ACL,
      *    * synchronization,
      *    * versions.
@@ -111,6 +113,7 @@ class Server {
         $this->initializePrincipals($principalBackend);
         $this->initializeCardDAV($principalBackend);
         $this->initializeCalDAV($principalBackend);
+        $this->initializeWebDAV($principalBackend);
         $this->initializeACL();
         $this->initializeSynchronization();
         $this->initializeVersions();
@@ -215,6 +218,22 @@ class Server {
         $this->getServer()->addPlugin(new SabreCalDav\Plugin());
         $this->getServer()->addPlugin(new SabreCalDav\Schedule\Plugin());
         $this->getServer()->addPlugin(new SabreCalDav\ICSExportPlugin());
+    }
+
+    /**
+     * Initialize WebDAV.
+     *
+     * @param  DavACl\Principal\Backend  $principalBackend  The principal backend.
+     * @return void
+     */
+    protected function initializeWebDAV(DavAcl\Principal\Backend $principalBackend) {
+
+        $collection = new SabreDavAcl\FS\HomeCollection(
+            $principalBackend,
+            Protocol::realPath('katana://data/home/')
+        );
+        $collection->collectionName = 'files';
+        $this->getServer()->tree->getNodeForPath('')->addChild($collection);
     }
 
     /**
