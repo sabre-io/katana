@@ -26,8 +26,8 @@ use Sabre\Katana\Database;
 use Sabre\Katana\Dav;
 use Sabre\Katana\DavAcl;
 use Sabre\Katana\CalDav;
-use Sabre\CalDAV as SabreCalDav;
 use Sabre\CardDAV as SabreCardDav;
+use Sabre\CalDAV as SabreCalDav;
 use Sabre\DAV as SabreDav;
 use Sabre\DAVACL as SabreDavAcl;
 
