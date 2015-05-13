@@ -46,6 +46,11 @@ var KatanaWebDAV = {
         return ENV.katana.base_url + 'addressbooks/';
     },
 
+    getFilesURL: function()
+    {
+        return ENV.katana.base_url + 'files/';
+    },
+
     xhr: function(method, url, headers, body)
     {
         return new Ember.RSVP.Promise(
@@ -741,6 +746,97 @@ var KatanaCardDAVAdapter = DS.Adapter.extend({
     generateIdForRecord: function(store, inputProperties)
     {
         return 'new';
+    }
+
+});
+
+var KatanaWebDAVAdapter = DS.Adapter.extend({
+
+    createRecord: function(store, type, snapshot)
+    {
+        console.log('WebDAV adapter createRecord');
+    },
+
+    updateRecord: function(store, type, snapshot)
+    {
+        console.log('WebDAV adapter updateRecord');
+    },
+
+    deleteRecord: function(store, type, snapshot)
+    {
+        console.log('WebDAV adapter deleteRecord');
+    },
+
+    find: function(store, type, id, snapshot)
+    {
+        console.log('WebDAV adapter find');
+    },
+
+    findAll: function(store, type, sinceToken)
+    {
+        console.log('WebDAV adapter findAll');
+    },
+
+    findQuery: function(store, type, query, recordArray)
+    {
+        var username = query.username;
+
+        if (undefined === username) {
+            return null;
+        }
+
+        var fileRegex = new RegExp('^' + KatanaWebDAV.getFilesURL() + username + '/(.+)$');
+
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                KatanaWebDAV.xhr(
+                    'PROPFIND',
+                    KatanaWebDAV.getFilesURL() + username,
+                    {
+                        'Content-Type': 'application/xml; charset=utf-8'
+                    },
+                    '<?xml version="1.0" encoding="utf-8" ?>' + "\n" +
+                    '<d:propfind xmlns:d="DAV:">' + "\n" +
+                    '  <d:prop>' + "\n" +
+                    '    <d:getlastmodified />' + "\n" +
+                    '    <d:getcontentlength />' + "\n" +
+                    '    <d:resourcetype />' + "\n" +
+                    '  </d:prop>' + "\n" +
+                    '</d:propfind>'
+                ).then(
+                    function(data) {
+                        var multiStatus = KatanaWebDAVParser.multiStatus(data);
+                        var files       = [];
+
+                        multiStatus.forEach(
+                            function(response) {
+                                var file = (fileRegex.exec(response.href) || [null, null])[1];
+
+                                if (file) {
+                                    var properties = response.propStat[0].prop;
+
+                                    files.push({
+                                        id          : file,
+                                        filename    : file.replace('/', ''),
+                                        directory   : '/' === file.substr(-1, 1),
+                                        size        : properties['{DAV:}getcontentlength'] || 0,
+                                        lastModified: properties['{DAV:}getlastmodified'].value,
+                                        user        : username
+                                    });
+                                }
+                            }
+                        );
+
+                        resolve(files);
+                    },
+                    function(xhr) {
+                        console.log('nok');
+                        console.log(xhr);
+                        reject(xhr);
+                    }
+                );
+            }
+        );
     }
 
 });

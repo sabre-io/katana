@@ -913,7 +913,12 @@ Katana.UsersUserFilesRoute = Katana._DavListRoute.extend({
 
     _model: function()
     {
-        return null;
+        return this.get('store').find(
+            'file',
+            {
+                username: this.get('currentUser')
+            }
+        );
     }
 
 });
@@ -1151,6 +1156,30 @@ Katana.AddressBook = DS.Model.extend(KatanaValidatorMixin, {
  * Address book adapter.
  */
 Katana.AddressBookAdapter = KatanaCardDAVAdapter;
+
+/**
+ * File model.
+ */
+Katana.File = DS.Model.extend(KatanaValidatorMixin, {
+
+    filename    : DS.attr('string'),
+    directory   : DS.attr('boolean'),
+    size        : DS.attr('number'),
+    lastModified: DS.attr('date'),
+
+    user        : DS.belongsTo('user'),
+
+    lastModifiedForHuman: function()
+    {
+        return moment(this.get('lastModified')).calendar();
+    }.property('lastModifiedForHuman')
+
+});
+
+/**
+ * File adapter.
+ */
+Katana.FileAdapter = KatanaWebDAVAdapter;
 
 /**
  * The abstract <_dav-list /> component. Parent of <calendar-list /> and
