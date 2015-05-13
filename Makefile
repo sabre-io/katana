@@ -20,7 +20,7 @@ devinstall-client:
 	bower install
 	npm install
 
-build-client: build-semantic-ui
+build-client: build-semantic-ui build-moment
 
 build-semantic-ui:
 	node_modules/.bin/gulp \
@@ -30,6 +30,12 @@ build-semantic-ui:
 	cp -v -r \
 		views/semantic-ui/dist/themes/default/assets/fonts \
 		public/static/vendor/semantic-ui
+
+build-moment:
+	mkdir public/static/vendor/moment/
+	mv \
+		node_modules/moment/min/moment.min.js \
+		public/static/vendor/moment/
 
 clean:
 	find . -name ".DS_Store" | \
