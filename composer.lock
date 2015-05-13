@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2c7e56c21491b5a5d8cc98d9370abcaf",
+    "hash": "fb55b32e0c5ec8420c283bc82e9ce3bc",
     "packages": [
         {
             "name": "hoa/console",
@@ -717,16 +717,16 @@
         },
         {
             "name": "sabre/dav",
-            "version": "2.2.0alpha4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruux/sabre-dav.git",
-                "reference": "9329b69666f4850a5d8b48e65686add694d9d376"
+                "reference": "d7ea90a7511390d34872caf38662fb356616ede9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruux/sabre-dav/zipball/9329b69666f4850a5d8b48e65686add694d9d376",
-                "reference": "9329b69666f4850a5d8b48e65686add694d9d376",
+                "url": "https://api.github.com/repos/fruux/sabre-dav/zipball/d7ea90a7511390d34872caf38662fb356616ede9",
+                "reference": "d7ea90a7511390d34872caf38662fb356616ede9",
                 "shasum": ""
             },
             "require": {
@@ -762,7 +762,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2.x-dev"
+                    "dev-master": "3.0.0-dev"
                 }
             },
             "autoload": {
@@ -794,7 +794,7 @@
                 "framework",
                 "iCalendar"
             ],
-            "time": "2015-04-13 14:44:41"
+            "time": "2015-04-29 21:56:36"
         },
         {
             "name": "sabre/event",
@@ -2177,7 +2177,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "sabre/dav": 15,
+        "sabre/dav": 20,
         "sabre/http": 15,
         "sabre/cs": 20
     },
