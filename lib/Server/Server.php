@@ -234,6 +234,11 @@ class Server {
         );
         $collection->collectionName = 'files';
         $this->getServer()->tree->getNodeForPath('')->addChild($collection);
+
+        $database = $this->getDatabase();
+        $backend  = new SabreDav\Locks\Backend\PDO($database);
+        $plugin   = new SabreDav\Locks\Plugin($backend);
+        $this->getServer()->addPlugin($plugin);
     }
 
     /**
