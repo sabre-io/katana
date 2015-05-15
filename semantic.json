@@ -36,6 +36,7 @@
     "message",
     "table",
     "checkbox",
+    "breadcrumb",
     "dimmer",
     "dropdown",
     "modal",
