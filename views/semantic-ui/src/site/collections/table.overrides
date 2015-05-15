@@ -1,3 +1,11 @@
 /*******************************
          Site Overrides
 *******************************/
+
+.ui.basic.table {
+    border: 0;
+}
+
+.ui.basic.table thead {
+    background: @headerBackground;
+}
