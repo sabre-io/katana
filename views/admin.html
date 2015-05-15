@@ -443,52 +443,72 @@
 </script>
 
 <script type="text/x-handlebars" id="users/user/files">
-  <table class="ui table">
-    <thead>
-      <tr>
-        <th>Filename</th>
-        <th>Size</th>
-        <th>Last modified</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#unless isRoot}}
-        <tr>
-          <td>
-            {{#link-to 'users.user.files' currentUser (query-params directory=parent)}}
-              <i class="level up icon"></i>
-              ..
-            {{/link-to}}
-          </td>
-        </tr>
-      {{/unless}}
-      {{#each model as |item|}}
-        <tr>
-          <td>
-            {{#if item.directory}}
-              {{#link-to 'users.user.files' currentUser (query-params directory=item.pathname)}}
-                <i {{bind-attr class="item.directory:folder:file :outline :icon"}}></i>
-                {{item.filename}}/
-              {{/link-to}}
-            {{else}}
-              <i {{bind-attr class="item.directory:folder:file :outline :icon"}}></i>
-              {{item.filename}}
-            {{/if}}
-          </td>
-          <td>
-            {{item.size}}b
-          </td>
-          <td>
-            {{item.lastModifiedForHuman}}
-          </td>
-        </tr>
-      {{else}}
-        <tr>
-          <td>No file yet.</td>
-        </tr>
+  <div class="ui segment">
+    <div class="ui breadcrumb">
+      {{#link-to 'users.user.files' currentUser (query-params directory='/') class="section"}}
+        home
+      {{/link-to}}
+      <div class="divider"> / </div>
+      {{#each pathToBreadcrumb as |part|}}
+        {{#if part.path}}
+          {{#link-to 'users.user.files' currentUser (query-params directory=part.path) class="section"}}
+            {{part.label}}
+          {{/link-to}}
+          <div class="divider"> / </div>
+        {{else}}
+          <div class="active section">{{part.label}}</div>
+          <div class="divider"> / </div>
+        {{/if}}
       {{/each}}
-    </tbody>
-  </table>
+    </div>
+
+    <table class="ui basic table">
+      <thead>
+        <tr>
+          <th>Filename</th>
+          <th>Size</th>
+          <th>Last modified</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#unless isRoot}}
+          <tr>
+            <td>
+              {{#link-to 'users.user.files' currentUser (query-params directory=parent)}}
+                <i class="level up icon"></i>
+                ..
+              {{/link-to}}
+            </td>
+          </tr>
+        {{/unless}}
+        {{#each model as |item|}}
+          <tr>
+            <td>
+              {{#if item.directory}}
+                {{#link-to 'users.user.files' currentUser (query-params directory=item.pathname)}}
+                  <i {{bind-attr class="item.directory:folder:file :outline :icon"}}></i>
+                  {{item.filename}}/
+                {{/link-to}}
+              {{else}}
+                <i {{bind-attr class="item.directory:folder:file :outline :icon"}}></i>
+                {{item.filename}}
+              {{/if}}
+            </td>
+            <td>
+              {{item.size}}b
+            </td>
+            <td>
+              {{item.lastModifiedForHuman}}
+            </td>
+          </tr>
+        {{else}}
+          <tr>
+            <td>No file yet.</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
 
   {{#if showInstructions}}
     <div class="ui info message">

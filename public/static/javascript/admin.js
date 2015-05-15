@@ -961,14 +961,38 @@ Katana.UsersUserFilesController = Katana._DavListController.extend({
         var parts = this.get('directory').split('/');
         parts.pop();
 
-        console.log(parts);
-
         if (1 >= parts.length) {
             return '/';
         }
 
         return parts.join('/');
-    }.property('parent', 'directory')
+    }.property('parent', 'directory'),
+
+    pathToBreadcrumb: function()
+    {
+        if (true === this.get('isRoot')) {
+            return [];
+        }
+
+        var out = [];
+
+        this.get('directory').split('/').reduce(
+            function(previous, current) {
+                var path = previous + '/' + current;
+
+                out.push({
+                    label: current,
+                    path : path
+                });
+
+                return path;
+            }
+        );
+
+        out[out.length - 1].path = null;
+
+        return out;
+    }.property('pathToBreadcrumb', 'directory')
 
 });
 
