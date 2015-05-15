@@ -19,9 +19,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-namespace Sabre\Katana\Dav\Version;
+namespace Sabre\Katana\Dav\System\Version;
 
 use Sabre\Katana\Server\Updater;
+use Sabre\Katana\Dav\System;
 use Sabre\DAV as SabreDav;
 use Sabre\HTTP\RequestInterface as Request;
 use Sabre\HTTP\ResponseInterface as Response;
@@ -77,7 +78,7 @@ class Plugin extends SabreDav\ServerPlugin {
      * @return array
      */
     function getHTTPMethods($path) {
-        if (Node::NAME !== $path) {
+        if (System\Collection::NAME . '/' . Node::NAME !== $path) {
             return [];
         }
 
@@ -103,7 +104,7 @@ class Plugin extends SabreDav\ServerPlugin {
      * @return bool
      */
     function httpGet(Request $request, Response $response) {
-        if (Node::NAME !== $request->getPath()) {
+        if (System\Collection::NAME . '/' . Node::NAME !== $request->getPath()) {
             return;
         }
 

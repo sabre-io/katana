@@ -100,7 +100,7 @@ Katana.CustomAuthenticator = SimpleAuth.Authenticators.Base.extend({
             function(resolve, reject) {
                 Ember.$.ajax({
                     method : 'PROPFIND',
-                    url    : ENV.katana.base_url + 'versions',
+                    url    : ENV.katana.base_url + 'system',
                     headers: {
                         'Authorization': 'Basic ' + basic,
                         'Content-Type' : 'application/xml; charset=utf-8'
@@ -396,7 +396,7 @@ Katana.ApplicationController = Ember.Controller.extend(SimpleAuth.Authentication
     {
         var self = this;
 
-        $.getJSON(ENV.katana.base_url + 'versions').then(
+        $.getJSON(ENV.katana.base_url + 'system/versions').then(
             function(data) {
                 self.set('newVersionAvailable', undefined !== data.next_versions);
             }

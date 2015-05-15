@@ -19,34 +19,35 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-namespace Sabre\Katana\Dav\Version;
+namespace Sabre\Katana\Dav\System;
 
 use Sabre\DAV as SabreDav;
 use Sabre\DAVACL as SabreDavAcl;
 
 /**
- * The versions node.
+ * The system collection. A set of tools for sabre/katana.
  *
  * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Node extends SabreDav\Node implements SabreDavAcl\IACL {
+class Collection extends SabreDav\SimpleCollection implements SabreDavAcl\IACL {
+
     /**
      * Define the node name.
      *
      * @const string
      */
-    const NAME = 'versions';
+    const NAME = 'system';
 
     /**
-     * Get the node's name.
+     * Constructor.
      *
-     * @return string
+     * @params  array  $children    Children.
      */
-    function getName() {
+    function __construct(array $children) {
 
-        return self::NAME;
+        parent::__construct(self::NAME, $children);
     }
 
     /**

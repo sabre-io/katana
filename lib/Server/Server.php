@@ -100,7 +100,7 @@ class Server {
      *    * WebDAV,
      *    * ACL,
      *    * synchronization,
-     *    * versions.
+     *    * system.
      *
      * @return void
      */
@@ -116,7 +116,7 @@ class Server {
         $this->initializeWebDAV($principalBackend);
         $this->initializeACL();
         $this->initializeSynchronization();
-        $this->initializeVersions();
+        $this->initializeSystemPlugin();
     }
 
     /**
@@ -268,14 +268,18 @@ class Server {
     }
 
     /**
-     * Initialize versions.
+     * Initialize the plugin system.
      *
      * @return void
      */
-    protected function initializeVersions() {
+    protected function initializeSystemPlugin() {
 
-        $this->getServer()->tree->getNodeForPath('')->addChild(new Dav\Version\Node());
-        $this->getServer()->addPlugin(new Dav\Version\Plugin());
+        $this->getServer()->tree->getNodeForPath('')->addChild(
+            new Dav\System\Collection([
+                new Dav\System\Version\Node()
+            ])
+        );
+        $this->getServer()->addPlugin(new Dav\System\Version\Plugin());
     }
 
     /**
