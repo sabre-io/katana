@@ -452,11 +452,28 @@
       </tr>
     </thead>
     <tbody>
+      {{#unless isRoot}}
+        <tr>
+          <td>
+            {{#link-to 'users.user.files' currentUser (query-params directory=parent)}}
+              <i class="level up icon"></i>
+              ..
+            {{/link-to}}
+          </td>
+        </tr>
+      {{/unless}}
       {{#each model as |item|}}
         <tr>
           <td>
-            <i {{bind-attr class="item.directory:folder:file :outline :icon"}}></i>
-            {{item.filename}}
+            {{#if item.directory}}
+              {{#link-to 'users.user.files' currentUser (query-params directory=item.pathname)}}
+                <i {{bind-attr class="item.directory:folder:file :outline :icon"}}></i>
+                {{item.filename}}/
+              {{/link-to}}
+            {{else}}
+              <i {{bind-attr class="item.directory:folder:file :outline :icon"}}></i>
+              {{item.filename}}
+            {{/if}}
           </td>
           <td>
             {{item.size}}b

@@ -916,7 +916,7 @@ Katana.UsersUserFilesRoute = Katana._DavListRoute.extend({
         return this.get('store').find(
             'file',
             {
-                username: this.get('currentUser')
+                username: this.get('currentUser'),
             }
         );
     }
@@ -926,7 +926,51 @@ Katana.UsersUserFilesRoute = Katana._DavListRoute.extend({
 /**
  * Files controller.
  */
-Katana.UsersUserFilesController = Katana._DavListController;
+Katana.UsersUserFilesController = Katana._DavListController.extend({
+
+    queryParams: ['directory'],
+
+    /**
+     * Current directory to list.
+     */
+    directory: '/',
+
+    updateDirectory: function()
+    {
+        // protect directory format here
+
+        this.set(
+            'model',
+            this.get('store').find(
+                'file',
+                {
+                    username: this.get('currentUser'),
+                    path    : this.get('directory')
+                }
+            )
+        );
+    }.observes('directory'),
+
+    isRoot: function()
+    {
+        return '/' === this.get('directory');
+    }.property('isRoot', 'directory'),
+
+    parent: function()
+    {
+        var parts = this.get('directory').split('/');
+        parts.pop();
+
+        console.log(parts);
+
+        if (1 >= parts.length) {
+            return '/';
+        }
+
+        return parts.join('/');
+    }.property('parent', 'directory')
+
+});
 
 /**
  * About route.
@@ -1164,6 +1208,7 @@ Katana.File = DS.Model.extend(KatanaValidatorMixin, {
 
     filename    : DS.attr('string'),
     directory   : DS.attr('boolean'),
+    pathname    : DS.attr('string'),
     size        : DS.attr('number'),
     lastModified: DS.attr('date'),
 

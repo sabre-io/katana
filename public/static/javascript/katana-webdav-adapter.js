@@ -780,18 +780,27 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
     findQuery: function(store, type, query, recordArray)
     {
         var username = query.username;
+        var path     = '/';
+
+        if (query.path) {
+            query.path = query.path.replace('/', '');
+
+            if (query.path) {
+                path += query.path + '/';
+            }
+        }
 
         if (undefined === username) {
             return null;
         }
 
-        var fileRegex = new RegExp('^' + KatanaWebDAV.getFilesURL() + username + '/(.+)$');
+        var fileRegex = new RegExp('^' + KatanaWebDAV.getFilesURL() + username + path + '(.+)$');
 
         return new Ember.RSVP.Promise(
             function(resolve, reject) {
                 KatanaWebDAV.xhr(
                     'PROPFIND',
-                    KatanaWebDAV.getFilesURL() + username,
+                    KatanaWebDAV.getFilesURL() + username + path,
                     {
                         'Content-Type': 'application/xml; charset=utf-8'
                     },
@@ -814,11 +823,13 @@ var KatanaWebDAVAdapter = DS.Adapter.extend({
 
                                 if (file) {
                                     var properties = response.propStat[0].prop;
+                                    var filename   = file.replace('/', '');
 
                                     files.push({
                                         id          : file,
-                                        filename    : file.replace('/', ''),
+                                        filename    : filename,
                                         directory   : '/' === file.substr(-1, 1),
+                                        pathname    : path + filename,
                                         size        : properties['{DAV:}getcontentlength'] || 0,
                                         lastModified: properties['{DAV:}getlastmodified'].value,
                                         user        : username
