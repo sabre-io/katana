@@ -90,8 +90,19 @@ distclean-client:
 		xargs rm -rf
 
 uninstall:
-	rm -f data/etc/configuration/server.json
-	rm -f data/variable/database/katana_*.sqlite
+	@echo 'You are going to uninstall sabre/katana and lost everything!'
+	@read -p 'Are you sure? [Y/n] ' go; \
+		if [[ 'Y' = $$go ]]; then \
+			echo 'Remove data/etc/configuration/server.json'; \
+			rm -f data/etc/configuration/server.json; \
+			echo 'Remove data/variable/database/katana_*.sqlite'; \
+			rm -f data/variable/database/katana_*.sqlite; \
+			echo 'Remove data/home/*'; \
+			find data/home -type d -depth 1 | \
+				xargs rm -rf; \
+		else \
+			echo 'Aborted!'; \
+		fi
 
 test: devinstall-server
 	bin/atoum \
