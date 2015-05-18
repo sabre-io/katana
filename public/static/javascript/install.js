@@ -33,9 +33,9 @@
             return window.location.pathname.replace(/\/+[^\/]*$/, '/') + 'server.php/';
         }.property(),
         password        : '',
-        passwordBis     : '',
+        passwordBis     : null,
         email           : '',
-        emailBis        : '',
+        emailBis        : null,
         databaseDriver  : 'sqlite',
         databaseHost    : '',
         databasePort    : 3306,
@@ -94,7 +94,12 @@
 
         validatePassword: function()
         {
-            var self        = this;
+            var self = this;
+
+            if (null === this.get('passwordBis')) {
+                return;
+            }
+
             var password    = encodeURIComponent(this.get('password'));
             var passwordBis = encodeURIComponent(this.get('passwordBis'));
             $
@@ -113,7 +118,12 @@
 
         validateEmail: function()
         {
-            var self     = this;
+            var self = this;
+
+            if (null === this.get('emailBis')) {
+                return;
+            }
+
             var email    = this.get('email');
             var emailBis = this.get('emailBis');
             $
