@@ -2,7 +2,7 @@ CREATE TABLE users (
 
     id       INTEGER UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50),
-    digesta1 VARCHAR(32),
+    digesta1 VARCHAR(60),
 
     UNIQUE(username)
 
