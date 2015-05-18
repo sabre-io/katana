@@ -500,6 +500,15 @@ class Install extends AbstractCommand {
         } catch (\Exception $e) {
 
             $progress(-1, 'An error occured: ' . $e->getMessage());
+
+            if (null !== $previous = $e->getPrevious()) {
+                echo 'Underlying error: ' . $previous->getMessage();
+            }
+
+            echo "\n",
+                 'You are probably likely to run: ' .
+                 '`make uninstall` before trying again.', "\n";
+
             return 2;
 
         }
