@@ -50,9 +50,6 @@ You need to start an HTTP server; example with the PHP built-in server:
 $ php -S 127.0.0.1:8888 -t public public/.webserver.php
 ```
 
-If you use another HTTP server, take a look at
-`data/etc/configuration/http_servers/`, you will find more configuration files.
-
 Then open
 [`http://127.0.0.1:8888/install.php`](http://127.0.0.1:8888/install.php) in your
 browser, you will be redirected to the installation page.
