@@ -66,7 +66,7 @@ if (true === Installer::isDirectoryEmpty('katana://public/static/vendor/')) {
 /**
  * If the application has not the correct permissions.
  */
-$view = function ($directoryName, $directory) {
+$view = function($directoryName, $directory) {
     $user        = get_current_user();
     $userId      = getmyuid();
     $groupId     = getmygid();
