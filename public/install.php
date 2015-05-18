@@ -66,23 +66,36 @@ if (true === Installer::isDirectoryEmpty('katana://public/static/vendor/')) {
 /**
  * If the application has not the correct permissions.
  */
+$view = function ($directoryName, $directory) {
+    $user        = get_current_user();
+    $userId      = getmyuid();
+    $groupId     = getmygid();
+    $permissions = $directory->getReadablePermissions();
+
+    require 'katana://views/install_permissions.html';
+};
+
 $dataDirectory = new File\Directory('katana://data/');
 $dataDirectory->clearStatisticCache();
 
 if (false === $dataDirectory->isWritable()) {
-    $view = function() use ($dataDirectory) {
-        $user        = get_current_user();
-        $userId      = getmyuid();
-        $groupId     = getmygid();
-        $permissions = $dataDirectory->getReadablePermissions();
-
-        require 'katana://views/install_permissions.html';
-    };
-
-    $view();
+    $view('data/', $dataDirectory);
 
     return;
 }
+
+$dataDirectory->close();
+
+$homeDirectory = new File\Directory('katana://data/home/');
+$homeDirectory->clearStatisticCache();
+
+if (false === $homeDirectory->isWritable()) {
+    $view('data/home/', $homeDirectory);
+
+    return;
+}
+
+$homeDirectory->close();
 
 $url   = $request->getUrl();
 $query = '';

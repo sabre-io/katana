@@ -33,7 +33,8 @@
         </div>
       </div>
 
-      <p>Don't worry.</p>
+      <p>It's about the <code><?= $directoryName ?></code> directory. Don't
+      worry.</p>
 
       <h2>How to fix?</h2>
 
@@ -44,18 +45,19 @@
       <h3>Changing the modes</h3>
 
       <p>You want your files to be readable and writable by your HTTP server and
-      sabre/katana. Only files in the <code>data/</code> directory are
-      impacted. Thus, in a terminal, run:</p>
+      sabre/katana. Only files in the <code><?= $directoryName ?></code>
+      directory are impacted. Thus, in a terminal, run:</p>
       <pre><code>$ cd path/to/katana/
-$ chmod -R a+rw data/</code></pre>
+$ chmod -R a+rw <?= $directoryName ?></code></pre>
 
       <h3>Changing the owners</h3>
 
-      <p>Another solution is your want your files to have the same owner that
+      <p>Another solution is you want your files to have the same owner that
       your HTTP server (or PHP FastCGI) instance. Again, only files in the
-      <code>data/</code> directory are impacted. Thus, in a terminal, run:</p>
+      <code><?= $directoryName ?></code> directory are impacted. Thus, in a
+      terminal, run:</p>
       <pre><code>$ cd path/to/katana/
-$ chown -R www-data:www-data data/</code></pre>
+$ chown -R www-data:www-data <?= $directoryName ?></code></pre>
       <p>The user and the group are commonly <code>www-data</code>. It could
       also be <code>www</code> or <code>_www</code>.</p>
 
@@ -69,8 +71,8 @@ $ chown -R www-data:www-data data/</code></pre>
 
       <h2>Extra</h2>
 
-      <p>Here are some useful information about the <code>data/</code>
-      directory:</p>
+      <p>Here are some useful information about the
+      <code><?= $directoryName ?></code> directory:</p>
       <ul>
         <li>the current user: <code><?= $userId ?></code> (<?= $user ?>),</li>
         <li>the current group: <code><?= $groupId ?></code>,</li>
