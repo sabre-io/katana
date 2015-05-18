@@ -1,28 +1,61 @@
 # ![K (sabre/katana's logo)](public/static/image/katana_logo_full.png)
 
 sabre/katana is a [CardDAV], [CalDAV] and [WebDAV] ready-to-use server on top of
-[sabre/dav]. It means you can have your own **calendars**, **tasks** and
-**contacts** server in a minute, robust, safe and secure.
+[sabre/dav]. It means you can have your own **address book**, **calendar**,
+**task list** and **file** server in a minute, robust, safe and secure.
 
 ## Features
 
-When sabre/katana is installed, you can:
+Once sabre/katana has been installed, you will be able to manage:
 
-  * manage **users** with the administration panel,
-  * create, update and delete **contacts** with any [CardDAV]-compatible
-    client,
-  * create, update and delete **calendars** and **tasks** with any
-    [CalDAV]-compatible client.
+  * Users,
+  * Address books,
+  * Calendars,
+  * Task lists,
+  * Files.
 
-More than 35 RFCs supported. See [the exhaustive list of all supported
+More than 35 RFCs are supported. See [the exhaustive list of all supported
 standars][sabre_standards]. This includes: vCard 4.0, iCalendar 2.0, jCal,
 jCard, iTip, iMip, ACL etc.
-
-[WebDAV] support is coming soon.
 
 sabre/katana is powered by [sabre/dav], an open source [CardDAV], [CalDAV]
 and [WebDAV] technology, trusted by the likes of [Atmail], [Box], [fruux]
 and [ownCloud].
+
+### Screenshots
+
+Easy installation through a wizzard:
+
+![Installation in the browser](https://farm8.staticflickr.com/7765/17197365573_d88bc779c0_z.jpg)
+
+You are also able to install in CLI:
+
+![Installation in the terminal](https://farm6.staticflickr.com/5337/17818002185_c1762109a7_z.jpg)
+
+The login page, first step to manage your katana server:
+
+![Login page](https://farm6.staticflickr.com/5348/17791399666_1ab9b16650_z.jpg)
+
+List of users on the left:
+
+![List of users](https://farm9.staticflickr.com/8793/17195211304_e817bdab41_z.jpg)
+
+When creating a new user, 1 address book, 2 calendars and 1 task list will be
+automatically created:
+
+![New user](https://farm6.staticflickr.com/5350/17818186851_54701e9e3a_z.jpg)
+
+You are able to create, edit, delete or download address books:
+
+![List of address books](https://farm8.staticflickr.com/7689/17629907698_feab109bd6_z.jpg)
+
+You are also able to create, edit, delete or download calendars and task lists:
+
+![List of calendars](https://farm9.staticflickr.com/8846/17630174780_764b8d099f_z.jpg)
+
+You can explore the “home” of a user:
+
+![List of files](https://farm6.staticflickr.com/5334/17818198201_ed04f256e3_z.jpg)
 
 ## Install
 
