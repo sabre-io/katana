@@ -1,8 +1,8 @@
 CREATE TABLE users (
 
-    id       INTEGER UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(50),
-    digesta1 VARCHAR(32),
+    id           INTEGER UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    username     VARBINARY(50),
+    passwordhash VARBINARY(60),
 
     UNIQUE(username)
 

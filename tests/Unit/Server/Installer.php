@@ -1061,8 +1061,8 @@ class Installer extends Suite
                 ->let($tuple = $collection[0])
                 ->string($tuple->username)
                     ->isEqualTo($login)
-                ->string($tuple->digesta1)
-                ->boolean(User::checkPassword($password, $tuple->digesta1))
+                ->string($tuple->passwordhash)
+                ->boolean(User::checkPassword($password, $tuple->passwordhash))
                     ->isTrue();
     }
 

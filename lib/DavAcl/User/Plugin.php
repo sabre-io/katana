@@ -146,8 +146,8 @@ class Plugin extends SabreDav\ServerPlugin {
             ],
             function($properties) use ($username, $database) {
                 $statement = $database->prepare(
-                    'REPLACE INTO users (username, digesta1) ' .
-                    'VALUES (:username, :digest)'
+                    'REPLACE INTO users (username, passwordhash) ' .
+                    'VALUES (:username, :passwordhash)'
                 );
 
                 $password = Plugin::hashPassword(
@@ -155,8 +155,8 @@ class Plugin extends SabreDav\ServerPlugin {
                 );
 
                 return $statement->execute([
-                    'username' => $username,
-                    'digest'   => $password
+                    'username'    => $username,
+                    'passwordhash' => $password
                 ]);
             }
         );

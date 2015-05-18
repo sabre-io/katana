@@ -66,7 +66,7 @@ class BasicBackend extends Backend\AbstractBasic {
 
         $database  = $this->database;
         $statement = $database->prepare(
-            'SELECT digesta1 FROM users WHERE username = :username'
+            'SELECT passwordhash FROM users WHERE username = :username'
         );
         $statement->execute(['username' => $username]);
 
