@@ -32,8 +32,8 @@ build-semantic-ui:
 		public/static/vendor/semantic-ui
 
 build-moment:
-	mkdir public/static/vendor/moment/
-	mv \
+	mkdir -p public/static/vendor/moment/
+	cp \
 		node_modules/moment/min/moment.min.js \
 		public/static/vendor/moment/
 
