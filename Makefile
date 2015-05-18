@@ -90,7 +90,7 @@ distclean-client:
 		xargs rm -rf
 
 uninstall:
-	@echo 'You are going to uninstall sabre/katana and lost everything!'
+	@echo 'You are going to uninstall sabre/katana and lose everything!'
 	@read -p 'Are you sure? [Y/n] ' go; \
 		if [[ 'Y' = $$go ]]; then \
 			echo 'Remove data/etc/configuration/server.json'; \
