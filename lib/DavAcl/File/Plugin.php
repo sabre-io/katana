@@ -125,6 +125,8 @@ class Plugin extends SabreDav\ServerPlugin {
             '{DAV:}getcontenttype',
             function() use ($propFind) {
 
+                Mime::compute('katana://data/etc/mime.types');
+
                 $extension = pathinfo($propFind->getPath(), PATHINFO_EXTENSION);
 
                 return Mime::getMimeFromExtension($extension);
