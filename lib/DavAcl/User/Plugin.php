@@ -32,6 +32,7 @@ use Sabre\DAV as SabreDav;
  * @license GNU Affero General Public License, Version 3.
  */
 class Plugin extends SabreDav\ServerPlugin {
+
     /**
      * DAV server.
      *
