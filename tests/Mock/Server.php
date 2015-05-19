@@ -49,7 +49,6 @@ class Server extends OriginalServer {
         $server->sapi   = new Sapi();
         $this->request  = &$server->httpRequest;
         $this->response = &$server->httpResponse;
-
     }
 
     protected function initializeConfiguration() {
