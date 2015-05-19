@@ -192,7 +192,7 @@
     {{#link-to 'users.user.tasks' class="item"}}
       <i class="tasks icon"></i> Task lists
     {{/link-to}}
-    {{#link-to 'users.user.files' class="item"}}
+    {{#link-to 'users.user.files' (query-params directory='/') class="item"}}
       <i class="folder open outline icon"></i> Files
     {{/link-to}}
   </nav>
