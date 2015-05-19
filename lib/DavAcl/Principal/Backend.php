@@ -33,6 +33,7 @@ use Sabre\DAV as SabreDav;
  * @license GNU Affero General Public License, Version 3.
  */
 class Backend extends SabreDavAcl\PrincipalBackend\PDO {
+
     /**
      * Delete the current node.
      *
