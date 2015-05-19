@@ -1241,7 +1241,14 @@ Katana.File = DS.Model.extend(KatanaValidatorMixin, {
     lastModifiedForHuman: function()
     {
         return moment(this.get('lastModified')).calendar();
-    }.property('lastModifiedForHuman')
+    }.property('lastModifiedForHuman'),
+
+    fileURL: function()
+    {
+        return KatanaWebDAV.getFilesURL() +
+               this.get('user').get('username') +
+               this.get('pathname');
+    }.property('fileURL')
 
 });
 

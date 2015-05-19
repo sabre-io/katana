@@ -468,6 +468,7 @@
           <th>Filename</th>
           <th>Size</th>
           <th>Last modified</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -499,6 +500,11 @@
             </td>
             <td>
               {{item.lastModifiedForHuman}}
+            </td>
+            <td>
+              <a {{bind-attr href=item.fileURL download=item.filename}} title="Download this file" class="ui right floated icon button">
+                <i class="cloud download icon"></i>
+              </a>
             </td>
           </tr>
         {{else}}
