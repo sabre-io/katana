@@ -23,6 +23,7 @@ namespace Sabre\Katana\DavAcl\File;
 
 use Sabre\DAVACL as SabreDavAcl;
 use Sabre\DAV as SabreDav;
+use Sabre\Uri as SabreUri;
 use Hoa\File as HoaFile;
 
 /**
@@ -65,9 +66,12 @@ class Directory extends SabreDavAcl\FS\Collection {
         }
 
         if (is_dir($path)) {
+            return new self($path, $this->acl, $this->owner);
+        } else {
+
             $acl = $this->acl;
 
-            if (true === $this->isRoot() && 'public' === $name) {
+            if(true === $this->isPublic()) {
                 $acl = [
                     [
                         'privilege' => '{DAV:}read',
@@ -82,9 +86,7 @@ class Directory extends SabreDavAcl\FS\Collection {
                 ];
             }
 
-            return new self($path, $acl, $this->owner);
-        } else {
-            return new SabreDavAcl\FS\File($path, $this->acl, $this->owner);
+            return new SabreDavAcl\FS\File($path, $acl, $this->owner);
         }
     }
 
@@ -110,18 +112,23 @@ class Directory extends SabreDavAcl\FS\Collection {
     }
 
     /**
-     * Check if the current directory is root from the principal point of view.
-     * It means, `<principal>/files/` is considered as the root.
+     * Check if the current path is inside the `public/` directory of the
+     * current principal.
      *
      * @return bool
      */
-    function isRoot() {
+    function isPublic() {
 
-        $simplifiedPath = substr(
-            $this->path,
-            strlen($this->getRelativePath())
-        );
+        list(, $principalBaseName) = SabreUri\split($this->owner);
 
-        return '.' === dirname(trim($simplifiedPath, '/\\'));
+        $publicPath =
+            $this->getRelativePath() . DS .
+            $principalBaseName . DS .
+            'public';
+
+        return
+            $publicPath
+            ===
+            substr($this->path, 0, min(strlen($publicPath), strlen($this->path)));
     }
 }
