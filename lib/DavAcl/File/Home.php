@@ -22,7 +22,7 @@
 namespace Sabre\Katana\DavAcl\File;
 
 use Sabre\DAVACL as SabreDavAcl;
-use Sabre\Uri;
+use Sabre\Uri as SabreUri;
 use Hoa\File as HoaFile;
 
 /**
@@ -62,7 +62,7 @@ class Home extends SabreDavAcl\FS\HomeCollection {
             ],
         ];
 
-        list(, $principalBaseName) = Uri\split($owner);
+        list(, $principalBaseName) = SabreUri\split($owner);
 
         $path = $this->storagePath . DS . $principalBaseName;
 
