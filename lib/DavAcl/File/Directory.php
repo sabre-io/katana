@@ -24,7 +24,6 @@ namespace Sabre\Katana\DavAcl\File;
 use Sabre\DAVACL as SabreDavAcl;
 use Sabre\DAV as SabreDav;
 use Sabre\Uri as SabreUri;
-use Hoa\File as HoaFile;
 
 /**
  * This class represents a directory inside the home collection.
@@ -71,7 +70,7 @@ class Directory extends SabreDavAcl\FS\Collection {
 
             $acl = $this->acl;
 
-            if(true === $this->isPublic()) {
+            if (true === $this->isPublic()) {
                 $acl = [
                     [
                         'privilege' => '{DAV:}read',
