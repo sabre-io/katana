@@ -725,7 +725,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruux/sabre-dav/zipball/d7ea90a7511390d34872caf38662fb356616ede9",
+                "url": "https://api.github.com/repos/fruux/sabre-dav/zipball/172bed634122f547e014dc1326cf0b8f562b1705",
                 "reference": "d7ea90a7511390d34872caf38662fb356616ede9",
                 "shasum": ""
             },
@@ -1747,12 +1747,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruux/sabre-cs.git",
-                "reference": "e0af0f030abc125199114c0a3ed99164c6949aba"
+                "reference": "144f364e076b42ac856970809aaec45bde4d2295"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruux/sabre-cs/zipball/e0af0f030abc125199114c0a3ed99164c6949aba",
-                "reference": "e0af0f030abc125199114c0a3ed99164c6949aba",
+                "url": "https://api.github.com/repos/fruux/sabre-cs/zipball/144f364e076b42ac856970809aaec45bde4d2295",
+                "reference": "144f364e076b42ac856970809aaec45bde4d2295",
                 "shasum": ""
             },
             "require": {
@@ -1802,7 +1802,7 @@
                 "cs",
                 "sabre"
             ],
-            "time": "2015-05-07 09:04:10"
+            "time": "2015-05-19 14:11:33"
         },
         {
             "name": "sebastian/diff",
