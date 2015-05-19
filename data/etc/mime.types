@@ -1339,7 +1339,7 @@ image/png					png
 image/prs.btif					btif
 image/prs.pti
 image/sgi					sgi
-image/svg+xml					svg svgz
+#image/svg+xml					svg svgz
 image/t38
 image/tiff					tiff tif
 image/tiff-fx
@@ -1442,7 +1442,7 @@ image/webp					webp
 text/1d-interleaved-parityfec
 text/cache-manifest				appcache
 text/calendar					ics ifb
-text/css					css
+#text/css					css
 text/csv					csv
 text/directory
 text/dns
@@ -1451,7 +1451,7 @@ text/enriched
 text/example
 text/fwdred
 #text/html					html htm
-text/javascript
+#text/javascript
 text/n3						n3
 text/parityfec
 text/plain					txt text conf def list log in
