@@ -228,9 +228,10 @@ class Server {
      */
     protected function initializeWebDAV(DavAcl\Principal\Backend $principalBackend) {
 
-        $collection = new SabreDavAcl\FS\HomeCollection(
+        $collection = new DavAcl\File\Home(
             $principalBackend,
-            Protocol::realPath('katana://data/home/')
+            Protocol::realPath('katana://data/home/'),
+            'principals'
         );
         $collection->collectionName = 'files';
         $this->getServer()->tree->getNodeForPath('')->addChild($collection);
