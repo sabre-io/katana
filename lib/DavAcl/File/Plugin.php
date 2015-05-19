@@ -24,6 +24,7 @@ namespace Sabre\Katana\DavAcl\File;
 use Sabre\DAV as SabreDav;
 use Sabre\Uri as SabreUri;
 use Hoa\File as HoaFile;
+use Hoa\Mime;
 
 /**
  * The file plugin is responsible to keep the home directory up-to-date.
@@ -107,7 +108,28 @@ class Plugin extends SabreDav\ServerPlugin {
 
         $this->server = $server;
 
+        $this->server->on('propFind',    [$this, 'propFind']);
         $this->server->on('afterUnbind', [$this, 'afterUnbind']);
+    }
+
+    /**
+     * Triggered by a `PROPFIND` or `GET`. The goal is to set an appropriated
+     * Content-Type.
+     *
+     * @param  SabreDav\PropFind  $propFind    PropFind object.
+     * @param  SabreDav\INode     $node        Node.
+     */
+    function propFind(SabreDav\PropFind $propFind, SabreDav\INode $node) {
+
+        $propFind->handle(
+            '{DAV:}getcontenttype',
+            function() use ($propFind) {
+
+                $extension = pathinfo($propFind->getPath(), PATHINFO_EXTENSION);
+
+                return Mime::getMimeFromExtension($extension);
+            }
+        );
     }
 
     /**
