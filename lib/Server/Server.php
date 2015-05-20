@@ -97,6 +97,7 @@ class Server {
      *    * principals,
      *    * CardDAV,
      *    * CalDAV,
+     *    * scheduling,
      *    * WebDAV,
      *    * ACL,
      *    * synchronization,
@@ -113,6 +114,7 @@ class Server {
         $this->initializePrincipals($principalBackend);
         $this->initializeCardDAV($principalBackend);
         $this->initializeCalDAV($principalBackend);
+        $this->initializeScheduling();
         $this->initializeWebDAV($principalBackend);
         $this->initializeACL();
         $this->initializeSynchronization();
@@ -216,8 +218,17 @@ class Server {
         $node    = new SabreCalDav\CalendarRoot($principalBackend, $backend);
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
         $this->getServer()->addPlugin(new SabreCalDav\Plugin());
-        $this->getServer()->addPlugin(new SabreCalDav\Schedule\Plugin());
         $this->getServer()->addPlugin(new SabreCalDav\ICSExportPlugin());
+    }
+
+    /**
+     * Initialize scheduling.
+     *
+     * @return void
+     */
+    protected function initializeScheduling() {
+
+        $this->getServer()->addPlugin(new SabreCalDav\Schedule\Plugin());
     }
 
     /**
