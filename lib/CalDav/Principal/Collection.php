@@ -32,6 +32,7 @@ use Sabre\CalDAV as SabreCalDav;
  * @license GNU Affero General Public License, Version 3.
  */
 class Collection extends SabreCalDav\Principal\Collection {
+
     /**
      * Return a child object based on principal information.
      *
@@ -39,6 +40,7 @@ class Collection extends SabreCalDav\Principal\Collection {
      * @return User
      */
     function getChildForPrincipal(array $principalInformation) {
+
         return new User($this->principalBackend, $principalInformation);
     }
 }

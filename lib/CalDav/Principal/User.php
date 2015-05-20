@@ -32,13 +32,14 @@ use Sabre\CalDAV as SabreCalDav;
  * @license GNU Affero General Public License, Version 3.
  */
 class User extends SabreCalDav\Principal\User {
+
     /**
      * Deletes the current node.
      *
      * @return void
      */
-    function delete()
-    {
+    function delete() {
+
         $this->principalBackend->deletePrincipal($this->principalProperties['uri']);
     }
 }
