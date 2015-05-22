@@ -154,20 +154,21 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
             }
         }
 
-        $url =
-            !empty($itip->message->VEVENT->URL->__toString())
-                ? (string)$itip->message->VEVENT->URL
-                : false;
+        $notEmpty = function($property, $else) use ($itip) {
+            if (isset($itip->message->VEVENT->$property)) {
+                $handle = (string)$itip->message->VEVENT->$property;
 
-        $description =
-            !empty($itip->message->VEVENT->DESCRIPTION->__toString())
-                ? (string)$itip->message->VEVENT->DESCRIPTION
-                : false;
+                if (!empty($handle)) {
+                    return $handle;
+                }
+            }
 
-        $location =
-            !empty($itip->message->VEVENT->LOCATION->__toString())
-                ? (string)$itip->message->VEVENT->LOCATION
-                : false;
+            return $else;
+        };
+
+        $url         = $notEmpty('URL', false);
+        $description = $notEmpty('DESCRIPTION', false);
+        $location    = $notEmpty('LOCATION', false);
 
         $locationImage = false;
         $locationLink  = false;
@@ -181,7 +182,6 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
             );
 
             if (0 !== $match) {
-
                 $zoom   = 13;
                 $width  = 500;
                 $height = 300;
