@@ -164,6 +164,11 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
                 ? (string)$itip->message->VEVENT->DESCRIPTION
                 : false;
 
+        $location =
+            !empty((string)$itip->message->VEVENT->LOCATION)
+                ? (string)$itip->message->VEVENT->LOCATION
+                : false;
+
         $configuration = $this->getConfiguration()->mail;
 
         Mail\Message::setDefaultTransport(
@@ -191,6 +196,7 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
             $dateTime,
             $allDay,
             $attendees,
+            $location,
             $url,
             $description
         ) {

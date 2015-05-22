@@ -108,13 +108,6 @@
           <?php endif; ?>
 
           <tr>
-            <td style="vertical-align: top; color: #748283;" width="100px">Where?</td>
-            <td>
-              map
-            </td>
-          </tr>
-
-          <tr>
             <td style="vertical-align: top; color: #748283;" width="100px">Attendees:</td>
             <td>
             <?php foreach ($attendees as $attendee): ?>
@@ -125,6 +118,15 @@
               <br />
             <?php endforeach; ?>
           </tr>
+
+          <?php if (false !== $location): ?>
+          <tr>
+            <td style="vertical-align: top; color: #748283;" width="100px">Where?</td>
+            <td>
+              <?= $location ?>
+            </td>
+          </tr>
+          <?php endif; ?>
 
           <?php if (false !== $url): ?>
           <tr>
