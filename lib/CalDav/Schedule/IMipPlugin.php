@@ -155,17 +155,17 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
         }
 
         $url =
-            !empty((string)$itip->message->VEVENT->URL)
+            !empty($itip->message->VEVENT->URL->__toString())
                 ? (string)$itip->message->VEVENT->URL
                 : false;
 
         $description =
-            !empty((string)$itip->message->VEVENT->DESCRIPTION)
+            !empty($itip->message->VEVENT->DESCRIPTION->__toString())
                 ? (string)$itip->message->VEVENT->DESCRIPTION
                 : false;
 
         $location =
-            !empty((string)$itip->message->VEVENT->LOCATION)
+            !empty($itip->message->VEVENT->LOCATION->__toString())
                 ? (string)$itip->message->VEVENT->LOCATION
                 : false;
 
