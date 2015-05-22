@@ -40,6 +40,7 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
 
     function __construct($senderEmail, Configuration $configuration) {
 
+        parent::__construct($senderEmail);
         $this->configuration = $configuration;
     }
 
