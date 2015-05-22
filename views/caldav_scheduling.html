@@ -117,10 +117,13 @@
           <tr>
             <td style="vertical-align: top; color: #748283;" width="100px">Attendees:</td>
             <td>
-              Me<br />
-              Myself<br />
-              I
-            </td>
+            <?php foreach ($attendees as $attendee): ?>
+              <a href="mailto:<?= $attendee['email'] ?>" style="color: #748283"><?= $attendee['cn'] ?></a>
+              <?php if ('CHAIR' === $attendee['role']): ?>
+                (organizer)
+              <?php endif; ?>
+              <br />
+            <?php endforeach; ?>
           </tr>
 
           <?php if (false !== $url): ?>

@@ -130,6 +130,30 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
             isset($itip->message->VEVENT->DTSTART) &&
             false === $itip->message->VEVENT->DTSTART->hasTime();
 
+        $attendees = [];
+
+        if (isset($itip->message->VEVENT->ATTENDEE)) {
+            $_attendees = &$itip->message->VEVENT->ATTENDEE;
+
+            for ($i = 0, $max = count($_attendees); $i < $max; ++$i) {
+                $attendee    = $_attendees[$i];
+                $attendees[] = [
+                    'cn' =>
+                        isset($attendee['CN'])
+                            ? (string)$attendee['CN']
+                            : (string)$attendee['EMAIL'],
+                    'email' =>
+                        isset($attendee['EMAIL'])
+                            ? (string)$attendee['EMAIL']
+                            : null,
+                    'role' =>
+                        isset($attendee['ROLE'])
+                            ? (string)$attendee['ROLE']
+                            : null
+                ];
+            }
+        }
+
         $url =
             !empty((string)$itip->message->VEVENT->URL)
                 ? (string)$itip->message->VEVENT->URL
@@ -166,6 +190,7 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
             $action,
             $dateTime,
             $allDay,
+            $attendees,
             $url,
             $description
         ) {
