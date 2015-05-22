@@ -122,8 +122,17 @@
           <?php if (false !== $location): ?>
           <tr>
             <td style="vertical-align: top; color: #748283;" width="100px">Where?</td>
-            <td>
-              <?= $location ?>
+            <td><?= $location ?></td>
+          </tr>
+          <?php endif; ?>
+
+          <?php if (false !== $locationImage): ?>
+          <tr>
+            <td colspan="2">
+                <a
+                  href="<?= $locationLink ?>"
+                  title="Navigate on this map"><img src="<?= $locationImage ?>" width="100%"
+                /></a>
             </td>
           </tr>
           <?php endif; ?>

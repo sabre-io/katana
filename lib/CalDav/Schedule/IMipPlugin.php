@@ -169,6 +169,46 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
                 ? (string)$itip->message->VEVENT->LOCATION
                 : false;
 
+        $locationImage = false;
+        $locationLink  = false;
+
+        if (isset($itip->message->VEVENT->{'X-APPLE-STRUCTURED-LOCATION'})) {
+
+            $match = preg_match(
+                '/^(geo:)?(?<latitude>\-?\d+\.\d+),(?<longitude>\-?\d+\.\d+)$/',
+                (string)$itip->message->VEVENT->{'X-APPLE-STRUCTURED-LOCATION'},
+                $coordinates
+            );
+
+            if (0 !== $match) {
+
+                $zoom   = 13;
+                $width  = 500;
+                $height = 300;
+
+                $locationImage =
+                    'http://api.tiles.mapbox.com/v4' .
+                    '/mapbox.streets' .
+                    '/pin-m-star+285A98' .
+                    '(' . $coordinates['longitude'] .
+                    ',' . $coordinates['latitude'] .
+                    ')' .
+                    '/' . $coordinates['longitude'] .
+                    ',' . $coordinates['latitude'] .
+                    ',' . $zoom .
+                    '/' . $width . 'x' . $height . '.png' .
+                    '?access_token=pk.eyJ1IjoiZHRvYnNjaGFsbCIsImEiOiIzMzdhNTRhNGNjOGFjOGQ4MDM5ZTJhNGZjYjNmNmE5OCJ9.7ZQOdfvoZW0XIbvjN54Wrg';
+
+                $locationLink =
+                    'http://www.openstreetmap.org' .
+                    '/?mlat=' . $coordinates['latitude'] .
+                    '&mlon=' . $coordinates['longitude'] .
+                    '#map=' . $zoom .
+                    '/' . $coordinates['latitude'] .
+                    '/' . $coordinates['longitude'];
+            }
+        }
+
         $configuration = $this->getConfiguration()->mail;
 
         Mail\Message::setDefaultTransport(
@@ -197,6 +237,8 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
             $allDay,
             $attendees,
             $location,
+            $locationImage,
+            $locationLink,
             $url,
             $description
         ) {
