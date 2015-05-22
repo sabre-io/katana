@@ -131,8 +131,13 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
             false === $itip->message->VEVENT->DTSTART->hasTime();
 
         $url =
-            !empty((string) $itip->message->VEVENT->URL)
+            !empty((string)$itip->message->VEVENT->URL)
                 ? (string)$itip->message->VEVENT->URL
+                : false;
+
+        $description =
+            !empty((string)$itip->message->VEVENT->DESCRIPTION)
+                ? (string)$itip->message->VEVENT->DESCRIPTION
                 : false;
 
         $configuration = $this->getConfiguration()->mail;
@@ -161,7 +166,8 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
             $action,
             $dateTime,
             $allDay,
-            $url
+            $url,
+            $description
         ) {
             ob_start();
 

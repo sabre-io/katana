@@ -132,17 +132,12 @@
           </tr>
           <?php endif; ?>
 
+          <?php if (false !== $description): ?>
           <tr>
             <td style="vertical-align: top; color: #748283;" width="100px">Notes:</td>
-            <td>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et
-              inventore ex, maxime! Doloribus soluta, a neque eos ducimus facere
-              quae quidem qui. Enim, aliquid, non ipsam id harum assumenda
-              obcaecati! Quas ipsam explicabo assumenda, est laborum, sequi
-              consectetur laudantium quisquam voluptatibus nihil fuga repellendus,
-              placeat fugit ipsa dolorem corporis quae.
-            </td>
+            <td><?= $description ?></td>
           </tr>
+          <?php endif; ?>
 
         </table>
       </td>
