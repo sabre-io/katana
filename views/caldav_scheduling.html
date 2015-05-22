@@ -1,67 +1,178 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html>
 <head>
-  <title>Title</title>
+  <title>Calendar notification from <?= $senderName ?></title>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-
-  <meta name="viewport" content="initial-scale=1.0" />
 </head>
-<body>
 
-<header>
-  <h1>
-    LOGO
-    +
-    TITLE
-  </h1>
-</header>
+<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="margin: 0; padding: 0; background: #fff; color: #182f30; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px;">
 
-<main>
-  <h1>22 Friday May</h1>
+<table cellspacing="0" cellpadding="0" width="100%">
+  <thead>
+    <tr>
+      <td colspan="3"> </td>
+    </tr>
+    <tr>
+      <td width="*"> </td>
+      <td width="500">
+        <table width="100%">
+          <tr>
+            <td width="1" style="font-size: 64px; font-weight:bold;"><?= $dateTime->format('j') ?></td>
+            <td width="*">
+              <span style=" font-size: 12px; color: #5e6d6e"><?= $dateTime->format('l') ?></span><br />
+              <?= $dateTime->format('F') ?>
+            </td>
+            <td width="58" style="text-align: right;">
+              <img src="http://sabre.io/img/logo-katana-hero.png" alt="sabre/katana" width="100px" height="73px" />
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td width="*"> </td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td style="border-top: 1px solid #c9b3a7"> </td>
+      <td> </td>
+    </tr>
+  </thead>
 
-  <p>
-    <?php if ('REQUEST' === $action): ?>
+  <tbody>
+    <tr>
+      <td> </td>
+      <td style="text-align: center;">
+        <?php if ('REQUEST' === $action): ?>
 
-      <strong><?= $senderName ?></strong>
-      invited you to
-      <strong><?= $summary ?></strong>.
+          <strong><?= $senderName ?></strong>
+          invited you to
+          <h1 style="margin: 0; color: #2c7ea9; font-weight: 300; line-height: 36px;"><?= $summary ?></h1>
 
-    <?php elseif ('CANCEL' === $action): ?>
+        <?php elseif ('CANCEL' === $action): ?>
 
-      <strong><?= $summary ?></strong>
-      has been canceled.
+          <h1 style="margin: 0; color: #2c7ea9; font-weight: 300; line-height: 36px;"><?= $summary ?></h1>
+          has been canceled.
 
-    <?php elseif ('ACCEPTED' === $action): ?>
+        <?php elseif ('ACCEPTED' === $action): ?>
 
-      <strong><?= $senderName ?></strong>
-      accepted your invitation to
-      <strong><?= $summary ?></strong>.
+          <strong><?= $senderName ?></strong>
+          accepted your invitation to
+          <h1 style="margin: 0; color: #2c7ea9; font-weight: 300; line-height: 36px;"><?= $summary ?></h1>
 
-    <?php elseif ('TENTATIVE' === $action): ?>
+        <?php elseif ('TENTATIVE' === $action): ?>
 
-      <strong><?= $summary ?></strong>
-      tentatively accepted your invitation to
-      <strong><?= $summary ?></strong>.
+          <strong><?= $senderName ?></strong>
+          tentatively accepted your invitation to
+          <h1 style="margin: 0; color: #2c7ea9; font-weight: 300; line-height: 36px;"><?= $summary ?></h1>
 
-    <?php elseif('DECLINED' === $action): ?>
+        <?php elseif('DECLINED' === $action): ?>
 
-      <strong><?= $senderName ?></strong>
-      declined your invitation to
-      <strong><?= $summary ?></strong>
+          <strong><?= $senderName ?></strong>
+          declined your invitation to
+          <h1 style="margin: 0; color: #2c7ea9; font-weight: 300; line-height: 36px;"><?= $summary ?></h1>
 
-    <?php endif; ?>
-  </p>
+        <?php endif; ?>
+      </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td colspan="3"> </td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td style="border-top: 1px solid #e0c6b8"> </td>
+      <td> </td>
+    </tr>
 
-  <p>
-    When?
-    <?= $dateTime->format('l, F jS, Y') ?>.
-  </p>
-</main>
+    <tr>
+      <td> </td>
+      <td>
+        <table border="0" cellpadding="0" cellspacing="10" width="100%">
 
-<footer>
-  sabre/katana is… + fruux + copyright + twitter
-</footer>
+          <tr>
+            <td style="vertical-align: bottom; color: #748283;" width="100px">When?</td>
+            <td>
+              <strong><?= $dateTime->format('l, F j\<\s\u\p\>S</\s\u\p\> Y') ?></strong>
+            </td>
+          </tr>
 
+          <?php if (false === $allDay): ?>
+
+            <tr>
+              <td> </td>
+              <td>
+                <strong><?= $dateTime->format('g:ia T') ?></strong>
+              </td>
+            </tr>
+
+          <?php endif; ?>
+
+          <tr>
+            <td style="vertical-align: top; color: #748283;" width="100px">Where?</td>
+            <td>
+              map
+            </td>
+          </tr>
+
+          <tr>
+            <td style="vertical-align: top; color: #748283;" width="100px">Attendees:</td>
+            <td>
+              Me<br />
+              Myself<br />
+              I
+            </td>
+          </tr>
+
+          <?php if (false !== $url): ?>
+          <tr>
+            <td style="vertical-align: top; color: #748283;" width="100px">URL:</td>
+            <td>
+              <a href="<?= $url ?>" style="color: #a8a5a3"><?= $url ?></a>
+              <?= var_export($url, true); ?>
+            </td>
+          </tr>
+          <?php endif; ?>
+
+          <tr>
+            <td style="vertical-align: top; color: #748283;" width="100px">Notes:</td>
+            <td>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et
+              inventore ex, maxime! Doloribus soluta, a neque eos ducimus facere
+              quae quidem qui. Enim, aliquid, non ipsam id harum assumenda
+              obcaecati! Quas ipsam explicabo assumenda, est laborum, sequi
+              consectetur laudantium quisquam voluptatibus nihil fuga repellendus,
+              placeat fugit ipsa dolorem corporis quae.
+            </td>
+          </tr>
+
+        </table>
+      </td>
+      <td> </td>
+    </tr>
+
+    <tr>
+      <td> </td>
+      <td style="border-bottom: 1px solid #c9b3a7"> </td>
+      <td> </td>
+    </tr>
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td colspan="3" height="5px"></td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td style="font-size: 11px; line-height: 16px; text-align: center; color: #a8a5a3;">
+        <a href="http://sabre.io/katana" title="Visit sabre/katana's website" style="color: #a8a5a3;">sabre/katana</a>
+        is powered by
+        <a href="http://sabre.io/" title="Visit sabre.io" style="color: #a8a5a3;">sabre/dav</a>
+        &copy; 2007-<?= date('Y') ?> <a href="https://fruux.com/" title="Visit fruux.com" style="color: #a8a5a3;">fruux.com</a>.
+      </td>
+      <td> </td>
+    </tr>
+  </tfoot>
+
+</table>
 </body>
 </html>

@@ -29,6 +29,7 @@ use Hoa\Socket;
 use Hoa\Stringbuffer;
 
 /**
+ * IMip plugin, with our own emails.
  *
  * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
  * @author Ivan Enderlin
@@ -66,13 +67,13 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
         $recipientEmail = substr($itip->recipient, 7);
 
         $subject = 'sabre/katana iTIP message';
-        $summary = (string) $itip->message->VEVENT->SUMMARY;
+        $summary = (string)$itip->message->VEVENT->SUMMARY;
 
         switch (strtoupper($itip->method)) {
             case 'REPLY' :
                 // In the case of a reply, we need to find the `PARTSTAT` from
                 // the user.
-                $partstat = (string) $itip->message->VEVENT->ATTENDEE['PARTSTAT'];
+                $partstat = (string)$itip->message->VEVENT->ATTENDEE['PARTSTAT'];
 
                 switch (strtoupper($partstat)) {
                     case 'DECLINED':
@@ -125,6 +126,12 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
                 ? $itip->message->VEVENT->DTSTART->getDateTime()
                 : new \DateTime('now');
 
+        $allDay =
+            isset($itip->message->VEVENT->DTSTART) &&
+            false === $itip->message->VEVENT->DTSTART->hasTime();
+
+        $url = false;
+
         $configuration = $this->getConfiguration()->mail;
 
         Mail\Message::setDefaultTransport(
@@ -145,7 +152,14 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
         $textBody = function() {
             return 'hello!';
         };
-        $htmlBody = function() use ($senderName, $summary, $action, $dateTime) {
+        $htmlBody = function() use (
+            $senderName,
+            $summary,
+            $action,
+            $dateTime,
+            $allDay,
+            $url
+        ) {
             ob_start();
 
             require 'katana://views/caldav_scheduling.html';
