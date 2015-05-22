@@ -182,7 +182,7 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
             );
 
             if (0 !== $match) {
-                $zoom   = 13;
+                $zoom   = 16;
                 $width  = 500;
                 $height = 220;
 
