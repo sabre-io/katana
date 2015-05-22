@@ -184,7 +184,7 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
             if (0 !== $match) {
                 $zoom   = 13;
                 $width  = 500;
-                $height = 300;
+                $height = 220;
 
                 $locationImage =
                     'http://api.tiles.mapbox.com/v4' .
