@@ -1,0 +1,68 @@
+ _  __     _
+| |/ /__ _| |_ __ _ _ __   __ _
+| ' // _` | __/ _` | '_ \ / _` |
+| . \ (_| | || (_| | | | | (_| |
+|_|\_\__,_|\__\__,_|_| |_|\__,_|
+
+Calendar notification from <?= $senderName ?>.
+
+-----------------------------------------------------------
+
+<?php if ('REQUEST' === $action): ?>
+
+**<?= $senderName ?>** invited you to “<?= $summary ?>”.
+
+<?php elseif ('CANCEL' === $action): ?>
+
+“<?= $summary ?>” has been canceled.
+
+<?php elseif ('ACCEPTED' === $action): ?>
+
+**<?= $senderName ?>** accepted your invitation to “<?= $summary ?>”.
+
+<?php elseif ('TENTATIVE' === $action): ?>
+
+**<?= $senderName ?>** tentatively accepted your invitation to “<?= $summary ?>”.
+
+<?php elseif('DECLINED' === $action): ?>
+
+**<?= $senderName ?>** declined your invitation to “<?= $summary ?>”.
+
+<?php endif; ?>
+
+-----------------------------------------------------------
+
+When?         <?= $dateTime->format('l, F jS Y') ?>
+
+<?php if (false === $allDay): ?>
+              <?= $dateTime->format('g:ia T') ?>
+<?php endif; ?>
+
+
+<?php if ('CANCEL' !== $action): ?>
+Attendees:
+<?php foreach ($attendees as $attendee): ?>
+              <?= $attendee['cn'] ?> <<?= $attendee['email'] ?>> <?php if ('CHAIR' === $attendee['role']): ?>(organizer)<?php endif; ?>
+
+<?php endforeach; ?>
+<?php endif; ?>
+
+
+<?php if (false !== $location): ?>
+Where?        <?= str_replace("\n", "\n" . '              ', $location) ?>
+<?php endif; ?>
+<?php if (false !== $url): ?>
+
+
+URL:          <?= $url ?>
+<?php endif; ?>
+
+
+<?php if (false !== $description): ?>
+Notes:        <?= str_replace("\n", "\n" . '              ', $description) ?>
+<?php endif; ?>
+
+-----------------------------------------------------------
+
+http://sabre.io/katana is powered by http://sabre.io/
+© 2015-<?= date('Y') ?> https://fruux.com/

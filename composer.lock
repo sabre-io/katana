@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fb55b32e0c5ec8420c283bc82e9ce3bc",
+    "hash": "be337163d2ee7719df0b1c8e36f14e92",
     "packages": [
         {
             "name": "hoa/console",
@@ -270,16 +270,16 @@
         },
         {
             "name": "hoa/file",
-            "version": "0.15.05.12",
+            "version": "0.15.05.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/File.git",
-                "reference": "44229dcecf45baa811ec74636dcc74fc18936c11"
+                "reference": "bd82aff5e81f16971c5fc99301a5c5717b1fd4da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/File/zipball/44229dcecf45baa811ec74636dcc74fc18936c11",
-                "reference": "44229dcecf45baa811ec74636dcc74fc18936c11",
+                "url": "https://api.github.com/repos/hoaproject/File/zipball/bd82aff5e81f16971c5fc99301a5c5717b1fd4da",
+                "reference": "bd82aff5e81f16971c5fc99301a5c5717b1fd4da",
                 "shasum": ""
             },
             "require": {
@@ -326,7 +326,7 @@
                 "link",
                 "temporary"
             ],
-            "time": "2015-05-12 08:32:05"
+            "time": "2015-05-27 09:18:31"
         },
         {
             "name": "hoa/http",
@@ -449,6 +449,69 @@
             "time": "2015-02-20 08:40:28"
         },
         {
+            "name": "hoa/mail",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hoaproject/Mail.git",
+                "reference": "a8bbbfc79e878d82045006c6793e0b9707450823"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hoaproject/Mail/zipball/a8bbbfc79e878d82045006c6793e0b9707450823",
+                "reference": "a8bbbfc79e878d82045006c6793e0b9707450823",
+                "shasum": ""
+            },
+            "require": {
+                "hoa/core": "~2.0",
+                "hoa/mime": "~2.0"
+            },
+            "require-dev": {
+                "hoa/file": "~0.0",
+                "hoa/test": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hoa\\Mail\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Enderlin",
+                    "email": "ivan.enderlin@hoa-project.net"
+                },
+                {
+                    "name": "Hoa community",
+                    "homepage": "http://hoa-project.net/"
+                }
+            ],
+            "description": "The Hoa\\Mail library.",
+            "homepage": "http://hoa-project.net/",
+            "keywords": [
+                "imap",
+                "library",
+                "mail",
+                "rfc2045",
+                "rfc2047",
+                "rfc2104",
+                "rfc2111",
+                "rfc4648",
+                "sendmail",
+                "smtp"
+            ],
+            "time": "2015-05-27 13:07:51"
+        },
+        {
             "name": "hoa/mime",
             "version": "2.15.02.24",
             "source": {
@@ -555,6 +618,62 @@
                 "router"
             ],
             "time": "2015-02-26 15:13:44"
+        },
+        {
+            "name": "hoa/socket",
+            "version": "0.15.02.25",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hoaproject/Socket.git",
+                "reference": "4a1e84de1f8cc1695a9cc56a309f343dd759997e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hoaproject/Socket/zipball/4a1e84de1f8cc1695a9cc56a309f343dd759997e",
+                "reference": "4a1e84de1f8cc1695a9cc56a309f343dd759997e",
+                "shasum": ""
+            },
+            "require": {
+                "hoa/core": "~2.0",
+                "hoa/stream": "~0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hoa\\Socket\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Enderlin",
+                    "email": "ivan.enderlin@hoa-project.net"
+                },
+                {
+                    "name": "Hoa community",
+                    "homepage": "http://hoa-project.net/"
+                }
+            ],
+            "description": "The Hoa\\Socket library.",
+            "homepage": "http://hoa-project.net/",
+            "keywords": [
+                "Socket",
+                "client",
+                "library",
+                "node",
+                "server",
+                "tcp",
+                "udp"
+            ],
+            "time": "2015-02-25 08:40:41"
         },
         {
             "name": "hoa/stream",
@@ -674,6 +793,59 @@
             "time": "2015-03-25 07:59:29"
         },
         {
+            "name": "hoa/stringbuffer",
+            "version": "0.15.02.25",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hoaproject/Stringbuffer.git",
+                "reference": "a6fcf43c563f0aec299ad19e3e9905d67e4fc746"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hoaproject/Stringbuffer/zipball/a6fcf43c563f0aec299ad19e3e9905d67e4fc746",
+                "reference": "a6fcf43c563f0aec299ad19e3e9905d67e4fc746",
+                "shasum": ""
+            },
+            "require": {
+                "hoa/core": "~2.0",
+                "hoa/stream": "~0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hoa\\Stringbuffer\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Enderlin",
+                    "email": "ivan.enderlin@hoa-project.net"
+                },
+                {
+                    "name": "Hoa community",
+                    "homepage": "http://hoa-project.net/"
+                }
+            ],
+            "description": "The Hoa\\Stringbuffer library.",
+            "homepage": "http://hoa-project.net/",
+            "keywords": [
+                "Buffer",
+                "library",
+                "stream",
+                "string"
+            ],
+            "time": "2015-02-25 08:48:09"
+        },
+        {
             "name": "ircmaxell/password-compat",
             "version": "v1.0.4",
             "source": {
@@ -725,7 +897,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruux/sabre-dav/zipball/172bed634122f547e014dc1326cf0b8f562b1705",
+                "url": "https://api.github.com/repos/fruux/sabre-dav/zipball/19a05ce7bf26610a237c3deeb724a00012ff73d2",
                 "reference": "d7ea90a7511390d34872caf38662fb356616ede9",
                 "shasum": ""
             },
@@ -1751,7 +1923,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruux/sabre-cs/zipball/144f364e076b42ac856970809aaec45bde4d2295",
+                "url": "https://api.github.com/repos/fruux/sabre-cs/zipball/01976cc05b6a009e10f1306bc53cd235dc8f08eb",
                 "reference": "144f364e076b42ac856970809aaec45bde4d2295",
                 "shasum": ""
             },
@@ -2179,6 +2351,7 @@
     "stability-flags": {
         "sabre/dav": 20,
         "sabre/http": 15,
+        "hoa/mail": 20,
         "sabre/cs": 20
     },
     "prefer-stable": false,
