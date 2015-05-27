@@ -454,12 +454,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Mail.git",
-                "reference": "4ae44c4d0f09fe9d1aee471764eb7743356f4b3e"
+                "reference": "a8bbbfc79e878d82045006c6793e0b9707450823"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Mail/zipball/4ae44c4d0f09fe9d1aee471764eb7743356f4b3e",
-                "reference": "4ae44c4d0f09fe9d1aee471764eb7743356f4b3e",
+                "url": "https://api.github.com/repos/hoaproject/Mail/zipball/a8bbbfc79e878d82045006c6793e0b9707450823",
+                "reference": "a8bbbfc79e878d82045006c6793e0b9707450823",
                 "shasum": ""
             },
             "require": {
@@ -509,7 +509,7 @@
                 "sendmail",
                 "smtp"
             ],
-            "time": "2015-05-27 09:14:05"
+            "time": "2015-05-27 13:07:51"
         },
         {
             "name": "hoa/mime",
