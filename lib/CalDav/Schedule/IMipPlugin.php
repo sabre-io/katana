@@ -122,8 +122,11 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
 
         }
 
+        $streamsToClose = [];
+
         $katanaLogo = new Mail\Content\Attachment(
-            new File\Read('katana://public/static/image/katana_logo_full.png'),
+            $streamsToClose[] =
+                new File\Read('katana://public/static/image/katana_logo_full.png'),
             'Logo_of_sabre_katana.png'
         );
         $katanaLogoUrl = $katanaLogo->getIdUrl();
@@ -205,7 +208,7 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
                 $height = 220;
 
                 $locationImage = new Mail\Content\Attachment(
-                    new File\Read(
+                    $streamsToClose[] = new File\Read(
                         'http://api.tiles.mapbox.com/v4' .
                         '/mapbox.streets' .
                         '/pin-m-star+285A98' .
@@ -306,6 +309,10 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
         }
 
         $message->send();
+
+        foreach ($streamsToClose as $stream) {
+            $stream->close();
+        }
 
         if (false === $deliveredLocally) {
             $itip->scheduleStatus = '1.1;Scheduling message is sent via iMip.';
