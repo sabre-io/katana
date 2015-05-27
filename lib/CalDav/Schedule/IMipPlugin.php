@@ -317,7 +317,7 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
 
             $attachment = new Mail\Content\Attachment(
                 $bodyAsStream,
-                'event.ics',
+                'Event.ics',
                 'text/calendar; method=' . (string)$itip->method . '; charset=UTF-8'
             );
 
