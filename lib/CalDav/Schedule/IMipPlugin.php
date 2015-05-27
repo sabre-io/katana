@@ -24,6 +24,7 @@ namespace Sabre\Katana\CalDav\Schedule;
 use Sabre\Katana\Configuration;
 use Sabre\CalDAV as SabreCalDav;
 use Sabre\VObject\ITip;
+use Hoa\File;
 use Hoa\Mail;
 use Hoa\Socket;
 use Hoa\Stringbuffer;
@@ -121,6 +122,12 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
 
         }
 
+        $katanaLogo = new Mail\Content\Attachment(
+            new File\Read('katana://public/static/image/katana_logo_full.png'),
+            'Logo_of_sabre_katana.png'
+        );
+        $katanaLogoUrl = $katanaLogo->getIdUrl();
+
         $dateTime =
             isset($itip->message->VEVENT->DTSTART)
                 ? $itip->message->VEVENT->DTSTART->getDateTime()
@@ -170,11 +177,11 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
         $description = $notEmpty('DESCRIPTION', false);
         $location    = $notEmpty('LOCATION', false);
 
-        $locationImage = false;
-        $locationLink  = false;
+        $locationImage    = null;
+        $locationImageUrl = false;
+        $locationLink     = false;
 
         if (isset($itip->message->VEVENT->{'X-APPLE-STRUCTURED-LOCATION'})) {
-
             $match = preg_match(
                 '/^(geo:)?(?<latitude>\-?\d+\.\d+),(?<longitude>\-?\d+\.\d+)$/',
                 (string)$itip->message->VEVENT->{'X-APPLE-STRUCTURED-LOCATION'},
@@ -186,18 +193,24 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
                 $width  = 500;
                 $height = 220;
 
-                $locationImage =
-                    'http://api.tiles.mapbox.com/v4' .
-                    '/mapbox.streets' .
-                    '/pin-m-star+285A98' .
-                    '(' . $coordinates['longitude'] .
-                    ',' . $coordinates['latitude'] .
-                    ')' .
-                    '/' . $coordinates['longitude'] .
-                    ',' . $coordinates['latitude'] .
-                    ',' . $zoom .
-                    '/' . $width . 'x' . $height . '.png' .
-                    '?access_token=pk.eyJ1IjoiZHRvYnNjaGFsbCIsImEiOiIzMzdhNTRhNGNjOGFjOGQ4MDM5ZTJhNGZjYjNmNmE5OCJ9.7ZQOdfvoZW0XIbvjN54Wrg';
+                $locationImage = new Mail\Content\Attachment(
+                    new File\Read(
+                        'http://api.tiles.mapbox.com/v4' .
+                        '/mapbox.streets' .
+                        '/pin-m-star+285A98' .
+                        '(' . $coordinates['longitude'] .
+                        ',' . $coordinates['latitude'] .
+                        ')' .
+                        '/' . $coordinates['longitude'] .
+                        ',' . $coordinates['latitude'] .
+                        ',' . $zoom .
+                        '/' . $width . 'x' . $height . '.png' .
+                        '?access_token=pk.eyJ1IjoiZHRvYnNjaGFsbCIsImEiOiIzMzdhNTRhNGNjOGFjOGQ4MDM5ZTJhNGZjYjNmNmE5OCJ9.7ZQOdfvoZW0XIbvjN54Wrg'
+                    ),
+                    'Map.png',
+                    'image/png'
+                );
+                $locationImageUrl = $locationImage->getIdUrl();
 
                 $locationLink =
                     'http://www.openstreetmap.org' .
@@ -233,11 +246,12 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
             $senderName,
             $summary,
             $action,
+            $katanaLogoUrl,
             $dateTime,
             $allDay,
             $attendees,
             $location,
-            $locationImage,
+            $locationImageUrl,
             $locationLink,
             $url,
             $description
@@ -251,10 +265,19 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
             return $out;
         };
 
+        $relatedContent = [
+            new Mail\Content\Html($htmlBody()),
+            $katanaLogo
+        ];
+
+        if (null !== $locationImage) {
+            $relatedContent[] = $locationImage;
+        }
+
         $message->addContent(
             new Mail\Content\Alternative([
                 new Mail\Content\Text($textBody()),
-                new Mail\Content\Html($htmlBody())
+                new Mail\Content\Related($relatedContent)
             ])
         );
 

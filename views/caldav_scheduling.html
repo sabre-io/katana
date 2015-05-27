@@ -24,7 +24,7 @@
               <?= $dateTime->format('F') ?>
             </td>
             <td width="58" style="text-align: right;">
-              <img src="http://sabre.io/img/logo-katana-hero.png" alt="sabre/katana" width="100px" height="73px" />
+              <img src="<?= $katanaLogoUrl ?>" alt="sabre/katana" width="100px" height="73px" />
             </td>
           </tr>
         </table>
@@ -128,12 +128,12 @@
           </tr>
           <?php endif; ?>
 
-          <?php if (false !== $locationImage): ?>
+          <?php if (false !== $locationImageUrl): ?>
           <tr>
             <td colspan="2">
                 <a
                   href="<?= $locationLink ?>"
-                  title="Navigate on this map"><img src="<?= $locationImage ?>" width="100%"
+                  title="Navigate on this map"><img src="<?= $locationImageUrl ?>" width="100%"
                 /></a>
             </td>
           </tr>
