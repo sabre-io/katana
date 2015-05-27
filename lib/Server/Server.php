@@ -229,9 +229,13 @@ class Server {
     protected function initializeScheduling() {
 
         $this->getServer()->addPlugin(new SabreCalDav\Schedule\Plugin());
-        $this->getServer()->addPlugin(
-            new CalDav\Schedule\IMipPlugin($this->getConfiguration())
-        );
+        $configuration = $this->getConfiguration();
+
+        if (isset($configuration->mail)) {
+            $this->getServer()->addPlugin(
+                new CalDav\Schedule\IMipPlugin($this->getConfiguration())
+            );
+        }
     }
 
     /**
