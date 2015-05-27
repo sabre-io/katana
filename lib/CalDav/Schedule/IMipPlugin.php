@@ -253,8 +253,24 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
         $message['subject'] = $subject;
         // return-path
 
-        $textBody = function() {
-            return 'hello!';
+        $textBody = function() use (
+            $senderName,
+            $summary,
+            $action,
+            $dateTime,
+            $allDay,
+            $attendees,
+            $location,
+            $url,
+            $description
+        ) {
+            ob_start();
+
+            require 'katana://views/caldav_scheduling.txt';
+            $out = ob_get_contents();
+            ob_end_clean();
+
+            return $out;
         };
         $htmlBody = function() use (
             $senderName,
