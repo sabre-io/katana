@@ -230,10 +230,7 @@ class Server {
 
         $this->getServer()->addPlugin(new SabreCalDav\Schedule\Plugin());
         $this->getServer()->addPlugin(
-            new CalDav\Schedule\IMipPlugin(
-                'server@example.org',
-                $this->getConfiguration()
-            )
+            new CalDav\Schedule\IMipPlugin($this->getConfiguration())
         );
     }
 

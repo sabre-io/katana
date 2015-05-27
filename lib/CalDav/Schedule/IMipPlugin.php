@@ -40,9 +40,9 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
 
     protected $configuration = null;
 
-    function __construct($senderEmail, Configuration $configuration) {
+    function __construct(Configuration $configuration) {
 
-        parent::__construct($senderEmail);
+        parent::__construct($configuration->mail->username);
         $this->configuration = $configuration;
     }
 
@@ -247,7 +247,7 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
         );
 
         $message            = new Mail\Message();
-        $message['from']    = $senderName . ' (via sabre/katana) <' . $this->senderEmail . '>';
+        $message['from']    = $senderName . ' (via sabre/katana) <' . $configuration->username . '>';
         // reply-to
         $message['to']      = $recipientName . '<' . $recipientEmail . '>';
         $message['subject'] = $subject;
