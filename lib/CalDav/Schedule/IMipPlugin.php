@@ -161,6 +161,17 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
             }
         }
 
+        usort(
+            $attendees,
+            function($a, $b) {
+                if ('CHAIR' === $a['role']) {
+                    return -1;
+                }
+
+                return 1;
+            }
+        );
+
         $notEmpty = function($property, $else) use ($itip) {
             if (isset($itip->message->VEVENT->$property)) {
                 $handle = (string)$itip->message->VEVENT->$property;
