@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f295579cd2eb93265cefcd85fcb18375",
+    "hash": "be337163d2ee7719df0b1c8e36f14e92",
     "packages": [
         {
             "name": "hoa/console",
@@ -270,16 +270,16 @@
         },
         {
             "name": "hoa/file",
-            "version": "0.15.05.12",
+            "version": "0.15.05.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/File.git",
-                "reference": "44229dcecf45baa811ec74636dcc74fc18936c11"
+                "reference": "bd82aff5e81f16971c5fc99301a5c5717b1fd4da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/File/zipball/44229dcecf45baa811ec74636dcc74fc18936c11",
-                "reference": "44229dcecf45baa811ec74636dcc74fc18936c11",
+                "url": "https://api.github.com/repos/hoaproject/File/zipball/bd82aff5e81f16971c5fc99301a5c5717b1fd4da",
+                "reference": "bd82aff5e81f16971c5fc99301a5c5717b1fd4da",
                 "shasum": ""
             },
             "require": {
@@ -326,7 +326,7 @@
                 "link",
                 "temporary"
             ],
-            "time": "2015-05-12 08:32:05"
+            "time": "2015-05-27 09:18:31"
         },
         {
             "name": "hoa/http",
@@ -450,21 +450,25 @@
         },
         {
             "name": "hoa/mail",
-            "version": "0.15.05.20",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Mail.git",
-                "reference": "b9d7cee72fd912d0cd69b787e5a097f4ba19c672"
+                "reference": "4ae44c4d0f09fe9d1aee471764eb7743356f4b3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Mail/zipball/b9d7cee72fd912d0cd69b787e5a097f4ba19c672",
-                "reference": "b9d7cee72fd912d0cd69b787e5a097f4ba19c672",
+                "url": "https://api.github.com/repos/hoaproject/Mail/zipball/4ae44c4d0f09fe9d1aee471764eb7743356f4b3e",
+                "reference": "4ae44c4d0f09fe9d1aee471764eb7743356f4b3e",
                 "shasum": ""
             },
             "require": {
                 "hoa/core": "~2.0",
                 "hoa/mime": "~2.0"
+            },
+            "require-dev": {
+                "hoa/file": "~0.0",
+                "hoa/test": "~1.0"
             },
             "type": "library",
             "extra": {
@@ -497,11 +501,15 @@
                 "imap",
                 "library",
                 "mail",
-                "pop3",
+                "rfc2045",
+                "rfc2047",
+                "rfc2104",
+                "rfc2111",
+                "rfc4648",
                 "sendmail",
                 "smtp"
             ],
-            "time": "2015-05-20 13:14:01"
+            "time": "2015-05-27 09:14:05"
         },
         {
             "name": "hoa/mime",
@@ -889,7 +897,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruux/sabre-dav/zipball/40e440ca2731bcaab40a34884fac35bb4802ac40",
+                "url": "https://api.github.com/repos/fruux/sabre-dav/zipball/19a05ce7bf26610a237c3deeb724a00012ff73d2",
                 "reference": "d7ea90a7511390d34872caf38662fb356616ede9",
                 "shasum": ""
             },
@@ -2343,6 +2351,7 @@
     "stability-flags": {
         "sabre/dav": 20,
         "sabre/http": 15,
+        "hoa/mail": 20,
         "sabre/cs": 20
     },
     "prefer-stable": false,
