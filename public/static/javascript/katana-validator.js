@@ -29,7 +29,7 @@ Ember.libraries.register('Ember Katana Validator', '0.0.3');
  * pretty similar to the `actions` property. This property is an object of
  * functions representing validators.
  *
- * A validator returns a deferred promise that resolve or reject a datumm, It
+ * A validator returns a deferred promise that resolve or reject a datum, It
  * rejects `{id: errorId, message: "…"}` if it invalids a datum.
  * If the key of this object is a property name of the `Ember.Object`, then an
  * observer is automatically added to auto-validate this property without doing
