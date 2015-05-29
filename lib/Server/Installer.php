@@ -29,7 +29,7 @@ use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
 use Sabre\Uri;
 use Hoa\Iterator;
-use Hoa\String\String;
+use Hoa\Ustring\Ustring;
 use SplFileInfo;
 use StdClass;
 use PDOException;
@@ -137,7 +137,7 @@ class Installer {
      */
     static function checkLogin($login) {
 
-        $string = new String($login);
+        $string = new Ustring($login);
         return 0 < count($string);
     }
 

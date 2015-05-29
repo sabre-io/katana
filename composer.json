@@ -16,7 +16,7 @@
     "require": {
         "php"                      : ">=5.4.7",
         "ext-spl"                  : "*",
-        "ext-pdo"                  : "~1.0",
+        "ext-pdo"                  : ">=1.0",
         "sabre/dav"                : "dev-master",
         "sabre/uri"                : "~1.0",
         "sabre/http"               : "4.0.0alpha1",
@@ -30,7 +30,7 @@
         "hoa/mime"                 : "~2.0",
         "hoa/router"               : "~2.0",
         "hoa/socket"               : "~0.0, >=0.15.02.25",
-        "hoa/string"               : "~2.0",
+        "hoa/ustring"              : "~3.0",
         "hoa/stringbuffer"         : "~0.0",
         "ircmaxell/password-compat": "~1.0"
     },
