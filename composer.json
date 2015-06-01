@@ -35,7 +35,7 @@
         "ircmaxell/password-compat": "~1.0"
     },
     "require-dev": {
-        "atoum/atoum"              : "~2.0",
+        "atoum/atoum"              : "~2.1",
         "atoum/praspel-extension"  : "~0.1",
         "atoum/ruler-extension"    : "~1.0, >=1.0.2",
         "hoa/ruler"                : "~1.0, >=1.15.02.02",
