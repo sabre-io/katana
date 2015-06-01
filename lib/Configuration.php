@@ -99,6 +99,7 @@ class Configuration {
      * @return bool
      */
     function __isset($name) {
+
         return isset($this->configuration->$name);
     }
 
@@ -109,6 +110,7 @@ class Configuration {
      * @return mixed
      */
     function __get($name) {
+
         return $this->configuration->$name;
     }
 
@@ -120,6 +122,7 @@ class Configuration {
      * @return void
      */
     function __set($name, $value) {
+
         $this->configuration->$name = $value;
     }
 
@@ -130,6 +133,7 @@ class Configuration {
      * @return void
      */
     function __unset($name) {
+
         unset($this->configuration->$name);
     }
 
@@ -139,6 +143,7 @@ class Configuration {
      * @return bool
      */
     function save() {
+
         return false !== file_put_contents(
             $this->getFilename(),
             json_encode($this->configuration, JSON_PRETTY_PRINT)
@@ -151,6 +156,7 @@ class Configuration {
      * @return string
      */
     function getFilename() {
+
         return $this->filename;
     }
 }
