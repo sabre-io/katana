@@ -24,9 +24,9 @@
       <a class="item disabled">
         <i class="dashboard icon"></i> Dashboard
       </a>
-      <a class="item disabled">
+      {{#link-to 'settings' class="item"}}
         <i class="settings icon"></i> Settings
-      </a>
+      {{/link-to}}
 
       <div class="right menu">
         {{#link-to 'about' class="item"}}
@@ -532,6 +532,149 @@
       <i class="chevron down icon"></i>
     </div>
   {{/if}}
+</script>
+
+<script type="text/x-handlebars" id="settings">
+  <div class="ui segment">
+    <h2 class="ui header">
+      <i class="settings icon"></i>
+      <div class="content">
+        Settings
+        <div class="sub header">Tweak your sabre/katana server</div>
+      </div>
+    </h2>
+
+    <h3 class="ui header">
+      <i class="disk outline icon"></i>
+      <div class="content">
+        Location
+      </div>
+    </h3>
+
+    <p>The following information is only <strong>manually editable</strong>,
+    inside the <code>data/etc/configuration/server.json</code> file.</p>
+
+    <div class="ui form">
+      <div class="ui middle aligned page grid">
+        <div class="six wide column">
+          <label>Base URL:</label>
+        </div>
+        <div class="ten wide column">
+          <strong>{{ENV.katana.base_url}}</strong>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="ui header">
+      <i class="database icon"></i>
+      <div class="content">
+        Database
+      </div>
+    </h3>
+
+    <p>The following information are only <strong>manually editable</strong>,
+    inside the <code>data/etc/configuration/server.json</code> file.</p>
+
+    <div class="ui form">
+      <div class="ui middle aligned page grid">
+        <div class="six wide column">
+          <label>Data Source Name (DSN):</label>
+        </div>
+        <div class="ten wide column">
+          <strong>{{model.database.dsn}}</strong>
+        </div>
+
+        <div class="six wide column">
+          <label>Username:</label>
+        </div>
+        <div class="ten wide column">
+          {{#if model.database.username}}
+            <strong>{{model.database.username}}</strong>
+          {{else}}
+            (none)
+          {{/if}}
+        </div>
+
+        <div class="six wide column">
+          <label>Password:</label>
+        </div>
+        <div class="ten wide column">
+          <strong>•••••••</strong>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="ui header">
+      <i class="mail outline icon"></i>
+      <div class="content">
+        Email
+      </div>
+    </h3>
+
+    <p>Emails are needed for Calendar Scheduling, precisely for
+    <a href="http://tools.ietf.org/html/rfc6047">iMIP</a> support: When a user
+    needs to invite another user which is not registered on this sabre/katana
+    instance.</p>
+
+    <form {{bind-attr class=":ui :form loading:loading:"}}>
+      <div class="ui middle aligned page grid">
+        <div class="six wide column">
+          <label for="email_smtp_address">SMTP address:</label>
+        </div>
+        <div class="ten wide column">
+          {{input type="text"
+                  id="email_smtp_address"
+                  name="email_smtp_address"
+                  placeholder="smtp.example.org"
+                  value=model.mail.address}}
+        </div>
+
+        <div class="six wide column">
+          <label for="email_smtp_port">SMTP port:</label>
+        </div>
+        <div class="ten wide column">
+          {{input type="number"
+                  id="email_smtp_port"
+                  name="email_smtp_port"
+                  value=model.mail.port}}
+        </div>
+
+        <div class="six wide column">
+          <label id="email_username">Username:</label>
+        </div>
+        <div class="ten wide column">
+          {{input type="text"
+                  id="email_username"
+                  name="email_username"
+                  value=model.mail.username}}
+        </div>
+
+        <div class="six wide column">
+          <label id="email_password">Password:</label>
+        </div>
+        <div class="ten wide column">
+          {{input type="password"
+                  id="email_password"
+                  name="email_password"
+                  value=model.mail.password}}
+        </div>
+
+        <div class="row">
+          <div class="right aligned column">
+            <button {{action 'applyMail'}} type="submit" class="ui positive right labeled icon button">
+              Save
+              <i class="save icon"></i>
+            </button>
+
+            <button {{action 'sendTestMail'}} class="ui primary right labeled icon button">
+              Send a test email
+              <i class="send outline icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </script>
 
 <script type="text/x-handlebars" id="about">

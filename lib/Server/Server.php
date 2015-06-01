@@ -295,12 +295,15 @@ class Server {
      */
     protected function initializeSystemPlugin() {
 
+        $configuration = $this->getConfiguration();
         $this->getServer()->tree->getNodeForPath('')->addChild(
             new Dav\System\Collection([
+                new Dav\System\Configuration\Node(),
                 new Dav\System\Version\Node()
             ])
         );
-        $this->getServer()->addPlugin(new Dav\System\Version\Plugin());
+        $this->getServer()->addPlugin(new Dav\System\Configuration\Plugin($configuration));
+        $this->getServer()->addPlugin(new Dav\System\Version\Plugin($configuration));
     }
 
     /**
