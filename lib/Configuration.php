@@ -22,6 +22,7 @@
 namespace Sabre\Katana;
 
 use StdClass;
+use JsonSerializable;
 
 /**
  * Open, read and write JSON configurations. No lock on the filesystem.
@@ -30,7 +31,7 @@ use StdClass;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Configuration {
+class Configuration implements JsonSerializable {
 
     /**
      * Name of the configuration file.
@@ -146,7 +147,7 @@ class Configuration {
 
         return false !== file_put_contents(
             $this->getFilename(),
-            json_encode($this->configuration, JSON_PRETTY_PRINT)
+            json_encode($this, JSON_PRETTY_PRINT)
         );
     }
 
@@ -158,5 +159,15 @@ class Configuration {
     function getFilename() {
 
         return $this->filename;
+    }
+
+    /**
+     * Data useful to serialize into JSON.
+     *
+     * @return StdClass
+     */
+    function jsonSerialize() {
+
+        return $this->configuration;
     }
 }
