@@ -1076,24 +1076,25 @@ Katana.SettingsController = Ember.Controller.extend({
 
         applyMail: function()
         {
-            var self  = this;
             var model = this.get('model');
+            var self  = this;
 
-            this.set('loading', true);
-            $.postJSON(
-                ENV.katana.base_url + 'system/configurations',
-                JSON.stringify({
-                    'transport': model.mail_address + ':' + model.mail_port,
-                    'username' : model.mail_username,
-                    'password' : model.mail_password
-                })
-            ).done(
+            model.validate().then(
                 function() {
-                    self.set('loading', false);
-                }
-            );
-
-            return;
+                    self.set('loading', true);
+                    $.postJSON(
+                        ENV.katana.base_url + 'system/configurations',
+                        JSON.stringify({
+                            'transport': model.mail_address + ':' + model.mail_port,
+                            'username' : model.mail_username,
+                            'password' : model.mail_password
+                        })
+                    ).done(
+                        function() {
+                            self.set('loading', false);
+                        }
+                    );
+            });
         }
 
     }
