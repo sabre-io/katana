@@ -1039,47 +1039,37 @@ Katana.SettingsController = Ember.Controller.extend({
             var model = this.get('model');
             var self  = this;
 
-            if (!model.mail_address ||
-                !model.mail_port ||
-                !model.mail_username ||
-                !model.mail_password) {
-                this.send(
-                    'alert',
-                    'Cannot send an email',
-                    'Because SMTP address, port, username or password are empty. ' +
-                    'You should fill them and retry.'
-                );
-
-                return;
-            }
-
-            this.set('loading', true);
-            $.getJSON(
-                ENV.katana.base_url + 'system/configurations' +
-                '?test=mail' +
-                '&payload=' + encodeURIComponent(JSON.stringify({
-                    'transport': model.mail_address + ':' + model.mail_port,
-                    'username' : model.mail_username,
-                    'password' : model.mail_password
-                }))
-            ).then(
+            model.validate().then(
                 function() {
-                    self.send(
-                        'alert',
-                        'Mail sent!',
-                        'Now go check the mail inbox of the ' +
-                        '<strong>' + model.mail_username + '</strong> user.'
+                    self.set('loading', true);
+                    $.getJSON(
+                        ENV.katana.base_url + 'system/configurations' +
+                        '?test=mail' +
+                        '&payload=' + encodeURIComponent(JSON.stringify({
+                            'transport': model.mail_address + ':' + model.mail_port,
+                            'username' : model.mail_username,
+                            'password' : model.mail_password
+                        }))
+                    ).then(
+                        function() {
+                            self.send(
+                                'alert',
+                                'Mail sent!',
+                                'Now go check the mail inbox of the ' +
+                                '<strong>' + model.mail_username + '</strong> user.'
+                            );
+                            self.set('loading', false);
+                        },
+                        function() {
+                            self.send(
+                                'alert',
+                                'Mail not sent!',
+                                'An error occured. ' +
+                                'Maybe the configurations are not correct.'
+                            );
+                            self.set('loading', false);
+                        }
                     );
-                    self.set('loading', false);
-                },
-                function() {
-                    self.send(
-                        'alert',
-                        'Mail not sent!',
-                        'An error occured. ' +
-                        'Maybe the configurations are not correct.'
-                    );
-                    self.set('loading', false);
                 }
             );
         },
