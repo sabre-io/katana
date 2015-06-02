@@ -124,10 +124,18 @@ class Plugin extends SabreDav\ServerPlugin {
      */
     function initialize(SabreDav\Server $server) {
 
-        $server->on('method:GET', [$this, 'httpGet']);
+        $server->on('method:GET',  [$this, 'httpGet']);
         $server->on('method:POST', [$this, 'httpPost']);
     }
 
+    /**
+     * Compute an HTTP GET method.
+     *
+     * @param  Request   $request     HTTP request.
+     * @param  Response  $response    HTTP response.
+     * @return bool
+     * @throws Exception\Dav\Exception
+     */
     function httpGet(Request $request, Response $response) {
 
         if (System\Collection::NAME . '/' . Node::NAME !== $request->getPath()) {
@@ -209,6 +217,14 @@ class Plugin extends SabreDav\ServerPlugin {
         return false;
     }
 
+    /**
+     * Compute an HTTP POST method.
+     *
+     * @param  Request   $request     HTTP request.
+     * @param  Response  $response    HTTP response.
+     * @return bool
+     * @throws Exception\Dav\Exception
+     */
     function httpPost(Request $request, Response $response) {
 
         if (System\Collection::NAME . '/' . Node::NAME !== $request->getPath()) {
