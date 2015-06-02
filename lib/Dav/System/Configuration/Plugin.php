@@ -41,8 +41,19 @@ use StdClass;
  */
 class Plugin extends SabreDav\ServerPlugin {
 
+    /**
+     * sabre/katana's configuration.
+     *
+     * @var Configuration
+     */
     protected $configuration = null;
 
+    /**
+     * Constructor.
+     *
+     * @param  Configuration  $configuration    Configuration.
+     * @return void
+     */
     function __construct(Configuration $configuration) {
 
         $this->configuration = $configuration;
