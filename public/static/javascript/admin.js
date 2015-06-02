@@ -1093,9 +1093,9 @@ Katana.SettingsController = Ember.Controller.extend({
             $.postJSON(
                 ENV.katana.base_url + 'system/configurations',
                 JSON.stringify({
-                    'transport': model.mail.address + ':' + model.mail.port,
-                    'username' : model.mail.username,
-                    'password' : model.mail.password
+                    'transport': model.mail_address + ':' + model.mail_port,
+                    'username' : model.mail_username,
+                    'password' : model.mail_password
                 })
             ).done(
                 function() {
@@ -1379,8 +1379,76 @@ Katana.Settings = Ember.Object.extend(KatanaValidatorMixin, {
 
         mail_address: function()
         {
-            console.log('foobar');
-        }
+            var defer       = Ember.RSVP.defer();
+            var mailAddress = this.get('mail_address');
+
+            if (!mailAddress) {
+                defer.reject({
+                    id     : 'mailAddress_empty',
+                    message: 'Mail address cannot be empty.'
+                });
+            } else {
+                defer.resolve(mailAddress);
+            }
+
+            return defer.promise;
+        },
+
+        mail_port: function()
+        {
+            var defer    = Ember.RSVP.defer();
+            var mailPort = this.get('mail_port');
+
+            if (!mailPort) {
+                defer.reject({
+                    id     : 'mailPort_empty',
+                    message: 'Mail port cannot be empty.'
+                });
+            } else if (parseInt(mailPort) < 0) {
+                defer.reject({
+                    id     : 'mailPort_negative',
+                    message: 'Mail port cannot be negative.'
+                });
+            } else {
+                defer.resolve(mailPort);
+            }
+
+            return defer.promise;
+        },
+
+        mail_username: function()
+        {
+            var defer        = Ember.RSVP.defer();
+            var mailUsername = this.get('mail_username');
+
+            if (!mailUsername) {
+                defer.reject({
+                    id     : 'mailUsername_empty',
+                    message: 'Mail username cannot be empty.'
+                });
+            } else {
+                defer.resolve(mailUsername);
+            }
+
+            return defer.promise;
+        },
+
+        mail_password: function()
+        {
+            var defer        = Ember.RSVP.defer();
+            var mailPassword = this.get('mail_password');
+
+            if (!mailPassword) {
+                defer.reject({
+                    id     : 'mailPassword_empty',
+                    message: 'Mail password cannot be empty.'
+                });
+            } else {
+                defer.resolve(mailPassword);
+            }
+
+            return defer.promise;
+        },
 
     }
 

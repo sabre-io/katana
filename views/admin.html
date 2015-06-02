@@ -616,6 +616,38 @@
     needs to invite another user which is not registered on this sabre/katana
     instance.</p>
 
+    {{#unless model.valid}}
+      {{#if model.validatorErrors.mailAddress_empty}}
+        <div class="ui error message">
+          <p>SMTP address cannot be empty.</p>
+        </div>
+      {{/if}}
+
+      {{#if model.validatorErrors.mailPort_empty}}
+        <div class="ui error message">
+          <p>SMTP port cannot be empty.</p>
+        </div>
+      {{/if}}
+
+      {{#if model.validatorErrors.mailPort_negative}}
+        <div class="ui error message">
+          <p>SMTP port cannot be negative.</p>
+        </div>
+      {{/if}}
+
+      {{#if model.validatorErrors.mailUsername_empty}}
+        <div class="ui error message">
+          <p>SMTP username cannot be empty.</p>
+        </div>
+      {{/if}}
+
+      {{#if model.validatorErrors.mailPassword_empty}}
+        <div class="ui error message">
+          <p>SMTP password cannot be empty.</p>
+        </div>
+      {{/if}}
+    {{/unless}}
+
     <form {{bind-attr class=":ui :form loading:loading:"}}>
       <div class="ui middle aligned page grid">
         <div class="six wide column">
@@ -661,12 +693,12 @@
 
         <div class="row">
           <div class="right aligned column">
-            <button {{action 'applyMail'}} type="submit" class="ui positive right labeled icon button">
+            <button {{action 'applyMail'}} type="submit" {{bind-attr disabled="model.valid:false:true" class=":ui :positive :right :labeled :icon model.valid::disabled :button"}}>
               Save
               <i class="save icon"></i>
             </button>
 
-            <button {{action 'requestTestMail'}} class="ui primary right labeled icon button">
+            <button {{action 'requestTestMail'}} {{bind-attr class=":ui :primary :right :labeled :icon model.valid::disabled :button"}}>
               Send a test email
               <i class="send outline icon"></i>
             </button>
