@@ -143,7 +143,11 @@ class Plugin extends SabreDav\ServerPlugin {
      */
     function afterUnbind($path) {
 
-        list(, $principalName) = SabreUri\split($path);
+        list($collection, $principalName) = SabreUri\split($path);
+
+        if ('principals' !== $collection) {
+            return false;
+        }
 
         $directory = new HoaFile\Directory($this->storagePath . DS . $principalName);
         $out       = $directory->delete();
