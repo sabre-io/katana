@@ -71,8 +71,7 @@ var KatanaValidatorMixin = Ember.Mixin.create({
     {
         this._super.apply(this, arguments);
 
-        if (this instanceof Ember.Controller ||
-            this instanceof Ember.Component) {
+        if (!(this instanceof DS.Model)) {
             this.ready();
         }
     },
