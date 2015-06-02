@@ -674,6 +674,147 @@
         </div>
       </div>
     </form>
+
+    <h3 class="ui header">
+      <i class="unordered list icon"></i>
+      <div class="content">
+        Features
+      </div>
+    </h3>
+
+    <div class="ui form">
+      <div class="ui page grid">
+        <div class="six wide column">
+          <label>WebDAV:</label>
+        </div>
+        <div class="ten wide column">
+          <div class="ui grid">
+            <div class="row">
+              <div class="ui toggle checkbox">
+                <input type="checkbox" checked="true" disabled="true" />
+                <label>Principals</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="ui toggle checkbox">
+                <input type="checkbox" checked="true" disabled="true" />
+                <label>Users</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="ui toggle checkbox">
+                <input type="checkbox" checked="true" disabled="true" />
+                <label>HTTP authentification</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="ui toggle checkbox">
+                <input type="checkbox" checked="true" disabled="true" />
+                <label>ACL</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="ui toggle checkbox">
+                <input type="checkbox" checked="true" disabled="true" />
+                <label>Synchronization</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="six wide column">
+          <label>Address books:</label>
+        </div>
+        <div class="ten wide column">
+          <div class="ui grid">
+            <div class="row">
+              <div class="ui toggle checkbox">
+                <input type="checkbox" checked="true" disabled="true" />
+                <label>VCF export</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="six wide column">
+          <label>Calendars:</label>
+        </div>
+        <div class="ten wide column">
+          <div class="ui grid">
+            <div class="row">
+              <div class="ui toggle checkbox">
+                <input type="checkbox" checked="true" disabled="true" />
+                <label>ICS export</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="ui toggle checkbox">
+                <input type="checkbox" checked="true" disabled="true" />
+                <label>Scheduling (iTIP)</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="ui toggle checkbox">
+                {{#if model.mail_address}}
+                  <input type="checkbox" checked="true" disabled="true" />
+                {{else}}
+                  <input type="checkbox" disabled="true" />
+                {{/if}}
+                <label>Scheduling (iMIP)</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="six wide column">
+          <label>Task lists:</label>
+        </div>
+        <div class="ten wide column">
+          <div class="ui grid">
+            <div class="row">
+              <div class="ui toggle checkbox">
+                <input type="checkbox" checked="true" disabled="true" />
+                <label>ICS export</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="six wide column">
+          <label>Files:</label>
+        </div>
+        <div class="ten wide column">
+          <div class="ui grid">
+            <div class="row">
+              <div class="ui toggle checkbox">
+                <input type="checkbox" checked="true" disabled="true" />
+                <label>Home collection</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="ui toggle checkbox">
+                <input type="checkbox" checked="true" disabled="true" />
+                <label>Public directory</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="ui toggle checkbox">
+                <input type="checkbox" checked="true" disabled="true" />
+                <label>Locks</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </script>
 
