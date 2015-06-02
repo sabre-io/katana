@@ -36,6 +36,7 @@ use Sabre\HTTP\ResponseInterface as Response;
  * @license GNU Affero General Public License, Version 3.
  */
 class Plugin extends SabreDav\ServerPlugin {
+
     /**
      * Returns a plugin name.
      *
