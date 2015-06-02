@@ -303,7 +303,7 @@ class Server {
             ])
         );
         $this->getServer()->addPlugin(new Dav\System\Configuration\Plugin($configuration));
-        $this->getServer()->addPlugin(new Dav\System\Version\Plugin($configuration));
+        $this->getServer()->addPlugin(new Dav\System\Version\Plugin());
     }
 
     /**
