@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ad49f74a92dcf6a6d79ab83ffc0813d7",
+    "hash": "e0fe87b9acf28eee8f72bd6772976c3b",
     "packages": [
         {
             "name": "hoa/console",
@@ -1021,16 +1021,16 @@
         },
         {
             "name": "sabre/http",
-            "version": "4.0.0-alpha1",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruux/sabre-http.git",
-                "reference": "3f5dc3e6522092b7d12bd40950ebddc201065c25"
+                "reference": "3b3ba70329e0ffc0a4d9855ca7d7583ab82b1023"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruux/sabre-http/zipball/3f5dc3e6522092b7d12bd40950ebddc201065c25",
-                "reference": "3f5dc3e6522092b7d12bd40950ebddc201065c25",
+                "url": "https://api.github.com/repos/fruux/sabre-http/zipball/3b3ba70329e0ffc0a4d9855ca7d7583ab82b1023",
+                "reference": "3b3ba70329e0ffc0a4d9855ca7d7583ab82b1023",
                 "shasum": ""
             },
             "require": {
@@ -1041,13 +1041,16 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.3",
-                "squizlabs/php_codesniffer": "~1.5.3"
+                "sabre/cs": "~0.0.1"
             },
             "suggest": {
                 "ext-curl": " to make http requests with the Client class"
             },
             "type": "library",
             "autoload": {
+                "files": [
+                    "lib/functions.php"
+                ],
                 "psr-4": {
                     "Sabre\\HTTP\\": "lib/"
                 }
@@ -1069,7 +1072,7 @@
             "keywords": [
                 "http"
             ],
-            "time": "2015-02-25 19:05:12"
+            "time": "2015-05-20 09:05:01"
         },
         {
             "name": "sabre/uri",
@@ -1622,16 +1625,16 @@
         },
         {
             "name": "hoa/praspel",
-            "version": "0.15.05.29",
+            "version": "0.15.06.01",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Praspel.git",
-                "reference": "8dea9e4e8f3dd6fc9fc10ad464d48c3973dedf50"
+                "reference": "47e26bd74ddb85f2bfd4841f1432c0c14482cd45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Praspel/zipball/8dea9e4e8f3dd6fc9fc10ad464d48c3973dedf50",
-                "reference": "8dea9e4e8f3dd6fc9fc10ad464d48c3973dedf50",
+                "url": "https://api.github.com/repos/hoaproject/Praspel/zipball/47e26bd74ddb85f2bfd4841f1432c0c14482cd45",
+                "reference": "47e26bd74ddb85f2bfd4841f1432c0c14482cd45",
                 "shasum": ""
             },
             "require": {
@@ -1685,20 +1688,20 @@
                 "test",
                 "validation"
             ],
-            "time": "2015-05-29 14:03:57"
+            "time": "2015-06-01 11:45:25"
         },
         {
             "name": "hoa/realdom",
-            "version": "0.15.05.29",
+            "version": "0.15.06.01",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Realdom.git",
-                "reference": "edb0355a3ee72b187c1cc43d0437edbace99adde"
+                "reference": "b8fd93816f8e626db1092bb5c357773cbd9cc6ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Realdom/zipball/edb0355a3ee72b187c1cc43d0437edbace99adde",
-                "reference": "edb0355a3ee72b187c1cc43d0437edbace99adde",
+                "url": "https://api.github.com/repos/hoaproject/Realdom/zipball/b8fd93816f8e626db1092bb5c357773cbd9cc6ca",
+                "reference": "b8fd93816f8e626db1092bb5c357773cbd9cc6ca",
                 "shasum": ""
             },
             "require": {
@@ -1750,7 +1753,7 @@
                 "test",
                 "validation"
             ],
-            "time": "2015-05-29 14:05:15"
+            "time": "2015-06-01 11:46:23"
         },
         {
             "name": "hoa/regex",
@@ -2348,7 +2351,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "sabre/dav": 20,
-        "sabre/http": 15,
         "hoa/mail": 20,
         "sabre/cs": 20
     },
