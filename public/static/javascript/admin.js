@@ -1122,7 +1122,8 @@ Katana.SettingsController = Ember.Controller.extend({
                             self.set('loading', false);
                         }
                     );
-            });
+                }
+            );
         }
 
     }
