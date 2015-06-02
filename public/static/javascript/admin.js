@@ -1011,7 +1011,9 @@ Katana.User = DS.Model.extend(KatanaValidatorMixin, {
     email      : DS.attr('string'),
     newPassword: DS.attr('string'),
 
-    calendars  : DS.hasMany('calendar'),
+    calendars   : DS.hasMany('calendar'),
+    addressBooks: DS.hasMany('addressBook'),
+    files       : DS.hasMany('file'),
 
     validators: {
 
