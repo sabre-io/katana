@@ -228,6 +228,22 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
          */
         alert: function(title, content)
         {
+            this.send('_alert', 'modalAlert', title, content);
+        },
+
+        /**
+         * Show the positive alert modal window.
+         */
+        positiveAlert: function(title, content)
+        {
+            this.send('_alert', 'modalPositiveAlert', title, content);
+        },
+
+        /**
+         * Show an alert modal window.
+         */
+        _alert: function(modalId, title, content)
+        {
             var controller = this.controllerFor('application');
             var oldAlert   = controller.get('alert');
 
@@ -240,7 +256,7 @@ Katana.ApplicationRoute = Ember.Route.extend(SimpleAuth.ApplicationRouteMixin, {
                 return true;
             };
 
-            $('#modalAlert')
+            $('#' + modalId)
                 .modal(
                     'setting',
                     {
@@ -1028,12 +1044,21 @@ Katana.SettingsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
 });
 
+/**
+ * Settings controller.
+ */
 Katana.SettingsController = Ember.Controller.extend({
 
+    /**
+     * Whether a request is loading.
+     */
     loading: false,
 
     actions: {
 
+        /**
+         * Try to send a test mail.
+         */
         requestTestMail: function()
         {
             var model = this.get('model');
@@ -1053,7 +1078,7 @@ Katana.SettingsController = Ember.Controller.extend({
                     ).then(
                         function() {
                             self.send(
-                                'alert',
+                                'positiveAlert',
                                 'Mail sent!',
                                 'Now go check the mail inbox of the ' +
                                 '<strong>' + model.mail_username + '</strong> user.'
@@ -1074,6 +1099,9 @@ Katana.SettingsController = Ember.Controller.extend({
             );
         },
 
+        /**
+         * Save current mail configurations.
+         */
         applyMail: function()
         {
             var model = this.get('model');
@@ -1364,6 +1392,9 @@ Katana.File = DS.Model.extend(KatanaValidatorMixin, {
  */
 Katana.FileAdapter = KatanaWebDAVAdapter;
 
+/**
+ * Settings model.
+ */
 Katana.Settings = Ember.Object.extend(KatanaValidatorMixin, {
 
     validators: {
