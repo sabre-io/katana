@@ -1004,7 +1004,26 @@ Katana.SettingsRoute = Ember.Route.extend(SimpleAuth.AuthenticatedRouteMixin, {
 
     model: function()
     {
-        return $.getJSON(ENV.katana.base_url + 'system/configurations');
+        return new Ember.RSVP.Promise(
+            function(resolve, reject) {
+                $.getJSON(
+                    ENV.katana.base_url + 'system/configurations'
+                ).done(function(data) {
+                    resolve(
+                        new (
+                            Katana.Settings.extend({
+                                'database_dsn'     : data.database.dsn,
+                                'database_username': data.database.username,
+                                'mail_address'     : data.mail.address,
+                                'mail_port'        : data.mail.port,
+                                'mail_username'    : data.mail.username,
+                                'mail_password'    : data.mail.password
+                            })
+                        )
+                    );
+                });
+            }
+        );
     }
 
 });
@@ -1015,15 +1034,15 @@ Katana.SettingsController = Ember.Controller.extend({
 
     actions: {
 
-        sendTestMail: function()
+        requestTestMail: function()
         {
             var model = this.get('model');
             var self  = this;
 
-            if (!model.mail.address ||
-                !model.mail.port ||
-                !model.mail.username ||
-                !model.mail.password) {
+            if (!model.mail_address ||
+                !model.mail_port ||
+                !model.mail_username ||
+                !model.mail_password) {
                 this.send(
                     'alert',
                     'Cannot send an email',
@@ -1039,9 +1058,9 @@ Katana.SettingsController = Ember.Controller.extend({
                 ENV.katana.base_url + 'system/configurations' +
                 '?test=mail' +
                 '&payload=' + encodeURIComponent(JSON.stringify({
-                    'transport': model.mail.address + ':' + model.mail.port,
-                    'username' : model.mail.username,
-                    'password' : model.mail.password
+                    'transport': model.mail_address + ':' + model.mail_port,
+                    'username' : model.mail_username,
+                    'password' : model.mail_password
                 }))
             ).then(
                 function() {
@@ -1049,7 +1068,7 @@ Katana.SettingsController = Ember.Controller.extend({
                         'alert',
                         'Mail sent!',
                         'Now go check the mail inbox of the ' +
-                        '<strong>' + model.mail.username + '</strong> user.'
+                        '<strong>' + model.mail_username + '</strong> user.'
                     );
                     self.set('loading', false);
                 },
@@ -1353,6 +1372,19 @@ Katana.File = DS.Model.extend(KatanaValidatorMixin, {
  * File adapter.
  */
 Katana.FileAdapter = KatanaWebDAVAdapter;
+
+Katana.Settings = Ember.Object.extend(KatanaValidatorMixin, {
+
+    validators: {
+
+        mail_address: function()
+        {
+            console.log('foobar');
+        }
+
+    }
+
+});
 
 /**
  * The abstract <_dav-list /> component. Parent of <calendar-list /> and

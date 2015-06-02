@@ -581,15 +581,15 @@
           <label>Data Source Name (DSN):</label>
         </div>
         <div class="ten wide column">
-          <strong>{{model.database.dsn}}</strong>
+          <strong>{{model.database_dsn}}</strong>
         </div>
 
         <div class="six wide column">
           <label>Username:</label>
         </div>
         <div class="ten wide column">
-          {{#if model.database.username}}
-            <strong>{{model.database.username}}</strong>
+          {{#if model.database_username}}
+            <strong>{{model.database_username}}</strong>
           {{else}}
             (none)
           {{/if}}
@@ -626,7 +626,7 @@
                   id="email_smtp_address"
                   name="email_smtp_address"
                   placeholder="smtp.example.org"
-                  value=model.mail.address}}
+                  value=model.mail_address}}
         </div>
 
         <div class="six wide column">
@@ -636,7 +636,7 @@
           {{input type="number"
                   id="email_smtp_port"
                   name="email_smtp_port"
-                  value=model.mail.port}}
+                  value=model.mail_port}}
         </div>
 
         <div class="six wide column">
@@ -646,7 +646,7 @@
           {{input type="text"
                   id="email_username"
                   name="email_username"
-                  value=model.mail.username}}
+                  value=model.mail_username}}
         </div>
 
         <div class="six wide column">
@@ -656,7 +656,7 @@
           {{input type="password"
                   id="email_password"
                   name="email_password"
-                  value=model.mail.password}}
+                  value=model.mail_password}}
         </div>
 
         <div class="row">
@@ -666,7 +666,7 @@
               <i class="save icon"></i>
             </button>
 
-            <button {{action 'sendTestMail'}} class="ui primary right labeled icon button">
+            <button {{action 'requestTestMail'}} class="ui primary right labeled icon button">
               Send a test email
               <i class="send outline icon"></i>
             </button>
