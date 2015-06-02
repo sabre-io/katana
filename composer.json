@@ -17,7 +17,7 @@
         "php"                      : ">=5.4.7",
         "ext-spl"                  : "*",
         "ext-pdo"                  : ">=1.0",
-        "sabre/dav"                : "dev-master",
+        "sabre/dav"                : "~3.0.0-beta3",
         "hoa/console"              : "~2.0",
         "hoa/core"                 : "~2.0, >=2.15.04.13",
         "hoa/dispatcher"           : "~0.0, >=0.15.01.23",

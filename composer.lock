@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e0fe87b9acf28eee8f72bd6772976c3b",
+    "hash": "21e563dbf7d17aa36fc1e358f88f4e7c",
     "packages": [
         {
             "name": "hoa/console",
@@ -80,16 +80,16 @@
         },
         {
             "name": "hoa/core",
-            "version": "2.15.06.01",
+            "version": "2.15.06.02",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Core.git",
-                "reference": "c6bfc0f142e939ed4da3cba4bf58a49fef7aab84"
+                "reference": "1ebc1c810d59511c215e79a8b6ef33cbd0ec7d91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Core/zipball/c6bfc0f142e939ed4da3cba4bf58a49fef7aab84",
-                "reference": "c6bfc0f142e939ed4da3cba4bf58a49fef7aab84",
+                "url": "https://api.github.com/repos/hoaproject/Core/zipball/1ebc1c810d59511c215e79a8b6ef33cbd0ec7d91",
+                "reference": "1ebc1c810d59511c215e79a8b6ef33cbd0ec7d91",
                 "shasum": ""
             },
             "require": {
@@ -148,7 +148,7 @@
                 "parameter",
                 "protocol"
             ],
-            "time": "2015-06-01 08:53:40"
+            "time": "2015-06-02 06:51:41"
         },
         {
             "name": "hoa/dispatcher",
@@ -889,7 +889,7 @@
         },
         {
             "name": "sabre/dav",
-            "version": "dev-master",
+            "version": "3.0.0-beta3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruux/sabre-dav.git",
@@ -2350,7 +2350,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "sabre/dav": 20,
+        "sabre/dav": 10,
         "hoa/mail": 20,
         "sabre/cs": 20
     },
