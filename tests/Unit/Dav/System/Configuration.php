@@ -21,7 +21,6 @@
  */
 namespace Sabre\Katana\Test\Unit\Dav\System;
 
-use Sabre\Katana\Dav\System\Configuration\Plugin as CUT;
 use Sabre\Katana\Test\Unit\Suite;
 use Mock;
 
@@ -83,9 +82,9 @@ class Configuration extends Suite {
             ->then
                 ->object($configuration->jsonSerialize())
                     ->isEqualTo(
-                        (object) [
+                        (object)[
                             'base_url' => '/',
-                            'database' => (object) [
+                            'database' => (object)[
                                 'dsn'      => 'sqlite:/…',
                                 'username' => '',
                                 'password' => ''
@@ -120,14 +119,14 @@ class Configuration extends Suite {
             ->then
                 ->object($configuration->jsonSerialize())
                     ->isEqualTo(
-                        (object) [
+                        (object)[
                             'base_url' => '/',
-                            'database' => (object) [
+                            'database' => (object)[
                                 'dsn'      => 'sqlite:/…',
                                 'username' => '',
                                 'password' => ''
                             ],
-                            'mail' => (object) [
+                            'mail' => (object)[
                                 'transport' => 'foo.bar:587',
                                 'username'  => 'alix',
                                 'password'  => '💩'
