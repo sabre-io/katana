@@ -32,7 +32,7 @@ use Mock;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Collection extends Suite {
+class Configuration extends Suite {
 
     function case_get() {
 
