@@ -71,4 +71,68 @@ class Collection extends Suite {
                     ->hasKey('password')
                     ->hasSize(4);
     }
+
+    function case_post() {
+
+        $this
+            ->given($server = new Mock\Server())
+            ->when(
+                $configuration                = $server->getConfiguration(),
+                $configuration->database->dsn = 'sqlite:/…'
+            )
+            ->then
+                ->object($configuration->jsonSerialize())
+                    ->isEqualTo(
+                        (object) [
+                            'base_url' => '/',
+                            'database' => (object) [
+                                'dsn'      => 'sqlite:/…',
+                                'username' => '',
+                                'password' => ''
+                            ]
+                        ]
+                    )
+
+            ->given(
+                $server->request->setMethod('POST'),
+                $server->request->setURL('/system/configurations'),
+                $server->request->addHeader(
+                    'Authorization',
+                    'Basic ' .
+                    base64_encode(
+                        $server::ADMINISTRATOR_LOGIN .
+                        ':' .
+                        $server::ADMINISTRATOR_PASSWORD
+                    )
+                ),
+                $server->request->setBody(
+                    json_encode([
+                        'transport' => 'foo.bar:587',
+                        'username'  => 'alix',
+                        'password'  => '💩'
+                    ])
+                )
+            )
+            ->when(
+                $server->run(),
+                $configuration = $server->getConfiguration()
+            )
+            ->then
+                ->object($configuration->jsonSerialize())
+                    ->isEqualTo(
+                        (object) [
+                            'base_url' => '/',
+                            'database' => (object) [
+                                'dsn'      => 'sqlite:/…',
+                                'username' => '',
+                                'password' => ''
+                            ],
+                            'mail' => (object) [
+                                'transport' => 'foo.bar:587',
+                                'username'  => 'alix',
+                                'password'  => '💩'
+                            ]
+                        ]
+                    );
+    }
 }
