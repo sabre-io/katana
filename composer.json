@@ -24,7 +24,7 @@
         "hoa/eventsource"          : "~2.0",
         "hoa/file"                 : "~0.0, >=0.15.05.27",
         "hoa/iterator"             : "~1.0",
-        "hoa/mail"                 : "~0.0@dev",
+        "hoa/mail"                 : "~0.0, >=0.15.06.03",
         "hoa/mime"                 : "~2.0",
         "hoa/router"               : "~2.0",
         "hoa/socket"               : "~0.0, >=0.15.02.25",
