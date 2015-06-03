@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "21e563dbf7d17aa36fc1e358f88f4e7c",
+    "hash": "543911b472a209e93a5ecf1d38d2f347",
     "packages": [
         {
             "name": "hoa/console",
@@ -450,16 +450,16 @@
         },
         {
             "name": "hoa/mail",
-            "version": "dev-master",
+            "version": "0.15.06.03",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Mail.git",
-                "reference": "a8bbbfc79e878d82045006c6793e0b9707450823"
+                "reference": "16b512403f75551a9990996bdbe8f0b05c895e86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Mail/zipball/a8bbbfc79e878d82045006c6793e0b9707450823",
-                "reference": "a8bbbfc79e878d82045006c6793e0b9707450823",
+                "url": "https://api.github.com/repos/hoaproject/Mail/zipball/16b512403f75551a9990996bdbe8f0b05c895e86",
+                "reference": "16b512403f75551a9990996bdbe8f0b05c895e86",
                 "shasum": ""
             },
             "require": {
@@ -509,7 +509,7 @@
                 "sendmail",
                 "smtp"
             ],
-            "time": "2015-05-27 13:07:51"
+            "time": "2015-06-03 13:16:03"
         },
         {
             "name": "hoa/mime",
@@ -889,16 +889,16 @@
         },
         {
             "name": "sabre/dav",
-            "version": "3.0.0-beta3",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruux/sabre-dav.git",
-                "reference": "172f3b99050d6cb70823dd666e990e9696f96440"
+                "reference": "e15b1e6642a89eeeba40ffbe1fd2a377c01ecbe5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruux/sabre-dav/zipball/172f3b99050d6cb70823dd666e990e9696f96440",
-                "reference": "172f3b99050d6cb70823dd666e990e9696f96440",
+                "url": "https://api.github.com/repos/fruux/sabre-dav/zipball/e15b1e6642a89eeeba40ffbe1fd2a377c01ecbe5",
+                "reference": "e15b1e6642a89eeeba40ffbe1fd2a377c01ecbe5",
                 "shasum": ""
             },
             "require": {
@@ -966,7 +966,7 @@
                 "framework",
                 "iCalendar"
             ],
-            "time": "2015-05-29 20:13:14"
+            "time": "2015-06-02 15:56:19"
         },
         {
             "name": "sabre/event",
@@ -2350,8 +2350,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "sabre/dav": 10,
-        "hoa/mail": 20,
         "sabre/cs": 20
     },
     "prefer-stable": false,
