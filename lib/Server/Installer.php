@@ -481,12 +481,12 @@ class Installer {
             ]);
 
             $statement = $database->prepare(
-                'INSERT INTO users (username, digesta1) ' .
-                'VALUES (:username, :digest)'
+                'INSERT INTO users (username, passwordhash) ' .
+                'VALUES (:username, :passwordhash)'
             );
             $statement->execute([
                 'username' => $login,
-                'digest'   => $digest
+                'passwordhash'   => $digest
             ]);
         } catch (PDOException $exception) {
             throw new Exception\Installation(
