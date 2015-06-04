@@ -266,7 +266,7 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
         ) {
             ob_start();
 
-            require 'katana://views/caldav_scheduling.txt';
+            require 'katana://resource/view/caldav_scheduling.txt';
             $out = ob_get_contents();
             ob_end_clean();
 
@@ -288,7 +288,7 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
         ) {
             ob_start();
 
-            require 'katana://views/caldav_scheduling.html';
+            require 'katana://resource/view/caldav_scheduling.html';
             $out = ob_get_contents();
             ob_end_clean();
 

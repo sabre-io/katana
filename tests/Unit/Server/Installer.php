@@ -543,7 +543,7 @@ class Installer extends Suite
                 ->string($content['base_url'])
                     ->isEqualTo('/')
                 ->string($content['database']['dsn'])
-                    ->matches('#^sqlite:katana://data/variable/database/katana_\d+\.sqlite#')
+                    ->matches('#^sqlite:katana://data/database/katana_\d+\.sqlite#')
                 ->string($content['database']['username'])
                     ->isEqualTo('foo')
                 ->string($content['database']['password'])
@@ -817,7 +817,7 @@ class Installer extends Suite
             ->when($result = CUT::createConfigurationFile($filename, $content))
             ->then
                 ->string($result->database->dsn)
-                    ->matches('#^sqlite:katana://data/variable/database/katana_\d+\.sqlite#');
+                    ->matches('#^sqlite:katana://data/database/katana_\d+\.sqlite#');
     }
 
     /**

@@ -53,7 +53,7 @@ class Server {
      *
      * @const string
      */
-    const CONFIGURATION_FILE  = 'katana://data/etc/configuration/server.json';
+    const CONFIGURATION_FILE  = 'katana://data/configuration/server.json';
 
     /**
      * sabre/dav server.

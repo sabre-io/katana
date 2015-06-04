@@ -338,7 +338,7 @@ class Installer {
             case 'sqlite':
                 $dsn = sprintf(
                     'sqlite:%s_%d.sqlite',
-                    'katana://data/variable/database/katana',
+                    'katana://data/database/katana',
                     time()
                 );
                 break;

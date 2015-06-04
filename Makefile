@@ -24,11 +24,11 @@ build-client: build-semantic-ui build-moment
 
 build-semantic-ui:
 	node_modules/.bin/gulp \
-		--gulpfile views/semantic-ui/gulpfile.js \
-		--cwd views/semantic-ui/ \
+		--gulpfile resource/view/semantic-ui/gulpfile.js \
+		--cwd resource/view/semantic-ui/ \
 		build
 	cp -v -r \
-		views/semantic-ui/dist/themes/default/assets/fonts \
+		resource/view/semantic-ui/dist/themes/default/assets/fonts \
 		public/static/vendor/semantic-ui
 
 build-moment:
@@ -41,7 +41,7 @@ clean:
 	find . -name ".DS_Store" | \
 		xargs rm -f
 	rm -rf node_modules
-	rm -rf views/semantic-ui/dist/
+	rm -rf resource/view/semantic-ui/dist/
 	find public/static/vendor/ember \
 		-type f \
 		-not -name 'ember.js' -and \
@@ -74,7 +74,7 @@ clean:
 		-not -name 'jquery.min.js' -and \
 		-not -name 'jquery.min.map' | \
 			xargs rm -rf
-	rm -f data/variable/log/*.log
+	rm -f data/log/*.log
 
 distclean: clean distclean-server distclean-client
 
@@ -93,10 +93,10 @@ uninstall:
 	@echo 'You are going to uninstall sabre/katana and lose everything!'
 	@read -p 'Are you sure? [Y/n] ' go; \
 		if [[ 'Y' = $$go ]]; then \
-			echo 'Remove data/etc/configuration/server.json'; \
-			rm -f data/etc/configuration/server.json; \
-			echo 'Remove data/variable/database/katana_*.sqlite'; \
-			rm -f data/variable/database/katana_*.sqlite; \
+			echo 'Remove data/configuration/server.json'; \
+			rm -f data/configuration/server.json; \
+			echo 'Remove data/database/katana_*.sqlite'; \
+			rm -f data/database/katana_*.sqlite; \
 			echo 'Remove data/home/*'; \
 			find data/home -type d -depth 1 | \
 				xargs rm -rf; \

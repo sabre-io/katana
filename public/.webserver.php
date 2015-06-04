@@ -1,1 +1,1 @@
-../data/etc/configuration/http_servers/built-in.php
+../resource/default/http_server/built-in.php

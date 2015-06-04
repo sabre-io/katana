@@ -50,9 +50,9 @@ class Protocol extends Suite
                     );
     }
 
-    function case_application_views() {
+    function case_application_resource() {
         $this
-            ->given($path = 'katana://views/')
+            ->given($path = 'katana://resource/')
             ->when($result = CUT::realPath($path))
             ->then
                 ->string($result)
@@ -61,7 +61,7 @@ class Protocol extends Suite
                             __DIR__ . DS .
                             '..' . DS .
                             '..' . DS .
-                            'views'
+                            'resource'
                         ) . DS
                     );
     }

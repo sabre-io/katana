@@ -58,7 +58,7 @@ if (true === Installer::isInstalled()) {
  * If dependencies have not been installed, we print a specific message.
  */
 if (true === Installer::isDirectoryEmpty('katana://public/static/vendor/')) {
-    echo file_get_contents('katana://views/install_bower.html');
+    echo file_get_contents('katana://resource/view/install_bower.html');
 
     return;
 }
@@ -72,7 +72,7 @@ $view = function($directoryName, $directory) {
     $groupId     = getmygid();
     $permissions = $directory->getReadablePermissions();
 
-    require 'katana://views/install_permissions.html';
+    require 'katana://resource/view/install_permissions.html';
 };
 
 $dataDirectory = new File\Directory('katana://data/');
@@ -254,5 +254,5 @@ if (false !== $pos = strpos($url, '?')) {
     $dispatcher->dispatch($router);
 
 } else {
-    echo file_get_contents('katana://views/install.html');
+    echo file_get_contents('katana://resource/view/install.html');
 }

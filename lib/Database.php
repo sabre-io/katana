@@ -67,7 +67,7 @@ class Database extends PDO {
         $driverName = $this->getAttribute($this::ATTR_DRIVER_NAME);
         $finder     = new Finder();
         $finder
-            ->in('katana://data/variable/database/templates/')
+            ->in('katana://resource/default/database/')
             ->name('/\.' . $driverName . '\.sql$/');
 
         return $finder;

@@ -1,5 +1,5 @@
 # Composer
-vendor/
+vendor/*
 
 # Composer binaries
 bin/atoum
@@ -17,16 +17,16 @@ public/static/vendor/
 
 # NPM
 node_modules/
-views/semantic-ui/dist/
+resource/views/semantic-ui/dist/
 
 # Vim
 .*.swp
 
 # Katana
-data/etc/configuration/server.json
+data/configuration/server.json
+data/database/katana_*.sqlite
 data/home/*
-data/share/*.zip
+data/log/*.log
 data/share/*.phar
+data/share/*.zip
 data/share/update/
-data/variable/database/katana_*.sqlite
-data/variable/log/*.log

@@ -58,15 +58,15 @@ $autoloader = require_once $autoloadFile;
  * Configure hoa:// (basis of katana://).
  */
 Core::getInstance()->initialize([
-    'root.application'     => __DIR__ . DS,
-    'root.data'            => __DIR__ . DS . 'data' . DS,
-    'protocol.bin'         => '(:%root.application:)' . 'bin' . DS,
-    'protocol.data'        => '(:%root.data:)',
-    'protocol.data/lib'    => "\r" . '(:%root.application:)' . 'vendor' . DS,
-    'protocol.lib'         => '(:%root.application:)' . 'lib' . DS,
-    'protocol.public'      => '(:%root.application:)' . 'public' . DS,
-    'protocol.tests'       => '(:%root.application:)' . 'tests' . DS,
-    'protocol.views'       => '(:%root.application:)' . 'views' . DS
+    'root.application'  => __DIR__ . DS,
+    'root.data'         => __DIR__ . DS . 'data' . DS,
+    'protocol.bin'      => '(:%root.application:)' . 'bin' . DS,
+    'protocol.data'     => '(:%root.data:)',
+    'protocol.data/lib' => "\r" . '(:%root.application:)' . 'vendor' . DS,
+    'protocol.lib'      => '(:%root.application:)' . 'lib' . DS,
+    'protocol.public'   => '(:%root.application:)' . 'public' . DS,
+    'protocol.resource' => __DIR__ . DS . 'resource' . DS,
+    'protocol.tests'    => '(:%root.application:)' . 'tests' . DS
 ]);
 
 /**
@@ -102,7 +102,7 @@ event('hoa://Event/Exception')->attach(
     function(Core\Event\Bucket $bucket) {
         $exception = $bucket->getData();
         $filename  = date('Ymd') . '.exceptions.log';
-        $file      = new File\Write('katana://data/variable/log/' . $filename);
+        $file      = new File\Write('katana://data/log/' . $filename);
 
         $exceptionFile = $exception->getFile();
         $prefixLength  = strlen(SABRE_KATANA_PREFIX);
