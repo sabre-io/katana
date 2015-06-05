@@ -45,10 +45,7 @@ $response = new HTTP\Response();
  */
 if (true === Installer::isInstalled()) {
 
-    $configuration = new Configuration(Server::CONFIGURATION_FILE);
-
-    Installer::redirectToIndex($response, $configuration);
-    HTTP\Sapi::sendResponse($response);
+    echo file_get_contents('katana://resource/view/install_done.html');
 
     return;
 
