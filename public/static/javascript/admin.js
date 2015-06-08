@@ -1081,7 +1081,10 @@ Katana.SettingsController = Ember.Controller.extend({
                                 'positiveAlert',
                                 'Mail sent!',
                                 'Now go check the mail inbox of the ' +
-                                '<strong>' + model.mail_username + '</strong> user.'
+                                '<strong>' + model.mail_username + '</strong> ' +
+                                'user.<br />' +
+                                'Do not forget to save the configurations ' +
+                                'if needed!'
                             );
                             self.set('loading', false);
                         },
