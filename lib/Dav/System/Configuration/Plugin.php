@@ -166,8 +166,8 @@ class Plugin extends SabreDav\ServerPlugin {
             );
 
             $message            = new Mail\Message();
-            $message['from']    = 'sabre/katana <' . $this->configuration->mail->username . '>';
-            $message['to']      = $this->configuration->mail->username;
+            $message['from']    = 'sabre/katana <' . $payload->username . '>';
+            $message['to']      = $payload->username;
             $message['subject'] = 'Test mail from sabre/katana';
 
             $message->addContent(
