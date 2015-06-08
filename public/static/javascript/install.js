@@ -42,6 +42,7 @@
         databaseName    : '',
         databaseUsername: '',
         databasePassword: '',
+        databaseError   : null,
         submitting      : false,
 
         showMySQLPanel  : false,
@@ -82,7 +83,7 @@
                 .postJSON('?/baseurl', this.get('baseUrl'))
                 .done(function(verdict) {
 
-                    self.set('invalidBaseUrl', false === verdict);
+                    self.set('invalidBaseUrl', true !== verdict);
                     self.validate();
 
                     return;
@@ -106,7 +107,7 @@
                 .postJSON('?/password', password + passwordBis)
                 .done(function(verdict) {
 
-                    self.set('invalidPassword', false === verdict);
+                    self.set('invalidPassword', true !== verdict);
                     self.validate();
 
                     return;
@@ -130,7 +131,7 @@
                 .postJSON('?/email', email + emailBis)
                 .done(function(verdict) {
 
-                    self.set('invalidEmail', false === verdict);
+                    self.set('invalidEmail', true !== verdict);
                     self.validate();
 
                     return;
@@ -157,7 +158,13 @@
                 )
                 .done(function(verdict) {
 
-                    self.set('invalidDatabase', false === verdict);
+                    self.set('invalidDatabase', true !== verdict);
+                    self.set('databaseError',   null);
+
+                    if (true !== verdict && verdict.error) {
+                        self.set('databaseError', verdict.error);
+                    }
+
                     self.validate();
 
                 });

@@ -156,7 +156,9 @@ if (false !== $pos = strpos($url, '?')) {
                     try {
                         $out = Installer::checkDatabase($payload);
                     } catch (\Exception $exception) {
-                        $out = false;
+                        $out = [
+                            'error' => $exception->getMessage()
+                        ];
                     }
                 }
 
