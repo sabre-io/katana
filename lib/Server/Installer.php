@@ -259,10 +259,28 @@ class Installer {
                 );
             }
 
+            $statement = $database->prepare(
+                'SELECT COUNT(DISTINCT table_name) ' .
+                'FROM information_schema.columns ' .
+                'WHERE table_schema = :database'
+            );
+            $statement->execute([
+                'database' => $parameters['name']
+            ]);
+
+            if (0 < $statement->fetchColumn()) {
+                throw new Exception\Installation(
+                    'Database `%s` is not empty. An empty database is ' .
+                    'required to install sabre/katana.',
+                    3,
+                    $parameters['name']
+                );
+            }
+
         } else {
             throw new Exception\Installation(
                 'Unknown database %s.',
-                3,
+                4,
                 $parameters['driver']
             );
         }
@@ -301,7 +319,7 @@ class Installer {
             throw new Exception\Installation(
                 'Configuration content is corrupted. Expect at least ' .
                 'a base URL, a database driver, username and password.',
-                4
+                5
             );
         }
 
@@ -312,14 +330,14 @@ class Installer {
             throw new Exception\Installation(
                 'Configuration content is corrupted for MySQL. Expect ' .
                 'at least a host, a port and a name.',
-                5
+                6
             );
         }
 
         if (false === static::checkBaseUrl($content['baseUrl'])) {
             throw new Exception\Installation(
                 'Base URL is not well-formed, given %s.',
-                5,
+                6,
                 $content['baseUrl']
             );
         }
@@ -346,7 +364,7 @@ class Installer {
             default:
                 throw new Exception\Installation(
                     'Unknown database %s.',
-                    6,
+                    7,
                     $content['database']['driver']
                 );
 
@@ -377,7 +395,7 @@ class Installer {
         if (!isset($configuration->database)) {
             throw new Exception\Installation(
                 'Configuration is corrupted, the database branch is missing.',
-                7
+                8
             );
         }
 
@@ -390,7 +408,7 @@ class Installer {
         } catch (PDOException $exception) {
             throw new Exception\Installation(
                 'Cannot create the database.',
-                8,
+                9,
                 null,
                 $exception
             );
@@ -407,7 +425,7 @@ class Installer {
                 if (false === $verdict) {
                     throw new PDOException(
                         'Unable to execute the following schema:' . "\n" . '%s',
-                        9,
+                        10,
                         $schema
                     );
                 }
@@ -418,7 +436,7 @@ class Installer {
         } catch (PDOException $exception) {
             throw new Exception\Installation(
                 'An error occured while setting up the database.',
-                10,
+                11,
                 null,
                 $exception
             );
@@ -446,15 +464,15 @@ class Installer {
         $login = Server::ADMINISTRATOR_LOGIN;
 
         if (false === static::checkLogin($login)) {
-            throw new Exception\Installation('Login is invalid.', 12);
+            throw new Exception\Installation('Login is invalid.', 13);
         }
 
         if (false === static::checkEmail($email . $email)) {
-            throw new Exception\Installation('Email is invalid.', 13);
+            throw new Exception\Installation('Email is invalid.', 14);
         }
 
         if (false === static::checkPassword($password . $password)) {
-            throw new Exception\Installation('Password is invalid.', 14);
+            throw new Exception\Installation('Password is invalid.', 15);
         }
 
         $digest = User::hashPassword($password);
@@ -491,7 +509,7 @@ class Installer {
         } catch (PDOException $exception) {
             throw new Exception\Installation(
                 'An error occured while creating the administrator profile.',
-                15,
+                16,
                 null,
                 $exception
             );
