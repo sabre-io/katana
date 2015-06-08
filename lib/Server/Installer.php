@@ -424,9 +424,9 @@ class Installer {
 
                 if (false === $verdict) {
                     throw new PDOException(
-                        'Unable to execute the following schema:' . "\n" . '%s',
-                        10,
-                        $schema
+                        'Unable to execute the following schema:' . "\n" .
+                        $schema,
+                        10
                     );
                 }
 
