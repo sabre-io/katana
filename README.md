@@ -171,7 +171,7 @@ to create an executable PHAR archive.
 ## Supported technologies
 
 So far, sabre/katana can be installed with [SQLite] or [MySQL]. It works in all
-major browsers, except IE9 (we are working on it).
+major browsers, except prior versions of IE9.
 
 ## Build status
 

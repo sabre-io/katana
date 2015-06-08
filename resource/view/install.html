@@ -2,7 +2,10 @@
 
 <!DOCTYPE html>
 
+<!--[if lt IE 9]><html lang="en" class="bad-browser"><![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
 <html lang="en">
+<!--<![endif]-->
 <head>
   <title>Installation of sabre/katana</title>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -16,6 +19,15 @@
   <link rel="stylesheet" href="static/css/ui.css" type="text/css" />
 </head>
 <body>
+
+<div class="when-bad-browser">
+  <p style="color: #fff; text-align: center; padding: 2em; background: #f00">
+    <strong style="display: block">You are apparently using a prior version of
+    Internet Explorer 9.</strong>
+    We cannot guarantee sabre/katana to work safely and properly. We advice you
+    to update your browser or to download another more recent one.
+  </p>
+</div>
 
 <script type="text/x-handlebars">
   <header>
