@@ -378,9 +378,9 @@ class Install extends AbstractCommand {
                 echo
                     'Choose MySQL host:                 ', $input(), "\n",
                     'Choose MySQL port:                 ', $input('3306'), "\n",
-                    'Choose MySQL database name:        ', $input(), "\n",
                     'Choose MySQL username:             ', $input(), "\n",
-                    'Choose MySQL password:             ', $input(), "\n";
+                    'Choose MySQL password:             ', $input(), "\n",
+                    'Choose MySQL database name:        ', $input(), "\n";
 
                 Window::scroll('↑', 10);
                 Cursor::move('↑', 10);
@@ -428,17 +428,8 @@ class Install extends AbstractCommand {
                 '3306'
             );
 
-            $form['database']['name'] = $step(
-                2,
-                'Choose MySQL database name',
-                function() {
-                    return true;
-                },
-                ''
-            );
-
             $form['database']['username'] = $step(
-                3,
+                2,
                 'Choose MySQL username',
                 function() {
                     return true;
@@ -449,7 +440,7 @@ class Install extends AbstractCommand {
             $oldReadline = $readline;
             $readline    = new Console\Readline\Password();
             $form['database']['password'] = $step(
-                4,
+                3,
                 'Choose MySQL password',
                 function() {
                     return true;
@@ -457,6 +448,15 @@ class Install extends AbstractCommand {
                 ''
             );
             $readline = $oldReadline;
+
+            $form['database']['name'] = $step(
+                3,
+                'Choose MySQL database name',
+                function() {
+                    return true;
+                },
+                ''
+            );
 
         }
 
