@@ -51,8 +51,11 @@
         {{/if}}
         {{#if invalidDatabase}}
           <div class="ui error message">
-            <div class="header">Database is invalid</div>
+            <div class="header">Database parameters are invalids</div>
             <p>The given database parameters seem invalid.</p>
+            {{#if databaseError}}
+              <p>Underlying error: <strong>{{databaseError}}</strong></p>
+            {{/if}}
           </div>
         {{/if}}
       {{/unless}}
