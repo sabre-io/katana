@@ -1127,16 +1127,16 @@
         },
         {
             "name": "sabre/vobject",
-            "version": "3.4.4",
+            "version": "3.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruux/sabre-vobject.git",
-                "reference": "e4489add45181fc94d07c3f7938646ab8467ddca"
+                "reference": "75bd5ee4cea8138125ead50f5a3828b708a611ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruux/sabre-vobject/zipball/e4489add45181fc94d07c3f7938646ab8467ddca",
-                "reference": "e4489add45181fc94d07c3f7938646ab8467ddca",
+                "url": "https://api.github.com/repos/fruux/sabre-vobject/zipball/75bd5ee4cea8138125ead50f5a3828b708a611ae",
+                "reference": "75bd5ee4cea8138125ead50f5a3828b708a611ae",
                 "shasum": ""
             },
             "require": {
@@ -1189,7 +1189,7 @@
                 "jCard",
                 "vCard"
             ],
-            "time": "2015-05-27 15:14:36"
+            "time": "2015-06-02 15:44:08"
         },
         {
             "name": "sabre/xml",
