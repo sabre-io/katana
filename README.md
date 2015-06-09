@@ -1,8 +1,11 @@
 # ![K (sabre/katana's logo)](public/static/image/katana_logo_full.png)
 
-sabre/katana is a [CardDAV], [CalDAV] and [WebDAV] ready-to-use server on top of
-[sabre/dav]. It means you can have your own **address book**, **calendar**,
-**task list** and **file** server in a minute, robust, safe and secure.
+sabre/katana is a **contact**, **calendar**, **task list** and **file** server.
+Based on world-widely used standards (respectively [CardDAV], [CalDAV] and
+[WebDAV]), sabre/katana will sync your data between **any devices**, from
+**everywhere**, **every time**. Let's manage users and their data in a minute.
+sabre/katana is powered by sabre/dav, an open source technology trusted by the
+likes of [Atmail], [Box], [fruux] and [ownCloud].
 
 ## Features
 
@@ -18,44 +21,59 @@ More than 35 RFCs are supported. See [the exhaustive list of all supported
 standars][sabre_standards]. This includes: vCard 4.0, iCalendar 2.0, jCal,
 jCard, iTip, iMip, ACL etc.
 
-sabre/katana is powered by [sabre/dav], an open source [CardDAV], [CalDAV]
-and [WebDAV] technology, trusted by the likes of [Atmail], [Box], [fruux]
-and [ownCloud].
+Overview of features:
+
+  * WebDAV: Principals, users, HTTP authentification, ACL and synchronization,
+  * Address books: VCF export,
+  * Calendars: ICS export, scheduling (iTIP and iMIP, respectively invite
+    attendees that are registered on your server or not),
+  * Task lists: ICS export,
+  * Files: Home collection, public directory, locks.
 
 ### Screenshots
 
 Easy installation through a wizzard:
 
-![Installation in the browser](https://farm8.staticflickr.com/7765/17197365573_d88bc779c0_z.jpg)
+![Installation in the browser](https://farm8.staticflickr.com/7765/17197365573_471d88c2d2_z.jpg?1)
 
 You are also able to install in CLI:
 
-![Installation in the terminal](https://farm6.staticflickr.com/5337/17818002185_c1762109a7_z.jpg)
+![Installation in the terminal](https://farm6.staticflickr.com/5337/17818002185_c1762109a7_z.jpg?1)
 
-The login page, first step to manage your katana server:
+The login page, first step to manage your sabre/katana server:
 
-![Login page](https://farm6.staticflickr.com/5348/17791399666_1ab9b16650_z.jpg)
+![Login page](https://farm6.staticflickr.com/5348/17791399666_844d2b2248_z.jpg?2)
 
 List of users on the left:
 
-![List of users](https://farm9.staticflickr.com/8793/17195211304_e817bdab41_z.jpg)
+![List of users](https://farm9.staticflickr.com/8793/17195211304_018fb26eb6_z.jpg?3)
 
-When creating a new user, 1 address book, 2 calendars and 1 task list will be
-automatically created:
+When creating a new user, 1 address book, 2 calendars, 1 task list and 1 home
+collection (with a public directory) will be automatically created:
 
-![New user](https://farm6.staticflickr.com/5350/17818186851_54701e9e3a_z.jpg)
+![New user](https://farm6.staticflickr.com/5350/17818186851_6a38c97922_z.jpg?4)
 
 You are able to create, edit, delete or download address books:
 
-![List of address books](https://farm8.staticflickr.com/7689/17629907698_feab109bd6_z.jpg)
+![List of address books](https://farm8.staticflickr.com/7689/17629907698_cc1d9ea936_z.jpg?4)
 
 You are also able to create, edit, delete or download calendars and task lists:
 
-![List of calendars](https://farm9.staticflickr.com/8846/17630174780_764b8d099f_z.jpg)
+![List of calendars](https://farm9.staticflickr.com/8846/17630174780_0126895a26_z.jpg?6)
 
-You can explore the “home” of a user:
+You can explore the home collection of a user. Notice the public directory,
+files put inside are accessible to anyone but no listing is available:
 
-![List of files](https://farm6.staticflickr.com/5334/17818198201_ed04f256e3_z.jpg)
+![List of files](https://farm6.staticflickr.com/5334/17818198201_5707937101_z.jpg?6)
+
+Manage your settings easily:
+
+![Settings](https://farm9.staticflickr.com/8842/18628078892_ce96ca45e2_z.jpg?9)
+
+Attendees can be invited to an event even if they are not registered on your
+sabre/katana server by automatically sending an email:
+
+![Invite_attendees_by_email](https://farm1.staticflickr.com/360/18010516654_d406c92b50_z.jpg?8)
 
 ## Install
 
