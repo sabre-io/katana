@@ -148,10 +148,15 @@ class Plugin extends SabreDav\ServerPlugin {
             return false;
         }
 
-        $directory = new HoaFile\Directory($this->storagePath . DS . $principalName);
-        $out       = $directory->delete();
+        $out  = true;
+        $path = $this->storagePath . DS . $principalName;
 
-        $directory->close();
+        if (is_dir($path)) {
+            $directory = new HoaFile\Directory($this->storagePath . DS . $principalName);
+            $out       = $directory->delete();
+
+            $directory->close();
+        }
 
         return $out;
     }
