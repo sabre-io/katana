@@ -1,6 +1,22 @@
 ChangeLog
 =========
 
+0.3.0 (2015-05-09)
+------------------
+
+* [#259](https://github.com/fruux/sabre-katana/pull/259) Print an error message if prior versions of IE9 ([@Hywan]).
+* [#258](https://github.com/fruux/sabre-katana/pull/258) Better database error feedbacks while installing ([@Hywan]).
+* [#257](https://github.com/fruux/sabre-katana/pull/257) No longer redirect when trying to re-install ([@Hywan]).
+* [#256](https://github.com/fruux/sabre-katana/pull/256) New architecture: `data/` is the only writable directory ([@Hywan]).
+* [#254](https://github.com/fruux/sabre-katana/pull/254) Use `sabre/dav` 3.0 ([@Hywan]).
+* [#249](https://github.com/fruux/sabre-katana/pull/249) Add the Settings panel ([@Hywan]).
+* [#248](https://github.com/fruux/sabre-katana/pull/248) Better compatibility with PHP7 ([@Hywan]).
+* [#244](https://github.com/fruux/sabre-katana/pull/244) Add CalDAV scheduling support (iMIP) ([@Hywan]).
+* [#243](https://github.com/fruux/sabre-katana/pull/243) Add CalDAV scheduling support (iTIP) ([@Hywan]).
+* [#242](https://github.com/fruux/sabre-katana/pull/242) Serve files with appropriated MIME type ([@Hywan]).
+* [#239](https://github.com/fruux/sabre-katana/pull/239) Each principal has a `public/` directory in their home ([@Hywan]).
+* [#233](https://github.com/fruux/sabre-katana/issues/233) Collection synchronization ([@Hywan]).
+
 0.2.0 (2015-05-18)
 ------------------
 
@@ -8,7 +24,7 @@ ChangeLog
 * [#221](https://github.com/fruux/sabre-katana/pull/221) Passwords schema updated for MySQL ([@Hywan]).
 * [#216](https://github.com/fruux/sabre-katana/pull/216) Better password and email error detection when installing ([@Hywan]).
 * [#213](https://github.com/fruux/sabre-katana/pull/213) New `system` plugin ([@Hywan]).
-* [#211](https://github.com/fruux/sabre-katana/pull/208) WebDAV support ([@Hywan]).
+* [#211](https://github.com/fruux/sabre-katana/pull/211) WebDAV support ([@Hywan]).
 * [#208](https://github.com/fruux/sabre-katana/pull/208) Show instructions for DAV clients ([@Hywan]).
 * [#205](https://github.com/fruux/sabre-katana/pull/205) Address books can be created, edited, deleted and exported ([@Hywan]).
 * [#198](https://github.com/fruux/sabre-katana/pull/198) Task lists can be created, edited, deleted and exported ([@Hywan]).
