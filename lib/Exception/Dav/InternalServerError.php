@@ -33,6 +33,7 @@ class InternalServerError extends Exception {
      * Return the HTTP sttus code for this exception.
      */
     function getHTTPCode() {
+
         return 500;
     }
 }

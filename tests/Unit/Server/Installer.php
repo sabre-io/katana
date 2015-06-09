@@ -38,8 +38,8 @@ use Sabre\HTTP;
  *
  * @tags installation
  */
-class Installer extends Suite
-{
+class Installer extends Suite {
+
     protected $defaultConfiguration = [
         'baseUrl'          => '/',
         'database'         => [
@@ -49,8 +49,8 @@ class Installer extends Suite
         ]
     ];
 
-    function case_is_installed()
-    {
+    function case_is_installed() {
+
         $this
             ->given($this->function->file_exists = true)
             ->when($result = CUT::isInstalled())
@@ -59,8 +59,8 @@ class Installer extends Suite
                     ->isTrue();
     }
 
-    function case_is_not_installed()
-    {
+    function case_is_not_installed() {
+
         $this
             ->given($this->function->file_exists = false)
             ->when($result = CUT::isInstalled())
@@ -72,8 +72,8 @@ class Installer extends Suite
     /**
      * @tags installation http
      */
-    function case_redirect_to_index()
-    {
+    function case_redirect_to_index() {
+
         $this
             ->given(
                 $configuration = new Configuration(
@@ -100,8 +100,8 @@ class Installer extends Suite
     /**
      * @tags installation http
      */
-    function case_redirect_to_install()
-    {
+    function case_redirect_to_install() {
+
         $this
             ->given(
                 $request  = new HTTP\Request(null, '/mybase/foo'),
@@ -120,8 +120,8 @@ class Installer extends Suite
                     ->isNotEmpty();
     }
 
-    function case_check_correct_base_url()
-    {
+    function case_check_correct_base_url() {
+
         $this
             ->given($_baseUrl = $this->realdom->regex('#^/(.+/)?$#'))
             ->when(function() use ($_baseUrl) {
@@ -133,8 +133,8 @@ class Installer extends Suite
             });
     }
 
-    function case_check_incorrect_base_url()
-    {
+    function case_check_incorrect_base_url() {
+
         $this
             ->given($_baseUrl = $this->realdom->regex('#[^/].+[^/]$#'))
             ->when(function() use ($_baseUrl) {
@@ -149,8 +149,8 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    function case_check_correct_login()
-    {
+    function case_check_correct_login() {
+
         $this
             ->given($login = '💩')
             ->when($result = CUT::checkLogin($login))
@@ -162,8 +162,8 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    function case_check_incorrect_login()
-    {
+    function case_check_incorrect_login() {
+
         $this
             ->given($login = '')
             ->when($result = CUT::checkLogin($login))
@@ -175,8 +175,8 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    function case_check_correct_password()
-    {
+    function case_check_correct_password() {
+
         $this
             ->given($_password = $this->realdom->regex('#[\w\d_!\-@💩]+#'))
             ->when(function() use ($_password) {
@@ -192,8 +192,8 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    function case_check_incorrect_empty_password()
-    {
+    function case_check_incorrect_empty_password() {
+
         $this
             ->given($password = '')
             ->when($result = CUT::checkPassword($password . $password))
@@ -211,8 +211,8 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    function case_check_incorrect_unmatched_password()
-    {
+    function case_check_incorrect_unmatched_password() {
+
         $this
             ->given(
                 $passwords = [
@@ -235,8 +235,8 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    function case_check_correct_email()
-    {
+    function case_check_correct_email() {
+
         $this
             ->given($_email = $this->realdom->regex('#\w[\w\d\-_]+[\w\d]@[a-zA-Z\d]\.(com|net|org)#'))
             ->when(function() use ($_email) {
@@ -252,8 +252,8 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    function case_check_incorrect_empty_email()
-    {
+    function case_check_incorrect_empty_email() {
+
         $this
             ->given($email = '')
             ->when($result = CUT::checkEmail($email . $email))
@@ -271,8 +271,8 @@ class Installer extends Suite
     /**
      * @tags installation authentication
      */
-    function case_check_incorrect_unmatched_email()
-    {
+    function case_check_incorrect_unmatched_email() {
+
         $this
             ->given(
                 $emails = [
@@ -295,8 +295,8 @@ class Installer extends Suite
     /**
      * @tags installation database
      */
-    function case_check_database_driver_is_empty()
-    {
+    function case_check_database_driver_is_empty() {
+
         $this
             ->given(
                 $parameters = [
@@ -317,8 +317,8 @@ class Installer extends Suite
     /**
      * @tags installation database
      */
-    function case_check_database_host_is_required()
-    {
+    function case_check_database_host_is_required() {
+
         $this
             ->given(
                 $parameters = [
@@ -338,8 +338,8 @@ class Installer extends Suite
     /**
      * @tags installation database
      */
-    function case_check_database_port_is_required()
-    {
+    function case_check_database_port_is_required() {
+
         $this
             ->given(
                 $parameters = [
@@ -359,8 +359,8 @@ class Installer extends Suite
     /**
      * @tags installation database
      */
-    function case_check_database_name_is_required()
-    {
+    function case_check_database_name_is_required() {
+
         $this
             ->given(
                 $parameters = [
@@ -380,8 +380,8 @@ class Installer extends Suite
     /**
      * @tags installation database
      */
-    function case_check_database_username_is_required()
-    {
+    function case_check_database_username_is_required() {
+
         $this
             ->given(
                 $parameters = [
@@ -401,8 +401,8 @@ class Installer extends Suite
     /**
      * @tags installation database
      */
-    function case_check_database_password_is_required()
-    {
+    function case_check_database_password_is_required() {
+
         $this
             ->given(
                 $parameters = [
@@ -422,8 +422,8 @@ class Installer extends Suite
     /**
      * @tags installation database
      */
-    function case_check_database_unavailable_driver()
-    {
+    function case_check_database_unavailable_driver() {
+
         $this
             ->given(
                 $parameters = [
@@ -445,8 +445,8 @@ class Installer extends Suite
     /**
      * @tags installation database sqlite
      */
-    function case_check_database_sqlite()
-    {
+    function case_check_database_sqlite() {
+
         $this
             ->given(
                 $parameters = [
@@ -467,8 +467,8 @@ class Installer extends Suite
     /**
      * @tags installation database mysql
      */
-    function case_check_database_mysql_bad_parameters()
-    {
+    function case_check_database_mysql_bad_parameters() {
+
         $this
             ->given(
                 $parameters = [
@@ -489,8 +489,8 @@ class Installer extends Suite
     /**
      * @tags installation database mysql
      */
-    function case_check_database_mysql()
-    {
+    function case_check_database_mysql() {
+
         $this
             ->given(
                 $parameters = [
@@ -511,8 +511,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration
      */
-    function case_create_configuration_file()
-    {
+    function case_create_configuration_file() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -553,8 +553,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration
      */
-    function case_create_configuration_file_base_url_is_required()
-    {
+    function case_create_configuration_file_base_url_is_required() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -570,8 +570,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration
      */
-    function case_create_configuration_file_base_url_is_not_well_formed()
-    {
+    function case_create_configuration_file_base_url_is_not_well_formed() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -587,8 +587,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database
      */
-    function case_create_configuration_file_database_is_required()
-    {
+    function case_create_configuration_file_database_is_required() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -604,8 +604,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database
      */
-    function case_create_configuration_file_database_driver_is_required()
-    {
+    function case_create_configuration_file_database_driver_is_required() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -621,8 +621,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database
      */
-    function case_create_configuration_file_database_driver_is_empty()
-    {
+    function case_create_configuration_file_database_driver_is_empty() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -638,8 +638,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database
      */
-    function case_create_configuration_file_database_username_is_required()
-    {
+    function case_create_configuration_file_database_username_is_required() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -655,8 +655,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database
      */
-    function case_create_configuration_file_database_password_is_required()
-    {
+    function case_create_configuration_file_database_password_is_required() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -672,8 +672,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    function case_create_configuration_file_database_mysql_host_is_required()
-    {
+    function case_create_configuration_file_database_mysql_host_is_required() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -691,8 +691,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    function case_create_configuration_file_database_mysql_empty_host()
-    {
+    function case_create_configuration_file_database_mysql_empty_host() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -711,8 +711,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    function case_create_configuration_file_database_mysql_port_is_required()
-    {
+    function case_create_configuration_file_database_mysql_port_is_required() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -730,8 +730,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    function case_create_configuration_file_database_mysql_empty_port()
-    {
+    function case_create_configuration_file_database_mysql_empty_port() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -750,8 +750,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    function case_create_configuration_file_database_mysql_name_is_required()
-    {
+    function case_create_configuration_file_database_mysql_name_is_required() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -769,8 +769,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    function case_create_configuration_file_database_mysql_empty_name()
-    {
+    function case_create_configuration_file_database_mysql_empty_name() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -789,8 +789,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database
      */
-    function case_create_configuration_file_database_unknown_driver()
-    {
+    function case_create_configuration_file_database_unknown_driver() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -806,8 +806,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database sqlite
      */
-    function case_create_configuration_file_database_sqlite_dsn()
-    {
+    function case_create_configuration_file_database_sqlite_dsn() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -823,8 +823,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    function case_create_configuration_file_database_mysql_dsn()
-    {
+    function case_create_configuration_file_database_mysql_dsn() {
+
         $this
             ->given(
                 $filename = $this->helper->configuration('configuration.json'),
@@ -843,8 +843,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database sqlite
      */
-    function case_create_sqlite_database()
-    {
+    function case_create_sqlite_database() {
+
         $this
             ->given(
                 $configuration = new Configuration(
@@ -898,8 +898,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database mysql
      */
-    function case_create_mysql_database()
-    {
+    function case_create_mysql_database() {
+
         $this
             ->given(
                 $databaseName  = $this->helper->mysql(),
@@ -952,8 +952,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database
      */
-    function case_create_database_broken_configuration()
-    {
+    function case_create_database_broken_configuration() {
+
         $this
             ->given(
                 $configuration = new Configuration(
@@ -972,8 +972,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database sqlite authentication administration
      */
-    function case_create_administrator_profile()
-    {
+    function case_create_administrator_profile() {
+
         $this
             ->given(
                 $configuration = new Configuration(
@@ -1069,8 +1069,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database sqlite authentication administration
      */
-    function case_create_administrator_profile_bad_email()
-    {
+    function case_create_administrator_profile_bad_email() {
+
         $this
             ->given(
                 $configuration = new Configuration(
@@ -1098,8 +1098,8 @@ class Installer extends Suite
     /**
      * @tags installation configuration database sqlite authentication administration
      */
-    function case_create_administrator_profile_bad_password()
-    {
+    function case_create_administrator_profile_bad_password() {
+
         $this
             ->given(
                 $configuration = new Configuration(
@@ -1124,16 +1124,14 @@ class Installer extends Suite
                 ->hasMessage('Password is invalid.');
     }
 
-    function remove(array &$array, $key1, $key2 = null)
-    {
-        if (isset($array[$key1])) {
+    function remove(array &$array, $key1, $key2 = null) {
 
+        if (isset($array[$key1])) {
             if (null !== $key2 && isset($array[$key1][$key2])) {
                 unset($array[$key1][$key2]);
             }
 
             unset($array[$key1]);
-
         }
     }
 }

@@ -67,7 +67,6 @@ class Directory extends SabreDavAcl\FS\Collection {
         if (is_dir($path)) {
             return new self($path, $this->acl, $this->owner);
         } else {
-
             $acl = $this->acl;
 
             if (true === $this->isPublic()) {

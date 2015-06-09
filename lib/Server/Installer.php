@@ -79,8 +79,8 @@ class Installer {
      * @param  Request   $request     HTTP request.
      * @return void
      */
-    static function redirectToInstall(Response $response, Request $request)
-    {
+    static function redirectToInstall(Response $response, Request $request) {
+
         list($dirname) = Uri\split($request->getUrl());
 
         $response->setStatus(307);
@@ -99,8 +99,8 @@ class Installer {
      * @param  string  $directory    Directory.
      * @return bool
      */
-    static function isDirectoryEmpty($directory)
-    {
+    static function isDirectoryEmpty($directory) {
+
         $iterator = new Iterator\CallbackFilter(
             new Iterator\FileSystem($directory),
             function(SplFileInfo $current) {
@@ -234,7 +234,6 @@ class Installer {
         if ('sqlite' === $parameters['driver']) {
             // Nothing.
         } elseif ('mysql' === $parameters['driver']) {
-
             $dsn = sprintf(
                 'mysql:host=%s;port=%d;dbname=%s',
                 $parameters['host'],
@@ -243,13 +242,11 @@ class Installer {
             );
 
             try {
-
                 $database = new Database(
                     $dsn,
                     $parameters['username'],
                     $parameters['password']
                 );
-
             } catch (PDOException $exception) {
                 throw new Exception\Installation(
                     'Cannot connect to the database.',
@@ -276,7 +273,6 @@ class Installer {
                     $parameters['name']
                 );
             }
-
         } else {
             throw new Exception\Installation(
                 'Unknown database %s.',
@@ -309,8 +305,8 @@ class Installer {
      * @return Configuration
      * @throw  Exception\Installation
      */
-    static function createConfigurationFile($filename, array $content)
-    {
+    static function createConfigurationFile($filename, array $content) {
+
         if (!isset($content['baseUrl']) ||
             !isset($content['database']) ||
             empty($content['database']['driver']) ||
@@ -343,7 +339,6 @@ class Installer {
         }
 
         switch ($content['database']['driver']) {
-
             case 'mysql':
                 $dsn = sprintf(
                     'mysql:host=%s;port=%d;dbname=%s',
@@ -367,7 +362,6 @@ class Installer {
                     7,
                     $content['database']['driver']
                 );
-
         }
 
         touch($filename);
@@ -390,8 +384,8 @@ class Installer {
      * @return Database
      * @throw  Exception\Installation
      */
-    static function createDatabase(Configuration $configuration)
-    {
+    static function createDatabase(Configuration $configuration) {
+
         if (!isset($configuration->database)) {
             throw new Exception\Installation(
                 'Configuration is corrupted, the database branch is missing.',
@@ -461,6 +455,7 @@ class Installer {
         $email,
         $password
     ) {
+
         $login = Server::ADMINISTRATOR_LOGIN;
 
         if (false === static::checkLogin($login)) {

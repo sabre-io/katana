@@ -33,10 +33,10 @@ use Sabre\Katana\Server\Installer as CUT;
  *
  * @tags installation configuration database sqlite mysql authentication administration
  */
-class Installer extends Suite
-{
-    function case_full_installation_with_sqlite()
-    {
+class Installer extends Suite {
+
+    function case_full_installation_with_sqlite() {
+
         $this
             ->given(
                 $payload = (object)[
@@ -56,8 +56,8 @@ class Installer extends Suite
             ->case_full_installation($payload);
     }
 
-    function case_full_installation_with_mysql()
-    {
+    function case_full_installation_with_mysql() {
+
         $this
             ->given(
                 $payload = (object)[
@@ -77,8 +77,8 @@ class Installer extends Suite
             ->case_full_installation($payload);
     }
 
-    protected function case_full_installation($payload)
-    {
+    protected function case_full_installation($payload) {
+
         $this
             ->when(
                 $configuration = CUT::createConfigurationFile(

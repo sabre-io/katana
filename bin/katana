@@ -34,7 +34,6 @@ use Hoa\Router;
  * @license GNU Affero General Public License, Version 3.
  */
 try {
-
     $router = new Router\Cli();
     $router
         ->get(
@@ -52,9 +51,7 @@ try {
     $dispatcher->setKitName('Hoa\Console\Dispatcher\Kit');
 
     exit((int)$dispatcher->dispatch($router));
-
 } catch (\Exception $e) {
-
     ob_start();
     Console\Cursor::colorize('foreground(white) background(red)');
     echo $e->getMessage(), "\n";
@@ -65,5 +62,4 @@ try {
     file_put_contents('php://stderr', $content);
 
     exit(1);
-
 }

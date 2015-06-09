@@ -31,6 +31,7 @@ use Hoa\Console;
  * @license GNU Affero General Public License, Version 3.
  */
 abstract class AbstractCommand extends Console\Dispatcher\Kit {
+
     /**
      * Main method.
      *

@@ -69,7 +69,6 @@ class Configuration implements JsonSerializable {
         $content        = file_get_contents($filename);
 
         if (empty($content) && true === $allowEmpty) {
-
             $this->configuration = new StdClass();
             return;
         }
@@ -77,7 +76,6 @@ class Configuration implements JsonSerializable {
         $decodedJson = @json_decode($content);
 
         if (!($decodedJson instanceof StdClass)) {
-
             if (is_array($decodedJson) && empty($decodedJson)) {
                 $decodedJson = new StdClass();
             } else {
@@ -87,7 +85,6 @@ class Configuration implements JsonSerializable {
                     $filename
                 );
             }
-
         }
 
         $this->configuration = $decodedJson;

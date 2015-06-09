@@ -53,8 +53,8 @@ class Plugin extends SabreDav\ServerPlugin {
      * @param  Database  $database    Database.
      * @return void
      */
-    function __construct(Database $database)
-    {
+    function __construct(Database $database) {
+
         $this->database = $database;
     }
 
@@ -66,8 +66,8 @@ class Plugin extends SabreDav\ServerPlugin {
      *
      * @return string
      */
-    function getPluginName()
-    {
+    function getPluginName() {
+
         return 'user';
     }
 
@@ -82,8 +82,8 @@ class Plugin extends SabreDav\ServerPlugin {
      *
      * @return array
      */
-    function getPluginInfo()
-    {
+    function getPluginInfo() {
+
         return [
             'name'        => $this->getPluginName(),
             'description' => 'User support.',
@@ -102,8 +102,8 @@ class Plugin extends SabreDav\ServerPlugin {
      * @param  SabreDav\Server $server    Server.
      * @return void
      */
-    function initialize(SabreDav\Server $server)
-    {
+    function initialize(SabreDav\Server $server) {
+
         $this->server = $server;
 
         $this->server->on('afterUnbind', [$this, 'afterUnbind']);
@@ -117,8 +117,8 @@ class Plugin extends SabreDav\ServerPlugin {
      * @param  string  $path    Path.
      * @return bool
      */
-    function afterUnbind($path)
-    {
+    function afterUnbind($path) {
+
         $username  = substr($path, strlen('principals/'));
         $database  = $this->database;
         $statement = $database->prepare(
@@ -136,8 +136,8 @@ class Plugin extends SabreDav\ServerPlugin {
      * @param  SabreDav\PropPatch  $propPatch    The `PROPPATCH` object.
      * @return void
      */
-    function propPatch($path, SabreDav\PropPatch $propPatch)
-    {
+    function propPatch($path, SabreDav\PropPatch $propPatch) {
+
         $username = substr($path, strlen('principals/'));
         $database = $this->database;
 
@@ -169,8 +169,8 @@ class Plugin extends SabreDav\ServerPlugin {
      * @param  string  $password    Password.
      * @return string
      */
-    static function hashPassword($password)
-    {
+    static function hashPassword($password) {
+
         return password_hash(
             $password,
             PASSWORD_DEFAULT,
@@ -187,8 +187,8 @@ class Plugin extends SabreDav\ServerPlugin {
      * @param  string  $hash        Password hashed.
      * @return bool
      */
-    static function checkPassword($password, $hash)
-    {
+    static function checkPassword($password, $hash) {
+
         return password_verify($password, $hash);
     }
 }

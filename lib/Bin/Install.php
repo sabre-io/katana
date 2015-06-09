@@ -55,7 +55,6 @@ class Install extends AbstractCommand {
 
         while (false !== $c = $this->getOption($v)) {
             switch ($c) {
-
                 case '__ambiguous':
                     $this->resolveOptionAmbiguity($v);
                     break;
@@ -68,15 +67,12 @@ class Install extends AbstractCommand {
                 case '?':
                 default:
                     return $this->usage();
-
             }
         }
 
         if (true === Installer::isInstalled()) {
-
             echo 'The application is already installed.', "\n";
             return 1;
-
         }
 
         $oldTitle = Window::getTitle();
@@ -99,7 +95,6 @@ class Install extends AbstractCommand {
         $readline = new Console\Readline();
 
         if (true === $verbose) {
-
             $windowWidth   = Window::getSize()['x'];
             $labelMaxWidth = 35;
             $inputMaxWidth = $windowWidth - $labelMaxWidth;
@@ -150,11 +145,9 @@ class Install extends AbstractCommand {
             $readline->addMapping("\e[B", $no_echo);
 
             $step = function($index, $label, callable $validator, $errorMessage, $default = '') use ($numberOfSteps, &$readline, $resetInput, $labelMaxWidth) {
-
                 Cursor::colorize('foreground(black) background(#cccccc)');
 
                 do {
-
                     $out = $readline->readLine();
 
                     if (empty($out)) {
@@ -164,7 +157,6 @@ class Install extends AbstractCommand {
                     $valid = $validator($out);
 
                     if (true !== $valid) {
-
                         Cursor::move('↑');
                         $resetInput($default);
                         Cursor::save();
@@ -180,16 +172,13 @@ class Install extends AbstractCommand {
                         echo $message;
 
                         Cursor::restore();
-
                     } else {
-
                         Cursor::save();
                         Cursor::move('LEFT');
                         Cursor::move('↓', $numberOfSteps - $index - 1);
                         Cursor::colorize('normal');
                         Cursor::clear('↓');
                         Cursor::restore();
-
                     }
 
                 } while (true !== $valid);
@@ -205,7 +194,6 @@ class Install extends AbstractCommand {
             };
 
             $progress = function($percent, $message) use ($windowWidth) {
-
                 static $margin = 4;
                 $barWidth      = $windowWidth - $margin * 2;
 
@@ -237,19 +225,14 @@ class Install extends AbstractCommand {
 
                 Cursor::colorize('normal');
                 sleep(1);
-
             };
-
         } else {
-
             echo
                 'Installation of sabre/' . "\n" . Welcome::LOGO, "\n\n",
                 static::getBaseURLInfo(), "\n\n";
 
             $step = function($index, $label, callable $validator, $errorMessage, $default = '') use (&$readline) {
-
                 do {
-
                     echo $label;
 
                     if (!empty($default)) {
@@ -267,17 +250,13 @@ class Install extends AbstractCommand {
                     if (true !== $valid) {
                         echo $errorMessage, "\n";
                     }
-
                 } while (true !== $valid);
 
                 return $out;
-
             };
 
             $progress = function($percent, $message) {
-
                 echo $message, "\n";
-
             };
 
         }
@@ -335,12 +314,10 @@ class Install extends AbstractCommand {
         $databaseDriver = &$form['database']['driver'];
 
         if (true === $verbose) {
-
             $radioReadline  = new Console\Readline\Password();
             $radioReadline->addMapping(
                 '\e[D',
                 function() use ($labelMaxWidth, &$databaseDriver) {
-
                     $databaseDriver = 'sqlite';
 
                     Cursor::save();
@@ -349,13 +326,11 @@ class Install extends AbstractCommand {
                     Cursor::clear('→');
                     echo '🔘 SQLite ⚪️ MySQL';
                     Cursor::restore();
-
                 }
             );
             $radioReadline->addMapping(
                 '\e[C',
                 function() use ($labelMaxWidth, &$databaseDriver) {
-
                     $databaseDriver = 'mysql';
 
                     Cursor::save();
@@ -364,7 +339,6 @@ class Install extends AbstractCommand {
                     Cursor::clear('→');
                     echo '⚪️ SQLite 🔘 MySQL';
                     Cursor::restore();
-
                 }
             );
 
@@ -374,7 +348,6 @@ class Install extends AbstractCommand {
             unset($databaseDriver);
 
             if ('mysql' === $form['database']['driver']) {
-
                 echo
                     'Choose MySQL host:                 ', $input(), "\n",
                     'Choose MySQL port:                 ', $input('3306'), "\n",
@@ -390,7 +363,6 @@ class Install extends AbstractCommand {
                 Cursor::move('↑', $numberOfSteps);
                 Cursor::move('→', $labelMaxWidth);
                 Cursor::colorize('foreground(black) background(#cccccc)');
-
             }
 
         } else {
@@ -407,7 +379,6 @@ class Install extends AbstractCommand {
         }
 
         if ('mysql' === $form['database']['driver']) {
-
             $form['database']['host'] = $step(
                 0,
                 'Choose MySQL host',
@@ -457,9 +428,7 @@ class Install extends AbstractCommand {
                 },
                 ''
             );
-
         }
-
 
         $readline->readLine(
             "\n" . 'Ready to install? (Enter to continue, Ctrl-C to abort)'
@@ -468,7 +437,6 @@ class Install extends AbstractCommand {
         echo "\n\n";
 
         try {
-
             $progress(5, 'Create configuration file…');
 
             $configuration = Installer::createConfigurationFile(
@@ -496,9 +464,7 @@ class Install extends AbstractCommand {
 
             $progress(75, 'Administrator profile created 👍!');
             $progress(100, 'sabre/katana is ready!');
-
         } catch (\Exception $e) {
-
             $progress(-1, 'An error occured: ' . $e->getMessage());
 
             if (null !== $previous = $e->getPrevious()) {
@@ -510,7 +476,6 @@ class Install extends AbstractCommand {
                  '`make uninstall` before trying again.', "\n";
 
             return 2;
-
         }
 
         list($dirname) = Uri\split($form['baseUrl']);
@@ -529,6 +494,7 @@ class Install extends AbstractCommand {
      * @return void
      */
     function usage() {
+
         echo
             'Usage  : install <options>', "\n",
             'Options:', "\n",
@@ -544,6 +510,7 @@ class Install extends AbstractCommand {
      * @return string
      */
     static function getBaseURLInfo() {
+
         return
             'The base URL is the full URL to `server.php` in your ' .
             'sabre/katana installation. If you are going to run ' .

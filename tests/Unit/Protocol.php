@@ -32,9 +32,10 @@ use Sabre\Katana\Protocol as CUT;
  *
  * @tags protocol
  */
-class Protocol extends Suite
-{
+class Protocol extends Suite {
+
     function case_application_public() {
+
         $this
             ->given($path = 'katana://public/')
             ->when($result = CUT::realPath($path))
@@ -51,6 +52,7 @@ class Protocol extends Suite
     }
 
     function case_application_resource() {
+
         $this
             ->given($path = 'katana://resource/')
             ->when($result = CUT::realPath($path))
@@ -67,6 +69,7 @@ class Protocol extends Suite
     }
 
     function case_data_root() {
+
         $this
             ->given($path = 'katana://data/')
             ->when($result = CUT::realPath($path))

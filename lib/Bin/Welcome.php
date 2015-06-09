@@ -73,7 +73,6 @@ LOGO;
 
         while (false !== $c = $this->getOption($v)) {
             switch ($c) {
-
                 case 'p':
                     echo $prefix, "\n";
                     return 0;
@@ -97,14 +96,11 @@ LOGO;
                 default:
                     return $this->usage();
                     break;
-
             }
         }
 
         if (false === $verbose) {
-
             echo implode("\n", $this->commands);
-
         }
 
         Console\Cursor::colorize('foreground(yellow)');
@@ -121,7 +117,6 @@ LOGO;
             '.', "\n\n",
             '<options> always contains -h, -? and --help to get the usage ' .
             'of the command.', "\n";
-
     }
 
     /**

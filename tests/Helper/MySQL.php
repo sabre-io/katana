@@ -36,8 +36,8 @@ define('HELPER_MYSQL_DSN',      sprintf('mysql:host=%s;port=%d', HELPER_MYSQL_HO
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class MySQL
-{
+class MySQL {
+
     /**
      * All created databases.
      *
@@ -50,8 +50,8 @@ class MySQL
      *
      * @return string
      */
-    function __invoke()
-    {
+    function __invoke() {
+
         $database = new Database(
             HELPER_MYSQL_DSN,
             HELPER_MYSQL_USERNAME,
@@ -91,8 +91,8 @@ class MySQL
      *
      * @return void
      */
-    function __destruct()
-    {
+    function __destruct() {
+
         if (empty($this->databases)) {
             return;
         }

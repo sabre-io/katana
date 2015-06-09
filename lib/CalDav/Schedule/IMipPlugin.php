@@ -38,14 +38,31 @@ use Hoa\Stringbuffer;
  */
 class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
 
+    /**
+     * Configuration.
+     *
+     * @var Configuration
+     */
     protected $configuration = null;
 
+    /**
+     * Set up the configuration.
+     *
+     * @param  Configuration  $configuration    Configuration.
+     * @return void
+     */
     function __construct(Configuration $configuration) {
 
         parent::__construct($configuration->mail->username);
         $this->configuration = $configuration;
     }
 
+    /**
+     * Send the IMip message.
+     *
+     * @param  ITip\Message  $itip    ITip message.
+     * @return void
+     */
     function schedule(ITip\Message $itip) {
 
         // Not sending any emails if the system considers the update
@@ -119,14 +136,12 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
                 $itip->scheduleStatus = '5.0;Email not delivered. Unsupported METHOD.';
 
                 return;
-
         }
 
         $streamsToClose = [];
 
         $katanaLogo = new Mail\Content\Attachment(
-            $streamsToClose[] =
-                new File\Read('katana://public/static/image/katana_logo_full.png'),
+            $streamsToClose[] = new File\Read('katana://public/static/image/katana_logo_full.png'),
             'Logo_of_sabre_katana.png'
         );
         $katanaLogoUrl = $katanaLogo->getIdUrl();
@@ -335,6 +350,11 @@ class IMipPlugin extends SabreCalDav\Schedule\IMipPlugin {
         }
     }
 
+    /**
+     * Get configuration.
+     *
+     * @return  Configuration
+     */
     protected function getConfiguration() {
 
         return $this->configuration;

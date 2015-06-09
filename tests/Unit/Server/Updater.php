@@ -33,10 +33,10 @@ use Sabre\Katana\Server\Updater as CUT;
  *
  * @tags update
  */
-class Updater extends Suite
-{
-    function case_get_list_of_updates_url_default_server()
-    {
+class Updater extends Suite {
+
+    function case_get_list_of_updates_url_default_server() {
+
         $this
             ->when($result = CUT::getUpdateUrl())
             ->then
@@ -48,8 +48,8 @@ class Updater extends Suite
                     );
     }
 
-    function case_get_list_of_updates_url_other_server()
-    {
+    function case_get_list_of_updates_url_other_server() {
+
         $this
             ->given($server = 'https://domain.tld/')
             ->when($result = CUT::getUpdateUrl($server))
@@ -62,8 +62,8 @@ class Updater extends Suite
                     );
     }
 
-    function case_get_list_of_updates_url_extra_queries()
-    {
+    function case_get_list_of_updates_url_extra_queries() {
+
         $this
             ->given($queries = ['a' => 'b c', 'd' => 'e'])
             ->when($result = CUT::getUpdateUrl(CUT::DEFAULT_UPDATE_SERVER, $queries))
@@ -78,8 +78,8 @@ class Updater extends Suite
                     );
     }
 
-    function case_filter_versions()
-    {
+    function case_filter_versions() {
+
         $this
             ->given(
                 $list = [
@@ -122,8 +122,8 @@ class Updater extends Suite
                     ]);
     }
 
-    function case_filter_versions_invalid_list_URL_are_missing()
-    {
+    function case_filter_versions_invalid_list_URL_are_missing() {
+
         $this
             ->given(
                 $list = [
@@ -138,8 +138,8 @@ class Updater extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Update');
     }
 
-    function case_filter_versions_invalid_list_PHAR_is_missing()
-    {
+    function case_filter_versions_invalid_list_PHAR_is_missing() {
+
         $this
             ->given(
                 $list = [
@@ -156,8 +156,8 @@ class Updater extends Suite
                 ->isInstanceOf('Sabre\Katana\Exception\Update');
     }
 
-    function case_filter_versions_invalid_list_ZIP_is_missing()
-    {
+    function case_filter_versions_invalid_list_ZIP_is_missing() {
+
         $this
             ->given(
                 $list = [

@@ -37,10 +37,10 @@ use Hoa\File\Finder;
  *
  * @tags stub phar
  */
-class Phar extends Suite
-{
-    function case_stub_list()
-    {
+class Phar extends Suite {
+
+    function case_stub_list() {
+
         $this
             ->given($phar = $this->getPhar($pharName))
             ->when($result = $this->execute($pharName, '--list'))
@@ -52,8 +52,8 @@ class Phar extends Suite
                     ]);
     }
 
-    function case_stub_metadata()
-    {
+    function case_stub_metadata() {
+
         $this
             ->given($phar = $this->getPhar($pharName))
             ->when($result = $this->execute($pharName, '--metadata'))
@@ -62,8 +62,8 @@ class Phar extends Suite
                     ->isNotEmpty();
     }
 
-    function case_stub_signature()
-    {
+    function case_stub_signature() {
+
         $this
             ->given($phar = $this->getPhar($pharName))
             ->when($result = $this->execute($pharName, '--signature'))
@@ -72,8 +72,8 @@ class Phar extends Suite
                     ->isEqualTo($phar->getSignature()['hash']);
     }
 
-    function case_stub_extract()
-    {
+    function case_stub_extract() {
+
         $this
             ->given(
                 $phar            = $this->getPhar($pharName),
@@ -88,8 +88,8 @@ class Phar extends Suite
                     ->isTrue();
     }
 
-    function case_stub_extract_overwrite()
-    {
+    function case_stub_extract_overwrite() {
+
         $this
             ->given(
                 $phar            = $this->getPhar($pharName),
@@ -134,8 +134,8 @@ class Phar extends Suite
                     ->isNotEqualTo('foo');
     }
 
-    protected function getPhar(&$pharName)
-    {
+    protected function getPhar(&$pharName) {
+
         $finder = new Finder();
         $finder
             ->files()
@@ -160,8 +160,8 @@ class Phar extends Suite
         return $phar;
     }
 
-    protected function execute($pharName, $options)
-    {
+    protected function execute($pharName, $options) {
+
         return Processus::execute(
             $this->getPhpPath() .
             ' -d phar.readonly=1 ' .

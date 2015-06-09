@@ -41,7 +41,7 @@ class BasicBackend extends Backend\AbstractBasic {
      *
      * @var Database
      */
-    protected $database   = null;
+    protected $database = null;
 
     /**
      * Constructor.
@@ -71,6 +71,7 @@ class BasicBackend extends Backend\AbstractBasic {
         $statement->execute(['username' => $username]);
 
         $digest = $statement->fetch($database::FETCH_COLUMN, 0);
+
         return User::checkPassword($password, $digest);
     }
 
@@ -85,6 +86,7 @@ class BasicBackend extends Backend\AbstractBasic {
      * @return void
      */
     function challenge(Request $request, Response $response) {
+
         parent::challenge($request, $response);
 
         if ('XMLHttpRequest' === $request->getHeader('X-Requested-With')) {

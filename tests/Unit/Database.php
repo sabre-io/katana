@@ -35,6 +35,7 @@ use Sabre\Katana\Database as CUT;
 class Database extends Suite {
 
     function case_extends_pdo() {
+
         $this
             ->given($sqlite = $this->helper->sqlite())
             ->when($result = new CUT($sqlite))
@@ -44,6 +45,7 @@ class Database extends Suite {
     }
 
     function case_template_schema_iterator() {
+
         $this
             ->given(
                 $sqlite   = $this->helper->sqlite(),

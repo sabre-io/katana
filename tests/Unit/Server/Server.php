@@ -31,13 +31,13 @@ use Mock;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Server extends Suite
-{
+class Server extends Suite {
+
     /**
      * @tags server authentication
      */
-    function case_unauthorized()
-    {
+    function case_unauthorized() {
+
         $this
             ->given($server = new Mock\Server())
             ->when($server->run())
@@ -49,8 +49,8 @@ class Server extends Suite
     /**
      * @tags server authentication
      */
-    function case_authorized()
-    {
+    function case_authorized() {
+
         $this
             ->given(
                 $server = new Mock\Server(),

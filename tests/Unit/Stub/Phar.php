@@ -33,10 +33,10 @@ use Sabre\Katana\Stub\Phar as CUT;
  *
  * @tags stub phar
  */
-class Phar extends Suite
-{
-    function case_signature()
-    {
+class Phar extends Suite {
+
+    function case_signature() {
+
         $this
             ->given(
                 $filename    = $this->helper->temporaryFile('.phar'),
@@ -49,8 +49,8 @@ class Phar extends Suite
                     ->isEqualTo('SHA-1');
     }
 
-    function case_metadata()
-    {
+    function case_metadata() {
+
         $this
             ->given($phar = new CUT($this->helper->temporaryFile('.phar')))
             ->when($result = $phar->getMetadata())

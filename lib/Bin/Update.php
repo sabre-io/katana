@@ -39,6 +39,7 @@ use Hoa\File;
  * @license GNU Affero General Public License, Version 3.
  */
 class Update extends AbstractCommand {
+
     /**
      * Operation: fetch.
      *
@@ -68,13 +69,13 @@ class Update extends AbstractCommand {
      * @return int
      */
     function main() {
+
         $operation    = 0;
         $location     = null;
         $updateServer = Updater::DEFAULT_UPDATE_SERVER;
 
         while (false !== $c = $this->getOption($v)) {
             switch ($c) {
-
                 case '__ambiguous':
                     $this->resolveOptionAmbiguity($v);
                     break;
@@ -101,14 +102,12 @@ class Update extends AbstractCommand {
                 default:
                     return $this->usage();
                     break;
-
             }
         }
 
         $updateServer = rtrim($updateServer, '/') . '/';
 
         if (0 !== (static::OPERATION_FETCH & $operation)) {
-
             $updatesDotJson = Updater::getUpdateUrl($updateServer);
             $versions       = @file_get_contents($updatesDotJson);
 
@@ -170,7 +169,6 @@ class Update extends AbstractCommand {
             };
 
             foreach ($versionsToFetch as $versionNumber => $versionUrl) {
-
                 list(, $versionUrlBasename) = Uri\split($versionUrl);
 
                 $fileIn = new File\Read(
@@ -226,13 +224,10 @@ class Update extends AbstractCommand {
                     Protocol::realPath($fileOut->getStreamName()),
                     '.',
                     "\n";
-
             }
 
             return 0;
-
         } elseif (static::OPERATION_APPLY === $operation) {
-
             if (false === file_exists($location)) {
                 throw new Exception\Console(
                     'Update %s is not found.',
@@ -264,7 +259,6 @@ class Update extends AbstractCommand {
             }
 
             return $processus->getExitCode();
-
         } else {
             return $this->usage();
         }
@@ -276,6 +270,7 @@ class Update extends AbstractCommand {
      * @return void
      */
     function usage() {
+
         echo
             'Usage  : update <options>', "\n",
             'Options:', "\n",

@@ -45,6 +45,7 @@ class Database extends PDO {
      * @return void
      */
     function __construct($dsn, $username = null, $password = null) {
+
         if ('sqlite:katana://' === substr($dsn, 0, 16)) {
             $dsn = 'sqlite:' . Protocol::realPath(substr($dsn, 7), false);
         }
@@ -64,8 +65,10 @@ class Database extends PDO {
      * @return Finder
      */
     function getTemplateSchemaIterator() {
+
         $driverName = $this->getAttribute($this::ATTR_DRIVER_NAME);
         $finder     = new Finder();
+
         $finder
             ->in('katana://resource/default/database/')
             ->name('/\.' . $driverName . '\.sql$/');

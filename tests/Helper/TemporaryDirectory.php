@@ -28,8 +28,8 @@ namespace Sabre\Katana\Test\Helper;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class TemporaryDirectory
-{
+class TemporaryDirectory {
+
     /**
      * Run the helper.
      *
@@ -37,8 +37,8 @@ class TemporaryDirectory
      * @param  bool    $create           Create if it does not exist.
      * @return string
      */
-    function __invoke($directoryName, $create = false)
-    {
+    function __invoke($directoryName, $create = false) {
+
         $path = sys_get_temp_dir() . DS . $directoryName;
 
         if (true === $create && false === file_exists($path)) {

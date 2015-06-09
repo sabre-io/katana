@@ -34,10 +34,10 @@ use Phar as PHPPhar;
  *
  * @tags stub zip
  */
-class Zip extends Suite
-{
-    function case_format()
-    {
+class Zip extends Suite {
+
+    function case_format() {
+
         $this
             ->when($zip = new CUT($this->helper->temporaryFile('.zip')))
             ->then

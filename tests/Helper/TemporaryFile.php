@@ -28,16 +28,16 @@ namespace Sabre\Katana\Test\Helper;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class TemporaryFile
-{
+class TemporaryFile {
+
     /**
      * Run the helper.
      *
      * @param  string  $filename    Filename.
      * @return string
      */
-    function __invoke($filename = '')
-    {
+    function __invoke($filename = '') {
+
         return tempnam(sys_get_temp_dir(), 'katana') . $filename;
     }
 }

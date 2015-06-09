@@ -46,6 +46,7 @@ class Plugin extends SabreDav\ServerPlugin {
      * @return string
      */
     function getPluginName() {
+
         return 'version';
     }
 
@@ -61,6 +62,7 @@ class Plugin extends SabreDav\ServerPlugin {
      * @return array
      */
     function getPluginInfo() {
+
         return [
             'name'        => $this->getPluginName(),
             'description' => 'Get current version and check if a new one exists.',
@@ -79,6 +81,7 @@ class Plugin extends SabreDav\ServerPlugin {
      * @return array
      */
     function getHTTPMethods($path) {
+
         if (System\Collection::NAME . '/' . Node::NAME !== $path) {
             return [];
         }
@@ -98,6 +101,7 @@ class Plugin extends SabreDav\ServerPlugin {
      * @return void
      */
     function initialize(SabreDav\Server $server) {
+
         $server->on('method:GET', [$this, 'httpGet']);
     }
 
@@ -105,6 +109,7 @@ class Plugin extends SabreDav\ServerPlugin {
      * @return bool
      */
     function httpGet(Request $request, Response $response) {
+
         if (System\Collection::NAME . '/' . Node::NAME !== $request->getPath()) {
             return;
         }

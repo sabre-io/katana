@@ -28,16 +28,16 @@ namespace Sabre\Katana\Test\Helper;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class SQLite
-{
+class SQLite {
+
     /**
      * Run the helper.
      *
      * @param  bool  $forceFile    Force SQLite to work on a file.
      * @return string
      */
-    function __invoke($forceFile = false)
-    {
+    function __invoke($forceFile = false) {
+
         if (true === $forceFile) {
             return 'sqlite:' . stream_get_meta_data(tmpfile())['uri'];
         } else {

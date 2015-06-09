@@ -35,6 +35,7 @@ use Sabre\Katana\Configuration as CUT;
 class Configuration extends Suite {
 
     function case_file_not_found() {
+
         $this
             ->exception(function() {
                 new CUT('/foo/42');
@@ -43,6 +44,7 @@ class Configuration extends Suite {
     }
 
     function case_invalid_json() {
+
         $this
             ->given(
                 $file = $this->helper->configuration('configuration.json'),
@@ -55,6 +57,7 @@ class Configuration extends Suite {
     }
 
     function case_get_filename() {
+
         $this
             ->given(
                 $file = $this->helper->configuration(
@@ -70,6 +73,7 @@ class Configuration extends Suite {
     }
 
     function case_isset() {
+
         $this
             ->given(
                 $configuration = new CUT(
@@ -91,6 +95,7 @@ class Configuration extends Suite {
     }
 
     function case_get() {
+
         $this
             ->given(
                 $configuration = new CUT(
@@ -121,6 +126,7 @@ class Configuration extends Suite {
     }
 
     function case_set() {
+
         $this
             ->given(
                 $configuration = new CUT(
@@ -153,6 +159,7 @@ class Configuration extends Suite {
     }
 
     function case_unset() {
+
         $this
             ->given(
                 $configuration = new CUT(
@@ -177,6 +184,7 @@ class Configuration extends Suite {
     }
 
     function case_save() {
+
         $this
             ->given(
                 $file = $this->helper->configuration(
@@ -211,6 +219,7 @@ class Configuration extends Suite {
     }
 
     function case_do_not_allow_empty() {
+
         $this
             ->given($file = $this->helper->configuration('configuration.json'))
             ->exception(function() use ($file) {
@@ -226,6 +235,7 @@ class Configuration extends Suite {
     }
 
     function case_allow_empty() {
+
         $this
             ->given($file = $this->helper->configuration('configuration.json'))
             ->when($result = new CUT($file, true))
@@ -234,6 +244,7 @@ class Configuration extends Suite {
     }
 
     function case_allow_empty_invalid_json() {
+
         $this
             ->given(
                 $file = $this->helper->configuration('configuration.json'),
@@ -246,6 +257,7 @@ class Configuration extends Suite {
     }
 
     function case_empty_file_set() {
+
         $this
             ->given(
                 $file          = $this->helper->configuration('configuration.json'),

@@ -34,6 +34,5 @@ use Sabre\HTTP\ResponseInterface;
 class Sapi extends OriginalSapi {
 
     static function sendResponse(ResponseInterface $response) {
-
     }
 }

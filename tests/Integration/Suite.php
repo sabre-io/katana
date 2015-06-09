@@ -30,7 +30,7 @@ use Sabre\Katana\Test\Unit\Suite as UnitSuite;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Suite extends UnitSuite
-{
+class Suite extends UnitSuite {
+
     const defaultNamespace = '#\\\Test\\\Integration\\\#';
 }

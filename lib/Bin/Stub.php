@@ -36,6 +36,7 @@ use Hoa\File\Finder;
  * @license GNU Affero General Public License, Version 3.
  */
 class Stub extends AbstractCommand {
+
     /**
      * Format: ZIP.
      *
@@ -68,7 +69,6 @@ class Stub extends AbstractCommand {
 
         while (false !== $c = $this->getOption($v)) {
             switch ($c) {
-
                 case '__ambiguous':
                     $this->resolveOptionAmbiguity($v);
                     break;
@@ -86,7 +86,6 @@ class Stub extends AbstractCommand {
                 default:
                     return $this->usage();
                     break;
-
             }
         }
 
@@ -100,7 +99,6 @@ class Stub extends AbstractCommand {
         if (0 === $format) {
             return $this->usage();
         } elseif (static::FORMAT_ZIP === $format) {
-
             $pathName = 'katana.zip';
             $finder->notIn('/^' . preg_quote($pathName, '/') . '$/');
 
@@ -113,9 +111,7 @@ class Stub extends AbstractCommand {
 
             $zip = new Zip($pharPathname);
             $zip->buildFromIterator($finder, SABRE_KATANA_PREFIX);
-
         } elseif (static::FORMAT_PHAR === $format) {
-
             if (false === Phar::canWrite()) {
                 throw new Exception\Console(
                     'Cannot create the PHAR. ' .
@@ -137,7 +133,6 @@ class Stub extends AbstractCommand {
             $phar = new Phar($pharPathname);
             $phar->buildFromIterator($finder, SABRE_KATANA_PREFIX);
             $phar->setStub($phar->getStubCode());
-
         }
 
         echo $archiveName, "\n";
@@ -149,6 +144,7 @@ class Stub extends AbstractCommand {
      * @return void
      */
     function usage() {
+
         echo
             'Usage  : stub <options>', "\n",
             'Options:', "\n",

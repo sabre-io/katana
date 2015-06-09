@@ -41,8 +41,8 @@ class Phar extends PHPPhar {
      * @param  string  $alias       Alias (see original documentation).
      * @return void
      */
-    function __construct($filename, $flags = null, $alias = null)
-    {
+    function __construct($filename, $flags = null, $alias = null) {
+
         if (null !== $alias) {
             parent::__construct($filename, $flags, $alias);
         } elseif (null !== $flags) {
@@ -135,8 +135,8 @@ $options = new Console\GetOption(
     $parser
 );
 
-function usage()
-{
+function usage() {
+
     echo
         'Usage  : ', $_SERVER['argv'][0], ' <options>', "\n",
         'Options:', "\n",

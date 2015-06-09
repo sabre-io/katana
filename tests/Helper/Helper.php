@@ -31,8 +31,8 @@ use RuntimeException;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Helper
-{
+class Helper {
+
     /**
      * All helpers.
      *
@@ -47,8 +47,8 @@ class Helper
      * @param  callable  $helper    Helper.
      * @return void
      */
-    function registerHelper($name, callable $helper)
-    {
+    function registerHelper($name, callable $helper) {
+
         $this->helpers[$name] = $helper;
     }
 
@@ -59,8 +59,8 @@ class Helper
      * @param  array   $arguments    Helper's arguments.
      * @return mixed
      */
-    function __call($name, Array $arguments)
-    {
+    function __call($name, Array $arguments) {
+
         if (!isset($this->helpers[$name])) {
             throw new RuntimeException(sprintf('Helper %s does not exist.', $name));
         }

@@ -30,8 +30,8 @@ use atoum\mock\streams\fs\file;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Configuration
-{
+class Configuration {
+
     /**
      * Run the helper.
      *
@@ -40,8 +40,8 @@ class Configuration
      *                              JSON).
      * @return string
      */
-    function __invoke($filename, Array $content = null)
-    {
+    function __invoke($filename, Array $content = null) {
+
         $file = (string)file::get($filename);
 
         if (null !== $content) {
