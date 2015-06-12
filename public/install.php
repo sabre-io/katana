@@ -247,6 +247,11 @@ if (false !== $pos = strpos($url, '?')) {
         );
 
     $query = substr($url, $pos + 1);
+
+    if (false !== $posEnd = strpos($query, '&')) {
+        $query = substr($query, 0, $posEnd);
+    }
+
     $router->route($query, '/');
 
     $dispatcher = new Dispatcher\Basic();
