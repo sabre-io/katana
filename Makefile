@@ -79,14 +79,14 @@ clean:
 distclean: clean distclean-server distclean-client
 
 distclean-server:
-	find vendor -depth 1 -type d | \
+	find vendor -maxdepth 1 -type d | \
 		xargs rm -rf
 	rm -f vendor/autoload.php
-	find bin -depth 1 -type l | \
+	find bin -maxdepth 1 -type l | \
 		xargs rm
 
 distclean-client:
-	find public/static/vendor -depth 1 -type d | \
+	find public/static/vendor -maxdepth 1 -type d | \
 		xargs rm -rf
 
 uninstall:
@@ -98,7 +98,7 @@ uninstall:
 			echo 'Remove data/database/katana_*.sqlite'; \
 			rm -f data/database/katana_*.sqlite; \
 			echo 'Remove data/home/*'; \
-			find data/home -depth 1 -type d | \
+			find data/home -maxdepth 1 -type d | \
 				xargs rm -rf; \
 		else \
 			echo 'Aborted!'; \
