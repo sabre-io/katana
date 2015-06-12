@@ -98,7 +98,7 @@ uninstall:
 			echo 'Remove data/database/katana_*.sqlite'; \
 			rm -f data/database/katana_*.sqlite; \
 			echo 'Remove data/home/*'; \
-			find data/home -maxdepth 1 -type d | \
+			find data/home/* -maxdepth 1 -type d | \
 				xargs rm -rf; \
 		else \
 			echo 'Aborted!'; \
