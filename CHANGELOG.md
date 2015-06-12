@@ -1,6 +1,12 @@
 ChangeLog
 =========
 
+0.3.2 (2015-05-12)
+------------------
+
+* [#276](https://github.com/fruux/sabre-katana/pull/276) Remove home collections, not the `home/` directory ([@Hywan]).
+* [#275](https://github.com/fruux/sabre-katana/pull/275) Ensure a better compatibility across Linux distributions ([@Hywan]).
+
 0.3.1 (2015-05-12)
 ------------------
 
