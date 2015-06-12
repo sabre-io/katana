@@ -111,7 +111,7 @@ if (false !== $pos = strpos($url, '?')) {
     $router
         ->post(
             'baseurl',
-            '/baseurl',
+            '/(?-i)baseurl',
             function() use ($request, $response) {
                 $response->setBody(
                     json_encode(
@@ -123,7 +123,7 @@ if (false !== $pos = strpos($url, '?')) {
         )
         ->post(
             'password',
-            '/password',
+            '/(?-i)password',
             function() use ($request, $response) {
                 $response->setBody(
                     json_encode(
@@ -135,7 +135,7 @@ if (false !== $pos = strpos($url, '?')) {
         )
         ->post(
             'email',
-            '/email',
+            '/(?-i)email',
             function() use ($request, $response) {
                  $response->setBody(
                     json_encode(
@@ -147,7 +147,7 @@ if (false !== $pos = strpos($url, '?')) {
         )
         ->post(
             'database',
-            '/database',
+            '/(?-i)database',
             function() use ($request, $response) {
                 $payload = json_decode($request->getBodyAsString(), true);
                 $out     = false;
@@ -168,9 +168,9 @@ if (false !== $pos = strpos($url, '?')) {
         )
         ->get(
             'install',
-            '/install/(?<jsonPayload>.+)',
-            function($jsonPayload) {
-                $payload = json_decode($jsonPayload);
+            '/(?-i)install/(?<jsonpayload>.+)',
+            function($jsonpayload) {
+                $payload = json_decode($jsonpayload);
                 $source  = new Eventsource\Server();
                 $send    = function($data) use ($source) {
                     $source->step->send(json_encode($data));
