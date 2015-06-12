@@ -1,6 +1,14 @@
 ChangeLog
 =========
 
+0.3.1 (2015-05-12)
+------------------
+
+* [#272](https://github.com/fruux/sabre-katana/pull/272) Prevent query parameters to be corrupted ([@Hywan]).
+* [#270](https://github.com/fruux/sabre-katana/pull/270) Fix bug 319607 of Debian with `find` ([@Hywan]).
+* [#269](https://github.com/fruux/sabre-katana/pull/269) Fix a conflict between `data/home/` and `.gitignore` ([@Hywan]).
+* [#265](https://github.com/fruux/sabre-katana/pull/265) Fix path to `server.json` in the Settings panel ([@Hywan]).
+
 0.3.0 (2015-05-09)
 ------------------
 
