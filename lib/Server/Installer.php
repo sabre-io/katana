@@ -51,7 +51,7 @@ class Installer {
      */
     static function isInstalled() {
 
-        return true === file_exists(Server::CONFIGURATION_FILE);
+        return true === file_exists(SABRE_KATANA_CONFIG);
     }
 
     /**
@@ -352,7 +352,7 @@ class Installer {
             case 'sqlite':
                 $dsn = sprintf(
                     'sqlite:%s_%d.sqlite',
-                    'katana://data/database/katana',
+                    SABRE_KATANA_PREFIX . '/data/database/katana.sqlite',
                     time()
                 );
                 break;

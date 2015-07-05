@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "21d9dbd22d3a1ce41e0c3aadd079f5fa",
+    "hash": "4563b22a4ea769cef5381e54827645b1",
     "packages": [
         {
             "name": "hoa/console",
@@ -267,66 +267,6 @@
                 "server"
             ],
             "time": "2015-05-29 13:50:39"
-        },
-        {
-            "name": "hoa/file",
-            "version": "0.15.05.27",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/File.git",
-                "reference": "bd82aff5e81f16971c5fc99301a5c5717b1fd4da"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/File/zipball/bd82aff5e81f16971c5fc99301a5c5717b1fd4da",
-                "reference": "bd82aff5e81f16971c5fc99301a5c5717b1fd4da",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/core": "~2.0",
-                "hoa/iterator": "~1.0",
-                "hoa/stream": "~0.0"
-            },
-            "require-dev": {
-                "hoa/test": "~1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\File\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "http://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\File library.",
-            "homepage": "http://hoa-project.net/",
-            "keywords": [
-                "Socket",
-                "directory",
-                "file",
-                "finder",
-                "library",
-                "link",
-                "temporary"
-            ],
-            "time": "2015-05-27 09:18:31"
         },
         {
             "name": "hoa/http",
@@ -1560,6 +1500,66 @@
                 "uniform"
             ],
             "time": "2015-05-29 13:43:46"
+        },
+        {
+            "name": "hoa/file",
+            "version": "0.15.05.27",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hoaproject/File.git",
+                "reference": "bd82aff5e81f16971c5fc99301a5c5717b1fd4da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hoaproject/File/zipball/bd82aff5e81f16971c5fc99301a5c5717b1fd4da",
+                "reference": "bd82aff5e81f16971c5fc99301a5c5717b1fd4da",
+                "shasum": ""
+            },
+            "require": {
+                "hoa/core": "~2.0",
+                "hoa/iterator": "~1.0",
+                "hoa/stream": "~0.0"
+            },
+            "require-dev": {
+                "hoa/test": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hoa\\File\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Enderlin",
+                    "email": "ivan.enderlin@hoa-project.net"
+                },
+                {
+                    "name": "Hoa community",
+                    "homepage": "http://hoa-project.net/"
+                }
+            ],
+            "description": "The Hoa\\File library.",
+            "homepage": "http://hoa-project.net/",
+            "keywords": [
+                "Socket",
+                "directory",
+                "file",
+                "finder",
+                "library",
+                "link",
+                "temporary"
+            ],
+            "time": "2015-05-27 09:18:31"
         },
         {
             "name": "hoa/math",

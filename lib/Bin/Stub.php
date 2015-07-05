@@ -104,7 +104,7 @@ class Stub extends AbstractCommand {
             $finder->notIn('/^' . preg_quote($pathName, '/') . '$/');
 
             $archiveName  =
-            $pharPathname = Protocol::realPath('katana://data/share/' . $pathName, false);
+            $pharPathname = SABRE_KATANA_PREFIX . '/data/share/' . $pathName;
 
             if (true === file_exists($pharPathname)) {
                 unlink($pharPathname);
@@ -125,7 +125,7 @@ class Stub extends AbstractCommand {
             $finder->notIn('/^' . preg_quote($pathName, '/') . '$/');
 
             $archiveName  =
-            $pharPathname = Protocol::realPath('katana://data/share/' . $pathName, false);
+            $pharPathname = SABRE_KATANA_PREFIX . '/data/share/';
 
             if (true === file_exists($pharPathname)) {
                 unlink($pharPathname);

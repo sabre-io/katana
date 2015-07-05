@@ -45,7 +45,7 @@ $response = new HTTP\Response();
  */
 if (true === Installer::isInstalled()) {
 
-    echo file_get_contents('katana://resource/view/install_done.html');
+    echo file_get_contents(SABRE_KATANA_PREFIX . '/resource/view/install_done.html');
 
     return;
 
@@ -54,8 +54,8 @@ if (true === Installer::isInstalled()) {
 /**
  * If dependencies have not been installed, we print a specific message.
  */
-if (true === Installer::isDirectoryEmpty('katana://public/static/vendor/')) {
-    echo file_get_contents('katana://resource/view/install_bower.html');
+if (true === Installer::isDirectoryEmpty(SABRE_KATANA_PREFIX . '/public/static/vendor/')) {
+    echo file_get_contents(SABRE_KATANA_PREFIX . '/resource/view/install_bower.html');
 
     return;
 }
@@ -69,30 +69,29 @@ $view = function($directoryName, $directory) {
     $groupId     = getmygid();
     $permissions = $directory->getReadablePermissions();
 
-    require 'katana://resource/view/install_permissions.html';
+    require SABRE_KATANA_PREFIX . '/resource/view/install_permissions.html';
 };
 
-$dataDirectory = new File\Directory('katana://data/');
-$dataDirectory->clearStatisticCache();
+$writableDirectories = [
+    '/data',
+    '/data/home',
+    '/data/database',
+    '/data/configuration',
+    '/data/log',
+];
 
-if (false === $dataDirectory->isWritable()) {
-    $view('data/', $dataDirectory);
+foreach($writableDirectories as $dir) {
 
-    return;
+    if (!is_writable(SABRE_KATANA_PREFIX . $dir)) {
+        $directoryName = $dir;
+        $user          = get_current_user();
+        $userId        = getmyuid();
+        $groupId       = getmygid();
+        require SABRE_KATANA_PREFIX . '/resource/view/install_permissions.html';
+        return;
+    }
+
 }
-
-$dataDirectory->close();
-
-$homeDirectory = new File\Directory('katana://data/home/');
-$homeDirectory->clearStatisticCache();
-
-if (false === $homeDirectory->isWritable()) {
-    $view('data/home/', $homeDirectory);
-
-    return;
-}
-
-$homeDirectory->close();
 
 $url   = $request->getUrl();
 $query = '';
@@ -185,7 +184,7 @@ if (false !== $pos = strpos($url, '?')) {
                     ]);
 
                     $configuration = Installer::createConfigurationFile(
-                        Server::CONFIGURATION_FILE,
+                        SABRE_KATANA_CONFIG,
                         [
                             'baseUrl'  => $payload->baseurl,
                             'database' => [
@@ -258,5 +257,5 @@ if (false !== $pos = strpos($url, '?')) {
     $dispatcher->dispatch($router);
 
 } else {
-    echo file_get_contents('katana://resource/view/install.html');
+    echo file_get_contents(SABRE_KATANA_PREFIX . '/resource/view/install.html');
 }

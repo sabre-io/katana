@@ -23,6 +23,7 @@
 namespace Sabre\Katana\Server;
 
 use Sabre\Katana\Exception;
+use Sabre\Katana\Version;
 
 /**
  * A set of utilities for the updater.
@@ -68,7 +69,7 @@ class Updater {
         }
 
         $out                 = $updateServer . 'updates.json';
-        $queries['version']  = SABRE_KATANA_VERSION;
+        $queries['version']  = Version::VERSION;
         $out                .= '?' . http_build_query($queries, '', '&', PHP_QUERY_RFC3986);
 
         return $out;

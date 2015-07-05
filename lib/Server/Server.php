@@ -50,13 +50,6 @@ class Server {
     const ADMINISTRATOR_LOGIN = 'admin';
 
     /**
-     * Path to the configuration file.
-     *
-     * @const string
-     */
-    const CONFIGURATION_FILE  = 'katana://data/configuration/server.json';
-
-    /**
      * sabre/dav server.
      *
      * @var SabreDav\Server
@@ -129,7 +122,7 @@ class Server {
      */
     protected function initializeConfiguration() {
 
-        $this->configuration = new Configuration(static::CONFIGURATION_FILE);
+        $this->configuration = new Configuration(SABRE_KATANA_CONFIG);
     }
 
     /**
