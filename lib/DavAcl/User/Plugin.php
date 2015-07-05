@@ -22,7 +22,7 @@
 
 namespace Sabre\Katana\DavAcl\User;
 
-use Sabre\Katana\Database;
+use PDO;
 use Sabre\DAV as SabreDav;
 
 /**
@@ -44,17 +44,17 @@ class Plugin extends SabreDav\ServerPlugin {
     /**
      * Database.
      *
-     * @var Database
+     * @var PDO
      */
     protected $database = null;
 
     /**
      * Constructor.
      *
-     * @param  Database  $database    Database.
+     * @param PDO $database
      * @return void
      */
-    function __construct(Database $database) {
+    function __construct(PDO $database) {
 
         $this->database = $database;
     }

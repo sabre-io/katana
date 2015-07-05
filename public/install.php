@@ -22,7 +22,6 @@
 require_once __DIR__ . '/../bootstrap.php';
 
 use Sabre\Katana\Server\Installer;
-use Sabre\Katana\Server\Server;
 use Sabre\Katana\Configuration;
 use Sabre\HTTP;
 use Hoa\Router;
@@ -80,7 +79,7 @@ $writableDirectories = [
     '/data/log',
 ];
 
-foreach($writableDirectories as $dir) {
+foreach ($writableDirectories as $dir) {
 
     if (!is_writable(SABRE_KATANA_PREFIX . $dir)) {
         $directoryName = $dir;

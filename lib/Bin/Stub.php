@@ -24,7 +24,6 @@ namespace Sabre\Katana\Bin;
 
 use Sabre\Katana\Stub\Zip;
 use Sabre\Katana\Stub\Phar;
-use Sabre\Katana\Protocol;
 use Sabre\Katana\Exception;
 use Hoa\Console;
 use Hoa\File\Finder;

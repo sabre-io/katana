@@ -22,8 +22,8 @@
 
 namespace Sabre\Katana\Server;
 
+use PDO;
 use Sabre\Katana\Configuration;
-use Sabre\Katana\Database;
 use Sabre\Katana\Exception;
 use Sabre\Katana\DavAcl\User\Plugin as User;
 use Sabre\HTTP\Request;
@@ -224,7 +224,7 @@ class Installer {
             );
         }
 
-        if (false === in_array($parameters['driver'], Database::getAvailableDrivers())) {
+        if (false === in_array($parameters['driver'], PDO::getAvailableDrivers())) {
             throw new Exception\Installation(
                 'Driver %s is not supported by the server.',
                 1,
@@ -243,7 +243,7 @@ class Installer {
             );
 
             try {
-                $database = new Database(
+                $database = new PDO(
                     $dsn,
                     $parameters['username'],
                     $parameters['password']
@@ -382,7 +382,7 @@ class Installer {
      * Create the database.
      *
      * @param  Configuration  $configuration    Configuration.
-     * @return Database
+     * @return PDO
      * @throw  Exception\Installation
      */
     static function createDatabase(Configuration $configuration) {
@@ -395,7 +395,7 @@ class Installer {
         }
 
         try {
-            $database = new Database(
+            $database = new PDO(
                 $configuration->database->dsn,
                 $configuration->database->username,
                 $configuration->database->password
@@ -443,8 +443,8 @@ class Installer {
     /**
      * Create the administrator profile.
      *
-     * @param  Configuration  $configuration    Configuration.
-     * @param  Database       $database         Database.
+     * @param Configuration $configuration
+     * @param PDO $database
      * @param  string         $email            Administrator's email.
      * @param  string         $password         Administrator's password.
      * @return bool
@@ -452,7 +452,7 @@ class Installer {
      */
     static function createAdministratorProfile(
         Configuration $configuration,
-        Database $database,
+        PDO $database,
         $email,
         $password
     ) {

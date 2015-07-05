@@ -22,7 +22,7 @@
 
 namespace Sabre\Katana\Dav\Authentication;
 
-use Sabre\Katana\Database;
+use PDO;
 use Sabre\Katana\DavAcl\User\Plugin as User;
 use Sabre\DAV\Auth\Backend;
 use Sabre\HTTP\RequestInterface as Request;
@@ -40,17 +40,17 @@ class BasicBackend extends Backend\AbstractBasic {
     /**
      * Database.
      *
-     * @var Database
+     * @var PDO
      */
     protected $database = null;
 
     /**
      * Constructor.
      *
-     * @param  Database  $database    Database.
+     * @param PDO $pdo.
      * @return void
      */
-    function __construct(Database $database) {
+    function __construct(PDO $database) {
 
         $this->database = $database;
     }

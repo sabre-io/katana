@@ -24,7 +24,6 @@ namespace Sabre\Katana\Bin;
 
 use Sabre\Katana\Server\Updater;
 use Sabre\Katana\Exception;
-use Sabre\Katana\Protocol;
 use Sabre\Katana\Version;
 use Sabre\Uri;
 use Hoa\Core;
@@ -223,7 +222,7 @@ class Update extends AbstractCommand {
                 echo
                     "\n",
                     'Fetched at ',
-                    Protocol::realPath($fileOut->getStreamName()),
+                    $fileOut->getStreamName(),
                     '.',
                     "\n";
             }
