@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "348341137ff8a99fa918a0900c0990f4",
+    "hash": "21d9dbd22d3a1ce41e0c3aadd079f5fa",
     "packages": [
         {
             "name": "hoa/console",
@@ -1922,20 +1922,20 @@
         },
         {
             "name": "sabre/cs",
-            "version": "0.0.3",
+            "version": "0.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruux/sabre-cs.git",
-                "reference": "01976cc05b6a009e10f1306bc53cd235dc8f08eb"
+                "reference": "3448cf740481d98623d43dd8ae62b7c7b86dbfde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruux/sabre-cs/zipball/01976cc05b6a009e10f1306bc53cd235dc8f08eb",
-                "reference": "01976cc05b6a009e10f1306bc53cd235dc8f08eb",
+                "url": "https://api.github.com/repos/fruux/sabre-cs/zipball/3448cf740481d98623d43dd8ae62b7c7b86dbfde",
+                "reference": "3448cf740481d98623d43dd8ae62b7c7b86dbfde",
                 "shasum": ""
             },
             "require": {
-                "fabpot/php-cs-fixer": "~1.7",
+                "fabpot/php-cs-fixer": "~1.9",
                 "php": ">=5.4.7"
             },
             "require-dev": {
@@ -1981,7 +1981,7 @@
                 "cs",
                 "sabre"
             ],
-            "time": "2015-05-19 14:12:54"
+            "time": "2015-07-05 04:26:00"
         },
         {
             "name": "sebastian/diff",

@@ -38,7 +38,7 @@
         "atoum/ruler-extension"    : "~1.0, >=1.0.2",
         "hoa/ruler"                : "~1.0, >=1.15.02.02",
         "hoa/regex"                : "~0.0, >=0.15.02.24",
-        "sabre/cs"                 : "~0.0.3"
+        "sabre/cs"                 : "~0.0.4"
     },
     "suggest": {
         "ext-pdo_sqlite": "If you decide to use SQLite.",
