@@ -24,7 +24,6 @@ namespace Sabre\Katana\Test\Integration\Stub;
 
 use Sabre\Katana\Test\Integration\Suite;
 use Sabre\Katana\Stub\Phar as CUT;
-use Sabre\Katana\Protocol;
 use Hoa\Core;
 use Hoa\Console\Processus;
 use Hoa\File\Finder;
@@ -141,13 +140,13 @@ class Phar extends Suite {
         $finder
             ->files()
             // We need to get the real path because of the PHAR API…
-            ->in(Protocol::realPath('katana://data/lib/composer'))
-            ->in(Protocol::realPath('katana://data/lib/hoa/core'))
-            ->in(Protocol::realPath('katana://data/lib/hoa/console'))
-            ->in(Protocol::realPath('katana://data/lib/hoa/iterator'))
-            ->in(Protocol::realPath('katana://data/lib/hoa/router'))
-            ->in(Protocol::realPath('katana://data/lib/sabre/uri'))
-            ->in(Protocol::realPath('katana://data/lib/ircmaxell/password-compat'))
+            ->in(SABRE_KATANA_PREFIX . '/vendor/composer')
+            ->in(SABRE_KATANA_PREFIX . '/vendor/hoa/core')
+            ->in(SABRE_KATANA_PREFIX . '/vendor/hoa/console')
+            ->in(SABRE_KATANA_PREFIX . '/vendor/hoa/iterator')
+            ->in(SABRE_KATANA_PREFIX . '/vendor/hoa/router')
+            ->in(SABRE_KATANA_PREFIX . '/vendor/sabre/uri')
+            ->in(SABRE_KATANA_PREFIX . '/vendor/ircmaxell/password-compat')
             ->name('/\.php$/')
             ->notIn('/^\.git$/');
 
@@ -155,7 +154,7 @@ class Phar extends Suite {
         $phar     = new CUT($pharName);
         $phar->buildFromIterator($finder, SABRE_KATANA_PREFIX);
         $phar['bootstrap.php']       = '<?php require \'vendor/autoload.php\';';
-        $phar['vendor/autoload.php'] = file_get_contents('katana://data/lib/autoload.php');
+        $phar['vendor/autoload.php'] = file_get_contents(SABRE_KATANA_PREFIX . '/vendor/autoload.php');
         $phar->setStub($phar->getStubCode());
 
         return $phar;

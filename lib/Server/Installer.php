@@ -352,7 +352,7 @@ class Installer {
             case 'sqlite':
                 $dsn = sprintf(
                     'sqlite:%s_%d.sqlite',
-                    SABRE_KATANA_PREFIX . '/data/database/katana.sqlite',
+                    SABRE_KATANA_PREFIX . '/data/database/katana',
                     time()
                 );
                 break;
@@ -409,12 +409,13 @@ class Installer {
             );
         }
 
-        $templateSchemaIterator = $database->getTemplateSchemaIterator();
+        $driver = $database->getAttribute(PDO::ATTR_DRIVER_NAME);
+        $templateSchemaIterator = glob(SABRE_KATANA_PREFIX . '/resource/default/database/*.' . $driver . '.sql');
 
         try {
             foreach ($templateSchemaIterator as $templateSchema) {
 
-                $schema  = $templateSchema->open()->readAll();
+                $schema  = file_get_contents($templateSchema);
                 $verdict = $database->exec($schema);
 
                 if (false === $verdict) {
@@ -424,8 +425,6 @@ class Installer {
                         10
                     );
                 }
-
-                $templateSchema->close();
 
             }
         } catch (PDOException $exception) {

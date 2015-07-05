@@ -105,7 +105,7 @@ class Installer extends Suite {
             ->when($database = CUT::createDatabase($configuration))
             ->then
                 ->object($database)
-                    ->isInstanceOf('Sabre\Katana\Database')
+                    ->isInstanceOf('PDO')
 
             ->when(
                 $result = CUT::createAdministratorProfile(

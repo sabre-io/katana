@@ -22,7 +22,7 @@
 
 namespace Sabre\Katana\Test\Helper;
 
-use Sabre\Katana\Database;
+use PDO;
 
 define('HELPER_MYSQL_HOST',     'localhost');
 define('HELPER_MYSQL_PORT',     3306);
@@ -53,7 +53,7 @@ class MySQL {
      */
     function __invoke() {
 
-        $database = new Database(
+        $database = new PDO(
             HELPER_MYSQL_DSN,
             HELPER_MYSQL_USERNAME,
             HELPER_MYSQL_PASSWORD
@@ -98,7 +98,7 @@ class MySQL {
             return;
         }
 
-        $database = new Database(
+        $database = new PDO(
             HELPER_MYSQL_DSN,
             HELPER_MYSQL_USERNAME,
             HELPER_MYSQL_PASSWORD
