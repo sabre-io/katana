@@ -8,7 +8,7 @@ install-server:
 	composer install --no-dev
 
 install-client:
-	bower install --production
+	bower install --production --allow-root
 	npm install --no-optional
 
 devinstall: devinstall-server devinstall-client build-client
