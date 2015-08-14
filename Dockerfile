@@ -24,4 +24,4 @@ ENV alias composer="hhvm -v ResourceLimit.SocketDefaultTimeout=30 -v Http.SlowQu
 WORKDIR /etc/hhvm
 RUN make
 
-CMD ["hhvm", "-a"]
+CMD ["hhvm", "-v Http.SlowQueryThreshold=30000", "-v Eval.Jit=false", "-v ResourceLimit.SocketDefaultTimeout=30"]
