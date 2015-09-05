@@ -114,6 +114,7 @@ class Server {
         $this->initializeAuthentication();
         $this->initializePrincipals($principalBackend);
         $this->initializeCardDAV($principalBackend);
+        $this->initializePropertyStorage();
         $this->initializeCalDAV($principalBackend);
         $this->initializeScheduling();
         $this->initializeWebDAV($principalBackend);
@@ -205,6 +206,17 @@ class Server {
         $this->getServer()->tree->getNodeForPath('')->addChild($node);
         $this->getServer()->addPlugin(new SabreCardDav\Plugin());
         $this->getServer()->addPlugin(new SabreCardDav\VCFExportPlugin());
+    }
+
+    /**
+     * Initialize PropertyStorage
+     *
+     * @return void
+     */
+    protected function initializePropertyStorage()
+    {
+        $backend = new SabreDav\PropertyStorage\Backend\PDO($this->getDatabase());
+        $this->getServer()->addPlugin(new SabreDav\PropertyStorage\Plugin($backend));
     }
 
     /**
