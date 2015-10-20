@@ -19,9 +19,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-use Sabre\Katana;
-use Hoa\Core;
-use Hoa\File;
 
 /**
  * Bootstrap the project.
@@ -55,74 +52,23 @@ if (false === file_exists($autoloadFile)) {
 $autoloader = require_once $autoloadFile;
 
 /**
- * Configure hoa:// (basis of katana://).
- */
-Core::getInstance()->initialize([
-    'root.application'  => __DIR__ . DS,
-    'root.data'         => __DIR__ . DS . 'data' . DS,
-    'protocol.bin'      => '(:%root.application:)' . 'bin' . DS,
-    'protocol.data'     => '(:%root.data:)',
-    'protocol.data/lib' => "\r" . '(:%root.application:)' . 'vendor' . DS,
-    'protocol.lib'      => '(:%root.application:)' . 'lib' . DS,
-    'protocol.public'   => '(:%root.application:)' . 'public' . DS,
-    'protocol.resource' => __DIR__ . DS . 'resource' . DS,
-    'protocol.tests'    => '(:%root.application:)' . 'tests' . DS
-]);
-
-/**
- * Register the katana:// protocol.
- */
-stream_wrapper_register(Katana\Protocol::SCHEME, 'Sabre\Katana\Protocol');
-
-/**
  * sabre/katana is now defined and set up, let the world knows that.
  */
 define('SABRE_KATANA', true);
-
-/**
- * Current version.
- */
-define('SABRE_KATANA_VERSION', '0.1.1');
 
 /**
  * Define the prefix.
  */
 define('SABRE_KATANA_PREFIX', __DIR__);
 
-/**
- * Handle exceptions and errors.
- */
-Core\Core::enableExceptionHandler(true);
-Core\Core::enableErrorHandler(true);
 
 /**
- * Log all exceptions.
+ * Default path to configuration file
  */
-event('hoa://Event/Exception')->attach(
-    function(Core\Event\Bucket $bucket) {
-        $exception = $bucket->getData();
-        $filename  = date('Ymd') . '.exceptions.log';
-        $file      = new File\Write('katana://data/log/' . $filename);
+define('SABRE_KATANA_CONFIG', SABRE_KATANA_PREFIX . '/data/configuration/server.json');
 
-        $exceptionFile = $exception->getFile();
-        $prefixLength  = strlen(SABRE_KATANA_PREFIX);
-
-        if (SABRE_KATANA_PREFIX === substr($exceptionFile, 0, $prefixLength)) {
-            $exceptionFile = substr($exceptionFile, $prefixLength + 1);
-        }
-
-        $file->writeAll(
-            sprintf(
-                '[%s] "%s" %s:%d' . "\n",
-                date('c'),
-                $exception->getMessage(),
-                $exceptionFile,
-                $exception->getLine()
-            )
-        );
-
-        $file->close();
-
-        return;
-    }
-);
+//Mapping PHP errors to exceptions
+function exception_error_handler($errno, $errstr, $errfile, $errline) {
+    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+}
+set_error_handler("exception_error_handler");

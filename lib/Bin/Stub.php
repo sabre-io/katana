@@ -24,7 +24,6 @@ namespace Sabre\Katana\Bin;
 
 use Sabre\Katana\Stub\Zip;
 use Sabre\Katana\Stub\Phar;
-use Sabre\Katana\Protocol;
 use Sabre\Katana\Exception;
 use Hoa\Console;
 use Hoa\File\Finder;
@@ -104,7 +103,7 @@ class Stub extends AbstractCommand {
             $finder->notIn('/^' . preg_quote($pathName, '/') . '$/');
 
             $archiveName  =
-            $pharPathname = Protocol::realPath('katana://data/share/' . $pathName, false);
+            $pharPathname = SABRE_KATANA_PREFIX . '/data/share/' . $pathName;
 
             if (true === file_exists($pharPathname)) {
                 unlink($pharPathname);
@@ -125,7 +124,7 @@ class Stub extends AbstractCommand {
             $finder->notIn('/^' . preg_quote($pathName, '/') . '$/');
 
             $archiveName  =
-            $pharPathname = Protocol::realPath('katana://data/share/' . $pathName, false);
+            $pharPathname = SABRE_KATANA_PREFIX . '/data/share/';
 
             if (true === file_exists($pharPathname)) {
                 unlink($pharPathname);

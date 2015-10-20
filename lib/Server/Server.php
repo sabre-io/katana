@@ -22,12 +22,11 @@
 
 namespace Sabre\Katana\Server;
 
+use PDO;
 use Sabre\Katana\Configuration;
-use Sabre\Katana\Database;
 use Sabre\Katana\Dav;
 use Sabre\Katana\DavAcl;
 use Sabre\Katana\CalDav;
-use Sabre\Katana\Protocol;
 use Sabre\CardDAV as SabreCardDav;
 use Sabre\CalDAV as SabreCalDav;
 use Sabre\DAV as SabreDav;
@@ -50,13 +49,6 @@ class Server {
     const ADMINISTRATOR_LOGIN = 'admin';
 
     /**
-     * Path to the configuration file.
-     *
-     * @const string
-     */
-    const CONFIGURATION_FILE  = 'katana://data/configuration/server.json';
-
-    /**
      * sabre/dav server.
      *
      * @var SabreDav\Server
@@ -73,7 +65,7 @@ class Server {
     /**
      * Database.
      *
-     * @var Database
+     * @var PDO
      */
     protected $database      = null;
 
@@ -129,7 +121,7 @@ class Server {
      */
     protected function initializeConfiguration() {
 
-        $this->configuration = new Configuration(static::CONFIGURATION_FILE);
+        $this->configuration = new Configuration(SABRE_KATANA_CONFIG);
     }
 
     /**
@@ -140,7 +132,7 @@ class Server {
     protected function initializeDatabase() {
 
         $configuration   = $this->getConfiguration()->database;
-        $this->database = new Database(
+        $this->database = new PDO(
             $configuration->dsn,
             $configuration->username,
             $configuration->password
@@ -247,7 +239,7 @@ class Server {
      */
     protected function initializeWebDAV(DavAcl\Principal\Backend $principalBackend) {
 
-        $storagePath = Protocol::realPath('katana://data/home');
+        $storagePath = SABRE_KATANA_PREFIX . '/data/home';
         $collection  = new DavAcl\File\Home(
             $principalBackend,
             $storagePath,
@@ -330,7 +322,7 @@ class Server {
     /**
      * Get the database.
      *
-     * @return Database
+     * @return PDO
      */
     function getDatabase() {
 

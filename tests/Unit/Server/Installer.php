@@ -22,11 +22,11 @@
 
 namespace Sabre\Katana\Test\Unit\Server;
 
+use PDO;
 use Sabre\Katana\Test\Unit\Suite;
 use Sabre\Katana\Server\Installer as CUT;
 use Sabre\Katana\Server\Server;
 use Sabre\Katana\Configuration;
-use Sabre\Katana\Database;
 use Sabre\Katana\DavAcl\User\Plugin as User;
 use Sabre\HTTP;
 
@@ -544,7 +544,7 @@ class Installer extends Suite {
                 ->string($content['base_url'])
                     ->isEqualTo('/')
                 ->string($content['database']['dsn'])
-                    ->matches('#^sqlite:katana://data/database/katana_\d+\.sqlite#')
+                    ->matches('#data/database/katana_\d+\.sqlite#')
                 ->string($content['database']['username'])
                     ->isEqualTo('foo')
                 ->string($content['database']['password'])
@@ -818,7 +818,7 @@ class Installer extends Suite {
             ->when($result = CUT::createConfigurationFile($filename, $content))
             ->then
                 ->string($result->database->dsn)
-                    ->matches('#^sqlite:katana://data/database/katana_\d+\.sqlite#');
+                    ->matches('#/data/database/katana_\d+\.sqlite#');
     }
 
     /**
@@ -864,7 +864,7 @@ class Installer extends Suite {
             ->when($result = CUT::createDatabase($configuration))
             ->then
                 ->object($result)
-                    ->isInstanceOf('Sabre\Katana\Database');
+                    ->isInstanceOf('PDO');
 
         $this
             ->when(
@@ -921,7 +921,7 @@ class Installer extends Suite {
             ->when($result = CUT::createDatabase($configuration))
             ->then
                 ->object($result)
-                    ->isInstanceOf('Sabre\Katana\Database');
+                    ->isInstanceOf('PDO');
 
         $this
             ->when(
@@ -1082,7 +1082,7 @@ class Installer extends Suite {
                         ]
                     )
                 ),
-                $database = new Database($this->helper->sqlite())
+                $database = new PDO($this->helper->sqlite())
             )
             ->exception(function() use ($configuration, $database) {
                 CUT::createAdministratorProfile(
@@ -1111,7 +1111,7 @@ class Installer extends Suite {
                         ]
                     )
                 ),
-                $database = new Database($this->helper->sqlite())
+                $database = new PDO($this->helper->sqlite())
             )
             ->exception(function() use ($configuration, $database) {
                 CUT::createAdministratorProfile(

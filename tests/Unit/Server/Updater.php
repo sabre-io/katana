@@ -22,6 +22,7 @@
 
 namespace Sabre\Katana\Test\Unit\Server;
 
+use Sabre\Katana\Version;
 use Sabre\Katana\Test\Unit\Suite;
 use Sabre\Katana\Server\Updater as CUT;
 
@@ -45,7 +46,7 @@ class Updater extends Suite {
                     ->isEqualTo(
                         CUT::DEFAULT_UPDATE_SERVER .
                         'updates.json?' .
-                        'version=' . SABRE_KATANA_VERSION
+                        'version=' . Version::VERSION
                     );
     }
 
@@ -59,7 +60,7 @@ class Updater extends Suite {
                     ->isEqualTo(
                         $server .
                         'updates.json?' .
-                        'version=' . SABRE_KATANA_VERSION
+                        'version=' . Version::VERSION
                     );
     }
 
@@ -75,7 +76,7 @@ class Updater extends Suite {
                         'updates.json?' .
                         'a=b%20c&' .
                         'd=e&' .
-                        'version=' . SABRE_KATANA_VERSION
+                        'version=' . Version::VERSION
                     );
     }
 

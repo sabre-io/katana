@@ -40,7 +40,7 @@ $router
         '.*',
         function(Dispatcher\Kit $_this) {
             $uri  = $_this->router->getURI();
-            $file = 'katana://public/' . rtrim($uri, '/');
+            $file = __DIR__ . '/../../../public/' . rtrim($uri, '/');
 
             if (!empty($uri) && true === file_exists($file)) {
                 if ('.php' === substr($file, -4)) {
@@ -64,7 +64,7 @@ $router
                 return;
             }
 
-            require 'katana://public/server.php';
+            require __DIR__ . '/../../../public/server.php';
         }
     );
 

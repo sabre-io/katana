@@ -24,6 +24,7 @@ namespace Sabre\Katana\Dav\System\Version;
 
 use Sabre\Katana\Server\Updater;
 use Sabre\Katana\Dav\System;
+use Sabre\Katana\Version;
 use Sabre\DAV as SabreDav;
 use Sabre\HTTP\RequestInterface as Request;
 use Sabre\HTTP\ResponseInterface as Response;
@@ -116,7 +117,7 @@ class Plugin extends SabreDav\ServerPlugin {
         }
 
         $payload = [
-            'current_version' => SABRE_KATANA_VERSION
+            'current_version' => Version::VERSION
         ];
 
         $extra = [];
@@ -135,7 +136,7 @@ class Plugin extends SabreDav\ServerPlugin {
             $versions        = json_decode($versions, true);
             $versionsToFetch = Updater::filterVersions(
                 $versions,
-                SABRE_KATANA_VERSION,
+                Version::VERSION,
                 Updater::FORMAT_PHAR
             );
             $payload['next_versions'] = array_keys($versionsToFetch);
