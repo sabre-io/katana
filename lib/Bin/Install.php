@@ -441,7 +441,7 @@ class Install extends AbstractCommand {
             $progress(5, 'Create configuration file…');
 
             $configuration = Installer::createConfigurationFile(
-                Server::CONFIGURATION_FILE,
+                SABRE_KATANA_CONFIG,
                 [
                     'baseUrl'  => $form['baseUrl'],
                     'database' => $form['database']

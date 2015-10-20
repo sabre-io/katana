@@ -22,8 +22,8 @@
 
 namespace Sabre\Katana\Server;
 
+use PDO;
 use Sabre\Katana\Configuration;
-use Sabre\Katana\Database;
 use Sabre\Katana\Exception;
 use Sabre\Katana\DavAcl\User\Plugin as User;
 use Sabre\HTTP\Request;
@@ -51,7 +51,7 @@ class Installer {
      */
     static function isInstalled() {
 
-        return true === file_exists(Server::CONFIGURATION_FILE);
+        return true === file_exists(SABRE_KATANA_CONFIG);
     }
 
     /**
@@ -224,7 +224,7 @@ class Installer {
             );
         }
 
-        if (false === in_array($parameters['driver'], Database::getAvailableDrivers())) {
+        if (false === in_array($parameters['driver'], PDO::getAvailableDrivers())) {
             throw new Exception\Installation(
                 'Driver %s is not supported by the server.',
                 1,
@@ -243,7 +243,7 @@ class Installer {
             );
 
             try {
-                $database = new Database(
+                $database = new PDO(
                     $dsn,
                     $parameters['username'],
                     $parameters['password']
@@ -352,7 +352,7 @@ class Installer {
             case 'sqlite':
                 $dsn = sprintf(
                     'sqlite:%s_%d.sqlite',
-                    'katana://data/database/katana',
+                    SABRE_KATANA_PREFIX . '/data/database/katana',
                     time()
                 );
                 break;
@@ -382,7 +382,7 @@ class Installer {
      * Create the database.
      *
      * @param  Configuration  $configuration    Configuration.
-     * @return Database
+     * @return PDO
      * @throw  Exception\Installation
      */
     static function createDatabase(Configuration $configuration) {
@@ -395,7 +395,7 @@ class Installer {
         }
 
         try {
-            $database = new Database(
+            $database = new PDO(
                 $configuration->database->dsn,
                 $configuration->database->username,
                 $configuration->database->password
@@ -409,12 +409,13 @@ class Installer {
             );
         }
 
-        $templateSchemaIterator = $database->getTemplateSchemaIterator();
+        $driver = $database->getAttribute(PDO::ATTR_DRIVER_NAME);
+        $templateSchemaIterator = glob(SABRE_KATANA_PREFIX . '/resource/default/database/*.' . $driver . '.sql');
 
         try {
             foreach ($templateSchemaIterator as $templateSchema) {
 
-                $schema  = $templateSchema->open()->readAll();
+                $schema  = file_get_contents($templateSchema);
                 $verdict = $database->exec($schema);
 
                 if (false === $verdict) {
@@ -424,8 +425,6 @@ class Installer {
                         10
                     );
                 }
-
-                $templateSchema->close();
 
             }
         } catch (PDOException $exception) {
@@ -443,8 +442,8 @@ class Installer {
     /**
      * Create the administrator profile.
      *
-     * @param  Configuration  $configuration    Configuration.
-     * @param  Database       $database         Database.
+     * @param Configuration $configuration
+     * @param PDO $database
      * @param  string         $email            Administrator's email.
      * @param  string         $password         Administrator's password.
      * @return bool
@@ -452,7 +451,7 @@ class Installer {
      */
     static function createAdministratorProfile(
         Configuration $configuration,
-        Database $database,
+        PDO $database,
         $email,
         $password
     ) {

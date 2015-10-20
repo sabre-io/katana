@@ -23,6 +23,7 @@
 namespace Sabre\Katana\Bin;
 
 use Hoa\Console;
+use Sabre\Katana\Version;
 
 /**
  * Welcome page.
@@ -80,7 +81,7 @@ LOGO;
                     break;
 
                 case 'v':
-                    echo SABRE_KATANA_VERSION, "\n";
+                    echo Version::VERSION, "\n";
                     return 0;
                     break;
 

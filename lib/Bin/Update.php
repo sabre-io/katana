@@ -24,7 +24,7 @@ namespace Sabre\Katana\Bin;
 
 use Sabre\Katana\Server\Updater;
 use Sabre\Katana\Exception;
-use Sabre\Katana\Protocol;
+use Sabre\Katana\Version;
 use Sabre\Uri;
 use Hoa\Core;
 use Hoa\Console;
@@ -140,7 +140,7 @@ class Update extends AbstractCommand {
              */
             $versionsToFetch = Updater::filterVersions(
                 $versions,
-                SABRE_KATANA_VERSION,
+                Version::VERSION,
                 $operation
             );
 
@@ -180,7 +180,7 @@ class Update extends AbstractCommand {
                 );
 
                 $fileOut = new File\Write(
-                    'katana://data/share/update/' . $versionUrlBasename
+                    SABRE_KATANA_PREFIX . '/data/share/update/' . $versionUrlBasename
                 );
 
                 echo
@@ -222,7 +222,7 @@ class Update extends AbstractCommand {
                 echo
                     "\n",
                     'Fetched at ',
-                    Protocol::realPath($fileOut->getStreamName()),
+                    $fileOut->getStreamName(),
                     '.',
                     "\n";
             }
