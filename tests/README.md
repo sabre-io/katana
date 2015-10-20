@@ -67,7 +67,6 @@ description:
 | `database`       | About the database (whatever the driver) |
 | `sqlite`         | About the SQLite driver of the database  |
 | `mysql`          | About the MySQL driver of the database   |
-| `protocol`       | About the `katana://` protocol           |
 | `installation`   | About the installation                   |
 | `update`         | About the update                         |
 | `http`           | About code using HTTP                    |

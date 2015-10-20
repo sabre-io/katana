@@ -47,4 +47,4 @@ if (false === Installer::isInstalled()) {
 
 }
 
-echo file_get_contents('katana://resource/view/admin.html');
+echo file_get_contents(__DIR__ .. '/resource/view/admin.html');
