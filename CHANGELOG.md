@@ -1,11 +1,17 @@
 ChangeLog
 =========
 
-0.4.0 (2015-??-??)
+0.4.0 (2015-10-20)
 ------------------
 
 * Updated all dependencies to their latest versions.
-* Removed a lot of unneeded code (removed `katana://` protocol code).
+* Removed a lot of unneeded code (removed `katana://` protocol code, custom
+  exception handlers).
+* Version information is now in `Sabre\Katana\Version` class.
+* Moved `vendor` directory to root.
+* Removed `Sabre\Katana\Database` (a plain PDO object is now used).
+* This version bundles sabre/dav version 3.0.5
+
 
 0.3.2 (2015-05-12)
 ------------------
