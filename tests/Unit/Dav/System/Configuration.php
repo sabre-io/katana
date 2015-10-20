@@ -53,6 +53,7 @@ class Configuration extends Suite {
             )
             ->when($server->run())
             ->then
+                ->let(print_r($server->response->getBodyAsString()))
                 ->string($server->response->getHeader('Content-Type'))
                     ->isEqualTo('application/json')
                 ->let($body = json_decode($server->response->getBodyAsString(), true))
@@ -109,7 +110,7 @@ class Configuration extends Suite {
                     json_encode([
                         'transport' => 'foo.bar:587',
                         'username'  => 'alix',
-                        'password'  => '💩'
+                        'password'  => 'password'
                     ])
                 )
             )
@@ -130,7 +131,7 @@ class Configuration extends Suite {
                             'mail' => (object)[
                                 'transport' => 'foo.bar:587',
                                 'username'  => 'alix',
-                                'password'  => '💩'
+                                'password'  => 'password'
                             ]
                         ]
                     );

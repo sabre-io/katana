@@ -37,7 +37,7 @@ use Sabre\Katana\Test\Helper;
 class Server extends OriginalServer {
 
     const ADMINISTRATOR_EMAIL    = 'katana@domain.tld';
-    const ADMINISTRATOR_PASSWORD = '🔒';
+    const ADMINISTRATOR_PASSWORD = 'password';
 
     public $request  = null;
     public $response = null;
