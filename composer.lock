@@ -80,16 +80,16 @@
         },
         {
             "name": "hoa/core",
-            "version": "2.15.06.02",
+            "version": "2.15.07.05",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Core.git",
-                "reference": "1ebc1c810d59511c215e79a8b6ef33cbd0ec7d91"
+                "reference": "d4b0dae92c8f1b64b11e6379502a668d5e318ed5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Core/zipball/1ebc1c810d59511c215e79a8b6ef33cbd0ec7d91",
-                "reference": "1ebc1c810d59511c215e79a8b6ef33cbd0ec7d91",
+                "url": "https://api.github.com/repos/hoaproject/Core/zipball/d4b0dae92c8f1b64b11e6379502a668d5e318ed5",
+                "reference": "d4b0dae92c8f1b64b11e6379502a668d5e318ed5",
                 "shasum": ""
             },
             "require": {
@@ -148,7 +148,7 @@
                 "parameter",
                 "protocol"
             ],
-            "time": "2015-06-02 06:51:41"
+            "time": "2015-07-05 13:19:12"
         },
         {
             "name": "hoa/dispatcher",
