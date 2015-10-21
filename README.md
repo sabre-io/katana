@@ -5,9 +5,9 @@ This project is **alpha** quality. We don't yet guarantee stability, data integr
 # ![K (sabre/katana's logo)](public/static/image/katana_logo_full.png)
 
 sabre/katana is a **contact**, **calendar**, **task list** and **file** server.
-Based on world-widely used standards (respectively [CardDAV], [CalDAV] and
+Based on standards used worldwide (respectively [CardDAV], [CalDAV] and
 [WebDAV]), sabre/katana will sync your data between **any devices**, from
-**everywhere**, **every time**. Let's manage users and their data in a minute.
+**everywhere**, **every time**. It lets you manage users and their data in a minute.
 sabre/katana is powered by sabre/dav, an open source technology trusted by the
 likes of [Atmail], [Box], [fruux] and [ownCloud].
 
@@ -15,11 +15,11 @@ likes of [Atmail], [Box], [fruux] and [ownCloud].
 
 Once sabre/katana has been installed, you will be able to manage:
 
-  * Users,
-  * Address books,
-  * Calendars,
-  * Task lists,
-  * Files.
+  * Users
+  * Address books
+  * Calendars
+  * Task lists
+  * Files
 
 More than 35 RFCs are supported. See [the exhaustive list of all supported
 standars][sabre_standards]. This includes: vCard 4.0, iCalendar 2.0, jCal,
@@ -27,16 +27,16 @@ jCard, iTip, iMip, ACL etc.
 
 Overview of features:
 
-  * WebDAV: Principals, users, HTTP authentification, ACL and synchronization,
-  * Address books: VCF export,
+  * WebDAV: Principals, users, HTTP authentification, ACL and synchronization
+  * Address books: VCF export
   * Calendars: ICS export, scheduling (iTIP and iMIP, respectively invite
-    attendees that are registered on your server or not),
-  * Task lists: ICS export,
-  * Files: Home collection, public directory, locks.
+    attendees that are registered on your server or not)
+  * Task lists: ICS export
+  * Files: Home collection, public directory, locks
 
 ### Screenshots
 
-Easy installation through a wizzard:
+Easy step-by-step installation through a wizard:
 
 ![Installation in the browser](https://farm8.staticflickr.com/7765/17197365573_471d88c2d2_z.jpg?1)
 
@@ -65,7 +65,7 @@ You are also able to create, edit, delete or download calendars and task lists:
 
 ![List of calendars](https://farm9.staticflickr.com/8846/17630174780_0126895a26_z.jpg?6)
 
-You can explore the home collection of a user. Notice the public directory,
+You can explore the home collection of a user. Notice the public directory - 
 files put inside are accessible to anyone but no listing is available:
 
 ![List of files](https://farm6.staticflickr.com/5334/17818198201_5707937101_z.jpg?6)
@@ -123,8 +123,8 @@ To update sabre/katana, you have two options.
 
 ### In your browser
 
-So far, only a message will be prompt, indicating how to update manually.
-We are working on automatic update in the browser.
+So far, only a message will prompt you, indicating how to update manually.
+We are working on an automatic update in the browser.
 
 ### In your terminal
 
@@ -136,7 +136,7 @@ We are working on automatic update in the browser.
      ```
 
      You will find the archives in the `data/share/update/` directory. To
-     finally update sabre/katana, simply run:
+     finish updating sabre/katana, simply run:
 
      ```sh
      $ unzip -u data/share/update/katana_vx.y.z.zip -d .
@@ -150,7 +150,7 @@ We are working on automatic update in the browser.
      ```
 
      You will also find the archives in the `data/share/update/` directory. To
-     finally update sabre/katana, simply run:
+     finish updating sabre/katana, simply run:
 
      ```sh
      $ bin/katana update --apply data/share/update/katana_vx.y.z.phar
@@ -174,21 +174,19 @@ We are working on automatic update in the browser.
 ## Raw backup
 
 So far, it is possible to only create a backup in your terminal, by using the
-following commands:
+following commands. To create a ZIP archive:
 
 ```sh
 $ bin/katana stub --zip
 ```
 
-to create a ZIP archive, or
+To create an executable PHAR archive:
 
 ```sh
 $ bin/katana stub --phar
 ```
 
-to create an executable PHAR archive.
-
-**⚠️ Warning**: The current command does not backup MySQL database.
+**⚠️ Warning**: The current command does not backup the MySQL database.
 
 ## Supported technologies
 
