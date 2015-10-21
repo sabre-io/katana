@@ -1,6 +1,12 @@
 ChangeLog
 =========
 
+0.4.1 (2015-10-21)
+------------------
+
+* Previous build was broken. This is a new build.
+
+
 0.4.0 (2015-10-20)
 ------------------
 
