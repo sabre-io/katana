@@ -117,7 +117,7 @@ test: devinstall-server
 
 DISTFILES = .bowerrc CHANGELOG.md LICENSE Makefile README.md bin bootstrap.php bower.json composer.json composer.lock data lib package.json public resource semantic.json tests vendor
 DISTPOINTLESS = .bowerrc Makefile bower.json composer.json composer.lock node_modules tests
-KATANA_VERSION = $(shell php -r "include 'lib/Version.php'; echo Sabre\Katana\Version::VERSION;")
+KATANA_VERSION = $(shell ./bin/katana --version)
 
 dist: dist-clean
 	mkdir -p build/sabre-katana
