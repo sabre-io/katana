@@ -171,22 +171,6 @@ We are working on an automatic update in the browser.
      will respectively print the signature and the metadata of this version. Use
      `-h`, `-?` or `--help` to get help.
 
-## Raw backup
-
-So far, it is possible to only create a backup in your terminal, by using the
-following commands. To create a ZIP archive:
-
-```sh
-$ bin/katana stub --zip
-```
-
-To create an executable PHAR archive:
-
-```sh
-$ bin/katana stub --phar
-```
-
-**⚠️ Warning**: The current command does not backup the MySQL database.
 
 ## Supported technologies
 
