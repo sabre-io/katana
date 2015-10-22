@@ -29,13 +29,15 @@
         "hoa/socket"               : "~0.0, >=0.15.02.25",
         "hoa/ustring"              : "~3.0",
         "hoa/stringbuffer"         : "~0.0",
+        "hoa/file"                 : "~0.15.05.27",
         "ircmaxell/password-compat": "~1.0"
     },
     "require-dev": {
         "atoum/atoum"              : "~2.1",
         "atoum/praspel-extension"  : "~0.1",
         "atoum/ruler-extension"    : "~1.0, >=1.0.2",
-        "sabre/cs"                 : "~0.0.4"
+        "sabre/cs"                 : "~0.0.4",
+        "hoa/regex"                : "~0.15.08.13"
     },
     "suggest": {
         "ext-pdo_sqlite": "If you decide to use SQLite.",
