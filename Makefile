@@ -41,6 +41,7 @@ clean:
 	find . -name ".DS_Store" | \
 		xargs rm -f
 	rm -rf node_modules
+
 	rm -rf resource/view/semantic-ui/dist/
 	find public/static/vendor/ember \
 		-type f \
@@ -76,16 +77,12 @@ clean:
 			xargs rm -rf
 	rm -f data/log/*.log
 
-distclean: clean distclean-server distclean-client
-
-distclean-server:
 	find vendor -maxdepth 1 -type d | \
 		xargs rm -rf
 	rm -f vendor/autoload.php
 	find bin -maxdepth 1 -type l | \
 		xargs rm
 
-distclean-client:
 	find public/static/vendor -maxdepth 1 -type d | \
 		xargs rm -rf
 
@@ -93,16 +90,20 @@ uninstall:
 	@echo 'You are going to uninstall sabre/katana and lose everything!'
 	@read -p 'Are you sure? [Y/n] ' go; \
 		if [[ 'Y' = $$go ]]; then \
-			echo 'Remove data/configuration/server.json'; \
-			rm -f data/configuration/server.json; \
-			echo 'Remove data/database/katana_*.sqlite'; \
-			rm -f data/database/katana_*.sqlite; \
-			echo 'Remove data/home/*'; \
-			find data/home/* -maxdepth 1 -type d | \
-				xargs rm -rf; \
+			$(MAKE) headless-uninstall
 		else \
 			echo 'Aborted!'; \
 		fi
+
+headless-uninstall:
+	echo 'Remove data/configuration/server.json'; \
+	rm -f data/configuration/server.json; \
+	echo 'Remove data/database/katana_*.sqlite'; \
+	rm -f data/database/katana_*.sqlite; \
+	echo 'Remove data/home/*'; \
+	find data/home/* -maxdepth 1 -type d | \
+		xargs rm -rf; \
+
 
 test: devinstall-server
 	bin/atoum \
@@ -113,3 +114,23 @@ test: devinstall-server
 			--dry-run \
 			--diff \
 			.
+
+DISTFILES = .bowerrc CHANGELOG.md LICENSE Makefile README.md bin bootstrap.php bower.json composer.json composer.lock data lib package.json public resource semantic.json tests vendor
+DISTPOINTLESS = .bowerrc Makefile bower.json composer.json composer.lock node_modules tests
+KATANA_VERSION = $(shell php -r "include 'lib/Version.php'; echo Sabre\Katana\Version::VERSION;")
+
+dist: dist-clean
+	mkdir -p build/sabre-katana
+	cp -Rv $(DISTFILES) build/sabre-katana
+	$(MAKE) -C build/sabre-katana headless-uninstall
+	$(MAKE) -C build/sabre-katana clean
+	$(MAKE) -C build/sabre-katana all
+	cd build/sabre-katana; \
+		rm -r $(DISTPOINTLESS)
+	cd build; zip -r sabre-katana-$(KATANA_VERSION).zip sabre-katana
+
+
+dist-clean:
+	rm -rf build/sabre-katana
+
+.PHONY: all install install-server install-client devinstall devinstall-server devinstall-clietn build-semantic-ui build-moment clean distclean distclean-server distclean-client uninstall testo dist-clean
