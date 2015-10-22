@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4563b22a4ea769cef5381e54827645b1",
-    "content-hash": "bb05a8a860aae9a911ce13cf5ff45a16",
+    "hash": "2050f535d0511fc82ffd91468a15f3ab",
+    "content-hash": "4b5071f1cff60c033ad694c820ca59f4",
     "packages": [
         {
             "name": "hoa/console",
@@ -265,6 +265,66 @@
             "time": "2015-08-13 08:41:33"
         },
         {
+            "name": "hoa/file",
+            "version": "0.15.05.27",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hoaproject/File.git",
+                "reference": "bd82aff5e81f16971c5fc99301a5c5717b1fd4da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hoaproject/File/zipball/bd82aff5e81f16971c5fc99301a5c5717b1fd4da",
+                "reference": "bd82aff5e81f16971c5fc99301a5c5717b1fd4da",
+                "shasum": ""
+            },
+            "require": {
+                "hoa/core": "~2.0",
+                "hoa/iterator": "~1.0",
+                "hoa/stream": "~0.0"
+            },
+            "require-dev": {
+                "hoa/test": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hoa\\File\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Enderlin",
+                    "email": "ivan.enderlin@hoa-project.net"
+                },
+                {
+                    "name": "Hoa community",
+                    "homepage": "http://hoa-project.net/"
+                }
+            ],
+            "description": "The Hoa\\File library.",
+            "homepage": "http://hoa-project.net/",
+            "keywords": [
+                "Socket",
+                "directory",
+                "file",
+                "finder",
+                "library",
+                "link",
+                "temporary"
+            ],
+            "time": "2015-05-27 09:18:31"
+        },
+        {
             "name": "hoa/http",
             "version": "0.15.09.08",
             "source": {
@@ -508,16 +568,16 @@
         },
         {
             "name": "hoa/router",
-            "version": "2.15.08.03",
+            "version": "2.15.10.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Router.git",
-                "reference": "01f5a84c69cb70626ce0d8731cf0ae27f57268c9"
+                "reference": "6d9a39c5655660ea80d8196fddccdc02054ea3bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Router/zipball/01f5a84c69cb70626ce0d8731cf0ae27f57268c9",
-                "reference": "01f5a84c69cb70626ce0d8731cf0ae27f57268c9",
+                "url": "https://api.github.com/repos/hoaproject/Router/zipball/6d9a39c5655660ea80d8196fddccdc02054ea3bd",
+                "reference": "6d9a39c5655660ea80d8196fddccdc02054ea3bd",
                 "shasum": ""
             },
             "require": {
@@ -556,7 +616,7 @@
                 "library",
                 "router"
             ],
-            "time": "2015-08-03 07:32:03"
+            "time": "2015-10-21 14:12:51"
         },
         {
             "name": "hoa/socket",
@@ -1368,16 +1428,16 @@
         },
         {
             "name": "fabpot/php-cs-fixer",
-            "version": "v1.10.1",
+            "version": "v1.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "12dbcd1462f1e3a5a96c6c7398af26b28e092a8a"
+                "reference": "e8b3c4e41dc1484210fdc45363c41af6c2d56f20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/12dbcd1462f1e3a5a96c6c7398af26b28e092a8a",
-                "reference": "12dbcd1462f1e3a5a96c6c7398af26b28e092a8a",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/e8b3c4e41dc1484210fdc45363c41af6c2d56f20",
+                "reference": "e8b3c4e41dc1484210fdc45363c41af6c2d56f20",
                 "shasum": ""
             },
             "require": {
@@ -1418,20 +1478,20 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2015-10-12 20:13:46"
+            "time": "2015-10-21 19:19:43"
         },
         {
             "name": "hoa/compiler",
-            "version": "2.15.08.25",
+            "version": "2.15.10.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Compiler.git",
-                "reference": "f72e659616041dcfe22dcab1b5fd84795883e7b6"
+                "reference": "d8843e44e212c8c10e305fca83167d89689c0b0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Compiler/zipball/f72e659616041dcfe22dcab1b5fd84795883e7b6",
-                "reference": "f72e659616041dcfe22dcab1b5fd84795883e7b6",
+                "url": "https://api.github.com/repos/hoaproject/Compiler/zipball/d8843e44e212c8c10e305fca83167d89689c0b0c",
+                "reference": "d8843e44e212c8c10e305fca83167d89689c0b0c",
                 "shasum": ""
             },
             "require": {
@@ -1498,67 +1558,7 @@
                 "trace",
                 "uniform"
             ],
-            "time": "2015-08-25 06:04:36"
-        },
-        {
-            "name": "hoa/file",
-            "version": "0.15.05.27",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/File.git",
-                "reference": "bd82aff5e81f16971c5fc99301a5c5717b1fd4da"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/File/zipball/bd82aff5e81f16971c5fc99301a5c5717b1fd4da",
-                "reference": "bd82aff5e81f16971c5fc99301a5c5717b1fd4da",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/core": "~2.0",
-                "hoa/iterator": "~1.0",
-                "hoa/stream": "~0.0"
-            },
-            "require-dev": {
-                "hoa/test": "~1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\File\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "http://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\File library.",
-            "homepage": "http://hoa-project.net/",
-            "keywords": [
-                "Socket",
-                "directory",
-                "file",
-                "finder",
-                "library",
-                "link",
-                "temporary"
-            ],
-            "time": "2015-05-27 09:18:31"
+            "time": "2015-10-21 14:07:04"
         },
         {
             "name": "hoa/math",

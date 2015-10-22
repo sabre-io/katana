@@ -59,7 +59,6 @@ LOGO;
     protected $commands = [
         'welcome',
         'install',
-        'stub',
         'update'
     ];
 
