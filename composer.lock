@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1061cf9b18c469aa8049093dd54a965f",
-    "content-hash": "eaeaf60aaab4b5c3e3e30b492bf9ef91",
+    "hash": "95d2634b6b15e0b919bd6055f7f019ad",
+    "content-hash": "3dcc3f2fad576124852adc908c97e652",
     "packages": [
         {
             "name": "hoa/console",

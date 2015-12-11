@@ -33,11 +33,11 @@
         "ircmaxell/password-compat": "~1.0"
     },
     "require-dev": {
-        "atoum/atoum"              : "~2.1",
-        "atoum/praspel-extension"  : "~0.1",
-        "atoum/ruler-extension"    : "~1.0, >=1.0.2",
+        "atoum/atoum"              : "~2.4.1",
+        "atoum/praspel-extension"  : "~0.1, >=0.14.11.25",
+        "atoum/ruler-extension"    : "~1.0, >=1.0.3",
         "sabre/cs"                 : "~0.0.5",
-        "hoa/regex"                : "~0.15.08.13"
+        "hoa/regex"                : "~0.0 >=0.15.08.13"
     },
     "suggest": {
         "ext-pdo_sqlite": "If you decide to use SQLite.",
