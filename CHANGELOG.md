@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+0.4.2 (2015-12-11)
+------------------
+
+* Identical functionality, new build. The sabre/katana package is now less
+  than 7 MB instead of 80.
+
+
 0.4.1 (2015-10-21)
 ------------------
 
