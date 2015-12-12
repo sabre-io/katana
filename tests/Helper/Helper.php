@@ -60,7 +60,7 @@ class Helper {
      * @param  array   $arguments    Helper's arguments.
      * @return mixed
      */
-    function __call($name, Array $arguments) {
+    function __call($name, array $arguments) {
 
         if (!isset($this->helpers[$name])) {
             throw new RuntimeException(sprintf('Helper %s does not exist.', $name));

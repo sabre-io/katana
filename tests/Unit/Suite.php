@@ -91,7 +91,7 @@ class Suite extends atoum\test
             strrpos($testedClassName, '\\')
         );
 
-        $this->getPhpMocker()->setDefaultNamespace($testedNamespace);
+        $this->getPhpFunctionMocker()->setDefaultNamespace($testedNamespace);
 
         return $out;
     }

@@ -33,7 +33,7 @@
         "ircmaxell/password-compat": "~1.0"
     },
     "require-dev": {
-        "atoum/atoum"              : "~2.1",
+        "atoum/atoum"              : "~2.4, >=2.4.1",
         "atoum/praspel-extension"  : "~0.1",
         "atoum/ruler-extension"    : "~1.0, >=1.0.2",
         "sabre/cs"                 : "~0.0.4",

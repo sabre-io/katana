@@ -41,7 +41,7 @@ class Configuration {
      *                              JSON).
      * @return string
      */
-    function __invoke($filename, Array $content = null) {
+    function __invoke($filename, array $content = null) {
 
         $file = (string)file::get($filename);
 
