@@ -516,7 +516,7 @@ class Install extends AbstractCommand {
             'The base URL is the full URL to `server.php` in your ' .
             'sabre/katana installation. If you are going to run ' .
             'sabre/katana in a subdirectory, this means that it might ' .
-            'look semothing like this ' .
+            'look something like this ' .
             '`/dir/katana/public/server.php/`.';
     }
 }
