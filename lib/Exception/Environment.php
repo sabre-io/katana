@@ -26,7 +26,7 @@ namespace Sabre\Katana\Exception;
  * This exception represents any environment issue (like a missing configuration
  * file).
  *
- * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */

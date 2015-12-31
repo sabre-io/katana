@@ -28,7 +28,7 @@ use Sabre\Katana\Server\Installer as CUT;
 /**
  * Test suite of the installer.
  *
- * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  *

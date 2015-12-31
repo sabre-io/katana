@@ -31,7 +31,7 @@ use Hoa\File as HoaFile;
  * principal specific WebDAV folder. Only the owner can read and write inside
  * this folder, except for the `public/` directory where everyone can read.
  *
- * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */

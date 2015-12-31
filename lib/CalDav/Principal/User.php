@@ -28,7 +28,7 @@ use Sabre\CalDAV as SabreCalDav;
  * Principal user: Represents one node in a collection, for instance:
  * `/principals/gordon`.
  *
- * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */

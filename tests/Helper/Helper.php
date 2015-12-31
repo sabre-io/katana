@@ -28,7 +28,7 @@ use RuntimeException;
  * Helper manager.
  * A helper is a callable.
  *
- * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */

@@ -29,7 +29,7 @@ use Sabre\Katana\Server\Updater as CUT;
 /**
  * Test suite of the updater.
  *
- * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  *

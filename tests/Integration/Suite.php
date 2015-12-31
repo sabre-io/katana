@@ -27,7 +27,7 @@ use Sabre\Katana\Test\Unit\Suite as UnitSuite;
 /**
  * Integration test suite parent class.
  *
- * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */

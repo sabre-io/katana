@@ -27,7 +27,7 @@ use Sabre\Katana\Configuration as CUT;
 /**
  * Test suite of the configuration component.
  *
- * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  *
