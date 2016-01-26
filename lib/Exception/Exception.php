@@ -22,7 +22,7 @@
 
 namespace Sabre\Katana\Exception;
 
-use Hoa\Core;
+use Hoa\Exception as HoaException;
 
 /**
  * Mother exception of this project.
@@ -31,5 +31,5 @@ use Hoa\Core;
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
-class Exception extends Core\Exception {
+class Exception extends HoaException {
 }

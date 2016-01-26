@@ -26,10 +26,11 @@ use Sabre\Katana\Server\Updater;
 use Sabre\Katana\Exception;
 use Sabre\Katana\Version;
 use Sabre\Uri;
-use Hoa\Core;
+use Hoa\Consistency;
 use Hoa\Console;
 use Hoa\Console\Cursor;
 use Hoa\Console\Window;
+use Hoa\Event;
 use Hoa\File;
 
 /**
@@ -199,7 +200,7 @@ class Update extends AbstractCommand {
                 );
                 $fileIn->on(
                     'progress',
-                    function(Core\Event\Bucket $bucket) use ($progress) {
+                    function(Event\Bucket $bucket) use ($progress) {
 
                         static $previousPercent = 0;
 
@@ -238,7 +239,7 @@ class Update extends AbstractCommand {
             }
 
             $processus = new Console\Processus(
-                Core::getPHPBinary(),
+                Consistency::getPHPBinary(),
                 [
                     $location,
                     '--extract' => SABRE_KATANA_PREFIX,
@@ -248,7 +249,7 @@ class Update extends AbstractCommand {
             $processus->on('input', function() {
                 return false;
             });
-            $processus->on('output', function(Core\Event\Bucket $bucket) {
+            $processus->on('output', function(Event\Bucket $bucket) {
                 echo $bucket->getData()['line'], "\n";
             });
             $processus->run();
