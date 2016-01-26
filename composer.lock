@@ -4,30 +4,97 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ebcfd1f5ff898388dddcd6d9f77e7096",
-    "content-hash": "cf465ca98c1fa021c1f95453b5c045e0",
+    "hash": "463ede56cc2b4827f06e427169802611",
+    "content-hash": "6a8e24727396926e663edcbf73482cd7",
     "packages": [
         {
-            "name": "hoa/console",
-            "version": "2.15.07.27",
+            "name": "hoa/consistency",
+            "version": "1.16.01.14",
             "source": {
                 "type": "git",
-                "url": "https://github.com/hoaproject/Console.git",
-                "reference": "3b871f5f1059a3664acb5380ebadd988daa7a0db"
+                "url": "https://github.com/hoaproject/Consistency.git",
+                "reference": "7656b971a8248a8d314ed0c5bb0668936438f62a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Console/zipball/3b871f5f1059a3664acb5380ebadd988daa7a0db",
-                "reference": "3b871f5f1059a3664acb5380ebadd988daa7a0db",
+                "url": "https://api.github.com/repos/hoaproject/Consistency/zipball/7656b971a8248a8d314ed0c5bb0668936438f62a",
+                "reference": "7656b971a8248a8d314ed0c5bb0668936438f62a",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0",
-                "hoa/stream": "~0.0",
-                "hoa/ustring": "~3.0"
+                "hoa/exception": "~1.0",
+                "php": ">=5.5.0"
             },
             "require-dev": {
-                "hoa/test": "~1.0"
+                "hoa/stream": "~0.0",
+                "hoa/test": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hoa\\Consistency\\": "."
+                },
+                "files": [
+                    "Prelude.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Enderlin",
+                    "email": "ivan.enderlin@hoa-project.net"
+                },
+                {
+                    "name": "Hoa community",
+                    "homepage": "http://hoa-project.net/"
+                }
+            ],
+            "description": "The Hoa\\Consistency library.",
+            "homepage": "http://hoa-project.net/",
+            "keywords": [
+                "autoloader",
+                "callable",
+                "consistency",
+                "entity",
+                "flex",
+                "keyword",
+                "library"
+            ],
+            "time": "2016-01-14 10:26:48"
+        },
+        {
+            "name": "hoa/console",
+            "version": "3.16.01.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hoaproject/Console.git",
+                "reference": "8d279675fd421abe3b16982c5a58f24d1726db3b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hoaproject/Console/zipball/8d279675fd421abe3b16982c5a58f24d1726db3b",
+                "reference": "8d279675fd421abe3b16982c5a58f24d1726db3b",
+                "shasum": ""
+            },
+            "require": {
+                "hoa/consistency": "~1.0",
+                "hoa/event": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/file": "~1.0",
+                "hoa/protocol": "~1.0",
+                "hoa/stream": "~1.0",
+                "hoa/ustring": "~4.0"
+            },
+            "require-dev": {
+                "hoa/test": "~2.0"
             },
             "suggest": {
                 "ext-pcntl": "To enable hoa://Event/Console/Window:resize.",
@@ -37,7 +104,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "3.x-dev"
                 }
             },
             "autoload": {
@@ -77,96 +144,31 @@
                 "tput",
                 "window"
             ],
-            "time": "2015-07-27 07:52:10"
-        },
-        {
-            "name": "hoa/core",
-            "version": "2.15.11.09",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Core.git",
-                "reference": "5538b1e90e2c66c90df5cc45e03fb85d047be900"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Core/zipball/5538b1e90e2c66c90df5cc45e03fb85d047be900",
-                "reference": "5538b1e90e2c66c90df5cc45e03fb85d047be900",
-                "shasum": ""
-            },
-            "require": {
-                "ext-spl": "*",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "hoa/test": "~1.0"
-            },
-            "suggest": {
-                "ext-mbstring": "ext/mbstring must be present (or a third implementation).",
-                "hoa/cli": "To use the `hoa` script."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Core\\": "."
-                },
-                "files": [
-                    "Core.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "http://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Core library.",
-            "homepage": "http://hoa-project.net/",
-            "keywords": [
-                "consistency",
-                "core",
-                "data",
-                "event",
-                "library",
-                "listener",
-                "parameter",
-                "protocol"
-            ],
-            "time": "2015-11-09 06:51:06"
+            "time": "2016-01-14 20:46:35"
         },
         {
             "name": "hoa/dispatcher",
-            "version": "0.15.11.09",
+            "version": "1.16.01.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Dispatcher.git",
-                "reference": "45fd0484824b2a3a5059296eb2403399606627d9"
+                "reference": "a0ea27587a0a12ddcee6a00fac5ebc158a2186c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Dispatcher/zipball/45fd0484824b2a3a5059296eb2403399606627d9",
-                "reference": "45fd0484824b2a3a5059296eb2403399606627d9",
+                "url": "https://api.github.com/repos/hoaproject/Dispatcher/zipball/a0ea27587a0a12ddcee6a00fac5ebc158a2186c3",
+                "reference": "a0ea27587a0a12ddcee6a00fac5ebc158a2186c3",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0"
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/zformat": "~1.0"
             },
             "require-dev": {
-                "hoa/router": "~2.0",
-                "hoa/test": "~1.0",
-                "hoa/view": "~2.0"
+                "hoa/router": "~3.0",
+                "hoa/test": "~2.0",
+                "hoa/view": "~3.0"
             },
             "suggest": {
                 "hoa/router": "Provide routers.",
@@ -175,7 +177,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -204,33 +206,90 @@
                 "kit",
                 "library"
             ],
-            "time": "2015-11-09 06:52:08"
+            "time": "2016-01-14 20:52:21"
         },
         {
-            "name": "hoa/eventsource",
-            "version": "2.15.08.13",
+            "name": "hoa/event",
+            "version": "1.16.01.11",
             "source": {
                 "type": "git",
-                "url": "https://github.com/hoaproject/Eventsource.git",
-                "reference": "4fb55dcae9866dea6c6a499f7f04bed5cbd3171c"
+                "url": "https://github.com/hoaproject/Event.git",
+                "reference": "4470e090207336c01ea0cc6f9f1fa8832e4d9866"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Eventsource/zipball/4fb55dcae9866dea6c6a499f7f04bed5cbd3171c",
-                "reference": "4fb55dcae9866dea6c6a499f7f04bed5cbd3171c",
+                "url": "https://api.github.com/repos/hoaproject/Event/zipball/4470e090207336c01ea0cc6f9f1fa8832e4d9866",
+                "reference": "4470e090207336c01ea0cc6f9f1fa8832e4d9866",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0",
-                "hoa/http": "~0.0"
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0"
             },
             "require-dev": {
-                "hoa/test": "~1.0"
+                "hoa/test": "~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hoa\\Event\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Enderlin",
+                    "email": "ivan.enderlin@hoa-project.net"
+                },
+                {
+                    "name": "Hoa community",
+                    "homepage": "http://hoa-project.net/"
+                }
+            ],
+            "description": "The Hoa\\Event library.",
+            "homepage": "http://hoa-project.net/",
+            "keywords": [
+                "event",
+                "library",
+                "listener",
+                "observer"
+            ],
+            "time": "2016-01-11 08:34:41"
+        },
+        {
+            "name": "hoa/eventsource",
+            "version": "3.16.01.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hoaproject/Eventsource.git",
+                "reference": "e607b4ec00954a64c90205d14ef761574864c93a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hoaproject/Eventsource/zipball/e607b4ec00954a64c90205d14ef761574864c93a",
+                "reference": "e607b4ec00954a64c90205d14ef761574864c93a",
+                "shasum": ""
+            },
+            "require": {
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/http": "~1.0"
+            },
+            "require-dev": {
+                "hoa/test": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
                 }
             },
             "autoload": {
@@ -262,34 +321,90 @@
                 "push",
                 "server"
             ],
-            "time": "2015-08-13 08:41:33"
+            "time": "2016-01-14 20:54:16"
         },
         {
-            "name": "hoa/file",
-            "version": "0.15.05.27",
+            "name": "hoa/exception",
+            "version": "1.16.01.11",
             "source": {
                 "type": "git",
-                "url": "https://github.com/hoaproject/File.git",
-                "reference": "bd82aff5e81f16971c5fc99301a5c5717b1fd4da"
+                "url": "https://github.com/hoaproject/Exception.git",
+                "reference": "fa4a9648aef2c8ca8f4cd543429b24dc8feaa366"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/File/zipball/bd82aff5e81f16971c5fc99301a5c5717b1fd4da",
-                "reference": "bd82aff5e81f16971c5fc99301a5c5717b1fd4da",
+                "url": "https://api.github.com/repos/hoaproject/Exception/zipball/fa4a9648aef2c8ca8f4cd543429b24dc8feaa366",
+                "reference": "fa4a9648aef2c8ca8f4cd543429b24dc8feaa366",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0",
-                "hoa/iterator": "~1.0",
-                "hoa/stream": "~0.0"
+                "hoa/consistency": "~1.0",
+                "hoa/event": "~1.0"
             },
             "require-dev": {
-                "hoa/test": "~1.0"
+                "hoa/test": "~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.x-dev"
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hoa\\Exception\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Enderlin",
+                    "email": "ivan.enderlin@hoa-project.net"
+                },
+                {
+                    "name": "Hoa community",
+                    "homepage": "http://hoa-project.net/"
+                }
+            ],
+            "description": "The Hoa\\Exception library.",
+            "homepage": "http://hoa-project.net/",
+            "keywords": [
+                "exception",
+                "library"
+            ],
+            "time": "2016-01-11 08:38:17"
+        },
+        {
+            "name": "hoa/file",
+            "version": "1.16.01.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hoaproject/File.git",
+                "reference": "bc04ddb476bfeee03c2be585fc37a98d2887277b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hoaproject/File/zipball/bc04ddb476bfeee03c2be585fc37a98d2887277b",
+                "reference": "bc04ddb476bfeee03c2be585fc37a98d2887277b",
+                "shasum": ""
+            },
+            "require": {
+                "hoa/consistency": "~1.0",
+                "hoa/event": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/iterator": "~2.0",
+                "hoa/stream": "~1.0"
+            },
+            "require-dev": {
+                "hoa/test": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -322,30 +437,31 @@
                 "link",
                 "temporary"
             ],
-            "time": "2015-05-27 09:18:31"
+            "time": "2016-01-14 20:55:07"
         },
         {
             "name": "hoa/http",
-            "version": "0.15.09.08",
+            "version": "1.16.01.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Http.git",
-                "reference": "dcb26446c4004ae65876794edf94c806ae8715e7"
+                "reference": "2a54faf6e530a8baba5aecab42759a5fbe6a61f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Http/zipball/dcb26446c4004ae65876794edf94c806ae8715e7",
-                "reference": "dcb26446c4004ae65876794edf94c806ae8715e7",
+                "url": "https://api.github.com/repos/hoaproject/Http/zipball/2a54faf6e530a8baba5aecab42759a5fbe6a61f8",
+                "reference": "2a54faf6e530a8baba5aecab42759a5fbe6a61f8",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0",
-                "hoa/stream": "~0.0"
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/stream": "~1.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -389,32 +505,33 @@
                 "rfc7237",
                 "runtime"
             ],
-            "time": "2015-09-08 13:33:12"
+            "time": "2016-01-14 20:57:19"
         },
         {
             "name": "hoa/iterator",
-            "version": "1.15.10.29",
+            "version": "2.16.01.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Iterator.git",
-                "reference": "a64ed9fd62579a34e4450134d6d1abdf77d54435"
+                "reference": "eed36f2ec8233f494fd4450d570453b9a84736da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Iterator/zipball/a64ed9fd62579a34e4450134d6d1abdf77d54435",
-                "reference": "a64ed9fd62579a34e4450134d6d1abdf77d54435",
+                "url": "https://api.github.com/repos/hoaproject/Iterator/zipball/eed36f2ec8233f494fd4450d570453b9a84736da",
+                "reference": "eed36f2ec8233f494fd4450d570453b9a84736da",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0"
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0"
             },
             "require-dev": {
-                "hoa/test": "~1.0"
+                "hoa/test": "~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -442,29 +559,30 @@
                 "iterator",
                 "library"
             ],
-            "time": "2015-10-29 21:37:16"
+            "time": "2016-01-11 09:13:46"
         },
         {
             "name": "hoa/mail",
-            "version": "0.15.10.29",
+            "version": "0.16.01.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Mail.git",
-                "reference": "3ff70f000c6b8a5b50c322bdf3e29983c7ef503d"
+                "reference": "3c1ef08adc462ab0be0c6fda5735a0a66f249d0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Mail/zipball/3ff70f000c6b8a5b50c322bdf3e29983c7ef503d",
-                "reference": "3ff70f000c6b8a5b50c322bdf3e29983c7ef503d",
+                "url": "https://api.github.com/repos/hoaproject/Mail/zipball/3c1ef08adc462ab0be0c6fda5735a0a66f249d0d",
+                "reference": "3c1ef08adc462ab0be0c6fda5735a0a66f249d0d",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0",
-                "hoa/mime": "~2.0"
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/mime": "~3.0"
             },
             "require-dev": {
                 "hoa/file": "~0.0",
-                "hoa/test": "~1.0"
+                "hoa/test": "~2.0"
             },
             "type": "library",
             "extra": {
@@ -508,34 +626,37 @@
                 "sendmail",
                 "smtp"
             ],
-            "time": "2015-10-29 21:37:59"
+            "time": "2016-01-11 09:20:51"
         },
         {
             "name": "hoa/mime",
-            "version": "2.15.10.29",
+            "version": "3.16.01.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Mime.git",
-                "reference": "cf8a3dc55792445be91e9741d7192a6382b8e9bb"
+                "reference": "c26f02fc531a0e66eb15ccab1d73e76fdb0fa5f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Mime/zipball/cf8a3dc55792445be91e9741d7192a6382b8e9bb",
-                "reference": "cf8a3dc55792445be91e9741d7192a6382b8e9bb",
+                "url": "https://api.github.com/repos/hoaproject/Mime/zipball/c26f02fc531a0e66eb15ccab1d73e76fdb0fa5f6",
+                "reference": "c26f02fc531a0e66eb15ccab1d73e76fdb0fa5f6",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0",
-                "hoa/stream": "~0.0"
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/protocol": "~1.0",
+                "hoa/stream": "~1.0",
+                "hoa/zformat": "~1.0"
             },
             "require-dev": {
-                "hoa/file": "~0.0",
-                "hoa/test": "~1.0"
+                "hoa/file": "~1.0",
+                "hoa/test": "~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "3.x-dev"
                 }
             },
             "autoload": {
@@ -564,29 +685,91 @@
                 "mime",
                 "type"
             ],
-            "time": "2015-10-29 21:39:16"
+            "time": "2016-01-14 21:32:00"
         },
         {
-            "name": "hoa/router",
-            "version": "2.15.10.21",
+            "name": "hoa/protocol",
+            "version": "1.16.01.11",
             "source": {
                 "type": "git",
-                "url": "https://github.com/hoaproject/Router.git",
-                "reference": "6d9a39c5655660ea80d8196fddccdc02054ea3bd"
+                "url": "https://github.com/hoaproject/Protocol.git",
+                "reference": "97a33357e9f0827b75e19a78429d037fab18c1ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Router/zipball/6d9a39c5655660ea80d8196fddccdc02054ea3bd",
-                "reference": "6d9a39c5655660ea80d8196fddccdc02054ea3bd",
+                "url": "https://api.github.com/repos/hoaproject/Protocol/zipball/97a33357e9f0827b75e19a78429d037fab18c1ce",
+                "reference": "97a33357e9f0827b75e19a78429d037fab18c1ce",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0"
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0"
+            },
+            "require-dev": {
+                "hoa/test": "~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hoa\\Protocol\\": "."
+                },
+                "files": [
+                    "Wrapper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Enderlin",
+                    "email": "ivan.enderlin@hoa-project.net"
+                },
+                {
+                    "name": "Hoa community",
+                    "homepage": "http://hoa-project.net/"
+                }
+            ],
+            "description": "The Hoa\\Protocol library.",
+            "homepage": "http://hoa-project.net/",
+            "keywords": [
+                "library",
+                "protocol",
+                "resource",
+                "stream",
+                "wrapper"
+            ],
+            "time": "2016-01-11 08:41:20"
+        },
+        {
+            "name": "hoa/router",
+            "version": "3.16.01.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hoaproject/Router.git",
+                "reference": "ecbd82ce37882701c36f85712b8e6129cea1a6ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hoaproject/Router/zipball/ecbd82ce37882701c36f85712b8e6129cea1a6ef",
+                "reference": "ecbd82ce37882701c36f85712b8e6129cea1a6ef",
+                "shasum": ""
+            },
+            "require": {
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/zformat": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
                 }
             },
             "autoload": {
@@ -616,30 +799,34 @@
                 "library",
                 "router"
             ],
-            "time": "2015-10-21 14:12:51"
+            "time": "2016-01-14 21:11:16"
         },
         {
             "name": "hoa/socket",
-            "version": "0.15.09.08",
+            "version": "1.16.01.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Socket.git",
-                "reference": "1df6b6a0b9230dacdfa43d7501050db77e42edd8"
+                "reference": "79dc0fad73885669f9df8dccba06a23e316ffc26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Socket/zipball/1df6b6a0b9230dacdfa43d7501050db77e42edd8",
-                "reference": "1df6b6a0b9230dacdfa43d7501050db77e42edd8",
+                "url": "https://api.github.com/repos/hoaproject/Socket/zipball/79dc0fad73885669f9df8dccba06a23e316ffc26",
+                "reference": "79dc0fad73885669f9df8dccba06a23e316ffc26",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0",
-                "hoa/stream": "~0.0"
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/stream": "~1.0"
+            },
+            "require-dev": {
+                "hoa/test": "~1.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -672,29 +859,32 @@
                 "tcp",
                 "udp"
             ],
-            "time": "2015-09-08 11:21:04"
+            "time": "2016-01-14 21:15:12"
         },
         {
             "name": "hoa/stream",
-            "version": "0.15.08.28",
+            "version": "1.16.01.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Stream.git",
-                "reference": "cbd0f4749e447f4d31001e7c898f5e794c5861cb"
+                "reference": "c00b35078ef8c0881b7d2ed533de19fe0aaf9896"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Stream/zipball/cbd0f4749e447f4d31001e7c898f5e794c5861cb",
-                "reference": "cbd0f4749e447f4d31001e7c898f5e794c5861cb",
+                "url": "https://api.github.com/repos/hoaproject/Stream/zipball/c00b35078ef8c0881b7d2ed533de19fe0aaf9896",
+                "reference": "c00b35078ef8c0881b7d2ed533de19fe0aaf9896",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0"
+                "hoa/consistency": "~1.0",
+                "hoa/event": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/protocol": "~1.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -730,30 +920,32 @@
                 "stream",
                 "wrapper"
             ],
-            "time": "2015-08-28 07:31:43"
+            "time": "2016-01-14 20:11:37"
         },
         {
             "name": "hoa/stringbuffer",
-            "version": "0.15.09.08",
+            "version": "1.16.01.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Stringbuffer.git",
-                "reference": "6d163131915d182c30ace9e8a0956557c2645ca5"
+                "reference": "b3bec01f6f58bd72c04beb15b4396501ed18e35c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Stringbuffer/zipball/6d163131915d182c30ace9e8a0956557c2645ca5",
-                "reference": "6d163131915d182c30ace9e8a0956557c2645ca5",
+                "url": "https://api.github.com/repos/hoaproject/Stringbuffer/zipball/b3bec01f6f58bd72c04beb15b4396501ed18e35c",
+                "reference": "b3bec01f6f58bd72c04beb15b4396501ed18e35c",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0",
-                "hoa/stream": "~0.0"
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/protocol": "~1.0",
+                "hoa/stream": "~1.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -783,27 +975,28 @@
                 "stream",
                 "string"
             ],
-            "time": "2015-09-08 11:19:09"
+            "time": "2016-01-14 21:17:30"
         },
         {
             "name": "hoa/ustring",
-            "version": "3.15.11.09",
+            "version": "4.16.01.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Ustring.git",
-                "reference": "8506be4910212b1a2beb9014763a8a4fbd871001"
+                "reference": "9f76b9aae5901b4f476ef854e29ccd746d6899d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Ustring/zipball/8506be4910212b1a2beb9014763a8a4fbd871001",
-                "reference": "8506be4910212b1a2beb9014763a8a4fbd871001",
+                "url": "https://api.github.com/repos/hoaproject/Ustring/zipball/9f76b9aae5901b4f476ef854e29ccd746d6899d2",
+                "reference": "9f76b9aae5901b4f476ef854e29ccd746d6899d2",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0"
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0"
             },
             "require-dev": {
-                "hoa/test": "~1.0"
+                "hoa/test": "~2.0"
             },
             "suggest": {
                 "ext-iconv": "ext/iconv must be present (or a third implementation) to use Hoa\\Ustring::transcode().",
@@ -812,7 +1005,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.x-dev"
+                    "dev-master": "4.x-dev"
                 }
             },
             "autoload": {
@@ -842,7 +1035,59 @@
                 "string",
                 "unicode"
             ],
-            "time": "2015-11-09 06:44:33"
+            "time": "2016-01-11 09:51:34"
+        },
+        {
+            "name": "hoa/zformat",
+            "version": "1.16.01.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hoaproject/Zformat.git",
+                "reference": "685bba314c5cacb97afdd5e638b64c42399a580c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hoaproject/Zformat/zipball/685bba314c5cacb97afdd5e638b64c42399a580c",
+                "reference": "685bba314c5cacb97afdd5e638b64c42399a580c",
+                "shasum": ""
+            },
+            "require": {
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hoa\\Zformat\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Enderlin",
+                    "email": "ivan.enderlin@hoa-project.net"
+                },
+                {
+                    "name": "Hoa community",
+                    "homepage": "http://hoa-project.net/"
+                }
+            ],
+            "description": "The Hoa\\Zformat library.",
+            "homepage": "http://hoa-project.net/",
+            "keywords": [
+                "library",
+                "parameter",
+                "zformat"
+            ],
+            "time": "2016-01-14 20:19:54"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -888,16 +1133,16 @@
         },
         {
             "name": "sabre/dav",
-            "version": "3.0.5",
+            "version": "3.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruux/sabre-dav.git",
-                "reference": "69c1b5c9c19e52e2da15dc8920fce9ea9df9abcc"
+                "reference": "294b6e133f3b4cf644b9637a734b53f82d46d7f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruux/sabre-dav/zipball/69c1b5c9c19e52e2da15dc8920fce9ea9df9abcc",
-                "reference": "69c1b5c9c19e52e2da15dc8920fce9ea9df9abcc",
+                "url": "https://api.github.com/repos/fruux/sabre-dav/zipball/294b6e133f3b4cf644b9637a734b53f82d46d7f7",
+                "reference": "294b6e133f3b4cf644b9637a734b53f82d46d7f7",
                 "shasum": ""
             },
             "require": {
@@ -914,7 +1159,7 @@
                 "sabre/event": "~2.0",
                 "sabre/http": "~4.0",
                 "sabre/uri": "~1.0",
-                "sabre/vobject": ">=3.3.4,<4",
+                "sabre/vobject": "^3.3.4",
                 "sabre/xml": "~1.0"
             },
             "require-dev": {
@@ -965,7 +1210,7 @@
                 "framework",
                 "iCalendar"
             ],
-            "time": "2015-09-15 19:24:48"
+            "time": "2016-01-12 22:41:05"
         },
         {
             "name": "sabre/event",
@@ -1020,22 +1265,22 @@
         },
         {
             "name": "sabre/http",
-            "version": "4.1.0",
+            "version": "4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruux/sabre-http.git",
-                "reference": "5874c9c449e690242cf32884da9d32a3369a2c78"
+                "reference": "2e93bc8321524c67be4ca5b8415daebd4c8bf85e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruux/sabre-http/zipball/5874c9c449e690242cf32884da9d32a3369a2c78",
-                "reference": "5874c9c449e690242cf32884da9d32a3369a2c78",
+                "url": "https://api.github.com/repos/fruux/sabre-http/zipball/2e93bc8321524c67be4ca5b8415daebd4c8bf85e",
+                "reference": "2e93bc8321524c67be4ca5b8415daebd4c8bf85e",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
                 "php": ">=5.4",
-                "sabre/event": ">=1.0.0,<3.0.0",
+                "sabre/event": ">=1.0.0,<4.0.0",
                 "sabre/uri": "~1.0"
             },
             "require-dev": {
@@ -1071,7 +1316,7 @@
             "keywords": [
                 "http"
             ],
-            "time": "2015-09-04 21:56:22"
+            "time": "2016-01-06 23:00:08"
         },
         {
             "name": "sabre/uri",
@@ -1126,16 +1371,16 @@
         },
         {
             "name": "sabre/vobject",
-            "version": "3.4.7",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruux/sabre-vobject.git",
-                "reference": "7b3690545451159fc608dfac6696110f6770ff5d"
+                "reference": "061dd47ce40074bf63da8e3d6dbe7f18b5a4f3a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruux/sabre-vobject/zipball/7b3690545451159fc608dfac6696110f6770ff5d",
-                "reference": "7b3690545451159fc608dfac6696110f6770ff5d",
+                "url": "https://api.github.com/repos/fruux/sabre-vobject/zipball/061dd47ce40074bf63da8e3d6dbe7f18b5a4f3a4",
+                "reference": "061dd47ce40074bf63da8e3d6dbe7f18b5a4f3a4",
                 "shasum": ""
             },
             "require": {
@@ -1188,20 +1433,20 @@
                 "jCard",
                 "vCard"
             ],
-            "time": "2015-09-04 15:17:58"
+            "time": "2016-01-11 18:13:23"
         },
         {
             "name": "sabre/xml",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruux/sabre-xml.git",
-                "reference": "a3eeef9f3f13ee42503a1e06e5df3a6fc95b479b"
+                "reference": "420400f36655d79894fae8ce970516a71ea8f5f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruux/sabre-xml/zipball/a3eeef9f3f13ee42503a1e06e5df3a6fc95b479b",
-                "reference": "a3eeef9f3f13ee42503a1e06e5df3a6fc95b479b",
+                "url": "https://api.github.com/repos/fruux/sabre-xml/zipball/420400f36655d79894fae8ce970516a71ea8f5f5",
+                "reference": "420400f36655d79894fae8ce970516a71ea8f5f5",
                 "shasum": ""
             },
             "require": {
@@ -1220,7 +1465,11 @@
             "autoload": {
                 "psr-4": {
                     "Sabre\\Xml\\": "lib/"
-                }
+                },
+                "files": [
+                    "lib/Deserializer/functions.php",
+                    "lib/Serializer/functions.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1232,9 +1481,14 @@
                     "email": "me@evertpot.com",
                     "homepage": "http://evertpot.com/",
                     "role": "Developer"
+                },
+                {
+                    "name": "Markus Staab",
+                    "email": "markus.staab@redaxo.de",
+                    "role": "Developer"
                 }
             ],
-            "description": "The Sabre XML parser is the only XML library that you may not hate.",
+            "description": "sabre/xml is an XML library that you may not hate.",
             "homepage": "https://sabre.io/xml/",
             "keywords": [
                 "XMLReader",
@@ -1242,22 +1496,22 @@
                 "dom",
                 "xml"
             ],
-            "time": "2015-08-30 07:57:48"
+            "time": "2015-12-29 20:51:22"
         }
     ],
     "packages-dev": [
         {
             "name": "atoum/atoum",
-            "version": "2.4.1",
+            "version": "2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/atoum/atoum.git",
-                "reference": "3b76b6f5086a58e0b6f7c89ba4e1882425853c13"
+                "reference": "f49fcf0b9c5dc0fea30fff92e005a1bc0b2ea938"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/atoum/atoum/zipball/3b76b6f5086a58e0b6f7c89ba4e1882425853c13",
-                "reference": "3b76b6f5086a58e0b6f7c89ba4e1882425853c13",
+                "url": "https://api.github.com/repos/atoum/atoum/zipball/f49fcf0b9c5dc0fea30fff92e005a1bc0b2ea938",
+                "reference": "f49fcf0b9c5dc0fea30fff92e005a1bc0b2ea938",
                 "shasum": ""
             },
             "require": {
@@ -1324,33 +1578,33 @@
                 "test",
                 "unit testing"
             ],
-            "time": "2015-12-07 14:57:39"
+            "time": "2016-01-18 09:07:05"
         },
         {
             "name": "atoum/praspel-extension",
-            "version": "0.15.02.20",
+            "version": "0.16.01.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Contributions-Atoum-PraspelExtension.git",
-                "reference": "426f353686944c71e6880dd16efb3be6844e91eb"
+                "reference": "8164e341922f1bbec31c4c2a66b27a02294a013a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Contributions-Atoum-PraspelExtension/zipball/426f353686944c71e6880dd16efb3be6844e91eb",
-                "reference": "426f353686944c71e6880dd16efb3be6844e91eb",
+                "url": "https://api.github.com/repos/hoaproject/Contributions-Atoum-PraspelExtension/zipball/8164e341922f1bbec31c4c2a66b27a02294a013a",
+                "reference": "8164e341922f1bbec31c4c2a66b27a02294a013a",
                 "shasum": ""
             },
             "require": {
                 "atoum/atoum": "~2.0",
-                "hoa/console": "~2.0",
-                "hoa/core": "~2.0",
-                "hoa/dispatcher": "~0.0",
-                "hoa/iterator": "~1.0",
-                "hoa/math": "~0.0",
-                "hoa/praspel": "~0.0",
-                "hoa/realdom": "~0.0",
-                "hoa/router": "~2.0",
-                "hoa/visitor": "~1.0"
+                "hoa/consistency": "~1.0",
+                "hoa/console": "~3.0",
+                "hoa/dispatcher": "~1.0",
+                "hoa/iterator": "~2.0",
+                "hoa/math": "~1.0",
+                "hoa/praspel": "~1.0",
+                "hoa/realdom": "~1.0",
+                "hoa/router": "~3.0",
+                "hoa/visitor": "~2.0"
             },
             "bin": [
                 "Bin/praspel"
@@ -1389,25 +1643,32 @@
                 "specification",
                 "test"
             ],
-            "time": "2015-02-20 12:27:09"
+            "time": "2016-01-17 16:26:32"
         },
         {
             "name": "atoum/ruler-extension",
-            "version": "1.0.3",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/atoum/ruler-extension.git",
-                "reference": "2215907402697dff465f8d9f3c69c6a710790149"
+                "reference": "9bca58ed0fab7ab31e04613545bbaa068a2f1967"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/atoum/ruler-extension/zipball/2215907402697dff465f8d9f3c69c6a710790149",
-                "reference": "2215907402697dff465f8d9f3c69c6a710790149",
+                "url": "https://api.github.com/repos/atoum/ruler-extension/zipball/9bca58ed0fab7ab31e04613545bbaa068a2f1967",
+                "reference": "9bca58ed0fab7ab31e04613545bbaa068a2f1967",
                 "shasum": ""
             },
             "require": {
-                "atoum/atoum": "<3.0",
-                "hoa/ruler": "~1.0"
+                "atoum/atoum": ">=1.3.0,<3.0",
+                "hoa/ruler": ">=1.15.11.09,<2.0 | >=2.16.01.15,<3.0"
+            },
+            "conflict": {
+                "hoa/compiler": "<2.14.12.10",
+                "hoa/core": "<2.14.12.10",
+                "hoa/file": "<0.14.12.10",
+                "hoa/stream": "<0.14.12.10",
+                "hoa/visitor": "<1.14.12.10"
             },
             "type": "library",
             "autoload": {
@@ -1425,20 +1686,20 @@
                     "email": "adriengallou@gmail.com"
                 }
             ],
-            "time": "2015-06-24 12:27:04"
+            "time": "2016-01-18 23:27:08"
         },
         {
             "name": "fabpot/php-cs-fixer",
-            "version": "v1.11",
+            "version": "v1.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "bd3ec2c2b774e0e127ac2c737ec646d9cf2f9eef"
+                "reference": "2c9f8298181f059c5077abda78019b9a0c9a7cc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/bd3ec2c2b774e0e127ac2c737ec646d9cf2f9eef",
-                "reference": "bd3ec2c2b774e0e127ac2c737ec646d9cf2f9eef",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/2c9f8298181f059c5077abda78019b9a0c9a7cc0",
+                "reference": "2c9f8298181f059c5077abda78019b9a0c9a7cc0",
                 "shasum": ""
             },
             "require": {
@@ -1479,38 +1740,40 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2015-12-01 22:34:33"
+            "time": "2016-01-20 19:00:28"
         },
         {
             "name": "hoa/compiler",
-            "version": "2.15.10.29",
+            "version": "3.16.01.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Compiler.git",
-                "reference": "ec0849fd3c1472fbcd86c3c961981f0cfe1f8d39"
+                "reference": "a1505e507e8368dbf7a5b490c4a5a90e06d7bd69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Compiler/zipball/ec0849fd3c1472fbcd86c3c961981f0cfe1f8d39",
-                "reference": "ec0849fd3c1472fbcd86c3c961981f0cfe1f8d39",
+                "url": "https://api.github.com/repos/hoaproject/Compiler/zipball/a1505e507e8368dbf7a5b490c4a5a90e06d7bd69",
+                "reference": "a1505e507e8368dbf7a5b490c4a5a90e06d7bd69",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0",
-                "hoa/file": "~0.0",
-                "hoa/iterator": "~1.0",
-                "hoa/math": "~0.0",
-                "hoa/regex": "~0.0",
-                "hoa/visitor": "~1.0"
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/file": "~1.0",
+                "hoa/iterator": "~2.0",
+                "hoa/math": "~1.0",
+                "hoa/protocol": "~1.0",
+                "hoa/regex": "~1.0",
+                "hoa/visitor": "~2.0"
             },
             "require-dev": {
-                "hoa/json": "~1.0",
-                "hoa/test": "~1.0"
+                "hoa/json": "~2.0",
+                "hoa/test": "~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "3.x-dev"
                 }
             },
             "autoload": {
@@ -1559,34 +1822,37 @@
                 "trace",
                 "uniform"
             ],
-            "time": "2015-10-29 21:35:12"
+            "time": "2016-01-14 20:44:59"
         },
         {
             "name": "hoa/math",
-            "version": "0.15.10.26",
+            "version": "1.16.01.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Math.git",
-                "reference": "62631c65d9a4f1b8bb4c4a3d6cdff0e8971d684e"
+                "reference": "218e6b4a42b66094e94cf9cbabf0a4276fece6bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Math/zipball/62631c65d9a4f1b8bb4c4a3d6cdff0e8971d684e",
-                "reference": "62631c65d9a4f1b8bb4c4a3d6cdff0e8971d684e",
+                "url": "https://api.github.com/repos/hoaproject/Math/zipball/218e6b4a42b66094e94cf9cbabf0a4276fece6bf",
+                "reference": "218e6b4a42b66094e94cf9cbabf0a4276fece6bf",
                 "shasum": ""
             },
             "require": {
-                "hoa/compiler": "~2.0",
-                "hoa/core": "~2.0",
-                "hoa/iterator": "~1.0"
+                "hoa/compiler": "~3.0",
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/iterator": "~2.0",
+                "hoa/protocol": "~1.0",
+                "hoa/zformat": "~1.0"
             },
             "require-dev": {
-                "hoa/test": "~1.0"
+                "hoa/test": "~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -1621,38 +1887,40 @@
                 "sampler",
                 "set"
             ],
-            "time": "2015-10-26 15:22:52"
+            "time": "2016-01-14 21:02:22"
         },
         {
             "name": "hoa/praspel",
-            "version": "0.15.09.08",
+            "version": "1.16.01.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Praspel.git",
-                "reference": "a99b764114216174c360828af2e594e6724bacba"
+                "reference": "14cbe9f7bc887e34f7415fbce3117d7ee7daede6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Praspel/zipball/a99b764114216174c360828af2e594e6724bacba",
-                "reference": "a99b764114216174c360828af2e594e6724bacba",
+                "url": "https://api.github.com/repos/hoaproject/Praspel/zipball/14cbe9f7bc887e34f7415fbce3117d7ee7daede6",
+                "reference": "14cbe9f7bc887e34f7415fbce3117d7ee7daede6",
                 "shasum": ""
             },
             "require": {
-                "hoa/compiler": "~2.0",
-                "hoa/core": "~2.0",
-                "hoa/file": "~0.0",
-                "hoa/iterator": "~1.0",
-                "hoa/realdom": "~0.0",
-                "hoa/ustring": "~3.0",
-                "hoa/visitor": "~1.0"
+                "hoa/compiler": "~3.0",
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/file": "~1.0",
+                "hoa/iterator": "~2.0",
+                "hoa/protocol": "~1.0",
+                "hoa/realdom": "~1.0",
+                "hoa/ustring": "~4.0",
+                "hoa/visitor": "~2.0"
             },
             "require-dev": {
-                "hoa/math": "~0.0"
+                "hoa/math": "~1.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -1688,37 +1956,38 @@
                 "test",
                 "validation"
             ],
-            "time": "2015-09-08 13:28:27"
+            "time": "2016-01-14 21:34:22"
         },
         {
             "name": "hoa/realdom",
-            "version": "0.15.09.08",
+            "version": "1.16.01.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Realdom.git",
-                "reference": "bde294c17eb55cc7f18cf0fcec0867ff214fe4f8"
+                "reference": "3bca30e793aecdcd9b14f80b7fafb2d7730bac8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Realdom/zipball/bde294c17eb55cc7f18cf0fcec0867ff214fe4f8",
-                "reference": "bde294c17eb55cc7f18cf0fcec0867ff214fe4f8",
+                "url": "https://api.github.com/repos/hoaproject/Realdom/zipball/3bca30e793aecdcd9b14f80b7fafb2d7730bac8b",
+                "reference": "3bca30e793aecdcd9b14f80b7fafb2d7730bac8b",
                 "shasum": ""
             },
             "require": {
-                "hoa/compiler": "~2.0",
-                "hoa/core": "~2.0",
-                "hoa/file": "~0.0",
-                "hoa/iterator": "~1.0",
-                "hoa/math": "~0.0",
-                "hoa/praspel": "~0.0",
-                "hoa/regex": "~0.0",
-                "hoa/ustring": "~3.0",
-                "hoa/visitor": "~1.0"
+                "hoa/compiler": "~3.0",
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/file": "~1.0",
+                "hoa/iterator": "~2.0",
+                "hoa/math": "~1.0",
+                "hoa/praspel": "~1.0",
+                "hoa/regex": "~1.0",
+                "hoa/ustring": "~4.0",
+                "hoa/visitor": "~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -1753,32 +2022,34 @@
                 "test",
                 "validation"
             ],
-            "time": "2015-09-08 13:26:02"
+            "time": "2016-01-14 21:07:41"
         },
         {
             "name": "hoa/regex",
-            "version": "0.15.08.13",
+            "version": "1.16.01.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Regex.git",
-                "reference": "2ef8a77ef3885ca202fcd9c31a8e54c44cd04232"
+                "reference": "e7fb36fdea23ea9fc814a1a68bd0144df1891463"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Regex/zipball/2ef8a77ef3885ca202fcd9c31a8e54c44cd04232",
-                "reference": "2ef8a77ef3885ca202fcd9c31a8e54c44cd04232",
+                "url": "https://api.github.com/repos/hoaproject/Regex/zipball/e7fb36fdea23ea9fc814a1a68bd0144df1891463",
+                "reference": "e7fb36fdea23ea9fc814a1a68bd0144df1891463",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0",
-                "hoa/math": "~0.0",
-                "hoa/ustring": "~3.0",
-                "hoa/visitor": "~1.0"
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/math": "~1.0",
+                "hoa/protocol": "~1.0",
+                "hoa/ustring": "~4.0",
+                "hoa/visitor": "~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -1807,35 +2078,36 @@
                 "library",
                 "regex"
             ],
-            "time": "2015-08-13 06:48:47"
+            "time": "2016-01-14 21:10:33"
         },
         {
             "name": "hoa/ruler",
-            "version": "1.15.11.09",
+            "version": "2.16.01.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Ruler.git",
-                "reference": "9afc9ae032d40b6dc10bff85c9126cf516953925"
+                "reference": "0aeb1a48d78427a55fbf656c65c6406c096a4325"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Ruler/zipball/9afc9ae032d40b6dc10bff85c9126cf516953925",
-                "reference": "9afc9ae032d40b6dc10bff85c9126cf516953925",
+                "url": "https://api.github.com/repos/hoaproject/Ruler/zipball/0aeb1a48d78427a55fbf656c65c6406c096a4325",
+                "reference": "0aeb1a48d78427a55fbf656c65c6406c096a4325",
                 "shasum": ""
             },
             "require": {
-                "hoa/compiler": "~2.0",
-                "hoa/core": "~2.0",
-                "hoa/file": "~0.0",
-                "hoa/visitor": "~1.0"
+                "hoa/compiler": "~3.0",
+                "hoa/consistency": "~1.0",
+                "hoa/exception": "~1.0",
+                "hoa/file": "~1.0",
+                "hoa/visitor": "~2.0"
             },
             "require-dev": {
-                "hoa/test": "~1.0"
+                "hoa/test": "~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -1863,32 +2135,32 @@
                 "library",
                 "ruler"
             ],
-            "time": "2015-11-09 06:58:52"
+            "time": "2016-01-14 21:42:47"
         },
         {
             "name": "hoa/visitor",
-            "version": "1.15.08.17",
+            "version": "2.16.01.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Visitor.git",
-                "reference": "e30bfff741f71979f6476a41548e34afe8053c67"
+                "reference": "cb21074b7eb89c3ac9f76d25c72671d579735ca9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Visitor/zipball/e30bfff741f71979f6476a41548e34afe8053c67",
-                "reference": "e30bfff741f71979f6476a41548e34afe8053c67",
+                "url": "https://api.github.com/repos/hoaproject/Visitor/zipball/cb21074b7eb89c3ac9f76d25c72671d579735ca9",
+                "reference": "cb21074b7eb89c3ac9f76d25c72671d579735ca9",
                 "shasum": ""
             },
             "require": {
-                "hoa/core": "~2.0"
+                "hoa/consistency": "~1.0"
             },
             "require-dev": {
-                "hoa/test": "~1.0"
+                "hoa/test": "~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -1918,7 +2190,7 @@
                 "visit",
                 "visitor"
             ],
-            "time": "2015-08-17 06:30:58"
+            "time": "2016-01-11 09:54:01"
         },
         {
             "name": "sabre/cs",
@@ -2037,16 +2309,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v3.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "175871ca8d1ef16ff8d8cac395a1c73afa8d0e63"
+                "reference": "ebcdc507829df915f4ca23067bd59ee4ef61f6c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/175871ca8d1ef16ff8d8cac395a1c73afa8d0e63",
-                "reference": "175871ca8d1ef16ff8d8cac395a1c73afa8d0e63",
+                "url": "https://api.github.com/repos/symfony/console/zipball/ebcdc507829df915f4ca23067bd59ee4ef61f6c3",
+                "reference": "ebcdc507829df915f4ca23067bd59ee4ef61f6c3",
                 "shasum": ""
             },
             "require": {
@@ -2093,11 +2365,11 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-30 12:36:17"
+            "time": "2015-12-22 10:39:06"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -2157,16 +2429,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v3.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "692d98d813e4ef314b9c22775c86ddbeb0f44884"
+                "reference": "c2e59d11dccd135dc8f00ee97f34fe1de842e70c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/692d98d813e4ef314b9c22775c86ddbeb0f44884",
-                "reference": "692d98d813e4ef314b9c22775c86ddbeb0f44884",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/c2e59d11dccd135dc8f00ee97f34fe1de842e70c",
+                "reference": "c2e59d11dccd135dc8f00ee97f34fe1de842e70c",
                 "shasum": ""
             },
             "require": {
@@ -2202,20 +2474,20 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-23 10:41:47"
+            "time": "2015-12-22 10:39:06"
         },
         {
             "name": "symfony/finder",
-            "version": "v3.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "3577eb98dba90721d1a0a3edfc6956ab8b1aecee"
+                "reference": "8617895eb798b6bdb338321ce19453dc113e5675"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/3577eb98dba90721d1a0a3edfc6956ab8b1aecee",
-                "reference": "3577eb98dba90721d1a0a3edfc6956ab8b1aecee",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/8617895eb798b6bdb338321ce19453dc113e5675",
+                "reference": "8617895eb798b6bdb338321ce19453dc113e5675",
                 "shasum": ""
             },
             "require": {
@@ -2251,29 +2523,32 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2015-10-30 23:35:59"
+            "time": "2015-12-05 11:13:14"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "0b6a8940385311a24e060ec1fe35680e17c74497"
+                "reference": "1289d16209491b584839022f29257ad859b8532d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/0b6a8940385311a24e060ec1fe35680e17c74497",
-                "reference": "0b6a8940385311a24e060ec1fe35680e17c74497",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/1289d16209491b584839022f29257ad859b8532d",
+                "reference": "1289d16209491b584839022f29257ad859b8532d",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
+            "suggest": {
+                "ext-mbstring": "For best performance"
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -2307,20 +2582,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2015-11-04 20:28:58"
+            "time": "2016-01-20 09:13:37"
         },
         {
             "name": "symfony/process",
-            "version": "v3.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "01383ed02a1020759bc8ee5d975fcec04ba16fbf"
+                "reference": "f4794f1d00f0746621be3020ffbd8c5e0b217ee3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/01383ed02a1020759bc8ee5d975fcec04ba16fbf",
-                "reference": "01383ed02a1020759bc8ee5d975fcec04ba16fbf",
+                "url": "https://api.github.com/repos/symfony/process/zipball/f4794f1d00f0746621be3020ffbd8c5e0b217ee3",
+                "reference": "f4794f1d00f0746621be3020ffbd8c5e0b217ee3",
                 "shasum": ""
             },
             "require": {
@@ -2356,11 +2631,11 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-30 12:36:17"
+            "time": "2015-12-23 11:04:02"
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v3.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
@@ -2414,7 +2689,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.4.7",
+        "php": ">=5.5.0",
         "ext-spl": "*",
         "ext-pdo": ">=1.0"
     },
