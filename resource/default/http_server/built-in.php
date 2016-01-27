@@ -4,7 +4,7 @@
  * @license
  *
  * sabre/katana.
- * Copyright (C) 2015 fruux GmbH (https://fruux.com/)
+ * Copyright (C) 2016 fruux GmbH (https://fruux.com/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -29,7 +29,7 @@ use Hoa\Router;
 /**
  * Router of the HTTP server.
  *
- * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2016 fruux GmbH (https://fruux.com/).
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */

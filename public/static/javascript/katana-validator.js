@@ -4,7 +4,7 @@
  * @license
  *
  * sabre/katana.
- * Copyright (C) 2015 fruux GmbH (https://fruux.com/)
+ * Copyright (C) 2016 fruux GmbH (https://fruux.com/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -61,7 +61,7 @@ Ember.libraries.register('Ember Katana Validator', '0.0.3');
  *         }
  *     }
  *
- * @copyright Copyright (C) 2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2016 fruux GmbH (https://fruux.com/).
  * @author Ivan Enderlin
  * @license GNU Affero General Public License, Version 3.
  */
