@@ -37,7 +37,7 @@
         "atoum/atoum"              : "~2.5",
         "atoum/praspel-extension"  : "~0.16",
         "atoum/ruler-extension"    : "~1.2",
-        "sabre/cs"                 : "~0.0.4",
+        "sabre/cs"                 : "~0.0.5",
         "hoa/regex"                : "~1.0"
     },
     "suggest": {
