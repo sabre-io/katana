@@ -24,6 +24,7 @@ sudo: false
 cache: vendor
 
 before_script:
+  - rm -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
   - composer update --prefer-source $LOWEST_DEPS
 
 script:
