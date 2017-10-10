@@ -410,7 +410,7 @@ class Installer {
         }
 
         $driver = $database->getAttribute(PDO::ATTR_DRIVER_NAME);
-        $templateSchemaIterator = glob(SABRE_KATANA_PREFIX . '/resource/default/database/*.' . $driver . '.sql');
+        $templateSchemaIterator = glob(SABRE_KATANA_PREFIX . '/vendor/sabre/dav/examples/sql/' . $driver . '.*.sql');
 
         try {
             foreach ($templateSchemaIterator as $templateSchema) {

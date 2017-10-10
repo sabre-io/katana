@@ -43,7 +43,7 @@ class Installer extends Suite {
                 $payload = (object)[
                     'baseurl'  => '/katana/',
                     'email'    => 'gordon@freeman.hl',
-                    'password' => '🔒 💩',
+                    'password' => 'password',
                     'database' => (object)[
                         'driver'   => 'sqlite',
                         'host'     => '',
@@ -64,7 +64,7 @@ class Installer extends Suite {
                 $payload = (object)[
                     'baseurl'  => '/katana/',
                     'email'    => 'gordon@freeman.hl',
-                    'password' => '🔒 💩',
+                    'password' => 'password',
                     'database' => (object)[
                         'driver'   => 'mysql',
                         'host'     => HELPER_MYSQL_HOST,

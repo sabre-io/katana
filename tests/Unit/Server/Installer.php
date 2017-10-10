@@ -992,7 +992,7 @@ class Installer extends Suite {
                 $database = CUT::createDatabase($configuration),
                 $login    = Server::ADMINISTRATOR_LOGIN,
                 $email    = 'gordon@freeman.hl',
-                $password = '💩'
+                $password = 'password'
             )
             ->when(
                 $result = CUT::createAdministratorProfile(
@@ -1089,7 +1089,7 @@ class Installer extends Suite {
                     $configuration,
                     $database,
                     'a',
-                    '💩'
+                    'password'
                 );
             })
                 ->isInstanceOf('Sabre\Katana\Exception\Installation')
