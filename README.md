@@ -181,7 +181,7 @@ major browsers, except prior versions of IE9.
 
 | branch | status |
 | ------ | ------ |
-| master | [![Build Status](https://travis-ci.org/fruux/sabre-katana.png?branch=master)](https://travis-ci.org/fruux/sabre-katana) |
+| master | [![Build Status](https://travis-ci.org/sabre-io/katana.png?branch=master)](https://travis-ci.org/sabre-io/katana) |
 
 # Questions?
 
