@@ -20,7 +20,6 @@ before_script:
 
 script:
   - bin/atoum --configurations tests/.atoum.php --bootstrap-file tests/.bootstrap.atoum.php
-  - bin/sabre-cs-fixer fix --dry-run --diff .
 
 notifications:
   slack:
