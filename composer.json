@@ -14,7 +14,7 @@
         "source": "https://github.com/fruux/sabre-katana/"
     },
     "require": {
-        "php"                      : ">=5.5.0",
+        "php"                      : ">=7.1.0",
         "ext-spl"                  : "*",
         "ext-pdo"                  : ">=1.0",
         "sabre/dav"                : "~3.0.1",
@@ -34,7 +34,7 @@
         "ircmaxell/password-compat": "~1.0"
     },
     "require-dev": {
-        "atoum/atoum"              : "~2.5",
+        "atoum/atoum"              : "~3.0",
         "atoum/praspel-extension"  : "~0.16",
         "atoum/ruler-extension"    : "~1.2",
         "sabre/cs"                 : "~0.0.5",
@@ -48,6 +48,12 @@
     "autoload": {
         "psr-4": {
             "Sabre\\Katana\\": "lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sabre\\Katana\\Test\\":  "tests/",
+            "Mock\\": "tests/Mock"
         }
     },
     "bin": ["bin/katana"],

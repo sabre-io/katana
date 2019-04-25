@@ -30,5 +30,5 @@ require_once __DIR__ . '/../bootstrap.php';
  * @license GNU Affero General Public License, Version 3.
  */
 
-$autoloader->addPsr4('Sabre\\Katana\\Test\\', __DIR__);
-$autoloader->addPsr4('Mock\\', __DIR__ . '/Mock');
+//$autoloader->addPsr4('Sabre\\Katana\\Test\\', __DIR__);
+//$autoloader->addPsr4('Mock\\', __DIR__ . '/Mock');
