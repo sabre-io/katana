@@ -14,30 +14,31 @@
         "source": "https://github.com/fruux/sabre-katana/"
     },
     "require": {
-        "php"                      : ">=5.4.7",
+        "php"                      : ">=7.1.0",
         "ext-spl"                  : "*",
         "ext-pdo"                  : ">=1.0",
         "sabre/dav"                : "~3.0.1",
-        "hoa/console"              : "~2.0",
-        "hoa/core"                 : "~2.0, >=2.15.04.13",
-        "hoa/dispatcher"           : "~0.0, >=0.15.01.23",
-        "hoa/eventsource"          : "~2.0",
-        "hoa/iterator"             : "~1.0",
-        "hoa/mail"                 : "~0.0, >=0.15.06.03",
-        "hoa/mime"                 : "~2.0",
-        "hoa/router"               : "~2.0",
-        "hoa/socket"               : "~0.0, >=0.15.02.25",
-        "hoa/ustring"              : "~3.0",
-        "hoa/stringbuffer"         : "~0.0",
-        "hoa/file"                 : "~0.15.05.27",
+        "hoa/consistency"          : "~1.0",
+        "hoa/console"              : "~3.0",
+        "hoa/dispatcher"           : "~1.0",
+        "hoa/event"                : "~1.0",
+        "hoa/eventsource"          : "~3.0",
+        "hoa/file"                 : "~1.0",
+        "hoa/iterator"             : "~2.0",
+        "hoa/mail"                 : "~0.0, >=0.16.01.11",
+        "hoa/mime"                 : "~3.0",
+        "hoa/router"               : "~3.0",
+        "hoa/socket"               : "~1.0",
+        "hoa/stringbuffer"         : "~1.0",
+        "hoa/ustring"              : "~4.0",
         "ircmaxell/password-compat": "~1.0"
     },
     "require-dev": {
-        "atoum/atoum"              : "~2.4, >=2.4.1",
-        "atoum/praspel-extension"  : "~0.1",
-        "atoum/ruler-extension"    : "~1.0, >=1.0.2",
-        "sabre/cs"                 : "~0.0.4",
-        "hoa/regex"                : "~0.15.08.13"
+        "atoum/atoum"              : "~3.0",
+        "atoum/praspel-extension"  : "~0.16",
+        "atoum/ruler-extension"    : "~1.2",
+        "sabre/cs"                 : "~0.0.5",
+        "hoa/regex"                : "~1.0"
     },
     "suggest": {
         "ext-pdo_sqlite": "If you decide to use SQLite.",
@@ -47,6 +48,12 @@
     "autoload": {
         "psr-4": {
             "Sabre\\Katana\\": "lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sabre\\Katana\\Test\\":  "tests/",
+            "Mock\\": "tests/Mock"
         }
     },
     "bin": ["bin/katana"],
